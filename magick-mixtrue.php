@@ -19,7 +19,7 @@ if (!defined('WPINC')) {
  *从1.0.0版本开始，使用SemVer-https://semver.org
  *重命名此插件，并在发布新版本时进行更新。
  */
-define('MAGICK_MIXTURE_VERSION', '1.0.1');
+define('MAGICK_MIXTURE_VERSION', '1.0.3');
 
 /**
  * 用于定义国际化的核心插件类，
@@ -74,13 +74,20 @@ if (!class_exists('MAGICK_Mixtrue')) {
 
 }
 
-$magck_test = new MAGICK_Mixtrue();
-//测试
-//add_action('admin_notices', function () use ($magck_test) {return $magck_test->magick_admin_notice_acfs();});
+// 回调函数示范
+function my_callback_function()
+{
+    echo 'hello world!';
+}
 
-$magick_mixtrue_class = new MAGICK_Mixtrue();
-//添加菜单
-//add_action('admin_menu', function () use ($magick_mixtrue_class) {return $magick_mixtrue_class->add_magick_menu();});
+// 回调方法示范
+class MyClass
+{
+    public static function myCallbackMethod()
+    {
+        echo 'Hello World!';
+    }
+}
 
-//打印插件的版本
-echo $magick_mixtrue_class->get_plugin_name();
+$obj = new MyClass();
+call_user_func(array($obj, 'myCallbackMethod'));
