@@ -19,7 +19,7 @@ if (!defined('WPINC')) {
  *从1.0.0版本开始，使用SemVer-https://semver.org
  *重命名此插件，并在发布新版本时进行更新。
  */
-define('MAGICK_MIXTURE_VERSION', '1.0.0');
+define('MAGICK_MIXTURE_VERSION', '1.0.1');
 
 /**
  * 用于定义国际化的核心插件类，
@@ -76,8 +76,11 @@ if (!class_exists('MAGICK_Mixtrue')) {
 
 $magck_test = new MAGICK_Mixtrue();
 //测试
-add_action('admin_notices', function () use ($magck_test) {return $magck_test->magick_admin_notice_acfs();});
+//add_action('admin_notices', function () use ($magck_test) {return $magck_test->magick_admin_notice_acfs();});
 
 $magick_mixtrue_class = new MAGICK_Mixtrue();
 //添加菜单
-add_action('admin_menu', function () use ($magick_mixtrue_class) {return $magick_mixtrue_class->add_magick_menu();});
+//add_action('admin_menu', function () use ($magick_mixtrue_class) {return $magick_mixtrue_class->add_magick_menu();});
+
+//打印插件的版本
+echo $magick_mixtrue_class->get_plugin_name();
