@@ -1,7 +1,7 @@
 <?php
 
-if (!class_exists('Magick_Mixtrue_Census')) {
-    class Magick_Mixtrue_Census
+if (!class_exists('Magick_Mixtrue_Admin_Census')) {
+    class Magick_Mixtrue_Admin_Census
     {
 
         public function __construct()
@@ -16,7 +16,7 @@ if (!class_exists('Magick_Mixtrue_Census')) {
             $this->run();
             //添加发文统计菜单
             add_action('admin_menu', array(&$this, 'add_menu_single'));
-            //$this->load_b2_shop();
+            $this->load_b2_shop();
 
         }
 
@@ -56,9 +56,11 @@ if (!class_exists('Magick_Mixtrue_Census')) {
          */
         public function census_single_content()
         {
+            $content=new Magick_Mixtrue_Census_Single;
             echo '<div class="wrap">';
             echo '<h2>';
             echo esc_html(get_admin_page_title());
+            $content->load_echarts();
             echo '</h2>';
             echo '</div>';
         }

@@ -109,8 +109,6 @@ class Magick_Mixtrue
         //04 函数接受的参数数
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
-
-
     }
 
     /**

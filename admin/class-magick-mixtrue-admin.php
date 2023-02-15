@@ -62,8 +62,8 @@ class Magick_Mixtrue_Admin
      */
     public function run()
     {
-        //实例化以下，会自动跑起来
-        $census = new Magick_Mixtrue_Census();
+        //实例化一下，会自动跑起来
+        $census = new Magick_Mixtrue_Admin_Census();
 
     }
 

@@ -19,7 +19,7 @@ if (!defined('WPINC')) {
  *从1.0.0版本开始，使用SemVer-https://semver.org
  *重命名此插件，并在发布新版本时进行更新。
  */
-define('MAGICK_MIXTURE_VERSION', '1.0.8');
+define('MAGICK_MIXTURE_VERSION', '1.1.0');
 
 /**
  * 用于定义国际化的核心插件类，
@@ -50,6 +50,5 @@ run_magick_mixture();
 //    echo "没有启用";
 //}
 
-
-$magick_test = new Magick_Mixtrue_Census;
-$magick_test->b2_theme_active();
+//$magick_test = new Magick_Mixtrue_Census;
+//$magick_test->b2_theme_active();
