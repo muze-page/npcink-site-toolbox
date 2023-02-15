@@ -81,6 +81,11 @@ class Magick_Mixtrue
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-magick-mixtrue-admin.php';
 
+        /**
+         * 公共工具类
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-magick-mixtrue-tool.php';
+
         $this->loader = new Magick_Mixtrue_Loader();
 
     }
@@ -96,11 +101,6 @@ class Magick_Mixtrue
     {
 
         $plugin_admin = new Magick_Mixtrue_Admin($this->get_plugin_name(), $this->get_version());
-        //Magick_Mixtrue_Admin Object
-        //(
-        //    [plugin_name:Magick_Mixtrue_Admin:private] => magick-mixtrue
-        //    [version:Magick_Mixtrue_Admin:private] => 1.0.0
-        //)
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         //01 要向其添加回调的操作的名称。
@@ -108,6 +108,8 @@ class Magick_Mixtrue
         //03 用于指定与特定操作关联的函数的执行顺序
         //04 函数接受的参数数
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+
+
 
     }
 
@@ -153,17 +155,6 @@ class Magick_Mixtrue
     public function get_version()
     {
         return $this->version;
-    }
-
-    /**
-     * 调试用，打印各种数据
-     *
-     */
-    public function p($data)
-    {
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
     }
 
 }

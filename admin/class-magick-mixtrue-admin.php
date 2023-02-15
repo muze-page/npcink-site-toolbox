@@ -32,7 +32,7 @@ class Magick_Mixtrue_Admin
     private $version;
 
     /**
-     * Initialize the class and set its properties.
+     * 初始化类并设置其财产。
      *
      * @since    1.0.0
      * @param      string    $plugin_name       此插件的名称。
@@ -43,6 +43,27 @@ class Magick_Mixtrue_Admin
 
         $this->plugin_name = $plugin_name;
         $this->version = $version;
+        $this->load(); //加载所需的依赖项
+        $this->run(); //跑起来
+
+    }
+
+    /**
+     *
+     * 加载一些文件吧
+     */
+    public function load()
+    {
+        require_once plugin_dir_path(__FILE__) . 'partials/magick-mixtrue-admin-census.php';
+    }
+
+    /**
+     * 启动
+     */
+    public function run()
+    {
+        //实例化以下，会自动跑起来
+        $census = new Magick_Mixtrue_Census();
 
     }
 

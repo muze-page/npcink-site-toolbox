@@ -19,7 +19,7 @@ if (!defined('WPINC')) {
  *从1.0.0版本开始，使用SemVer-https://semver.org
  *重命名此插件，并在发布新版本时进行更新。
  */
-define('MAGICK_MIXTURE_VERSION', '1.0.3');
+define('MAGICK_MIXTURE_VERSION', '1.0.8');
 
 /**
  * 用于定义国际化的核心插件类，
@@ -43,51 +43,13 @@ function run_magick_mixture()
 }
 run_magick_mixture();
 
-//创建两个菜单
-//创建插件基础类
-//检查有没有这个类
-if (!class_exists('MAGICK_Mixtrue')) {
-    //新建一个类
-    class MAGICK_Mixtrue
-    {
-        //创建一个方法，在后台顶部显示一个通知
-        public function magick_admin_notice_acfs()
-        {
-            ?>
-    <div class = 'notice notice-error '>
-    <p><?php _e('魔法合剂插件测试', 'sample-text-domain');
-            ?></p>
-    </div>
-    <?php
-}
+//$magick_test = new Magick_Mixtrue;
+//if ($magick_test->plugin_active('advanced-custom-fields-pro/acf.php')) {
+//    echo "启用咯！";
+//} else {
+//    echo "没有启用";
+//}
 
-//添加插件用菜单
-        public function add_magick_menu()
-        {
 
-            add_menu_page(__('药水菜单'), __('药水菜单'), 'administrator', 'magick-mix-census-single', false, 'dashicons-visibility');
-            add_submenu_page('magick-mix-census-single', __('发文统计'), __('发文统计'), 'administrator', 'magick-mix-census-single', 'magick-mix_census_single_content');
-            add_submenu_page('magick-mix-census-single', __('销售统计'), __('销售统计'), 'administrator', 'magick-mix-census-shop', 'magick-mix_censcus_shop_content');
-        }
-
-    }
-
-}
-
-// 回调函数示范
-function my_callback_function()
-{
-    echo 'hello world!';
-}
-
-// 回调方法示范
-class MyClass
-{
-    public static function myCallbackMethod()
-    {
-        echo 'Hello World!';
-    }
-}
-
-$obj = new MyClass();
-call_user_func(array($obj, 'myCallbackMethod'));
+$magick_test = new Magick_Mixtrue_Census;
+$magick_test->b2_theme_active();

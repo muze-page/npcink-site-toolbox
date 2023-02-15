@@ -1,0 +1,109 @@
+<?php
+
+if (!class_exists('Magick_Mixtrue_Census')) {
+    class Magick_Mixtrue_Census
+    {
+
+        public function __construct()
+        {
+
+            /**
+             * 加载所需的依赖项
+             */
+            $this->load();
+            /*
+            加载钩子*/
+            $this->run();
+            //添加发文统计菜单
+            add_action('admin_menu', array(&$this, 'add_menu_single'));
+            //$this->load_b2_shop();
+
+        }
+
+        /**
+         * 添加钩子
+         */
+        public static function run()
+        {
+
+        }
+
+        /**
+         * 导入资源
+         */
+        public function load()
+        {
+            require_once plugin_dir_path(__FILE__) . 'census-single.php';
+        }
+        /**
+         * 添加发文统计菜单
+         */
+        public function add_menu_single()
+        {
+
+            add_submenu_page('index.php', __('发文统计'), __('发文统计'), 'administrator', 'magick-census-single', array(&$this, 'census_single_content'));
+
+        }
+        /**
+         * 添加商城菜单
+         */
+        public function add_menu_shop()
+        {
+            add_submenu_page('index.php', __('销售统计'), __('销售统计'), 'administrator', 'magick-census-shop', array(&$this, 'census_shop_content'));
+        }
+        /**
+         * 发文统计内容
+         */
+        public function census_single_content()
+        {
+            echo '<div class="wrap">';
+            echo '<h2>';
+            echo esc_html(get_admin_page_title());
+            echo '</h2>';
+            echo '</div>';
+        }
+
+        /**
+         * 商城统计内容
+         */
+        public function census_shop_content()
+        {
+            echo '<div class="wrap">';
+            echo '<h2>';
+            echo esc_html(get_admin_page_title());
+            echo '</h2>';
+            echo '</div>';
+        }
+
+        /**
+         * 开始判断，若安装B2主题，则返回true
+         */
+        public function b2_theme_active()
+        {
+            $tool = new Magick_Mixtrue_Tool;
+            $theme = 'Twenty Twenty';
+            if ($tool->theme_active($theme)) {
+                echo "启用了2020主题";
+                return true;
+            } else {
+                echo "没有启用2020主题";
+                return false;
+            }
+        }
+
+        /**
+         * 是否加载商城统计内容
+         */
+        public function load_b2_shop()
+        {
+            if ($this->b2_theme_active()) {
+                add_action('admin_menu', array(&$this, 'add_menu_shop'));
+            } else {
+                //啥也不做
+            }
+
+        }
+
+    } //end Magick_Mixtrue_Census
+
+}
