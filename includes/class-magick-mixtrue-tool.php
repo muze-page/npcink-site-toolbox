@@ -77,6 +77,37 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
         <?php
 }
 
+        /**
+         * 时间很重要
+         */
+        public static function get_time()
+        {
+            date_default_timezone_set("Asia/Shanghai");
+            $a = strtotime(date("Y-m-d H:i:s")); //当前时间戳
+            $todaytime = strtotime("today"); //今日起始时间戳
+
+            return array(
+                'a' => array(
+                    date("Y-m-d H:i:s", $todaytime),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 1),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 2),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 3),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 4),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 5),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 6),
+                ),
+                'b' => array(
+                    date("Y-m-d H:i:s", $todaytime - 8 * 60 * 60),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 1 - 8 * 60 * 60),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 2 - 8 * 60 * 60),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 3 - 8 * 60 * 60),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 4 - 8 * 60 * 60),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 5 - 8 * 60 * 60),
+                    date("Y-m-d H:i:s", $todaytime - 24 * 60 * 60 * 6 - 8 * 60 * 60),
+                ),
+            );
+        }
+
     } //end
 }
 //显示当前页hook

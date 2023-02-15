@@ -57,14 +57,7 @@ if (!class_exists('Magick_Mixtrue_Admin_Census')) {
          */
         public function census_single_content()
         {
-            $content = new Magick_Mixtrue_Census_Single;
-            echo '<div class="wrap">';
-            echo '<h2>';
-            echo esc_html(get_admin_page_title());
-            $content->load_echarts();
-            $content->init_actions();
-            echo '</h2>';
-            echo '</div>';
+            Magick_Mixtrue_Census_Single::load_content();
         }
 
         /**

@@ -53,30 +53,45 @@ run_magick_mixture();
 //$magick_test = new Magick_Mixtrue_Census;
 //$magick_test->b2_theme_active();
 
-//add_action('plugins_loaded', array('wpdocs_class_name', 'instance'));
+$blogusers = get_users(
 
-class wpdocs_class_name
+    array(
+        //符合要求的人
+        'role__in' => $role = array('administrator', 'author', 'editor', 'contributor'),
+        //排除订阅者
+        //'role__not_in' => array(
+        //    'author', 'subscriber',
+        //),
+
+    ));
+// Array of WP_User objects.
+//foreach ($blogusers as $user) {
+//    echo '<span>→' . esc_html($user->id) . '←</span>';
+//}
+
+function kbs_get_users_by_role()
 {
-
-    private function __construct()
-    {
-        self::init();
-    }
-
-    public static function instance()
-    {
-        static $instance = null;
-
-        if (is_null($instance)) {
-            $instance = new wpdocs_class_name;
-        }
-
-        return $instance;
-    }
-
-    public function init()
-    {
-        wp_die(__('Hello World!', 'text-domain'));
-    }
-
+    $role = array('administrator', 'author', 'editor', 'contributor');
+    $user_query = new WP_User_Query(array('orderby' => 'display_name', 'role__in' => $role));
+    $users = $user_query->get_results();
+    return $users;
 }
+
+$magick_tool = new Magick_Mixtrue_Tool;
+
+//$magick_tool->p(kbs_get_users_by_role());
+
+//整理成数组，分别是ID，名称
+
+function hindle_user($user)
+{
+    $arr = array();
+    foreach ($user as $key => $value) {
+        $arr[$key]['id'] .= $value->id;
+        $arr[$key]['name'] .= $value->display_name;
+    }
+    return $arr;
+}
+
+//$magick_tool->p($blogusers);
+//$magick_tool->p(hindle_user($blogusers));
