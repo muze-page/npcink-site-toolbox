@@ -14,7 +14,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         public static function init_actions()
         {
 
-            add_action('admin_enqueue_scripts', array(__CLASS__, 'load_block_js'));
+            //add_action('admin_enqueue_scripts', array(__CLASS__, 'load_block_js'));
             add_action('admin_init', array(__CLASS__, 'magick_plugin_options'));
 
         }
@@ -35,6 +35,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
 		     	<?php do_settings_sections('sandbox_theme_display_options');?>
 		     	<?php submit_button();?>
 		     </form>
+             <?php self::render_page()?>
 	             </div><!-- /.wrap -->
             <?php
 }
@@ -73,7 +74,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
             //添加一个对钩选项
             add_settings_field(
                 'option_id', // 用于标识整个主题中的字段的ID
-                '是否被选中', // 选项接口元素左侧的标签
+                '待统计人员', // 选项接口元素左侧的标签
                 //'magick_show_select_callback', // 负责呈现选项界面的函数的名称
                 array(__CLASS__, 'magick_show_select_callback'),
                 'sandbox_theme_display_options', // 将显示此选项的页面
@@ -162,6 +163,125 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
             }
             return $arr;
         }
+
+        //统计页面基本框架
+        public static function render_page()
+        {
+            /**
+             * 表格数据准备
+             */
+            
+            /**
+             * 基础数据准备
+             */
+            $tool = new Magick_Mixtrue_Tool;
+            //今天发文
+            $count_today = $tool->get_publish_count_today();
+            //本周发文
+            $count_week = $tool->get_publish_count_week();
+            //本月发文
+            $count_month = $tool->get_publish_count_month();
+            //本年发文
+            $count_year = $tool->get_publish_count_year();
+            //累计发文
+            $count_total = $tool->get_publish_count();
+
+            ?>
+            <div class="magick-single-census">
+        <!--放统计图-->
+        <div id="magick-seven-census" style="width:700px;height:400px;"></div>
+        <!--放方框-->
+        <div class="magick-right">
+            <div class="bisection">
+                <div class="census-total">
+                    <span>今日发文</span>
+                    <div class="census-child">
+                        <p><span><?php echo $count_today; ?></span>篇</p>
+                        <span class="dashicons dashicons-analytics"></span>
+                    </div>
+                </div>
+                <div class="census-total">
+                    <span>累计发文</span>
+                    <div class="census-child">
+                        <p><span><?php echo $count_total ?></span>篇</p>
+                        <span class="dashicons dashicons-analytics"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bisection">
+                <div class="census-week">
+                    <span>本周发文</span>
+                    <div class="census-child">
+                        <p><span><?php echo $count_week; ?></span>篇</p>
+                        <span class="dashicons dashicons-analytics"></span>
+                    </div>
+                </div>
+                <div class="census-month">
+                    <span>本月发文</span>
+                    <div class="census-child">
+                        <p><span><?php echo $count_month; ?></span>篇</p>
+                        <span class="dashicons dashicons-analytics"></span>
+                    </div>
+                </div>
+                <div class="census-month">
+                    <span>本年发文</span>
+                    <div class="census-child">
+                        <p><span><?php echo $count_year; ?></span>篇</p>
+                        <span class="dashicons dashicons-analytics"></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById("magick-seven-census"));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: "ECharts 入门示例",
+            },
+            tooltip: {},
+            legend: {
+                data: ["作者一", "作者二", "作者三"],
+            },
+            xAxis: {
+                data: ["周一", "周二", "周三", "周四", "周五", "周六", "周七"],
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: "作者一",
+                    type: "bar",
+                    data: [5, 20, 36, 10, 10, 20, 22],
+                },
+
+                {
+                    name: "作者二",
+                    type: "bar",
+                    data: [55, 22, 16, 18, 30, 22, 26],
+                },
+
+                {
+                    name: "作者三",
+                    type: "bar",
+                    data: [26, 10, 16, 20, 30, 10, 28],
+                },
+            ],
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+            <?php
+}
 
     } //end class
 }

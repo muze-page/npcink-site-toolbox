@@ -107,6 +107,118 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
                 ),
             );
         }
+        /**
+         * 本日发文数量
+         * 查询：https://developer.wordpress.org/reference/classes/wp_query/#date-parameters
+         * 描述：仅统计已发布的公开内容和密码保护内容
+         * 类型：默认为post,可为page
+         */
+        public static function get_publish_count_today()
+        {
+            $today = getdate();
+            $args = array(
+                'post_type' => 'post', //类型
+                'post_status' => 'publish', //状态
+                'post__not_in' => get_option('sticky_posts'), //排除置顶文章
+                'date_query' => array( //时间
+                    array(
+                        'year' => $today['year'],
+                        'month' => $today['mon'],
+                        'day' => $today['mday'],
+                    ),
+                ),
+            );
+            $query = new WP_Query($args);
+            return $query->post_count;
+
+        }
+
+        /**
+         * 用途：获取本周发文数量
+         * 来源：https://www.166yc.cn/195.html
+         * 参考：https://developer.wordpress.org/reference/classes/wp_query/#date-parameters
+         * 描述：仅统计当前周的已发布数量
+         */
+        public static function get_publish_count_week()
+        {
+            $date_query = array(
+
+                'year' => date('Y'),
+                'week' => date('W'),
+
+            );
+            $args = array(
+                'post_type' => 'post',
+                'post_status' => 'publish',
+                'date_query' => $date_query,
+                'no_found_rows' => true, //跳过计算找到的总行数
+                'suppress_filters' => true,
+                'fields' => 'ids',
+                'posts_per_page' => -1,
+            );
+            $query = new WP_Query($args);
+            return $query->post_count;
+        }
+
+        /**
+         * 用途：获取本月发文数量
+         * 描述：仅统计本月已发布文章数量
+         */
+        public static function get_publish_count_month()
+        {
+            $args = array(
+                'post_type' => 'post',
+                'post_status' => 'publish',
+                'post__not_in' => get_option('sticky_posts'), //排除置顶文章
+                'date_query' => array(
+                    array(
+                        'after' => '1 month ago',
+                    ),
+                ),
+                'posts_per_page' => -1,
+            );
+            $query = new WP_Query($args);
+            return $query->post_count;
+        }
+
+        /**
+         * 用途：获取本年发文数量
+         * 描述：仅统计本月已发布文章数量
+         */
+        public static function get_publish_count_year()
+        {
+            $args = array(
+                'post_type' => 'post',
+                'post_status' => 'publish',
+                'post__not_in' => get_option('sticky_posts'), //排除置顶文章
+                'date_query' => array(
+                    array(
+                        'after' => '1 year ago',
+                    ),
+                ),
+                'posts_per_page' => -1,
+            );
+            $query = new WP_Query($args);
+            return $query->post_count;
+        }
+        /**
+         * 用途：获取所有已发布文章数量
+         * 来源：https://developer.wordpress.org/reference/functions/wp_count_posts/
+         * 返回：数字
+         */
+        public static function get_publish_count()
+        {
+            $count_posts = wp_count_posts();
+
+            if ($count_posts) {
+                $published_posts = $count_posts->publish;
+            }
+            return $published_posts;
+        }
+
+        /**
+         * 输入人员ID，返回最近7天发文数量
+         */
 
     } //end
 }

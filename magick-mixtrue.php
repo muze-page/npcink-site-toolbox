@@ -19,7 +19,7 @@ if (!defined('WPINC')) {
  *从1.0.0版本开始，使用SemVer-https://semver.org
  *重命名此插件，并在发布新版本时进行更新。
  */
-define('MAGICK_MIXTURE_VERSION', '1.1.0');
+define('MAGICK_MIXTURE_VERSION', '1.1.2');
 
 /**
  * 用于定义国际化的核心插件类，
@@ -79,19 +79,11 @@ function kbs_get_users_by_role()
 
 $magick_tool = new Magick_Mixtrue_Tool;
 
-//$magick_tool->p(kbs_get_users_by_role());
-
-//整理成数组，分别是ID，名称
-
-function hindle_user($user)
-{
-    $arr = array();
-    foreach ($user as $key => $value) {
-        $arr[$key]['id'] .= $value->id;
-        $arr[$key]['name'] .= $value->display_name;
-    }
-    return $arr;
-}
-
 //$magick_tool->p($blogusers);
 //$magick_tool->p(hindle_user($blogusers));
+
+$magick_tool->p($magick_tool::get_publish_count());
+
+//WordPress获取本周发布的文章数量
+
+//echo get_week_post_count();

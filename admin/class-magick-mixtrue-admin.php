@@ -1,9 +1,4 @@
 <?php
-function testttt()
-{
-    wp_enqueue_style('111', plugin_dir_url(__FILE__) . 'css/demo.css', array(), '1.1', 'all');
-}
-//add_action('admin_enqueue_scripts', 'testttt');
 
 /**
  *插件的管理员特定功能。
@@ -67,6 +62,7 @@ class Magick_Mixtrue_Admin
      */
     public function run()
     {
+
         //实例化一下，会自动跑起来
         $census = new Magick_Mixtrue_Admin_Census();
 
@@ -93,6 +89,7 @@ class Magick_Mixtrue_Admin
          */
 
         wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/magick-mixtrue-admin.css', array(), $this->version, 'all');
+        //wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/demo.css', array(), $this->version, 'all');
 
     }
 
@@ -115,8 +112,9 @@ class Magick_Mixtrue_Admin
          *在定义的钩子和在此定义的函数之间
          *类。
          */
-
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/magick-mixtrue-admin.js', array('jquery'), $this->version, false);
+//加载echarts 用于图标绘制
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/echarts_v5.4.0.js', array(), $this->version, false);
+        //wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/magick-mixtrue-admin.js', array('jquery'), $this->version, false);
 
     }
 
