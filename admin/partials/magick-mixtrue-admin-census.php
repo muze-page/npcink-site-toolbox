@@ -35,41 +35,7 @@ if (!class_exists('Magick_Mixtrue_Admin_Census')) {
         public function load()
         {
             require_once plugin_dir_path(__FILE__) . 'census-single.php';
-        }
-        /**
-         * 添加发文统计菜单
-         */
-        public function add_menu_single()
-        {
-
-            add_submenu_page('index.php', __('发文统计'), __('发文统计'), 'administrator', 'magick-census-single', array(__CLASS__, 'census_single_content'));
-
-        }
-        /**
-         * 添加商城菜单
-         */
-        public function add_menu_shop()
-        {
-            add_submenu_page('index.php', __('销售统计'), __('销售统计'), 'administrator', 'magick-census-shop', array(__CLASS__, 'census_shop_content'));
-        }
-        /**
-         * 发文统计内容
-         */
-        public function census_single_content()
-        {
-            Magick_Mixtrue_Census_Single::load_content();
-        }
-
-        /**
-         * 商城统计内容
-         */
-        public function census_shop_content()
-        {
-            echo '<div class="wrap">';
-            echo '<h2>';
-            echo esc_html(get_admin_page_title());
-            echo '</h2>';
-            echo '</div>';
+            require_once plugin_dir_path(__FILE__) . 'census-shop.php';
         }
 
         /**
@@ -86,6 +52,37 @@ if (!class_exists('Magick_Mixtrue_Admin_Census')) {
                 //啥也不做
             }
 
+        }
+        /**
+         * 添加发文统计菜单
+         */
+        public static function add_menu_single()
+        {
+
+            add_submenu_page('index.php', __('发文统计'), __('发文统计'), 'administrator', 'magick-census-single', array(__CLASS__, 'census_single_content'));
+
+        }
+        /**
+         * 添加商城菜单
+         */
+        public static function add_menu_shop()
+        {
+            add_submenu_page('index.php', __('销售统计'), __('销售统计'), 'administrator', 'magick-census-shop', array(__CLASS__, 'census_shop_content'));
+        }
+        /**
+         * 发文统计内容
+         */
+        public function census_single_content()
+        {
+            Magick_Mixtrue_Census_Single::load_content();
+        }
+
+        /**
+         * 商城统计内容
+         */
+        public static function census_shop_content()
+        {
+            Magick_Mixtrue_Census_Shop::load_content();
         }
 
     } //end Magick_Mixtrue_Census

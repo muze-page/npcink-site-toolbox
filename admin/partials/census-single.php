@@ -3,7 +3,7 @@
 
 //如何在当前页面加载js
 if (!class_exists('Magick_Mixtrue_Census_Single')) {
-    class Magick_Mixtrue_Census_Single extends Magick_Mixtrue
+    class Magick_Mixtrue_Census_Single
     {
 
         public function __construct()
@@ -24,10 +24,10 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         {
             ?>
             <!-- 在默认WordPress“包装”容器中创建标题 -->
-	        <div class="wrap">
-                <div class="magick-content">
+	        <div class="wrap magick-content">
+
             <!--标题-->
-		     <h2><?php echo esc_html(get_admin_page_title()); ?></h2>
+		     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
              <!--展示图表内容-->
              <?php self::render_page()?>
 		     <!--在保存设置时调用WordPress函数以呈现错误。 -->
@@ -39,7 +39,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
 		     	<?php submit_button();?>
 		     </form>
 
-        </div><!-- /.magick-content -->
+
 	             </div><!-- /.wrap -->
             <?php
 }
@@ -54,7 +54,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         //}
 
         //添加设置选项
-        public function magick_plugin_options()
+        public static function magick_plugin_options()
         {
             // 如果插件选项不存在，请创建它们。
             if (false == get_option('sandbox_theme_display_options')) {
