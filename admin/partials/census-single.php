@@ -297,7 +297,9 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
             $arr = array();
             //拿到ID数组
             $options = get_option('magick_plugin_config');
-            $id = $options['option_id'];
+
+            //默认查阅ID为1的人的发文数据
+            $id = isset($options['option_id']) ? $options['option_id'] : [1];
 
             //获取周发文数量
             $week = array();

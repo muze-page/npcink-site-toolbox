@@ -19,7 +19,7 @@ if (!defined('WPINC')) {
  *从1.0.0版本开始，使用SemVer-https://semver.org
  *重命名此插件，并在发布新版本时进行更新。
  */
-define('MAGICK_MIXTURE_VERSION', '0.0.1');
+define('MAGICK_MIXTURE_VERSION', '0.0.2');
 
 /**
  * 用于定义国际化的核心插件类，
