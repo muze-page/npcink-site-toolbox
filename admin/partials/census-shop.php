@@ -22,6 +22,10 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
         }
         public static function load_content()
         {
+            /**
+             * 准备数据
+             */
+
             ?>
              <!-- 在默认WordPress“包装”容器中创建标题 -->
 	        <div class="wrap magick-content">
@@ -29,7 +33,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
             <!--标题-->
 		     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
              <hr />
-             <?php echo self::get_sql_time() ?>
+             <?php echo self::handle_order_seven() ?>
              <section class="magick_shop_box">
         <div class="content">
             <div class="child-box">
@@ -106,22 +110,12 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
     </section>
             </div><!-- end wrap-->
             <?php
-}
-
-        /**
-         * 获取待发货订单
-         */
-        public function get_shop_watit_deliver()
-        {
-            $table_name = $this->wpdb->prefix . 'zrz_order';
-            $num = $this->wpdb->get_var("SELECT COUNT(*) FROM $table_name where order_state='f'");
-            return $num;
-        } //end magick_get_shop_watit_deliver()
+} //end load_content
 
         /**
          * 拿到指定时间内的所有数据
          */
-        public static function get_sql_time()
+        public static function get_sql_data()
         {
             //用WordPress提供的全局变量
             global $wpdb;
@@ -130,123 +124,203 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
             $time = $tool->get_time();
             $time = $time['a'];
             $table_name = $wpdb->prefix . 'zrz_order';
-            //创建数组，存储数据
-            $array = array();
 
             //获取近7天的销售数据
             $order_data_seven = "SELECT order_type,order_commodity,order_state,order_date,order_total FROM $table_name WHERE  order_date > '$time[6]'";
+            //原始数据
             $order_data = $wpdb->get_results($order_data_seven, ARRAY_A);
 
-            //整理 - 将拿到的数据以时间为键名保存数据
+            //整理 - 将拿到的数据以时间为键名保存
             $array_data_time = array();
-            for ($i = 0; $i < count((array) $time); $i++) {
-                //当前时间
-                $t = $time[$i];
-                //将时间处理下，方便比较
-                $handle_time = date("Y-m-d", strtotime($t));
-
-                //找到符合当前时间的值
-                foreach ($order_data as $v) {
-                    //拿到当前键值的时间
-                    $value_time = $v['order_date'];
-                    //格式下一下，方便比较
-                    $handle_value = date("Y-m-d", strtotime($value_time));
-                    //商城订单
-                    if ($handle_value == $handle_time) {
-                        $array_data_time[$handle_time][] = $v;
-                    }
-
-                }
-
-                $tool->p($array_data_time);
-                return $array_data_time;
-
+            //找到符合当前时间的值
+            foreach ($order_data as $v) {
+                //拿到当前键值的时间
+                $value_time = $v['order_date'];
+                //格式下一下
+                $handle_value = date("Y-m-d", strtotime($value_time));
+                $array_data_time[$handle_value][] = $v;
             }
-            /*打印下，看看里面有啥*/
-            //$tool->p($order_data);
+
+            //$tool->p($array_data_time);
 
             //转成数组，每天的总销售额、总订单、总退款额、总退款订单
 
             /**
-             * 今天需要的数据
+             * 筛选
+             * 获取最近7天每天的销售数组
              */
-
-            //获取待发货订单
-
-            //获取最近7天销售数组
             $order_seven_total = array();
-            //拿到筛选后的数组
-            $order_seven_total = array_filter($order_data, function ($v) {
-                $switch = false;
-                //商城订单
-                if ($v['order_type'] == 'gx') {
-                    //实物
-                    if ($v['order_commodity'] == '1') {
-                        //已发货
-                        if ($v['order_state'] == 'q') {$switch = true;}
-                        //已签收
-                        if ($v['order_state'] == 'c') {$switch = true;}
-                    }
-                }
-                return $switch;
-            });
 
-            $tool->p($order_seven_total);
-
-            //获取最近7天退款数组
-            $total_refund_seven_data = array();
-            //拿到筛选后的数组
-            $total_refund_seven_data = array_filter($order_data, function ($v) {
-                $switch = false;
-                //商城订单
-                if ($v['order_type'] == 'gx') {
-                    //实物
-                    if ($v['order_commodity'] == '1') {
-                        //已退款
-                        if ($v['order_state'] == 't') {$switch = true;}
-
-                    }
-                }
-                return $switch;
-            });
-
-            //每天的总销售额（去除退款）
-            $ever_day_sale_total = array();
             for ($i = 0; $i < count((array) $time); $i++) {
-                //当前时间
-                $today = $time[$i];
-                //找到数组中，符合当前条件的值
-                $order_seven_total;
+                //准备默认值
+                $arr_default = array();
+
+                //拿到时间格式化
+                $t = date("Y-m-d", strtotime($time[$i]));
+
+                //拿到当前时间的值，没有当前时间的，则为空值
+                $value = isset($array_data_time[$t]) ? $array_data_time[$t] : $arr_default;
+                //对数据进行筛查，保留所需数据
+
+                $data = array_filter($value, function ($v) {
+                    $switch = false;
+                    //商城订单
+                    if ($v['order_type'] == 'gx') {
+                        //实物
+                        if ($v['order_commodity'] == '1') {
+                            //已发货
+                            if ($v['order_state'] == 'q') {$switch = true;}
+                            //已签收
+                            if ($v['order_state'] == 'c') {$switch = true;}
+                        }
+                    }
+                    return $switch;
+                });
+
+                //获取总销售额
+                $total = 0;
+                foreach ($data as $v) {
+
+                    $total += $v['order_total'];
+                }
+                //时间
+                $order_seven_total[$t]['time'] = $t;
+
+                //总销售额
+                $order_seven_total[$t]['total'] = $total;
+
+                //总销售订单 - 统计筛选后的数组有多少个
+                $order_seven_total[$t]['order'] = count((array) $data);
+
+                //拿到的数组键名会乱，这里重置下键名
+                $order_seven_total[$t]['data'] = array_values($data);
+
+            } //end for
+            //$tool->p($order_seven_total);
+
+            /**
+             * 获取最近7天退款数组
+             */
+            $total_refund_data = array();
+            for ($i = 0; $i < count((array) $time); $i++) {
+                //准备默认值
+                $arr_default = array();
+                //拿到时间格式化
+                $t = date("Y-m-d", strtotime($time[$i]));
+                //先判断下，有时间则通过，没有时间则给默认值
+
+                //拿到当前时间的值，没有当前时间的，则为空值
+                $value = isset($array_data_time[$t]) ? $array_data_time[$t] : $arr_default;
+                //对数据进行筛查，保留所需数据
+                $data = array_filter($value, function ($v) {
+                    $switch = false;
+                    //商城订单
+                    if ($v['order_type'] == 'gx') {
+                        //实物
+                        if ($v['order_commodity'] == '1') {
+                            //已退款
+                            if ($v['order_state'] == 't') {$switch = true;}
+                        }
+                    }
+                    return $switch;
+                });
+
+                //获取退款总销售额
+                $total = 0;
+                foreach ($data as $v) {
+                    $total += $v['order_total'];
+                }
+
+                $total_refund_data[$t]['time'] = $t;
+                $total_refund_data[$t]['total'] = $total;
+                $total_refund_data[$t]['order'] = count((array) $data);
+                $total_refund_data[$t]['data'] = array_values($data);
 
             }
+            //$tool->p($total_refund_data);
+            /**
+             * 待发货订单
+             */
+            $shipped_order = $wpdb->get_var("SELECT COUNT(*) FROM $table_name where order_state='f'");
 
-            //7天每天的总销售额（减去退款）
-            $total_sales_volume = 0;
-            foreach ($order_seven_total as $value) {
-                $total_sales_volume = $value['order_total'];
+            //创建数组，存储数据
+            $array = array();
+            //已售
+            $array['sale'] = $order_seven_total;
+            //已退
+            $array['refund'] = $total_refund_data;
+            //待发
+            $array['shipped'] = $shipped_order;
+
+            return $array;
+        } //end get_sql_data()
+
+        /**
+         * 对拿到的数据进行二次处理
+         */
+        public static function handle_order_seven()
+        {
+            //实例化工具类
+            $tool = new Magick_Mixtrue_Tool;
+            //拿到数据
+            $data = self::get_sql_data();
+            //拿到时间
+            $time = $tool->get_time();
+            $time = $time['a'];
+
+            //存储数据
+            $arr = array();
+
+            /**
+             *今日统计
+             */
+            //今天的时间
+            $today_time = date("Y-m-d", strtotime($time[0]));
+
+            //今日总销售额
+            $arr['today']['sale'] = $data['sale'][$today_time]['total'];
+
+            //今日总订单
+            $arr['today']['sale_order'] = $data['sale'][$today_time]['order'];
+
+            //今日总退款
+            $arr['today']['refund'] = $data['refund'][$today_time]['total'];
+
+            //今日总退款订单
+            $arr['today']['refund_order'] = $data['refund'][$today_time]['order'];
+
+            /**
+             * 表格用数据
+             */
+            //时间
+            foreach ($time as $value) {
+                $t[] = date("m-d", strtotime($value));
             }
-            //7天中每天的总销售订单（减去退款）
-            $total_order = count($order_seven_total);
 
-            //7天总退款额
-            $total_refund = 0;
-            foreach ($total_refund_seven_data as $value) {
-                $total_refund = $value['order_total'];
-            }
-            //7天总退款订单
-            $total_refund_order = count($total_refund_seven_data);
+            //最近7天总销售额
+            $seven_sale_total = array();
+            $seven_sale_total = array_column($data['sale'], 'total');
+            //最近7天总订单
+            $seven_sale_order = array();
+            $seven_sale_order = array_column($data['sale'], 'order');
 
-            //总销售额
-            $array['sales']['total'] = $total_sales_volume;
-            //总销售订单
-            $array['sales']['order'] = $total_order;
+            //最近7天总退款
+            $seven_refund_total = array();
+            $seven_refund_total = array_column($data['refund'], 'total');
 
-            //总退款额
-            $array['refund']['total'] = $total_refund;
-            //总退款订单
-            $array['refund']['order'] = $total_refund_order;
+            //最近7天总退款订单
+            $seven_refund_order = array();
+            $seven_refund_order = array_column($data['refund'], 'order');
 
-            //return $array;
+            //时间
+            $arr['time'] = $t;
+            $arr['latelly']['sale'] = $seven_sale_total;
+            $arr['latelly']['sale_order'] = $seven_sale_order;
+            $arr['latelly']['refunt'] = $seven_refund_total;
+            $arr['latelly']['refund_order'] = $seven_refund_order;
+            $tool->p($arr);
+            return $arr;
+
         }
 
     } //end class
