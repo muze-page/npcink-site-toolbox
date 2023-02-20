@@ -44,7 +44,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
             <?php
 }
 
-        //开始判断，在文章统计页则加载
+        //开始判断，在文章统计页则加载js
         //public static function current_page_hook($hook)
         //{
         //    if ('dashboard_page_magick-census-single' == $hook) {
@@ -94,7 +94,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         /**
          * 选择结果
          */
-        public function magick_plugin_options_callback()
+        public static function magick_plugin_options_callback()
         {
             //拿到选项的值
             $options = get_option('magick_plugin_config');
@@ -110,7 +110,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         /**
          * 选中框设置的回调
          */
-        public function magick_show_select_callback($args)
+        public static function magick_show_select_callback($args)
         {
             // 首先，我们拿到选项
             $options = get_option('magick_plugin_config');
