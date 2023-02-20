@@ -50,6 +50,9 @@
   width: 36px;
   height: 36px;
 }
+.magick-user-label {
+  margin: 0 20px 0 0;
+}
 /**==============================商城*/
 .magick_shop_box {
   display: flex;

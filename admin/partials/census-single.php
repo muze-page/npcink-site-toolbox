@@ -99,12 +99,13 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
             //拿到选项的值
             $options = get_option('magick_plugin_config');
             if ($options) {
-                echo "您选择的是：" . implode(',', $options['option_id']);
+                echo "您选择的是人员ID是：" . implode(',', $options['option_id']);
                 return;
             } else {
                 echo "您没有选择值";
                 return;
             }
+
         } //结束magick_plugin_options_callback
 
         /**
@@ -126,12 +127,13 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
 
             //将选项循环出来
             foreach ($user_data as $key => $value) {
-                $id = $value->id;
+                $id = $value->ID;
                 $name = $value->display_name;
                 ?>
 
             <input type='checkbox' name='magick_plugin_config[option_id][]' <?php checked(in_array($id, $uwcc_checkbox_field_1), 1);?> value=<?php echo $id; ?>>
-            <label><?php echo $name; ?></label>
+            <label class="magick-user-label"><?php echo $name; ?></label>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
 
 
                <?php
