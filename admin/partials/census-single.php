@@ -197,7 +197,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
                     <span>今日发文</span>
                     <div class="census-child">
                         <p><span><?php echo $count_today; ?></span>篇</p>
-                        <span class="dashicons dashicons-analytics"></span>
+                        <span class="dashicons dashicons-text-page"></span>
                     </div>
                 </div>
 
@@ -225,14 +225,14 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
                     <span>总计发文</span>
                     <div class="census-child">
                         <p><span><?php echo $total_single; ?></span>篇</p>
-                        <span class="dashicons dashicons-analytics"></span>
+                        <span class="dashicons dashicons-clipboard"></span>
                     </div>
                 </div>
                 <div class="census-month">
                     <span>总计用户</span>
                     <div class="census-child">
                         <p><span><?php echo $total_user; ?></span>位</p>
-                        <span class="dashicons dashicons-analytics"></span>
+                        <span class="dashicons dashicons-universal-access-alt"></span>
                     </div>
                 </div>
 

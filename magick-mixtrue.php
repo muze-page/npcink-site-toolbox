@@ -64,6 +64,6 @@ function my_new_elem_after_title()
 //评论总数
 global $wpdb;
 $aaa = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments");
-echo $aaa;
+//echo $aaa;
 
-$magick_tool->p(22);
+//$magick_tool->p(22);
