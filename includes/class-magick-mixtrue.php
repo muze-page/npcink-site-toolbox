@@ -47,6 +47,7 @@ class Magick_Mixtrue
 
         $this->load_dependencies(); //加载此插件所需的依赖项
         $this->define_admin_hooks(); //注册与后台功能相关的所有挂钩
+        $this->define_public_hooks();
 
     }
 
@@ -82,6 +83,12 @@ class Magick_Mixtrue
         require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-magick-mixtrue-admin.php';
 
         /**
+         * 负责定义面向公众的所有行为的类
+         *现场一侧。
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-magick-mixtrue-public.php';
+
+        /**
          * 公共工具类
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-magick-mixtrue-tool.php';
@@ -108,6 +115,23 @@ class Magick_Mixtrue
         //03 用于指定与特定操作关联的函数的执行顺序
         //04 函数接受的参数数
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+
+    }
+
+    /**
+     * 注册与面向公共功能相关的所有挂钩
+     *插件的。
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function define_public_hooks()
+    {
+
+        $plugin_public = new Plugin_Name_Public($this->get_plugin_name(), $this->get_version());
+
+        $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+        $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 
     }
 
