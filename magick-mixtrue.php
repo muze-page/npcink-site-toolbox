@@ -65,5 +65,15 @@ function my_new_elem_after_title()
 global $wpdb;
 $aaa = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments");
 //echo $aaa;
+//$magick_tool->p("<h1>22</h1>");
 
-//$magick_tool->p(22);
+//$id = get_queried_object_id();
+
+if (comments_open()) {
+    //echo '<h1>当前文章评论已打开</h1>';
+}
+//echo '<h1>当前文章评论已打开</h1>';
+//$magick_tool->p($id);
+
+
+
