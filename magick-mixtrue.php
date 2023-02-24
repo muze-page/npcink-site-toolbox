@@ -45,35 +45,5 @@ run_magick_mixture();
 
 $magick_tool = new Magick_Mixtrue_Tool;
 
-//在菜单栏下，循环结束后添加以下内容
-//add_action('loop_start', 'my_new_elem_after_title');
-function my_new_elem_after_title()
-{
-    if ($query->is_main_query()):
-
-        //是文章页则输出内容
-        if (is_single()) {
-            echo '<h1>我是简单的广告内容</h1>';
-
-        }
-
-    endif;
-
-}
-
-//评论总数
-global $wpdb;
-$aaa = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments");
-//echo $aaa;
-//$magick_tool->p("<h1>22</h1>");
-
-//$id = get_queried_object_id();
-
-if (comments_open()) {
-    //echo '<h1>当前文章评论已打开</h1>';
-}
 //echo '<h1>当前文章评论已打开</h1>';
 //$magick_tool->p($id);
-
-
-
