@@ -53,14 +53,24 @@ class Magick_Mixtrue_Public
 
         $this->magick_mixtrue = $magick_mixtrue;
         $this->version = $version;
+        $this->load();
+        $this->run();
 
-        require_once plugin_dir_path(__FILE__) . 'partials/magick-mixtrue-display.php';
-        $magick_mixtrue_display = new Magick_Mixtrue_Display();
-
+    }
+    public function load()
+    {
+        //加载表情包
+        require_once plugin_dir_path(__FILE__) . 'partials/class-mm-display.php';
         //自定义的一为登录页
         require_once plugin_dir_path(__FILE__) . 'partials/class-mm-login.php';
-        Magick_Mixtrue_Login::run();
+    }
+    public function run()
+    {
+        //加载前台表情
+        Magick_Mixtrue_Display::run();
 
+        //加载登录页
+        Magick_Mixtrue_Login::run();
     }
 
     /**

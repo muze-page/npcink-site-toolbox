@@ -3,25 +3,16 @@
 /**
  * 为插件提供面向公众的视图
  *
- *此文件用于标记插件的面向公共方面。
- *
- * @link       http://example.com
- * @since      1.0.0
- *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/public/partials
  */
 
 if (!class_exists('Magick_Mixtrue_Display')) {
     class Magick_Mixtrue_Display
     {
 
-        public function __construct()
+        public static function run()
         {
-
-            //加载表情包
-            //add_action('wp', array(__CLASS__, 'load_owo'));
-
+//加载表情包
+            add_action('wp', array(__CLASS__, 'load_owo'));
         }
 
         /**
