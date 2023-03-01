@@ -105,17 +105,7 @@ class Magick_Mixtrue_Public
     public function enqueue_scripts()
     {
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in magick_mixtrue_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The magick_mixtrue_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
+
 
         //wp_enqueue_script($this->magick_mixtrue, plugin_dir_url(__FILE__) . 'js/magick-mixtrue-public.js', array('jquery'), $this->version, true);
 
