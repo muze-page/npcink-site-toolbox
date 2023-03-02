@@ -46,9 +46,6 @@ class Magick_Mixtrue_Admin
         $this->plugin_name = $plugin_name;
         $this->version = $version;
 
-        //加载主题选项
-        add_action('carbon_fields_register_fields', array($this, 'load_admin_settings'));
-
         $this->load(); //加载所需的依赖项
         $this->run(); //跑起来
 
@@ -62,7 +59,8 @@ class Magick_Mixtrue_Admin
     {
         //文章统计页面
         require_once plugin_dir_path(__FILE__) . 'partials/census-single.php';
-        //require_once plugin_dir_path(__FILE__) . 'partials/magick-mixtrue-admin-census.php';
+        //商城统计页面
+        require_once plugin_dir_path(__FILE__) . 'partials/census-shop.php';
         //优化设置
         require_once plugin_dir_path(__FILE__) . 'partials/option-optimize.php';
         //安全设置
@@ -75,10 +73,13 @@ class Magick_Mixtrue_Admin
     public function run()
     {
 
-        //实例化一下，会自动跑起来
-        //$census = new Magick_Mixtrue_Admin_Census();
+//加载主题选项
+        add_action('carbon_fields_register_fields', array($this, 'load_admin_settings'));
+
         //加载文章统计
         Magick_Mixtrue_Census_Single::run();
+        //加载B2商城统计
+        Magick_Mixtrue_Census_Shop::run();
 
         //优化
         Magick_Mixtrue_Optimize::run();
@@ -95,19 +96,7 @@ class Magick_Mixtrue_Admin
     public function enqueue_styles()
     {
 
-        /**
-         * 此功能仅用于演示。
-         *
-         *此类的实例应传递给run（）函数
-         *在Plugin_Name_Loader中定义，因为定义了所有钩子
-         *在那个特定的班级里。
-         *
-         *然后Plugin_Name_Loader将创建关系
-         *在定义的钩子和在此定义的函数之间
-         *类。
-         */
-
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/magick-mixtrue-admin.css', array(), $this->version, 'all');
+        //wp_enqueue_style($this->plugin_name.'', plugin_dir_url(__FILE__) . 'css/magick-mixtrue-admin.css', array(), $this->version, 'all');
         //wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/demo.css', array(), $this->version, 'all');
 
     }

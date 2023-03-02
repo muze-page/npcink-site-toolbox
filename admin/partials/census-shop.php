@@ -10,23 +10,42 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
         public function __construct()
         {
 
-            add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
-
         }
 
         public static function run()
         {
+            //加载菜单
+            add_action('admin_menu', array(__CLASS__, 'add_menu_shop'));
+            //加载图标用js
+            add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
 
         }
 
-        //加载图标用js
+        /**
+         * 添加商城菜单
+         */
+        public static function add_menu_shop()
+        {
+            add_submenu_page('index.php', __('销售统计'), __('销售统计'), 'administrator', 'magick-census-shop', array(__CLASS__, 'load_content'));
+        }
+
+        //页面加载图标用css和js
         public static function load_enqueue_admin_script($hook)
         {
+            //判断下，是否在当前页面
             if ('dashboard_page_magick-census-shop' != $hook) {
                 return;
             }
+            wp_enqueue_style(
+                MAGICK_MIXTURE_NAME . '_census-b2-shop',
+                plugin_dir_url(\dirname(__FILE__)) . 'css/mm-census-b2-shop.css',
+                array(),
+                MAGICK_MIXTURE_VERSION,
+                'all'
+            );
+
             wp_enqueue_script(
-                MAGICK_MIXTURE_NAME,
+                MAGICK_MIXTURE_NAME . '_echarts-shop',
                 plugin_dir_url(\dirname(__FILE__)) . 'js/echarts_v5.4.0.js',
                 array(),
                 MAGICK_MIXTURE_VERSION,
@@ -35,6 +54,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
 
         }
 
+        //页面显示内容
         public static function load_content()
         {
             /**

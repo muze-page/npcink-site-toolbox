@@ -27,13 +27,22 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
 
         }
 
-        //加载图标用js
+        //页面加载图标用css和js
         public static function load_enqueue_admin_script($hook)
         {
             //判断下，是否在文章统计页中
             if ('dashboard_page_magick-census-single' != $hook) {
                 return;
             }
+
+            wp_enqueue_style(
+                MAGICK_MIXTURE_NAME . '_census-single',
+                plugin_dir_url(\dirname(__FILE__)) . 'css/mm-census-single.css',
+                array(),
+                MAGICK_MIXTURE_VERSION,
+                'all'
+            );
+
             wp_enqueue_script(
                 MAGICK_MIXTURE_NAME . '_echarts-single',
                 plugin_dir_url(\dirname(__FILE__)) . 'js/echarts_v5.4.0.js',
