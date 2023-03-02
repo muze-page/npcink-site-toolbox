@@ -39,12 +39,12 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
             }
 
             //评论时间间隔
-            if (carbon_get_theme_option('cmma_opt_com_time')) {
+            if (carbon_get_theme_option('cmma_opt_com_time') === "yes") {
                 add_filter('comment_flood_filter', array(__CLASS__, 'suren_comment_flood_filter'), 10, 3);
             }
 
             //评论最少和最多字数
-            if (carbon_get_theme_option('cmma_opt_com_number')) {
+            if (carbon_get_theme_option('cmma_opt_com_number') === "yes") {
                 add_filter('preprocess_comment', array(__CLASS__, 'set_comments_length'), 10, 3);
             }
 

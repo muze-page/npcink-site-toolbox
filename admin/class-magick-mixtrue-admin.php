@@ -65,6 +65,7 @@ class Magick_Mixtrue_Admin
         require_once plugin_dir_path(__FILE__) . 'partials/option-optimize.php';
         //安全设置
         require_once plugin_dir_path(__FILE__) . 'partials/option-safe.php';
+
     }
 
     /**
@@ -143,6 +144,7 @@ class Magick_Mixtrue_Admin
                         'yes' => '开启',
                         'no' => '关闭',
                     ))
+                    ->set_default_value('no')
                     ->set_help_text("避免短时间内重复灌水评论，对管理员无效"),
 
                 Field::make('text', 'cmma_opt_com_times', '时间间隔（秒）')
@@ -161,7 +163,8 @@ class Magick_Mixtrue_Admin
                     ->set_options(array(
                         'yes' => '开启',
                         'no' => '关闭',
-                    )),
+                    ))
+                    ->set_default_value('no'),
 
                 Field::make('text', 'cmma_opt_com_num_min', '最少字数（个）')
                     ->set_required(true)
@@ -225,7 +228,8 @@ class Magick_Mixtrue_Admin
             ->add_tab(__('其他'), array(
                 Field::make('separator', 'crb_separator_page', __('页面特效')),
                 Field::make('checkbox', 'cmma_page_show_particle', __('页面添加粒子特效'))
-                    ->set_option_value('yes'),
+                    ->set_option_value('yes')
+                    ->set_help_text("考虑到性能以及操作问题，移动端不加载此特效"),
 
                 Field::make('separator', 'crb_separator', __('评论区')),
                 Field::make('checkbox', 'cmma_show_owo', __('评论区添加OWO表情包'))
@@ -236,6 +240,7 @@ class Magick_Mixtrue_Admin
                         'yes' => '开启',
                         'no' => '关闭',
                     ))
+                    ->set_default_value('no')
                     ->set_width(40),
                 Field::make('color', 'cmma_opt_login_bgcolor_left', '背景色（左下角）')
                     ->set_palette(array('#181d23', '#960a9b', '#0000FF'))
@@ -298,8 +303,48 @@ class Magick_Mixtrue_Admin
                         ),
                     )),
 
-                Field::make('text', 'crb_emails', __('Notification Emails')),
-                Field::make('text', 'crb_phones', __('Phone Numbers')),
+                //腾讯防水墙
+                Field::make('select', 'cmma_login_verify_tx', __('接入腾讯防水墙，给网站登录加上图形验证功能'))
+                    ->set_options(array(
+                        'yes' => '开启',
+                        'no' => '关闭',
+                    ))
+                    ->set_default_value('no')
+                    ->set_help_text('
+                    点击这里注册
+                    <a href="https://cloud.tencent.com/act/cps/redirect?redirect=10717&cps_key=c4baec70ed3f429838d86e2682a46f63" target="_blank">
+                    <b">T-Sec 天御 验证码</b>
+                    </a>
+                    使用方法可参考 <a href="https://www.iowen.cn/wordpress-access-to-tencent-captcha-service/" target="_blank">
+                    <b">使用教程</b>
+                    </a>
+                    ')
+
+                ,
+
+                Field::make('text', 'cmma_login_verify_tx_id', 'App ID')
+                    ->set_attribute('type', 'number')
+                    ->set_width(50)
+                    ->set_help_text('貌似随便填也能用')
+                    ->set_conditional_logic(array(
+                        array(
+                            'field' => 'cmma_login_verify_tx',
+                            'value' => 'yes',
+                            'compare' => '=',
+                        ),
+                    )),
+
+                Field::make('text', 'cmma_login_verify_tx_key', ' App Secret Key')
+                    ->set_attribute('type', 'password')
+                    ->set_help_text('貌似随便填也能用')
+                    ->set_width(50)
+                    ->set_conditional_logic(array(
+                        array(
+                            'field' => 'cmma_login_verify_tx',
+                            'value' => 'yes',
+                            'compare' => '=',
+                        ),
+                    )),
 
                 Field::make('time', 'crb_event_start', 'Event Start')
                     ->set_attribute('placeholder', 'Time of event start'),
