@@ -79,7 +79,8 @@ class Magick_Mixtrue_Admin
 
         //加载文章统计
         Magick_Mixtrue_Census_Single::run();
-        //加载B2商城统计
+
+        //加载商城统计
         Magick_Mixtrue_Census_Shop::run();
 
         //优化
@@ -123,6 +124,7 @@ class Magick_Mixtrue_Admin
     {
         Container::make('theme_options', __('魔法合剂'))
             ->set_icon('dashicons-carrot')
+            ->set_page_menu_position(500)
         /**
          * 优化
          */
@@ -213,17 +215,15 @@ class Magick_Mixtrue_Admin
                     ->set_help_text("管理员不受此影响"),
 
                 Field::make('separator', 'cmma_opt_page', __('页面')),
-                Field::make('checkbox', 'cmma_opt_com_logo_home', __('登录页LOGO改为首页链接'))
-                    ->set_option_value('yes'),
 
                 Field::make('separator', 'cmma_opt_remove', __('移除'))
                     ->set_help_text("<b style='color:red;'>若您不知道会发生什么，还请慎重</b>"),
-                Field::make('checkbox', 'cmma_opt_rem_sign_lang', __('移除登录页面语言选择框'))
-                    ->set_option_value('yes'),
 
-                Field::make('html', 'crb_information_text')
-                    ->set_html('<h2>Lorem ipsum</h2><p>Quisque mattis ligula.</p>'),
             ))
+
+        /**
+         * 安全
+         */
             ->add_tab(__('安全'), array(
                 Field::make('separator', 'cmma_safe_login', __('登录')),
                 Field::make('checkbox', 'cmma_safe_login_errors', __('替换默认账号密码报错信息'))
@@ -239,7 +239,23 @@ class Magick_Mixtrue_Admin
                     ->set_help_text("如果您无法保持您的WordPres版本为最新，推荐开启"),
 
             ))
+        /**
+         * 其他
+         */
             ->add_tab(__('其他'), array(
+                Field::make('separator', 'comm_separator_fun_switch', __('功能开关')),
+                Field::make('checkbox', 'cmma_fun_census_single', __('文章统计'))
+                    ->set_option_value('yes')
+                    ->set_width(20)
+                    ->set_help_text("开启后显示在仪表盘下"),
+                Field::make('checkbox', 'cmma_fun_census_shop', __('B2商城统计'))
+                    ->set_option_value('yes')
+                    ->set_width(20)
+                    ->set_help_text('开启后显示在仪表盘下,<a href="https://7b2.com/shop/35736.html?=Npcink" target="_blank">了解B2主题</a>'),
+
+                /**
+             * 页面特效
+             */
                 Field::make('separator', 'crb_separator_page', __('页面特效')),
                 Field::make('checkbox', 'cmma_page_show_particle', __('页面添加粒子特效'))
                     ->set_option_value('yes')
@@ -248,14 +264,27 @@ class Magick_Mixtrue_Admin
                 Field::make('separator', 'crb_separator', __('评论区')),
                 Field::make('checkbox', 'cmma_show_owo', __('评论区添加OWO表情包'))
                     ->set_option_value('yes'),
+
+                /**
+             * 登录页
+             */
                 Field::make('separator', 'crb_separator_login', __('登录页')),
+
+                Field::make('checkbox', 'cmma_opt_com_logo_home', __('登录页LOGO改为首页链接'))
+                    ->set_option_value('yes')
+                    ->set_width(20),
+
+                Field::make('checkbox', 'cmma_opt_rem_sign_lang', __('移除登录页面语言选择框'))
+                    ->set_option_value('yes')
+                    ->set_width(20),
+
                 Field::make('select', 'cmma_abt_style_login', __('更改为自定义登录页'))
                     ->set_options(array(
                         'no' => '关闭',
                         'yes' => '开启',
                     ))
-                    ->set_default_value('no')
-                    ->set_width(40),
+                    ->set_default_value('no'),
+
                 Field::make('color', 'cmma_opt_login_bgcolor_left', '背景色（左下角）')
                     ->set_palette(array('#181d23', '#960a9b', '#0000FF'))
                     ->set_width(20)

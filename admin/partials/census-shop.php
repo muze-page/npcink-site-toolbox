@@ -14,11 +14,17 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
 
         public static function run()
         {
-            //加载菜单
-            add_action('admin_menu', array(__CLASS__, 'add_menu_shop'));
-            //加载图标用js
-            add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
-
+            add_action('wp_loaded', array(__CLASS__, 'load'));
+        }
+        public static function load()
+        {
+//加载B2商城统计
+            if (carbon_get_theme_option('cmma_fun_census_shop')) {
+                //加载菜单
+                add_action('admin_menu', array(__CLASS__, 'add_menu_shop'));
+                //加载图标用js
+                add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
+            }
         }
 
         /**

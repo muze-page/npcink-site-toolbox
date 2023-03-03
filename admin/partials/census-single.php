@@ -9,12 +9,19 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
 
         public static function run()
         {
-            //添加发文统计菜单
-            add_action('admin_menu', array(__CLASS__, 'add_menu_single'));
-            //添加设置选项
-            add_action('admin_init', array(__CLASS__, 'magick_plugin_options'));
-            //加载图标用js
-            add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
+            add_action('wp_loaded', array(__CLASS__, 'load'));
+        }
+
+        public static function load()
+        {
+            if (carbon_get_theme_option('cmma_fun_census_single')) {
+                //添加发文统计菜单
+                add_action('admin_menu', array(__CLASS__, 'add_menu_single'));
+                //添加设置选项
+                add_action('admin_init', array(__CLASS__, 'magick_plugin_options'));
+                //加载图标用js
+                add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
+            }
         }
 
         /**
