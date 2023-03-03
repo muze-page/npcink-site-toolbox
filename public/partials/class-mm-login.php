@@ -245,7 +245,7 @@ if (!class_exists('Magick_Mixtrue_Login')) {
                   }
               </script>
             <?php
-}
+        }
 
         /**
          * 处理登录二次验证
@@ -266,9 +266,9 @@ if (!class_exists('Magick_Mixtrue_Login')) {
 
         }
 
-/**
- * 请求服务器验证
- */
+        /**
+         * 请求服务器验证
+         */
         public static function validate_login($Ticket, $Randstr)
         {
             $appid = carbon_get_theme_option('cmma_login_verify_tx_id'); //修改App ID
