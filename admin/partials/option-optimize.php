@@ -7,11 +7,6 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
     class Magick_Mixtrue_Optimize
     {
 
-        public function __construct()
-        {
-
-        }
-
         //加载
         public static function run()
         {
@@ -120,6 +115,14 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
             //文章关键词自动添加内链链接代码
             if (carbon_get_theme_option('cmma_opt_site_content_add_tag')) {
                 add_filter('the_content', array(__CLASS__, 'tag_link'), 1);
+            }
+
+            //未登录模糊文章内图片
+            if (carbon_get_theme_option('cmma_control_login_dim_content_img')) {
+                //判断，没有登录
+                if (!is_user_logged_in()) {
+                    add_action('wp_footer', array(__CLASS__, 'n_yingcang_css'));
+                }
             }
 
         }
@@ -599,6 +602,25 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
                 }
             }
             return $content;
+        }
+
+        /**
+         * 未登录模糊文章内图片
+         */
+        public static function n_yingcang_css()
+        {
+            echo '<style>
+
+    /*仅模糊文章内图片*/
+    .entry-content img {
+    -webkit-filter: blur(10px)!important;
+      -moz-filter: blur(10px)!important;
+      -ms-filter: blur(10px)!important;
+      filter: blur(6px)!important;}
+      .entry-content img:before{
+        content:"登录可见";
+      }
+      </style>';
         }
 
     }

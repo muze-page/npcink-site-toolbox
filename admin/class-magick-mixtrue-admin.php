@@ -279,6 +279,17 @@ class Magick_Mixtrue_Admin
                     ->set_help_text("如果您无法保持您的WordPres版本为最新，推荐开启"),
 
             ))
+
+        /**
+         * 控制
+         */
+            ->add_tab(__('控制'), array(
+                Field::make('separator', 'comm_control_login_msg', __('登录控制')),
+
+                Field::make('checkbox', 'cmma_control_login_dim_content_img', __('未登录模糊文章图片内容'))
+                    ->set_option_value('yes'),
+
+            ))
         /**
          * 其他
          */
