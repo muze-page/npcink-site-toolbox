@@ -44,7 +44,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
 
             wp_enqueue_style(
                 MAGICK_MIXTURE_NAME . '_census-single',
-                plugin_dir_url(\dirname(__FILE__)) . 'css/mm-census-single.css',
+                plugin_dir_url(\dirname(__FILE__)) . 'css/mm-census-style.css',
                 array(),
                 MAGICK_MIXTURE_VERSION,
                 'all'
@@ -65,7 +65,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         {
             ?>
             <!-- 在默认WordPress“包装”容器中创建标题 -->
-	        <div class="wrap magick-content">
+	        <div class="wrap magick_section">
 
             <!--标题-->
 		     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -219,58 +219,70 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
 
             ?>
 
-            <section class="magick-single-census">
+            <section class="magick_section">
+                <div class="single-mixtrue">
         <!--放统计图-->
         <div id="magick-seven-census" style="width:700px;height:400px;"></div>
         <!--放方框-->
         <div class="magick-right">
-            <div class="bisection">
-                <div class="census-total">
+            <div class="magick-per">
+                <div class="per-content">
+                <div class="black-data-box-mix">
                     <span>今日发文</span>
-                    <div class="census-child">
+                    <div class="child">
                         <p><span><?php echo $count_today; ?></span>篇</p>
                         <span class="dashicons dashicons-text-page"></span>
                     </div>
+                    </div>
                 </div>
 
-                <div class="census-total">
+                <div class="per-content">
+                <div class="black-data-box-mix">
                     <span>今日评论</span>
-                    <div class="census-child">
+                    <div class="child">
                         <p><span><?php echo $today_comments ?></span>篇</p>
                         <span class="dashicons dashicons-format-status"></span>
                     </div>
+                    </div>
                 </div>
 
-                <div class="census-month">
+                <div class="per-content">
+                <div class="black-data-box-mix">
                     <span>今日注册</span>
-                    <div class="census-child">
+                    <div class="child">
                         <p><span><?php echo $count_register; ?></span>次</p>
                         <span class="dashicons dashicons-universal-access"></span>
                     </div>
+                    </div>
                 </div>
 
 
             </div>
 
-            <div class="bisection">
-                <div class="census-week">
+            <div class="magick-per">
+                <div class="per-content">
+                    <div class="black-data-box-mix">
                     <span>总计发文</span>
-                    <div class="census-child">
+                    <div class="child">
                         <p><span><?php echo $total_single; ?></span>篇</p>
                         <span class="dashicons dashicons-clipboard"></span>
                     </div>
+                    </div>
                 </div>
-                <div class="census-month">
+                <div class="per-content ">
+                <div class="black-data-box-mix">
                     <span>总计用户</span>
-                    <div class="census-child">
+                    <div class="child">
                         <p><span><?php echo $total_user; ?></span>位</p>
                         <span class="dashicons dashicons-universal-access-alt"></span>
+                    </div>
                     </div>
                 </div>
 
 
 
             </div>
+        </div>
         </div>
 
     </section>

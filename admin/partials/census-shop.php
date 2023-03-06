@@ -397,7 +397,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                          <div class="magick_shop_box">
 
                     <div class="content">
-                        <div class="child-box">
+                        <div class="black-data-box-mix">
                             <span>待发货</span>
                             <div class="child">
                                 <p><span><?php echo $arr['shipped'] ? $arr['shipped'] : 0 ?></span>个</p>
@@ -406,7 +406,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                         </div>
                     </div>
                     <div class="content">
-                        <div class="child-box">
+                        <div class="black-data-box-mix">
                             <span>今日总销售额</span>
                             <div class="child">
                                 <p><span><?php echo $arr['today']['sale'] ?></span>￥</p>
@@ -416,7 +416,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                         </div>
                     </div>
                     <div class="content">
-                        <div class="child-box">
+                        <div class="black-data-box-mix">
                             <span>今日总订单</span>
                             <div class="child">
                                 <p><span><?php echo $arr['today']['sale_order'] ?></span>个</p>
@@ -425,7 +425,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                         </div>
                     </div>
                     <div class="content">
-                        <div class="child-box">
+                        <div class="black-data-box-mix">
                             <span>今日总退款</span>
                             <div class="child">
                                 <p><span><?php echo $arr['today']['refund'] ?></span>￥</p>
@@ -434,7 +434,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                         </div>
                     </div>
                     <div class="content">
-                        <div class="child-box">
+                        <div class="black-data-box-mix">
                             <span>今日总退款订单</span>
                             <div class="child">
                                 <p><span><?php echo $arr['today']['refund_order'] ?></span>个</p>
@@ -697,7 +697,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
 
 
             <div class="content">
-                <div class="child-box">
+                <div class="black-data-box-mix">
                     <span>本月总销售额）</span>
                     <div class="child">
                         <p><span><?php echo $month['total_sales'] ?></span>￥</p>
@@ -707,7 +707,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                 </div>
             </div>
             <div class="content">
-                <div class="child-box">
+                <div class="black-data-box-mix">
                     <span>本月总订单</span>
                     <div class="child">
                         <p><span><?php echo $month['total_order'] ? $month['total_order'] : 0 ?></span>个</p>
@@ -716,7 +716,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                 </div>
             </div>
             <div class="content">
-                <div class="child-box">
+                <div class="black-data-box-mix">
                     <span>本月总退款</span>
                     <div class="child">
                         <p><span><?php echo $month['total_refund_sales'] ?></span>￥</p>
@@ -726,7 +726,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
             </div>
 
             <div class="content">
-                <div class="child-box">
+                <div class="black-data-box-mix">
                     <span>本月总退款订单</span>
                     <div class="child">
                         <p><span><?php echo $month['total_refund_order'] ? $month['total_refund_order'] : 0 ?></span>个</p>
