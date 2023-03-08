@@ -140,7 +140,8 @@ if (!class_exists('Magick_Mixtrue_Login')) {
         public static function run_math()
         {
             add_action('login_form', array(__CLASS__, 'myplugin_add_login_fields'));
-            add_action('login_form_login', array(__CLASS__, 'login_val'));
+            //展示验证码错误
+            add_filter('wp_authenticate_user', array(__CLASS__, 'erro_login_math'), 100, 1);
         }
 
         public static function myplugin_add_login_fields()
@@ -149,28 +150,28 @@ if (!class_exists('Magick_Mixtrue_Login')) {
             $num1 = rand(5, 50);
             $num2 = rand(5, 50);
             //最终网页中的具体内容
-            echo "<p><label for='math' class='small'>验证码： $num1 + $num2 = ?<input type='text' name='sum' class='input' value='' size='20' tabindex='4'>"
+            echo "<p><label for='math' class='small'>数学验证码：（ $num1 + $num2 = ?）<input type='text' name='sum' class='input' value='' size='20' tabindex='4'>"
                 . "<input type='hidden' name='num1' value='$num1'>"
                 . "<input type='hidden' name='num2' value='$num2'></label></p>";
         }
 
-        public static function login_val()
+
+        //处理数字验证码错误
+        public static function erro_login_math()
         {
-            //初始化
-            $_POST['sum'] = isset($_POST['sum']) ? $_POST['sum'] : 0;
-            $_POST['num1'] = isset($_POST['num1']) ? $_POST['num1'] : 0;
-            $_POST['num2'] = isset($_POST['num2']) ? $_POST['num2'] : 0;
-            $sum = $_POST['sum']; //用户提交的计算结果
-            switch ($sum) {
-                //得到正确的计算结果则直接跳出
-                case $_POST['num1'] + $_POST['num2']:break;
-                //未填写结果时的错误讯息
-                case null:wp_die('提示: 请输入验证码.', '', array('back_link' => true));
-                    break;
-                //计算错误时的错误讯息
-                default:wp_die('提示: 验证码错误,请重试.', '', array('back_link' => true));
+            //用户提交的计算结果
+            $sum = $_POST['sum'];
+            //正确结果
+            $result = $_POST['num1'] + $_POST['num2'];
+            if ($sum != $result && $sum == null) {
+                //未输入验证码
+                return new WP_Error('broke', __('<strong>错误</strong>：请输入验证码！！！'));
+            } else if ($sum != $result && $sum != null) {
+                //验证码错误
+                return new WP_Error('broke', __('<strong>错误</strong>：验证码错误,请重试！！！'));
 
             }
+
         }
 
         /**
