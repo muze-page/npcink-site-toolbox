@@ -77,7 +77,7 @@ class Magick_Mixtrue_Admin
     {
 
 //加载主题选项
-        add_action('carbon_fields_register_fields', array($this, 'load_admin_settings'));
+        add_action('carbon_fields_register_fields', array(__CLASS__, 'load_admin_settings'));
 
         //加载文章统计
         Magick_Mixtrue_Census_Single::run();
@@ -124,7 +124,7 @@ class Magick_Mixtrue_Admin
     /**
      * 设置选项组
      */
-    public function load_admin_settings()
+    public static function load_admin_settings()
     {
         Container::make('theme_options', __('魔法合剂'))
             ->set_icon('dashicons-carrot')
@@ -290,6 +290,7 @@ class Magick_Mixtrue_Admin
                     ->set_option_value('yes'),
 
             ))
+
         /**
          * 其他
          */
@@ -506,7 +507,54 @@ class Magick_Mixtrue_Admin
 
                 Field::make('time', 'crb_event_start', 'Event Start')
                     ->set_attribute('placeholder', 'Time of event start'),
-            ));
+            ))
+
+        /**
+         * H5
+         */
+
+            ->add_tab(__('H5'), array(
+
+                Field::make('separator', 'comm_h5_intro_msg', __('H5介绍'))
+                    ->set_help_text("使用WordPress提供的Rest API，可通过H5单页来展示有趣的内容。详情可见<a href='https://www.npc.ink/276746.html' target='_blank'>H5介绍</a>"),
+                Field::make('separator', 'comm_h5_index', __('H5首页')),
+                Field::make('association', 'crb_association', __('首页展示的特色文章'))
+                    ->set_visible_in_rest_api($visible = true)
+                    ->set_types(array(
+
+                        array(
+                            'type' => 'post',
+                            'post_type' => 'post',
+                        ),
+
+                    )),
+                Field::make('select', 'crb_select', __('首页展示的文章分类'))
+                    ->set_visible_in_rest_api($visible = true)
+                    ->set_options(self::get_categoriess()),
+
+                Field::make('textarea', 'crb_phone_numbers', __('Phone Numbers'))
+                    ->set_visible_in_rest_api($visible = true),
+                    Field::make('textarea', 'crb_phone_numberss', __('Phone Numbers'))
+                   ,
+
+            )); //结束选项组
+
+    } //结束选项
+
+    // 获取分类列表作为选项
+    public static function get_categoriess()
+    {
+        $categories = get_categories(array(
+            'orderby' => 'name',
+            'order' => 'ASC',
+            'hide_empty' => false,
+        ));
+
+        $options = array();
+        foreach ($categories as $category) {
+            $options[$category->term_id] = $category->name;
+        }
+        return $options;
     }
 
 }

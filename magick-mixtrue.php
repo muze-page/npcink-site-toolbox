@@ -8,7 +8,6 @@ Author: Muze
 Author URI: https://www.npc.ink/
  */
 //调试内容，在后台顶部显示一个通知
-
 // 如果直接调用此文件，请中止。
 if (!defined('WPINC')) {
     die;
@@ -47,7 +46,7 @@ function run_magick_mixture()
     $plugin->run();
 
 }
-run_magick_mixture();
+//run_magick_mixture();
 
 //$magick_tool = new Magick_Mixtrue_Tool;
 
@@ -57,3 +56,5 @@ run_magick_mixture();
  * 为WordPress后台的文章、分类等显示ID
  */
 // 添加一个新的列 ID
+
+
