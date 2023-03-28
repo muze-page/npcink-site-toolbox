@@ -37,6 +37,15 @@ function mytheme_get_theme_options($request)
     $options = [];
     foreach ($fields as $field) {
         $options[$field] = carbon_get_theme_option($field);
+        //处理数组
+        if ($field == "comm_h5_index_tone") {
+            //创建数组存储数据
+            $arr = [];
+            $sum = carbon_get_theme_option($field);
+            $arr = array_map(function ($obj) {return $obj['id'];}, $sum);
+            $options[$field] = $arr;
+        }
+
     }
     return $options;
 
