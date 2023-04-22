@@ -5,19 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>3小时才能点击一次按钮</title>
 </head>
 
 <body>
     <button type="button" id="myButton">点击下试试</button>
     <script>
         const myButton = document.getElementById('myButton');
-
-        // 判断localStorage中是否存在lastClickTime，如果存在则取出lastClickTime，
-        // 如果不存在则使用当前时间的时间戳作为lastClickTime
-        // let lastClickTime = parseInt(localStorage.getItem('lastClickTime')) || localStorage.setItem('lastClickTime', Date.now());
-
-
         myButton.addEventListener('click', () => {
             //有时间则为存储时间，没有则为0
             let lastClickTime = parseInt(localStorage.getItem('lastClickTime')) || '0';

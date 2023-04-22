@@ -4,14 +4,14 @@ function record_image_view(image_id) {
     console.log("我执行了");
     console.log(image_id);
     //发出统计
-    const tj = (ti) => {
+    const tj = () => {
         jQuery.ajax({
             type: "POST",
             url: "/wp-admin/admin-ajax.php",
             data: {
                 action: "record_image_view",
                 image_id: image_id,
-                time: ti,
+                
             },
             success: function (response) {
                 alert(response)
@@ -31,7 +31,7 @@ function record_image_view(image_id) {
     // 更新lastClickTime并写入localStorage
     localStorage.setItem('lastClickTime', now)
     //发出统计请求
-    tj(now);
+    tj();
 };
 
 //重复统计
@@ -46,7 +46,7 @@ function record_image_views(image_id) {
             data: {
                 action: "record_image_view",
                 image_id: image_id,
-                time: Date.now(),
+                
             },
             success: function (response) {
                 //alert(response)
