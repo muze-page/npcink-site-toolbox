@@ -47,7 +47,7 @@ function record_image_views(image_id, name) {
             data: {
                 action: "record_image_view",
                 image_id: image_id,
-                name: name,
+               
 
             },
             success: function (response) {

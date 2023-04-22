@@ -27,14 +27,13 @@ function create_image_view_table()
     $sql = "CREATE TABLE $table_name (
       id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
       identify BIGINT(20) UNSIGNED NOT NULL,
-      name VARCHAR(255) NOT NULL,
       click_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY (id)
   ) $charset_collate;";
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
     dbDelta($sql);
 }
-//add_action('init', 'create_image_view_table');
+add_action('init', 'create_image_view_table');
 
 // 处理图片展示次数ajax请求
 function record_image_view()
@@ -45,8 +44,7 @@ function record_image_view()
 
     //获取图片ID
     $image_id = $_POST['image_id'];
-    //获取图片名
-    $name = $_POST['name'];
+    
 
     echo "<script>console.log('我打印了')</script>" . $image_id . $time;
     // 插入记录到数据库中
@@ -54,7 +52,7 @@ function record_image_view()
         $table_name,
         array(
             'identify' => $image_id,
-            'name' => $name,
+            
 
         )
     );
@@ -143,10 +141,12 @@ function show_image_views()
     echo '</form>';
 
     echo '<table class="widefat">';
-    echo '<thead><tr><th>ID</th><th>展示日期</th><th>展示次数</th></tr></thead>';
+    //echo '<thead><tr><th>ID</th><th>展示日期</th><th>展示次数</th></tr></thead>';
+    echo '<thead><tr><th>ID</th><th>图片名称</th><th>展示日期</th><th>展示次数</th></tr></thead>';
     echo '<tbody>';
     foreach ($rows as $row) {
         echo sprintf('<tr><td>%d</td><td>%s</td><td>%d</td></tr>', $row->identify, $row->date, $row->count);
+
     }
     echo '</tbody>';
     echo '</table>';
