@@ -11,7 +11,7 @@ function record_image_view(image_id) {
             data: {
                 action: "record_image_view",
                 image_id: image_id,
-                
+
             },
             success: function (response) {
                 alert(response)
@@ -35,9 +35,10 @@ function record_image_view(image_id) {
 };
 
 //重复统计
-function record_image_views(image_id) {
+function record_image_views(image_id, name) {
     console.log("我执行了");
     console.log(image_id);
+    console.log(name);
     //开始统计
     const tj = () => {
         jQuery.ajax({
@@ -46,10 +47,11 @@ function record_image_views(image_id) {
             data: {
                 action: "record_image_view",
                 image_id: image_id,
-                
+                name: name,
+
             },
             success: function (response) {
-                //alert(response)
+                alert(response)
             }
         });
     }
