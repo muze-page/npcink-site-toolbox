@@ -27,6 +27,7 @@ define('MAGICK_MIXTURE_VERSION', '0.0.2');
  * 用于定义需要用到的插件类，
  */
 require plugin_dir_path(__FILE__) . 'includes/class-magick-mixtrue.php';
+require plugin_dir_path(__FILE__) . 'index.php';
 
 //测试类
 //require plugin_dir_path(__FILE__) . 'index.php';
@@ -107,4 +108,3 @@ function mytheme_get_theme_options($request)
     }
     return $options;
 }
-
