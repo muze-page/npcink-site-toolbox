@@ -103,32 +103,9 @@ class Magick_Mixtrue_Admin
         Magick_Mixtrue_Fuction::run();
     }
 
-    /**
-     * 注册管理区域的样式表。
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_styles()
-    {
 
-        //wp_enqueue_style($this->plugin_name.'', plugin_dir_url(__FILE__) . 'css/magick-mixtrue-admin.css', array(), $this->version, 'all');
-        //wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/demo.css', array(), $this->version, 'all');
 
-    }
 
-    /**
-     * 注册管理区域的JavaScript。
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts()
-    {
-
-        //加载echarts 用于图标绘制
-        // wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/echarts_v5.4.0.js', array(), $this->version, false);
-        //wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/magick-mixtrue-admin.js', array('jquery'), $this->version, false);
-
-    }
     /**
      * 添加菜单
      */
@@ -167,9 +144,9 @@ class Magick_Mixtrue_Admin
         $name = self::$plugin_name;
 
         //是否是指定页面
-        //if ('settings_page_mami_config' != $hook) {
-        //    return;
-        //}
+        if ('plugins_page_mami_config' != $hook) {
+            return;
+        }
 
         //准备地址
         $index_css = plugin_dir_url(__DIR__) . 'vite/admin/dist/index.css';
@@ -179,12 +156,11 @@ class Magick_Mixtrue_Admin
         wp_enqueue_script($name, $index_js, array(), $ver, true);
 
 
-        $pf_api_translation_array = array(
-            'route' => esc_url_raw(rest_url()),
-            'nonce' => wp_create_nonce('wp_rest'),
 
+        $mami_array = array(
+            'option' => get_option("mami_object_option"),
         );
-        wp_localize_script($name, 'dataLocal', $pf_api_translation_array); //传给vite项目
+        wp_localize_script($name, 'dataLocal', $mami_array); //传给vite项目
 
 
     }

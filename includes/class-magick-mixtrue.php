@@ -114,12 +114,12 @@ class Magick_Mixtrue
 
         $plugin_admin = new Magick_Mixtrue_Admin($this->get_plugin_name(), $this->get_version());
 
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+     
         //01 要向其添加回调的操作的名称。
         //02 调用操作时要运行的回调。
         //03 用于指定与特定操作关联的函数的执行顺序
         //04 函数接受的参数数
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+       
 
     }
 
@@ -135,8 +135,7 @@ class Magick_Mixtrue
 
         $plugin_public = new Magick_Mixtrue_Public($this->get_plugin_name(), $this->get_version());
 
-        $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
-        $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+      
 
     }
 
