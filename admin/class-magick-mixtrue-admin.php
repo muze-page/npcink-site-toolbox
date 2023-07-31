@@ -137,8 +137,8 @@ class Magick_Mixtrue_Admin
         //添加插件菜单
 
         add_plugins_page(
-            '魔法药剂',             // 要在此页面的浏览器窗口中显示的标题。
-            '魔法药剂ss',            // 要为此菜单项显示的文本
+            '魔法药剂设置选项',             // 要在此页面的浏览器窗口中显示的标题。
+            '魔法药剂',            // 要为此菜单项显示的文本
             'administrator',            // 哪种类型的用户可以看到此菜单项
             'mami_config',    // The unique ID - that is, the slug - for this menu item 
             array(__CLASS__, 'mami_display')   // 呈现此菜单的页面时要调用的函数的名称
@@ -150,8 +150,12 @@ class Magick_Mixtrue_Admin
      */
     public static function mami_display()
     {
+        //准备默认样式
+        echo '<div class="wrap"> <h2>';
+
+        echo esc_html(get_admin_page_title());
         //准备节点
-        echo '<div id="root"></div>';
+        echo '</h2><div id="root"></div>';
     }
 
     /**
@@ -161,11 +165,11 @@ class Magick_Mixtrue_Admin
     {
         $ver = self::$version;
         $name = self::$plugin_name;
-       
+
         //是否是指定页面
-       //if ('settings_page_mami_config' != $hook) {
-       //    return;
-       //}
+        //if ('settings_page_mami_config' != $hook) {
+        //    return;
+        //}
 
         //准备地址
         $index_css = plugin_dir_url(__DIR__) . 'vite/admin/dist/index.css';
