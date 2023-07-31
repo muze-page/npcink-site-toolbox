@@ -1,7 +1,8 @@
 import React from "react";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
-import Test from "./test"
+import Test from "./test";
+import SwitchTest from "./switchTest";
 
 const onChange = (key: string) => {
   console.log(key);
@@ -11,7 +12,7 @@ const items: TabsProps["items"] = [
   {
     key: "1",
     label: `安全`,
-    children: `Content of Tab Pane 1`,
+    children: <SwitchTest />,
   },
   {
     key: "2",
@@ -26,7 +27,7 @@ const items: TabsProps["items"] = [
   {
     key: "4",
     label: `Test`,
-    children: <Test/>,
+    children: <Test />,
   },
 ];
 
