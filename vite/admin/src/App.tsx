@@ -1,55 +1,48 @@
 import { useState } from "react";
 import { Button, Switch, Form, Input, InputNumber } from "antd";
 
-//获取数据
-//提交数据
-
-//传来值的类型
 type DataLocal = {
   option: FieldType;
 };
 
-//选项类型
 type FieldType = {
   name?: string;
   age?: number;
   handle?: boolean;
 };
 
-//获取开发环境状态
-const state = import.meta.env.VITE_STATE;
+const state: boolean = import.meta.env.VITE_STATE;
 
 const option = {
   option: {
     name: import.meta.env.VITE_OPTION_NAME,
     age: parseInt(import.meta.env.VITE_OPTION_AGE),
-    handle: import.meta.env.VITE_OPTION_HANDLE === "true", // 将字符串转为布尔值
+    handle: import.meta.env.VITE_OPTION_HANDLE === "true",
   },
 };
 
-//获取传来的值
-function getDataLocal() {
+function getDataLocal(): DataLocal {
   if (state) {
-    // 如果是开发环境，返回从.env.development文件中获取的数据
     return option;
   } else {
-    // 如果是生产环境，返回从wp_localize_script传递的数据
     return (window as any).dataLocal;
   }
 }
 
-// 在组件中使用getDataLocal()函数来获取dataLocal数据
 const dataLocal: DataLocal = getDataLocal();
-
-//获取需要的选项
 const getOption = dataLocal?.option;
 
 const App = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FieldType>({
     name: getOption?.name,
     age: getOption?.age,
     handle: getOption?.handle,
   });
+
+  const onFormSubmit = (values: FieldType) => {
+    console.log(values);
+    // 处理表单提交逻辑
+  };
 
   return (
     <>
@@ -62,26 +55,26 @@ const App = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
+        initialValues={getOption}
         autoComplete="off"
+        onFinish={onFormSubmit}
       >
-        <Form.Item<FieldType> label="用户名" name="username">
+        <Form.Item<FieldType> label="用户名" name="name">
           <Input
-            defaultValue={formData.name}
+           
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
         </Form.Item>
 
-        <Form.Item<FieldType> label="年龄" name="password">
+        <Form.Item<FieldType> label="年龄" name="age">
           <InputNumber
             min={1}
             max={100}
-            defaultValue={formData.age}
             onChange={(value) => setFormData({ ...formData, age: value })}
           />
         </Form.Item>
 
-        <Form.Item<FieldType> label="是否展示" name="remember">
+        <Form.Item<FieldType> label="是否展示" name="handle">
           <Switch
             checked={formData.handle}
             onChange={(value) => setFormData({ ...formData, handle: value })}
@@ -89,11 +82,7 @@ const App = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={() => console.log(formData)}
-          >
+          <Button type="primary" htmlType="submit">
             提交
           </Button>
         </Form.Item>
