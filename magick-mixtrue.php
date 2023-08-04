@@ -142,4 +142,4 @@ $my_option = array(
     'email' => 'john@example.com',
     'handle' => "true",
 );
-update_option('mami_object_option', $my_option);
+//update_option('mami_object_option', $my_option);
