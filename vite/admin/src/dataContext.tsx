@@ -1,5 +1,17 @@
-//存值
+//准备初始数据
 import { createContext } from "react";
+
+//准备类型
+type DataLocal = {
+  option: FieldType;
+};
+
+type FieldType = {
+  name?: string;
+  age?: number;
+  handle?: boolean;
+};
+
 
 //开发环境状态
 const state: boolean = import.meta.env.VITE_STATE;
@@ -12,14 +24,21 @@ const option = {
     handle: import.meta.env.VITE_OPTION_HANDLE === "true",
   },
 };
-//准备的默认值
-const dataObject = {
-  option: {
-    name: "Npcink",
-    age: 18,
-    handle: true,
-  },
-};
+
+//输出选项值
+function getDataLocal(): DataLocal {
+  if (state) {
+    //开发
+    return option;
+  } else {
+    //打包
+    return (window as any).dataLocal.option;
+  }
+}
+
+//传值
+const dataObject: DataLocal = getDataLocal();
+
 const DataContext = createContext(dataObject);
 
 export default DataContext;

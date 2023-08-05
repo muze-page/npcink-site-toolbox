@@ -14,7 +14,7 @@ const App: React.FC = () => {
   //拿到值
   const optionObj = useContext(DataContext);
   //创建变量并设默认值
-  const [FormData, setFormData] = useState<FieldType>(optionObj.option || {});
+  const [FormData, setFormData] = useState(optionObj.option || {});
 
   //表单同步修改值
   const onValuesChange = (
