@@ -1,8 +1,8 @@
 //优化菜单
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import {  Switch, Form, Input, InputNumber } from "antd";
-import DataContext from "../dataContext";
+import { Switch, Form, Input, InputNumber } from "antd";
+import DataContext from "../tool/dataContext";
 //选项类型
 type FieldType = {
   name: string;
@@ -37,8 +37,6 @@ const App: React.FC = () => {
     optionObj.option = FormData;
   }, [FormData]);
 
-  
-
   return (
     <>
       <Form
@@ -72,10 +70,7 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
-        
       </Form>
-
-     
     </>
   );
 };

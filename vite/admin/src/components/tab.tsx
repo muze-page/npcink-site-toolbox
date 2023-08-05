@@ -16,12 +16,12 @@ const onChange = (key: string) => {
 const items: TabsProps["items"] = [
   {
     key: "1",
-    label: `安全`,
+    label: `优化`,
     children: <Optimize />,
   },
   {
     key: "2",
-    label: `优化`,
+    label: `安全`,
     children: <SwitchTest />,
   },
   {

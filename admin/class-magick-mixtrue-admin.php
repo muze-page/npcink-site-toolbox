@@ -143,7 +143,8 @@ class Magick_Mixtrue_Admin
         echo '</h2><div id="root"></div>';
         $value = get_option(self::$option);
         echo "<h2>设置选项的值</h2>";
-        print_r($value);
+        $jsonString = json_encode($value, JSON_PRETTY_PRINT);
+        echo '<pre>' . $jsonString . '</pre>';
     }
 
     /**
@@ -211,9 +212,9 @@ class Magick_Mixtrue_Admin
             'message' => '设置选项已保存！',
             'object' => $object,
         );
-       
-      
-      
+
+
+
         // 使用 wp_send_json 函数发送 JSON 响应，避免汉字转义
         wp_send_json($response, 200, JSON_UNESCAPED_UNICODE);
     }

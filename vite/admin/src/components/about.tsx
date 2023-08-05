@@ -2,7 +2,7 @@
 import React from "react";
 import { useContext } from "react";
 import { Switch, Form } from "antd";
-import DataContext from "../dataContext";
+import DataContext from "../tool/dataContext";
 //选项类型
 type FieldType = {
   opt: boolean;
@@ -32,7 +32,6 @@ const App: React.FC = () => {
   return (
     <>
       优化
-      
       <Form
         name="opt"
         labelCol={{ span: 12 }}

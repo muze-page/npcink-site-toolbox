@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import axios from "axios";
 import { Button } from "antd";
-import DataContext from "../dataContext";
+import DataContext from "./dataContext";
 
 //开发环境状态
 const state: boolean = import.meta.env.VITE_STATE;
