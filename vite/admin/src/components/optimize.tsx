@@ -1,6 +1,6 @@
 //优化菜单
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Button, Switch, Form, Input, InputNumber } from "antd";
 import DataContext from "../dataContext";
 //选项类型
@@ -14,11 +14,17 @@ const App: React.FC = () => {
   //拿到值
   const optionObj = useContext(DataContext);
   //创建变量并设默认值
-  const [, setFormData] = useState<FieldType>(optionObj.option || {});
+  const [FormData, setFormData] = useState<FieldType>(optionObj.option || {});
 
-  //表单修改值
-  const onValuesChange = (allValues: FieldType) => {
-    setFormData(allValues);
+  //表单同步修改值
+  const onValuesChange = (
+    changedValues: Partial<FieldType>,
+    _allValues: FieldType
+  ) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      ...changedValues,
+    }));
   };
 
   //打印修改后的值
@@ -26,14 +32,18 @@ const App: React.FC = () => {
     console.log(value);
   };
 
+  useEffect(() => {
+    // 表单值发生变化时更新dataContext的值
+    optionObj.option = FormData;
+  }, [FormData]);
+
   // 打印DataContext文件中的值
   const printDataContextValue = () => {
-    console.log(DataContext?._currentValue.option);
+    console.log(optionObj.option);
   };
 
   return (
     <>
-     
       <Form
         name="opt"
         labelCol={{ span: 12 }}
@@ -65,13 +75,9 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            提交
-          </Button>
-        </Form.Item>
+        
       </Form>
-      <Button onClick={printData}>打印</Button>
+
       <Button onClick={printDataContextValue}>上下文</Button>
     </>
   );
