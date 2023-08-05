@@ -1,6 +1,6 @@
 //准备初始数据
 import { createContext } from "react";
-import Interface from "@/interface";
+import { DataLocal } from "@/interface";
 
 //开发环境状态
 const state: boolean = import.meta.env.VITE_STATE;
@@ -28,7 +28,7 @@ const option = {
 };
 
 //输出选项值
-function getDataLocal(): Interface {
+function getDataLocal(): DataLocal {
   if (state) {
     //开发
     return option;
@@ -39,7 +39,7 @@ function getDataLocal(): Interface {
 }
 
 //传值
-const dataObject: Interface = getDataLocal();
+const dataObject: DataLocal = getDataLocal();
 
 const DataContext = createContext(dataObject);
 

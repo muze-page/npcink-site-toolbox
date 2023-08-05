@@ -1,20 +1,29 @@
 //站点
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import {  Switch, Form, Input, InputNumber } from "antd";
+import { Switch, Form } from "antd";
 import DataContext from "@/dataContext";
+import { OptimizeSite } from "@/interface";
 //选项类型
-type FieldType = {
-  name: string;
-  age: number;
-  handle: boolean;
-};
+type FieldType = OptimizeSite;
 
 const App: React.FC = () => {
   //拿到值
-  const optionObj = useContext(DataContext);
+  const optionObj = useContext(DataContext) ?? { optimize: {} };
+
+  if (!optionObj.optimize) {
+    optionObj.optimize = {
+      site: {
+        //禁止转义
+        no_escape: false,
+        //关键词自动添加链接
+        add_inks: false,
+      },
+    };
+  }
+
   //创建变量并设默认值
-  const [FormData, setFormData] = useState(optionObj.option || {});
+  const [FormData, setFormData] = useState(optionObj.optimize.site || {});
 
   //表单同步修改值
   const onValuesChange = (
@@ -34,20 +43,18 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // 表单值发生变化时更新dataContext的值
-    optionObj.option = FormData;
+    optionObj.optimize.site = FormData;
   }, [FormData]);
-
-  
 
   return (
     <>
       <Form
-        name="opt"
+        name="opts"
         labelCol={{ span: 12 }}
         wrapperCol={{ span: 8 }}
         style={{ maxWidth: 600 }}
         //表单默认值，只有初始化以及重置时生效
-        initialValues={optionObj.option}
+        initialValues={optionObj.optimize.site}
         //自动填充功能禁用
         autoComplete="off"
         //指定当表单提交时要执行的回调函数
@@ -56,26 +63,32 @@ const App: React.FC = () => {
         onValuesChange={onValuesChange}
       >
         <Form.Item>
-          <h2>验证</h2>
+          <h2>站点</h2>
         </Form.Item>
 
-        <Form.Item<FieldType> label="姓名" name="name">
-          <Input />
-        </Form.Item>
-        <Form.Item<FieldType> label="年龄" name="age">
-          <InputNumber min={1} max={100} />
-        </Form.Item>
         <Form.Item<FieldType>
-          label="是否开启顶部显示"
-          name="handle"
+          label="禁止网站title中的 “-” 被转义"
+          name="no_escape"
           valuePropName="checked"
         >
           <Switch />
         </Form.Item>
-        
+        <Form.Item<FieldType>
+          label="文章关键词自动添加内链链接代码"
+          name="add_inks"
+          valuePropName="checked"
+          extra={
+            <a
+              href="https://www.npc.ink/15286.html?=magick-mami"
+              target="_blank"
+            >
+              详细介绍
+            </a>
+          }
+        >
+          <Switch />
+        </Form.Item>
       </Form>
-
-     
     </>
   );
 };

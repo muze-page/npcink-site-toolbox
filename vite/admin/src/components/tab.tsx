@@ -4,7 +4,8 @@ import { Tabs } from "antd";
 import type { TabsProps } from "antd";
 import Test from "./test";
 import SwitchTest from "./switchTest";
-import Optimize from "./optimize";
+//import Optimize from "./optimize";
+import Optimize from "@/components/optimize/index"
 
 
 
