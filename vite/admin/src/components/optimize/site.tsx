@@ -1,4 +1,4 @@
-//站点
+//站点 - 模版
 import React from "react";
 import { useState, useContext, useEffect } from "react";
 import { Switch, Form } from "antd";
@@ -13,13 +13,16 @@ const App: React.FC = () => {
   //拿到值
   const optionObj = useContext(DataContext) ?? { optimize: {} };
 
+  //简化
+  let publicData = optionObj.optimize.site;
+
   //提供默认值
-  if (!optionObj.optimize.site) {
-    optionObj.optimize.site = defaultVar.optimize.site;
+  if (!publicData) {
+    publicData = defaultVar.optimize.site;
   }
 
   //创建变量并设默认值
-  const [FormData, setFormData] = useState(optionObj.optimize.site || {});
+  const [FormData, setFormData] = useState(publicData || {});
 
   //表单同步修改值
   const onValuesChange = (
@@ -50,11 +53,11 @@ const App: React.FC = () => {
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 800 }}
         //表单默认值，只有初始化以及重置时生效
-        initialValues={optionObj.optimize.site}
+        initialValues={publicData}
         //自动填充功能禁用
         autoComplete="off"
         //指定当表单提交时要执行的回调函数
-        onFinish={()=>{}}
+        onFinish={() => {}}
         //指定当表单字段值发生变化时要执行的回调函数
         onValuesChange={onValuesChange}
       >

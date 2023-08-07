@@ -12,23 +12,23 @@ const App: React.FC = () => {
   //拿到公共值
   const optionObj = useContext(DataContext) || { optimize: {} };
 
+  //简化
+  let publicData = optionObj.optimize.medium;
+
   //提供默认值
-  if (!optionObj.optimize.medium) {
-    optionObj.optimize.medium = defaultVar.optimize.medium;
+  if (!publicData) {
+    publicData = defaultVar.optimize.medium;
   }
+
   //拿到需要的媒体值
-  const [FormData, setFormData] = useState(optionObj.optimize.medium);
+  const [FormData, setFormData] = useState(publicData);
 
   //表单同步值
   const onValuesChange = (changedValues: Partial<FieldType>) => {
     setFormData((prevState) => ({ ...prevState, ...changedValues }));
   };
 
-  //打印修改后的值
-  //const printData = (value: FieldType) => {
-  //  console.log(value);
-  //  console.log(optionObj);
-  //};
+
 
   //修改公共值
   useEffect(() => {
@@ -41,9 +41,9 @@ const App: React.FC = () => {
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       style={{ maxWidth: 800 }}
-      initialValues={optionObj.optimize.medium}
+      initialValues={publicData}
       autoComplete="off"
-      onFinish={()=>{}}
+      onFinish={() => {}}
       onValuesChange={onValuesChange}
     >
       <Form.Item>
