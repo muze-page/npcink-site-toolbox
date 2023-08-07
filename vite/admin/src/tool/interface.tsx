@@ -6,6 +6,7 @@ export type DataLocal = {
   optimize: {
     site: OptimizeSite;
     medium: OptimizeMedium;
+    comment: OptimizeComment;
   };
 };
 
@@ -29,4 +30,16 @@ export type OptimizeMedium = {
   no_auto_size: boolean;
   medium_add_svg: boolean;
   upload_auto_name: string;
+};
+
+//优化 评论
+export type OptimizeComment = {
+  interval: boolean; //两次评论间隔
+  interval_time: number; //间隔时间
+  words_number: boolean; //是否开启字数控制
+  words_number_min: number; //最少评论字数
+  words_number_max: number; //最多评论字数
+  english: boolean; //禁止纯英文评论
+  japanese: boolean; //禁止纯日文评论
+  only: boolean; //单篇文章仅限评论一次
 };

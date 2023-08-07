@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Switch, Select, Form } from "antd";
 import DataContext from "@/tool/dataContext";
 import { OptimizeMedium } from "@/tool/interface";
-import option from "@/tool/defaultVar";
+import defaultVar from "@/tool/defaultVar";
 
 //选项类型
 type FieldType = OptimizeMedium;
@@ -14,7 +14,7 @@ const App: React.FC = () => {
 
   //提供默认值
   if (!optionObj.optimize.medium) {
-    optionObj.optimize.medium = option.optimize.medium;
+    optionObj.optimize.medium = defaultVar.optimize.medium;
   }
   //拿到需要的媒体值
   const [FormData, setFormData] = useState(optionObj.optimize.medium);
@@ -25,10 +25,10 @@ const App: React.FC = () => {
   };
 
   //打印修改后的值
-  const printData = (value: FieldType) => {
-    console.log(value);
-    console.log(optionObj);
-  };
+  //const printData = (value: FieldType) => {
+  //  console.log(value);
+  //  console.log(optionObj);
+  //};
 
   //修改公共值
   useEffect(() => {
@@ -43,7 +43,7 @@ const App: React.FC = () => {
       style={{ maxWidth: 800 }}
       initialValues={optionObj.optimize.medium}
       autoComplete="off"
-      onFinish={printData}
+      onFinish={()=>{}}
       onValuesChange={onValuesChange}
     >
       <Form.Item>
@@ -92,9 +92,6 @@ const App: React.FC = () => {
             { value: "md5", label: "MD5重命名" },
           ]}
         />
-      </Form.Item>
-      <Form.Item>
-        <button>打印</button>
       </Form.Item>
     </Form>
   );

@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from "react";
 import { Switch, Form } from "antd";
 import DataContext from "@/tool/dataContext";
 import { OptimizeSite } from "@/tool/interface";
-import option from "@/tool/defaultVar";
+import defaultVar from "@/tool/defaultVar";
 
 //选项类型
 type FieldType = OptimizeSite;
@@ -13,8 +13,9 @@ const App: React.FC = () => {
   //拿到值
   const optionObj = useContext(DataContext) ?? { optimize: {} };
 
-  if (!optionObj.optimize) {
-    optionObj.optimize = option.optimize;
+  //提供默认值
+  if (!optionObj.optimize.site) {
+    optionObj.optimize.site = defaultVar.optimize.site;
   }
 
   //创建变量并设默认值
