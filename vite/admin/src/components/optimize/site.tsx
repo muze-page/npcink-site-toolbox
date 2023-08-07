@@ -35,12 +35,14 @@ const App: React.FC = () => {
   //  console.log(value);
   //};
 
+  //TODO:尝试下
   // 表单值发生变化时更新dataContext的值
   //useEffect(() => {
   //  optionObj.optimize.site = formData;
   //}, [formData]);
 
   useEffect(() => {
+    //由于选项site可能不存在，这里需要使用复制来新建
     optionObj.optimize = {
       ...optionObj.optimize,
       site: formData,
