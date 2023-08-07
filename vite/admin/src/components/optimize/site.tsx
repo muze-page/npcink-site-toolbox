@@ -87,6 +87,20 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="登录页LOGO改为首页链接"
+          name="modify_login_link"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="移除登录页面语言选择框"
+          name="remove_langue"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

@@ -7,7 +7,12 @@ export type DataLocal = {
     site: OptimizeSite;
     medium: OptimizeMedium;
     comment: OptimizeComment;
+    secure: OptimizeSecure;
     other: OptimizeOther;
+  };
+  //个性化
+  style: {
+    page: StylePage;
   };
   //权限
   authority: {
@@ -24,10 +29,10 @@ type FieldType = {
 
 //优化 站点
 export type OptimizeSite = {
-  //禁止转义
-  no_escape: boolean;
-  //关键词自动添加链接
-  add_inks: boolean;
+  no_escape: boolean; //禁止转义
+  add_inks: boolean; //关键词自动添加链接
+  modify_login_link: boolean; //登录页LOGO改首页链接
+  remove_langue: boolean; //移除登录页语言选择框
 };
 
 //优化 媒体
@@ -50,6 +55,13 @@ export type OptimizeComment = {
   only: boolean; //单篇文章仅限评论一次
 };
 
+//优化 安全
+export type OptimizeSecure = {
+  replace_login_error: boolean; //替换登录报错信息
+  modify_comment_user: boolean; //修改评论区管理员样式ID
+  remove_RSS_version: boolean; //从RSS源中删除WordPress版本信息
+};
+
 //优化 其他
 export type OptimizeOther = {
   //筛选
@@ -59,8 +71,15 @@ export type OptimizeOther = {
   show_id: boolean; //列表显示ID
 };
 
+//个性化
+export type StylePage = {
+  particle: boolean; //粒子特效
+  color_tag: boolean; //彩色标签云特效
+  comment_emote: boolean; //评论区表情包特效
+};
+
 //权限 禁用
 export type AuthorityDisable = {
-  //禁用自动更新
-  renew: boolean;
+  renew: boolean; //禁用自动更新
+  no_login_img: boolean; //未登录模糊图片
 };

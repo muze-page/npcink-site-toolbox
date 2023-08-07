@@ -1,22 +1,25 @@
-//权限 - 禁用
+//站点 - 模版
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-//import {  useContext } from "react";
 import { Switch, Form } from "antd";
 import DataContext from "@/tool/dataContext";
-import { AuthorityDisable } from "@/tool/interface";
+import { OptimizeSecure } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
 
 //选项类型
-type FieldType = AuthorityDisable;
+type FieldType = OptimizeSecure;
 
 const App: React.FC = () => {
   //拿到值
-  const optionObj = useContext(DataContext) ?? { authority: {} };
+  const optionObj = useContext(DataContext) ?? { optimize: {} };
 
-  //简化并提供默认值
-  const publicData =
-    optionObj.authority?.disable || defaultVar.authority.disable;
+  //简化
+  let publicData = optionObj.optimize.secure;
+
+  //提供默认值
+  if (!publicData) {
+    publicData = defaultVar.optimize.secure;
+  }
 
   //创建变量并设默认值
   const [FormData, setFormData] = useState(publicData || {});
@@ -34,13 +37,13 @@ const App: React.FC = () => {
 
   // 表单值发生变化时更新dataContext的值
   useEffect(() => {
-    optionObj.authority.disable = FormData;
+    optionObj.optimize.secure = FormData;
   }, [FormData]);
 
   return (
     <>
       <Form
-        name="disable"
+        name="secure"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 800 }}
@@ -54,21 +57,37 @@ const App: React.FC = () => {
         onValuesChange={onValuesChange}
       >
         <Form.Item>
-          <h2>禁用</h2>
+          <h2>安全</h2>
         </Form.Item>
 
         <Form.Item<FieldType>
-          label="禁用更新"
-          name="renew"
+          label="替换默认登录报错信息，"
+          name="replace_login_error"
           valuePropName="checked"
-          extra={"WordPress、主题和插件不再提示更新"}
+          extra={
+            <span>
+              默认登录报错信息会透露用户是用户名错误还是密码错误，统一信息后，可改善此情况，
+              <b style={{color:'red'}}>会影响验证码错误提示！</b>
+            </span>
+          }
         >
           <Switch />
         </Form.Item>
         <Form.Item<FieldType>
-          label="未登录模糊文章内图片"
-          name="no_login_img"
+          label="修改评论样式中的管理员ID"
+          name="modify_comment_user"
           valuePropName="checked"
+          extra={"默认的评论样式中，会包含管理员登录ID，修改后，可改善此情况"}
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="删除WordPress版本信息"
+          name="remove_RSS_version"
+          valuePropName="checked"
+          extra={
+            "从RSS源和网站中删除，如果您无法保持您的WordPres版本为最新，推荐开启"
+          }
         >
           <Switch />
         </Form.Item>
