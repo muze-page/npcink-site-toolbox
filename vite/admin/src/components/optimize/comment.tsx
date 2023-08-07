@@ -36,7 +36,7 @@ const App: React.FC = () => {
 
   return (
     <Form
-      name="medium"
+      name="comment"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       style={{ maxWidth: 800 }}

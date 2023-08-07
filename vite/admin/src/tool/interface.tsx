@@ -9,6 +9,11 @@ export type DataLocal = {
     comment: OptimizeComment;
     other: OptimizeOther;
   };
+  //权限
+  authority: {
+    //禁用
+    disable: AuthorityDisable;
+  };
 };
 
 type FieldType = {
@@ -52,4 +57,10 @@ export type OptimizeOther = {
   add_time: boolean; //时间筛选
   //显示ID
   show_id: boolean; //列表显示ID
+};
+
+//权限 禁用
+export type AuthorityDisable = {
+  //禁用自动更新
+  renew: boolean;
 };

@@ -8,6 +8,14 @@ const fal: string = import.meta.env.VITE_BOOLEAN;
 //准备数字
 const num: number = import.meta.env.VITE_BOOLEAN ? 1 : 0;
 
+//权限控制
+const authority = {
+  //禁用
+  disable: {
+    renew: boo, //自动更新
+  },
+};
+
 const App = {
   option: {
     name: import.meta.env.VITE_OPTION_NAME,
@@ -46,7 +54,8 @@ const App = {
       //显示ID
       show_id: boo, //列表显示ID
     },
-  },
+  }, //optimize AuthorityDisable
+  authority: authority, //权限控制
 };
 
 export default App;
