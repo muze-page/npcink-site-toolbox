@@ -21,8 +21,6 @@ export type DataLocal = {
   };
 };
 
-
-
 //优化 站点
 export type OptimizeSite = {
   no_escape: boolean; //禁止转义
@@ -33,10 +31,10 @@ export type OptimizeSite = {
 
 //优化 媒体
 export type OptimizeMedium = {
-  img_add_tag: boolean;
-  no_auto_size: boolean;
-  medium_add_svg: boolean;
-  upload_auto_name: string;
+  img_add_tag: boolean; //自动给媒体添加alt标签
+  no_auto_size: boolean; //禁止缩略图
+  medium_add_svg: boolean; //添加svg支持
+  upload_auto_name: string; //自动重命名
 };
 
 //优化 评论
@@ -47,7 +45,6 @@ export type OptimizeComment = {
   words_number_min: number; //最少评论字数
   words_number_max: number; //最多评论字数
   english: boolean; //禁止纯英文评论
-  japanese: boolean; //禁止纯日文评论
   only: boolean; //单篇文章仅限评论一次
 };
 

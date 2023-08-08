@@ -34,7 +34,6 @@ const OptimizeComment = {
   words_number_min: num, //最少评论字数
   words_number_max: num, //最多评论字数
   english: boo, //禁止纯英文评论
-  japanese: boo, //禁止纯日文评论
   only: boo, //单篇文章仅限评论一次
 };
 

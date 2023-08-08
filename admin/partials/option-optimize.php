@@ -25,6 +25,18 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
             require_once plugin_dir_path(__FILE__) . 'optimize/site.php';
             MaMi_Optimize_Site::run($config);
 
+            /**
+             * 优化 - 媒体
+             */
+            require_once plugin_dir_path(__FILE__) . 'optimize/medium.php';
+            MaMi_Optimize_Medium::run($config);
+
+            /**
+             * 优化 - 评论
+             */
+            require_once plugin_dir_path(__FILE__) . 'optimize/comment.php';
+            MaMi_Optimize_Comment::run($config);
+
 
 
 
@@ -45,58 +57,12 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
                 self::filter_time_run();
             }
 
-            //评论时间间隔
-            if (carbon_get_theme_option('cmma_opt_com_time') === "yes") {
-                add_filter('comment_flood_filter', array(__CLASS__, 'suren_comment_flood_filter'), 10, 3);
-            }
+         
 
-            //评论最少和最多字数
-            if (carbon_get_theme_option('cmma_opt_com_number') === "yes") {
-                add_filter('preprocess_comment', array(__CLASS__, 'set_comments_length'), 10, 3);
-            }
-
-            //禁止纯英文或纯日文评论
-            if (carbon_get_theme_option('cmma_opt_com_language')) {
-                add_filter('preprocess_comment', array(__CLASS__, 'refused_english_comments'));
-            }
-
-            //一篇文章只能评论一次
-            if (carbon_get_theme_option('cmma_opt_com_once')) {
-                add_action('preprocess_comment', array(__CLASS__, 'ludou_only_one_comment'), 20);
-            }
+          
 
 
-            /**
-             * 媒体
-             */
-            //自动给图片添加Alt标签
-            if (carbon_get_theme_option('cmma_medium_img_add_alt')) {
-                add_filter('the_content', array(__CLASS__, 'image_alt_tag'), 99999);
-            }
-            // 禁用自动生成的图片尺寸
-            if (carbon_get_theme_option('cmma_medium_ban_auto_size')) {
-                self::run_ban_auto_size();
-            }
 
-            //添加媒体库 SVG 图标支持
-            if (carbon_get_theme_option('cmma_medium_add_svg')) {
-                self::run_add_svg();
-            }
-
-            //媒体文件重命名
-            switch (carbon_get_theme_option('cmma_opt_medium_rename')) {
-                    //时间
-                case 'math':
-                    add_filter('wp_handle_upload_prefilter', array(__CLASS__, 'custom_upload_filter_time'));
-                    break;
-                    //md5重命名
-                case 'md5':
-                    add_filter('wp_handle_upload_prefilter', array(__CLASS__, 'custom_upload_filter_md5'));
-                    break;
-                    //默认值
-                default:
-                    return;
-            }
 
             /**
              * 禁用
@@ -337,190 +303,10 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
 <?php
         }
 
-        /**
-         * 优化-评论
-         */
-
-        /**
-         * 效果：两次评论之间间隔
-         * 来源：https://www.npc.ink/19960.html
-         */
-        public static function suren_comment_flood_filter($flood_control, $time_last, $time_new)
-        {
-            $seconds = carbon_get_theme_option('cmma_opt_com_times'); //间隔时间
-            if (($time_new - $time_last) < $seconds) {
-                $time = $seconds - ($time_new - $time_last);
-                wp_die('评论过快！请' . $time . '秒后再来评论');
-            } else {
-                return false;
-            }
-        }
-
-        /**
-         * 效果：评论所需的最少和最多字数
-         * 来源：https://www.npc.ink/17995.html
-         */
-        public static function set_comments_length($commentdata)
-        {
-            $minCommentlength = carbon_get_theme_option('cmma_opt_com_num_min'); //最少字數限制
-            $maxCommentlength = carbon_get_theme_option('cmma_opt_com_num_max'); //最多字數限制
-            $pointCommentlength = mb_strlen($commentdata['comment_content'], 'UTF8'); //mb_strlen 1個中文字符當作1個長度
-            if ($pointCommentlength < $minCommentlength) {
-                header("Content-type: text/html; charset=utf-8");
-                wp_die('抱歉，您的评论字数过少，请至少输入' . $minCommentlength . '个字（目前字数：' . $pointCommentlength . '个字）');
-                exit;
-            }
-            if ($pointCommentlength > $maxCommentlength) {
-                header("Content-type: text/html; charset=utf-8");
-                wp_die('对不起，您的评论字数过多，请少于' . $maxCommentlength . '个字（目前字数：' . $pointCommentlength . '个字）');
-                exit;
-            }
-            return $commentdata;
-        }
-
-        /* 作用：禁止纯英文、纯日文评论
-         * 来源：https://www.npc.ink/18129.html
-         * */
-        public static function refused_english_comments($incoming_comment)
-        {
-            $pattern = '/[一-龥]/u';
-            // 禁止全英文评论
-            if (!preg_match($pattern, $incoming_comment['comment_content'])) {
-                wp_die("您的评论中必须包含汉字!");
-            }
-            $pattern = '/[あ-んア-ン]/u';
-            // 禁止日文评论
-            if (preg_match($pattern, $incoming_comment['comment_content'])) {
-                wp_die("评论禁止包含日文!");
-            }
-            return ($incoming_comment);
-        }
-
-        /* 作用：一篇文章只能评论一次，管理员不受影响
-         * 来源：https://www.npc.ink/13477.html
-         * */
-        // 获取评论用户的ip，参考wp-includes/comment.php
-        public static function ludou_getIP()
-        {
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $ip = preg_replace('/[^0-9a-fA-F:., ]/', '', $ip);
-
-            return $ip;
-        }
-        public static function ludou_only_one_comment($commentdata)
-        {
-            global $wpdb;
-            $currentUser = wp_get_current_user();
-
-            // 不限制管理员发表评论
-            if (empty($currentUser->roles) || !in_array('administrator', $currentUser->roles)) {
-                $bool = $wpdb->get_var("SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = " . $commentdata['comment_post_ID'] . "  AND (comment_author = '" . $commentdata['comment_author'] . "' OR comment_author_email = '" . $commentdata['comment_author_email'] . "' OR comment_author_IP = '" . self::ludou_getIP() . "') LIMIT 0, 1;");
-
-                if ($bool) {
-                    wp_die('本站每篇文章只允许评论一次。<a href="' . get_permalink($commentdata['comment_post_ID']) . '">点此返回</a>');
-                }
-            }
-
-            return $commentdata;
-        }
+      
 
 
 
-        /**
-         * 优化 - 媒体
-         */
-        //自动给图片添加Alt标签
-        public static function image_alt_tag($content)
-        {
-            global $post;
-            preg_match_all('/<img (.*?)\/>/', $content, $images);
-            if (!is_null($images)) {
-                foreach ($images[1] as $index => $value) {
-                    $new_img = str_replace('<img', '<img alt="' . get_the_title() . '-' . get_bloginfo('name') . '"', $images[0][$index]);
-                    $content = str_replace($images[0][$index], $new_img, $content);
-                }
-            }
-            return $content;
-        }
-
-        // 禁用自动生成的图片尺寸
-        public static function run_ban_auto_size()
-        {
-
-            // 禁用自动生成的图片尺寸
-            add_action('intermediate_image_sizes_advanced', array(__CLASS__, 'shapeSpace_disable_image_sizes'));
-            // 禁用缩放尺寸
-            add_filter('big_image_size_threshold', '__return_false');
-            // 禁用其他图片尺寸
-            add_action('init', array(__CLASS__, 'shapeSpace_disable_other_image_sizes'));
-        }
-        public static function shapeSpace_disable_image_sizes($sizes)
-        {
-            unset($sizes['thumbnail']); // disable thumbnail size
-            unset($sizes['medium']); // disable medium size
-            unset($sizes['large']); // disable large size
-            unset($sizes['medium_large']); // disable medium-large size
-            unset($sizes['1536x1536']); // disable 2x medium-large size
-            unset($sizes['2048x2048']); // disable 2x large size return $sizes;
-        }
-
-        public static function shapeSpace_disable_other_image_sizes()
-        {
-            remove_image_size('post-thumbnail');
-            // 禁用通过 set_post_thumbnail_size()  添加的图像
-            remove_image_size('another-size');
-            // 禁用任何其他添加的图像大小
-        }
-
-        //添加媒体库 SVG 图标支持
-        public static function run_add_svg()
-        {
-            add_filter('upload_mimes', array(__CLASS__, 'salong_mime_types'));
-            add_action('admin_head', array(__CLASS__, 'salong_admin_svg_css'));
-        }
-
-        //添加媒体库 SVG 图标支持
-        public static function salong_mime_types($mimes)
-        {
-            $mimes['svg'] = 'image/svg+xml';
-            return $mimes;
-        }
-
-        //在媒体库显示 SVG 图标
-        public static function salong_admin_svg_css()
-        {
-            echo "
-            <style>
-            table.media .column-title .media-icon img[src*='.svg']{
-             width: 100%;
-             height: auto;
-                    }
-        </style>";
-        }
-
-        /**
-         * 重命名
-         */
-
-        /*图片按时间自动重命名*/
-        public static function custom_upload_filter_time($file)
-        {
-            $info = pathinfo($file['name']);
-            $ext = $info['extension'];
-            $filedate = date('YmdHis') . rand(10, 99); //为了避免时间重复，再加一段2位的随机数
-            $file['name'] = $filedate . '.' . $ext;
-            return $file;
-        }
-
-        /*使用md5转码重命名媒体文件名*/
-        public static function custom_upload_filter_md5($file)
-        {
-            $info = pathinfo($file['name']);
-            $ext = '.' . $info['extension'];
-            $md5 = md5($file['name']);
-            $file['name'] = $md5 . $ext;
-            return $file;
-        }
 
         /**
          * 禁用

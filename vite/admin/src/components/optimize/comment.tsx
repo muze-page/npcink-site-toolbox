@@ -50,7 +50,14 @@ const App: React.FC = () => {
         label="两次评论间隔时间"
         name="interval"
         valuePropName="checked"
-        extra={"避免短时间内重复灌水评论，对管理员无效"}
+        extra={
+          <>
+            避免短时间内重复灌水评论，对管理员无效,
+            <a href="https://www.npc.ink/19960.html?mami" target="_blank">
+              详细信息
+            </a>
+          </>
+        }
       >
         <Switch />
       </Form.Item>
@@ -67,7 +74,14 @@ const App: React.FC = () => {
         label="限制评论字数"
         name="words_number"
         valuePropName="checked"
-        extra={"指定最小和最大评论字数"}
+        extra={
+          <>
+            指定最小和最大评论字数，
+            <a href="https://www.npc.ink/17995.html?mami" target="_blank">
+              详细信息
+            </a>
+          </>
+        }
       >
         <Switch />
       </Form.Item>
@@ -86,16 +100,15 @@ const App: React.FC = () => {
         label="禁止纯英文评论"
         name="english"
         valuePropName="checked"
+        extra={
+          <a href="https://www.npc.ink/18129.html?mami" target="_blank">
+            详细信息
+          </a>
+        }
       >
         <Switch />
       </Form.Item>
-      <Form.Item<FieldType>
-        label="禁止纯日文评论"
-        name="japanese"
-        valuePropName="checked"
-      >
-        <Switch />
-      </Form.Item>
+
       <Form.Item<FieldType>
         label="仅限评论一次"
         name="only"
