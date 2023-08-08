@@ -4,10 +4,9 @@ if (!class_exists('Mami_Optimize_Site')) {
     class Mami_Optimize_Site
     {
         //加载
-        public static function run()
+        public static function run($config)
         {
-            //获取设置选项值
-            $config = Magick_Mixtrue_Admin::get_seting('optimize');
+
 
             //获取选项
             $site =  Magick_Mixtrue_Admin::get_config($config, 'site');

@@ -16,11 +16,14 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
         //准备
         public static function load()
         {
+            //获取设置选项值
+            $config = Magick_Mixtrue_Admin::get_seting('optimize');
+
             /**
              * 优化 - 站点
              */
             require_once plugin_dir_path(__FILE__) . 'optimize/site.php';
-            Mami_Optimize_Site::run();
+            Mami_Optimize_Site::run($config);
 
 
 
