@@ -13,7 +13,7 @@ use Carbon_Fields\Field;
  * @subpackage Plugin_Name/admin
  * @author     Your Name <email@example.com>
  */
-class Magick_Mixtrue_Admin
+class MaMi_Admin
 {
 
     /**

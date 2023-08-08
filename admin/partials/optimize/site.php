@@ -1,36 +1,35 @@
 <?php
 //优化 站点
-if (!class_exists('Mami_Optimize_Site')) {
-    class Mami_Optimize_Site
+if (!class_exists('MaMi_Optimize_Site')) {
+    class MaMi_Optimize_Site
     {
         //加载
         public static function run($config)
         {
 
-
             //获取选项
-            $site =  Magick_Mixtrue_Admin::get_config($config, 'site');
+            $site =  MaMi_Admin::get_config($config, 'site');
 
             //禁止网站title中的 “-” 被转义
-            $no_escape = Magick_Mixtrue_Admin::get_config($site, 'no_escape');
+            $no_escape = MaMi_Admin::get_config($site, 'no_escape');
             if ($no_escape) {
                 add_filter('run_wptexturize', '__return_false');
             };
 
             //文章关键词自动添加内链链接代码
-            $add_inks = Magick_Mixtrue_Admin::get_config($site, 'add_inks');
+            $add_inks = MaMi_Admin::get_config($site, 'add_inks');
             if ($add_inks) {
                 add_filter('the_content', array(__CLASS__, 'tag_link'), 1);
             }
 
             //登录页LOGO改为首页链接
-            $modify_login_link = Magick_Mixtrue_Admin::get_config($site, 'modify_login_link');
+            $modify_login_link = MaMi_Admin::get_config($site, 'modify_login_link');
             if ($modify_login_link) {
                 add_filter('login_headerurl', array(__CLASS__, 'admin_logo_home'));
             }
 
             //移除登录页语言选择器
-            $remove_langue = Magick_Mixtrue_Admin::get_config($site, 'remove_langue');
+            $remove_langue = MaMi_Admin::get_config($site, 'remove_langue');
             //https://www.iowen.cn/yichuwordpress59dengluyemianzhongdeyuyanqiehuankuang/
             if ($remove_langue) {
                 add_filter('login_display_language_dropdown', '__return_false');

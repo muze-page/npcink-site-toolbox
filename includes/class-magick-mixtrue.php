@@ -47,7 +47,7 @@ class Magick_Mixtrue
 
         $this->load_dependencies(); //加载此插件所需的依赖项
         $this->define_admin_hooks(); //注册与后台功能相关的所有挂钩
-        $this->define_public_hooks();//注册与前台功能相关的所有挂钩
+        $this->define_public_hooks(); //注册与前台功能相关的所有挂钩
 
     }
 
@@ -99,7 +99,6 @@ class Magick_Mixtrue
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-magick-mixtrue-tool.php';
 
         $this->loader = new Magick_Mixtrue_Loader();
-
     }
 
     /**
@@ -112,14 +111,14 @@ class Magick_Mixtrue
     private function define_admin_hooks()
     {
 
-        $plugin_admin = new Magick_Mixtrue_Admin($this->get_plugin_name(), $this->get_version());
+        $plugin_admin = new MaMi_Admin($this->get_plugin_name(), $this->get_version());
 
-     
+
         //01 要向其添加回调的操作的名称。
         //02 调用操作时要运行的回调。
         //03 用于指定与特定操作关联的函数的执行顺序
         //04 函数接受的参数数
-       
+
 
     }
 
@@ -134,9 +133,6 @@ class Magick_Mixtrue
     {
 
         $plugin_public = new Magick_Mixtrue_Public($this->get_plugin_name(), $this->get_version());
-
-      
-
     }
 
     /**
@@ -182,5 +178,4 @@ class Magick_Mixtrue
     {
         return $this->version;
     }
-
 }
