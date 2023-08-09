@@ -46,7 +46,6 @@ class Magick_Mixtrue_Public
         $this->version = $version;
         $this->load();
         $this->run();
-
     }
     public function load()
     {
@@ -54,18 +53,25 @@ class Magick_Mixtrue_Public
         require_once plugin_dir_path(__FILE__) . 'partials/class-mm-display.php';
         //自定义的一为登录页
         require_once plugin_dir_path(__FILE__) . 'partials/class-mm-login.php';
+        /**
+         * 个性化 页面特效
+         */
+        require_once plugin_dir_path(__FILE__) . 'partials/style/page.php';
     }
     public function run()
     {
+        //获取选项
+        $style = MaMi_Admin::get_seting('style');
+
+
         //加载前台表情
-        Magick_Mixtrue_Display::run();
+        //Magick_Mixtrue_Display::run();
 
         //加载登录页
         Magick_Mixtrue_Login::run();
+        /**
+         * 个性化 - 页面特效
+         */
+        MaMi_Style_Page::run($style);
     }
-
-
-
-
-
 }

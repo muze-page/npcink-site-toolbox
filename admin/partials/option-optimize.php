@@ -50,6 +50,9 @@ if (!class_exists('Magick_Mixtrue_Optimize')) {
             MaMi_Optimize_Other::run($config);
 
 
+          
+
+
 
 
 
