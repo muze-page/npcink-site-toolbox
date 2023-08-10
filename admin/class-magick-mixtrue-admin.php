@@ -854,4 +854,4 @@ class MaMi_Admin
         }
         return $options;
     }
-}
+}//end

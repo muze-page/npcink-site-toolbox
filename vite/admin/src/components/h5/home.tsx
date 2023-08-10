@@ -45,8 +45,9 @@ const App: React.FC = () => {
   const getCatData = () => {
     if (state) {
       return [
-        { label: "1号", value: 1 },
-        { label: "2号", value: 2 },
+        { label: "arrrts", value: 1 },
+        { label: "tttt", value: 2 },
+        { label: "大大怪", value: 3 },
       ];
     } else {
       return (window as any).dataLocal.cat_arr !== ""
@@ -103,7 +104,18 @@ const App: React.FC = () => {
              * TODO:无法搜索
              */}
             <Form.Item<FieldType> label="幻灯片文章选择" name="slide">
-              <Select mode="multiple" allowClear options={options} />
+              <Select
+                showSearch
+                allowClear
+                mode="multiple"
+                options={options}
+                optionFilterProp="label"
+                filterOption={(input, option) =>
+                  (typeof option?.label === "string" ? option.label : "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              />
             </Form.Item>
             <Form.Item<FieldType> label="查看全部按钮的链接" name="slide_all">
               {/**
@@ -112,7 +124,17 @@ const App: React.FC = () => {
               <Input />
             </Form.Item>
             <Form.Item<FieldType> label="分类" name="more">
-              <Select allowClear options={options} />
+              <Select
+                showSearch
+                allowClear
+                options={options}
+                optionFilterProp="label"
+                filterOption={(input, option) =>
+                  (typeof option?.label === "string" ? option.label : "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              />
             </Form.Item>
           </>
         )}
