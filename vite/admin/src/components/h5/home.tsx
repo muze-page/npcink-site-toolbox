@@ -7,6 +7,7 @@ import { H5Home } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
 import type { SelectProps } from "antd";
 import Contact from "@/components/h5/contact";
+import { validateLink } from "@/tool/tool";
 
 //选项类型
 type FieldType = H5Home;
@@ -42,6 +43,22 @@ const App: React.FC = () => {
 
   //开发环境状态
   const state: boolean = import.meta.env.VITE_STATE;
+
+  //获取文章
+  const getSingleData = () => {
+    if (state) {
+      return [
+        { label: "文章1", value: 1 },
+        { label: "文章2", value: 2 },
+        { label: "文章3", value: 3 },
+      ];
+    } else {
+      return (window as any).dataLocal.single_arr !== ""
+        ? (window as any).dataLocal.single_arr
+        : [];
+    }
+  };
+  //获取分类
   const getCatData = () => {
     if (state) {
       return [
@@ -56,17 +73,10 @@ const App: React.FC = () => {
     }
   };
 
-  const options: SelectProps["options"] = getCatData();
+  //获取文章
+  const SingleOption: SelectProps["options"] = getSingleData();
 
-  //验证
-  const validateLink = (_: any, value: string) => {
-    const urlPattern =
-      /^(https?):\/\/(?:www\.)?([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)(?:\/[^\s]*)?$/;
-    if (!value || value.match(urlPattern)) {
-      return Promise.resolve();
-    }
-    return Promise.reject("请输入有效的链接 URL");
-  };
+  const options: SelectProps["options"] = getCatData();
 
   return (
     <>
@@ -110,13 +120,16 @@ const App: React.FC = () => {
             <Form.Item>
               <h2>首页</h2>
             </Form.Item>
+            {/**
+             * 文章ID并可排序
+             */}
 
             <Form.Item<FieldType> label="幻灯片文章选择" name="slide">
               <Select
                 showSearch
                 allowClear
                 mode="multiple"
-                options={options}
+                options={SingleOption}
                 optionFilterProp="label"
                 filterOption={(input, option) =>
                   (typeof option?.label === "string" ? option.label : "")
@@ -130,12 +143,9 @@ const App: React.FC = () => {
               name="slide_all"
               rules={[{ validator: validateLink }]}
             >
-              {/**
-               * TODO:完善链接验证
-               */}
               <Input />
             </Form.Item>
-            <Form.Item<FieldType> label="分类" name="more">
+            <Form.Item<FieldType> label="待展示分类" name="more">
               <Select
                 showSearch
                 allowClear

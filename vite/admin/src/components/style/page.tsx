@@ -117,7 +117,7 @@ const App: React.FC = () => {
             <Form.Item<FieldType>
               label="LOGO尺寸(px)"
               name="logo_size"
-              extra={"默认120，最大180"}
+              extra={"默认84，最大180（推荐宽高比为1:1的正方形LOGO）"}
             >
               <InputNumber min={0} max={180}  formatter={(value) => `${value}px`}/>
             </Form.Item>

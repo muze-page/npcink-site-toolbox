@@ -1,10 +1,11 @@
 //h5 - 联系
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import {  Form, Input } from "antd";
+import { Form, Input } from "antd";
 import DataContext from "@/tool/dataContext";
 import { H5Contact } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
+import { validateLink } from "@/tool/tool";
 
 //选项类型
 type FieldType = H5Contact;
@@ -75,7 +76,11 @@ const App: React.FC = () => {
         <Form.Item<FieldType> label="链接" name="brand_link">
           <Input />
         </Form.Item>
-        <Form.Item<FieldType> label="LOGO" name="brand_logo">
+        <Form.Item<FieldType>
+          label="LOGO"
+          name="brand_logo"
+          rules={[{ validator: validateLink }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item<FieldType> label="介绍" name="introduce">
