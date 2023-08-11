@@ -302,6 +302,15 @@ class MaMi_Admin
         }
     }
 
+    //公用返回按钮
+    public static function blank_button()
+    {
+        $message = '<br/><a href="#" onclick="history.back();">
+        <button class="button" style="margin: 1em 0;">返回</button>
+        </a>';
+       return $message;
+    }
+
 
     /**
      * 设置选项组

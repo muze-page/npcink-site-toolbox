@@ -60,9 +60,8 @@ if (!class_exists('MaMi_Optimize_Comment')) {
             if (($time_new - $time_last) < $seconds) {
                 $time = $seconds - ($time_new - $time_last);
                 $message = '评论过快！请' . $time . '秒后再来评论';
-                $message .= '<br/><a href="#" onclick="history.back();">
-                <button class="button" style="margin: 1em 0;">返回</button>
-                </a>';
+
+                $message = $message . MaMi_Admin::blank_button();
                 wp_die($message);
             } else {
                 return false;
@@ -81,9 +80,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
             if ($pointCommentlength < $minCommentlength) {
                 header("Content-type: text/html; charset=utf-8");
                 $message = '抱歉，您的评论字数过少，请至少输入' . $minCommentlength . '个字（目前字数：' . $pointCommentlength . '个字）';
-                $message .= '<br/><a href="#" onclick="history.back();">
-                <button class="button" style="margin: 1em 0;">返回</button>
-                </a>';
+                $message = $message . MaMi_Admin::blank_button();
                 wp_die($message);
 
 
@@ -92,9 +89,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
             if ($pointCommentlength > $maxCommentlength) {
                 header("Content-type: text/html; charset=utf-8");
                 $message = '对不起，您的评论字数过多，请少于' . $maxCommentlength . '个字（目前字数：' . $pointCommentlength . '个字）';
-                $message .= '<br/><a href="#" onclick="history.back();">
-                <button class="button" style="margin: 1em 0;">返回</button>
-                </a>';
+                $message = $message . MaMi_Admin::blank_button();
                 wp_die($message);
 
                 exit;
@@ -110,9 +105,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
             $pattern = '/[\p{Script=Han}]/u';
             if (!preg_match($pattern, $incoming_comment['comment_content'])) {
                 $message = '您的评论中必须包含汉字!';
-                $message .= '<br/><a href="#" onclick="history.back();">
-                <button class="button" style="margin: 1em 0;">返回</button>
-                </a>';
+                $message = $message . MaMi_Admin::blank_button();
                 wp_die($message);
             }
             return $incoming_comment;
@@ -142,11 +135,8 @@ if (!class_exists('MaMi_Optimize_Comment')) {
 
                 if ($bool) {
                     $message = '本站每篇文章仅允许评论一次。';
-                    $message .= '<br/><a href="#" onclick="history.back();">
-                    <button class="button" style="margin: 1em 0;">返回</button>
-                    </a>';
+                    $message = $message . MaMi_Admin::blank_button();
                     wp_die($message);
-                    //wp_die('<br/><a href="' . get_permalink($commentdata['comment_post_ID']) . '">返回</a>');
                 }
             }
 

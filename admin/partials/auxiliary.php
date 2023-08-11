@@ -127,9 +127,7 @@ if (!class_exists('MaMi_Auxiliary')) {
                     foreach ($BanKey as $Key) {
                         if (stristr($S_Key['s'], $Key) != false) {
                             $message = '搜索内容包含敏感词，请换个方式搜索';
-                            $message .= '<br/><a href="#" onclick="history.back();">
-                            <button class="button" style="margin: 1em 0;">返回</button>
-                            </a>';
+                            $message =$message.MaMi_Admin::blank_button();
                             wp_die($message);
                         }
                     }
