@@ -7,10 +7,22 @@ import DataContext from "@/tool/dataContext";
 import { StylePage } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
 
+import type { Color } from "antd/es/color-picker";
+import { useMemo } from "react";
+
 //选项类型
 type FieldType = StylePage;
 
 const App: React.FC = () => {
+  const [color, setColor] = useState<Color | string>("#1677ff");
+
+  const hexString = useMemo(
+    () => (typeof color === "string" ? color : color.toHexString()),
+    [color]
+  );
+
+  
+
   //拿到值
   const optionObj = useContext(DataContext) ?? { style: {} };
 
@@ -25,6 +37,9 @@ const App: React.FC = () => {
     changedValues: Partial<FieldType>,
     _allValues: FieldType
   ) => {
+    if ("background_left" in changedValues) {
+      changedValues.background_left = hexString;
+    }
     setFormData((prevState) => ({
       ...prevState,
       ...changedValues,
@@ -41,6 +56,10 @@ const App: React.FC = () => {
 
   return (
     <>
+      
+     
+     
+     
       <Form
         name="page"
         labelCol={{ span: 8 }}
@@ -103,14 +122,15 @@ const App: React.FC = () => {
               name="background_left"
               extra={""}
             >
-              <ColorPicker />
+             
+              <ColorPicker showText value={color} onChange={setColor} />
             </Form.Item>
             <Form.Item<FieldType>
               label="右上角颜色"
               name="background_right"
               extra={""}
             >
-              <ColorPicker />
+              <ColorPicker showText />
             </Form.Item>
 
             <Form.Item<FieldType>
@@ -140,6 +160,7 @@ const App: React.FC = () => {
             </Form.Item>
           </>
         )}
+
       </Form>
     </>
   );
