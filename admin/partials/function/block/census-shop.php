@@ -67,7 +67,7 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
             //准备打包后的数据
             $build_css = plugin_dir_url(dirname(__DIR__)) . 'count/dist/index.css';
             $build_css = str_replace('/admin/partials/', '/vite/',  $build_css);
-            
+
             $build_js = plugin_dir_url(dirname(__DIR__)) . 'count/dist/index.js';
             $build_js = str_replace('/admin/partials/', '/vite/',  $build_js);
             wp_enqueue_style(
@@ -381,7 +381,12 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
 ?>
             <!-- 在默认WordPress“包装”容器中创建标题 -->
             <div class="wrap magick_section">
-                <div id="mami_b2_shop_count"></div>
+
+                <div id="mami_b2_shop_count" style="
+    height: 100em;
+"></div>
+
+
 
                 <!--标题-->
                 <h1><?php echo esc_html(get_admin_page_title()); ?></h1>

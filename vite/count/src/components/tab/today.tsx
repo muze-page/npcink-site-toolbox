@@ -5,32 +5,32 @@ const datas = [
     title: "待发货",
     num: 10,
     unit: "个",
-    icon: "class",
+    icon: "dashicons dashicons-store",
   },
   {
     title: "总销售额",
     num: 10,
     unit: "个",
-    icon: "class",
+    icon: "dashicons dashicons-insert",
   },
 
   {
     title: "总订单",
     num: 10,
     unit: "个",
-    icon: "class",
+    icon: "dashicons dashicons-database-add",
   },
   {
     title: "总退款",
     num: 10,
     unit: "个",
-    icon: "class",
+    icon: "dashicons dashicons-remove",
   },
   {
     title: "总退款订单",
     num: 10,
     unit: "个",
-    icon: "class",
+    icon: "dashicons dashicons-database-remove",
   },
 ];
 const App: React.FC = () => (

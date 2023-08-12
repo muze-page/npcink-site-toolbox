@@ -1,8 +1,8 @@
 type Data = {
-  title: string;//标题
-  num: number;//数量
-  unit: string;//单位
-  icon: string;//图标
+  title: string; //标题
+  num: number; //数量
+  unit: string; //单位
+  icon: string; //图标
 };
 
 const App = ({ data }: { data: Data }) => {
@@ -15,7 +15,7 @@ const App = ({ data }: { data: Data }) => {
             <span>{data.num}</span>
             {data.unit}
           </p>
-          <span className={data.icon}>图</span>
+          <span className={data.icon}></span>
         </div>
       </div>
     </>

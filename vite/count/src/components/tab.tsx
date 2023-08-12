@@ -47,6 +47,8 @@ const Tab = () => {
           </div>
         ))}
       </div>
+      <div className="describe">总销售（已减退款），总订单（已减退款）。</div>
+      <hr />
     </div>
   );
 };
