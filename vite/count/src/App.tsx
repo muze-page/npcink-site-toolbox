@@ -1,6 +1,6 @@
 import "./App.css";
 //打包前注释
-import "./load-styles.css";
+//import "./load-styles.css";
 import Tab from "./components/tab";
 import Count from "./components/count";
 import CountSingle from "./components/count_single";
