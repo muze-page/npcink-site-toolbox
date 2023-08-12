@@ -1,0 +1,12 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.tab .tab-item {
+  display: none;
+}
+.tab .tab-item.active {
+  display: inline;
+}
