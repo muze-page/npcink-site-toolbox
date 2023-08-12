@@ -9,7 +9,7 @@ import {
 } from "echarts/components";
 import { BarChart } from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
-
+import { ColumnMore } from "../tool/interface";
 echarts.use([
   DatasetComponent,
   TooltipComponent,
@@ -19,12 +19,7 @@ echarts.use([
   CanvasRenderer,
 ]);
 
-type Data = {
-  title: string; //标题
-  dataset: Array<Array<string | number>>; //数据
-};
-
-const App = ({ data }: { data: Data }) => {
+const App = ({ data }: { data: ColumnMore }) => {
   //准备数据
   //获取type数量
   const typeNumber = () => {

@@ -29,6 +29,7 @@ const Tab = () => {
       <div className="tab-header">
         {tabs.map((tab, index) => (
           <button
+          type="button"
             key={index}
             className={`tab-button ${activeTab === index ? "active" : ""}`}
             onClick={() => handleTabClick(index)}

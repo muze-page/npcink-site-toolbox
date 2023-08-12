@@ -1,11 +1,7 @@
-type Data = {
-  title: string; //标题
-  num: number; //数量
-  unit: string; //单位
-  icon: string; //图标
-};
+import {Count} from "../tool/interface"
 
-const App = ({ data }: { data: Data }) => {
+
+const App = ({ data }: { data: Count }) => {
   return (
     <>
       <div className="box">

@@ -1,3 +1,4 @@
+//单柱状图
 import { useRef, useEffect } from "react";
 import * as echarts from "echarts/core";
 import {
@@ -7,7 +8,7 @@ import {
 } from "echarts/components";
 import { BarChart } from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
-
+import { Column } from "../tool/interface";
 echarts.use([
   GridComponent,
   BarChart,
@@ -16,16 +17,7 @@ echarts.use([
   TooltipComponent,
 ]);
 
-type Data = {
-  title: string; //标题
-  x: Array<string>; //横轴数据
-  s: {
-    title: string; //提示标题
-    data: Array<number>; //数据
-  };
-};
-
-const App = ({ data }: { data: Data }) => {
+const App = ({ data }: { data: Column }) => {
   //准备数据
   const option = {
     title: {

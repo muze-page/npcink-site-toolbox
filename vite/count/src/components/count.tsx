@@ -1,4 +1,4 @@
-//展示表格
+//销售表格
 import Column from "./block/column";
 const datas = [
   {

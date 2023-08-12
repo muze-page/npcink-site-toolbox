@@ -8,6 +8,7 @@
   margin: 0 1.6em 0 0;
   border-radius: 6px;
   transition: all 0.3s;
+  border: 0;
   cursor: pointer;
 }
 .tab .tab-header .tab-button.active {
@@ -60,5 +61,14 @@
 }
 .form-box {
   display: flex;
+  flex-wrap: wrap;
+}
+.single-box {
+  display: flex;
+}
+.single-box .right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 }
