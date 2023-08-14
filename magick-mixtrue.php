@@ -3,7 +3,7 @@
 Plugin Name: 魔法合剂
 Plugin URI: https://www.npc.ink/
 Description: 文章统计+小功能
-Version: 0.1.1
+Version: 0.1.2
 Author: Muze
 Author URI: https://www.npc.ink/
  */
@@ -50,8 +50,11 @@ run_magick_mixture();
 
 
 
-
-
+ //设置按钮
+ add_filter('plugin_action_links_'.plugin_basename(__FILE__), function($links){
+    $links[] = '<a href="'.get_admin_url(null, 'options-general.php?page=mami_config') . '">' . __('设置','n') . '</a>';
+    return $links;
+});
 
 
 

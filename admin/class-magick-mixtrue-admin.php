@@ -121,7 +121,7 @@ class MaMi_Admin
     {
         //添加插件菜单
 
-        add_plugins_page(
+        add_options_page(
             '魔法合剂设置选项',             // 要在此页面的浏览器窗口中显示的标题。
             '魔法合剂',            // 要为此菜单项显示的文本
             'administrator',            // 哪种类型的用户可以看到此菜单项
@@ -143,14 +143,14 @@ class MaMi_Admin
         //准备节点
         echo '</h2><div id="root"></div>';
 
-        $value = get_option(self::$option);
-        echo "<h2>设置选项的值</h2>";
-        $jsonString = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        if ($jsonString !== "false") {
-            echo '<pre>' . $jsonString . '</pre>';
-        } else {
-            echo '<pre>暂无对象值</pre>';
-        }
+       // $value = get_option(self::$option);
+       // echo "<h2>设置选项的值</h2>";
+       // $jsonString = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+       // if ($jsonString !== "false") {
+       //     echo '<pre>' . $jsonString . '</pre>';
+       // } else {
+       //     echo '<pre>暂无对象值</pre>';
+       // }
     }
 
     /**
@@ -162,7 +162,7 @@ class MaMi_Admin
         $name = self::$plugin_name;
 
         //是否是指定页面
-        if ('plugins_page_mami_config' != $hook) {
+        if ('settings_page_mami_config' != $hook) {
             return;
         }
 
