@@ -81,6 +81,22 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="移除文章内超链接"
+          name="remove_single_link"
+          valuePropName="checked"
+          extra={"关闭此选项可恢复"}
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="文章末尾添加最后更新时间"
+          name="add_last_update"
+          valuePropName="checked"
+          extra={"文章发布24小时后再次修改，即可展示"}
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

@@ -18,7 +18,7 @@ export type DataLocal = {
     //禁用
     disable: AuthorityDisable;
     auxiliary: AuthorityAuxiliary;
-    b2: AuthorityB2;//B2主题
+    b2: AuthorityB2; //B2主题
   };
   h5: {
     home: H5Home;
@@ -67,6 +67,8 @@ export type OptimizeOther = {
   add_time: boolean; //时间筛选
   //显示ID
   show_id: boolean; //列表显示ID
+  remove_single_link: boolean; //移除文章内超链接
+  add_last_update: boolean; //添加最后更新时间
 };
 
 //个性化

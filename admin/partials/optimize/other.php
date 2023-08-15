@@ -26,6 +26,18 @@ if (!class_exists('MaMi_Optimize_Other')) {
             if ($show_id) {
                 self::filter_time_run();
             }
+
+            //去除文章内的超链接，可复原
+            $remove_single_link = MaMi_Admin::get_config($option, 'remove_single_link');
+            if ($remove_single_link) {
+                add_filter('the_content', array(__CLASS__, 'replace_text_wps'));
+            }
+
+            //去除文章内的超链接，可复原
+            $add_last_update = MaMi_Admin::get_config($option, 'add_last_update');
+            if ($add_last_update) {
+                add_filter('the_content', array(__CLASS__, 'add_last_updated_date'));
+            }
         }
 
 
@@ -247,6 +259,27 @@ if (!class_exists('MaMi_Optimize_Other')) {
                 /* Simply Show IDs */
             </style>
 <?php
+        }
+
+        //移除文章内超链接
+        public static function replace_text_wps($text)
+        {
+            $text = preg_replace("/<a[^>]*>(.*?)<\/a>/is", "$1", $text);
+            return $text;
+        }
+
+        //在更新过的文章和页面结尾添加最后更新时间
+        public static function add_last_updated_date($content)
+        {
+            $u_time = get_the_time('U');//发布时间
+            $u_modified_time = get_the_modified_time('U');//修改时间
+            $custom_content = '';
+            if ($u_modified_time >= $u_time + 86400) {
+                $updated_date = get_the_modified_time('Y-m-d H:i'); //Y-m-d H:i
+                $custom_content .= '<div class="last-updated" style="color: #8590a6;font-size: 14px;">最后编辑于：' . $updated_date . ' </div>';
+            }
+            $content .= $custom_content;
+            return $content;
         }
     } //end
 }

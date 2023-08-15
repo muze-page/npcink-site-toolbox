@@ -47,6 +47,8 @@ const OptimizeOther = {
   add_user: boo, //作者筛选
   add_time: boo, //时间筛选
   show_id: boo, //列表显示ID
+  remove_single_link: boo, //移除文章内超链接
+  add_last_update: boo, //添加最后更新时间
 };
 
 //个性化 页面特效
