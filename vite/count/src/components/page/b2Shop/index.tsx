@@ -6,7 +6,7 @@ import DataContext from "@/components/tool/dataContext";
 function App() {
   //拿到值
   const optionObj = useContext(DataContext);
-  const state = optionObj.shop ? true : false;
+  const state = optionObj?.shop ? true : false;
   return (
     <>
       {state && (

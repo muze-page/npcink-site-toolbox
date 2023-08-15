@@ -7,7 +7,7 @@ import Month from "@/components/page/singleCount/month";
 function App() {
   //拿到值
   const optionObj = useContext(DataContext);
-  const state = optionObj.single ? true : false;
+  const state = optionObj?.single ? true : false;
 
   return (
     <>
