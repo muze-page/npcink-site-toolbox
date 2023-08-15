@@ -5,11 +5,7 @@ import Optimize from "@/components/optimize/index";
 import Style from "@/components/style/index";
 import Authority from "@/components/authority/index";
 import H5 from "@/components/h5/index";
-//import Demo from "@/components/demo";
 
-const onChange = (key: string) => {
-  console.log(key);
-};
 
 const items: TabsProps["items"] = [
   {
@@ -36,7 +32,7 @@ const items: TabsProps["items"] = [
 ];
 
 const App: React.FC = () => (
-  <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+  <Tabs defaultActiveKey="1" items={items}  />
 );
 
 export default App;

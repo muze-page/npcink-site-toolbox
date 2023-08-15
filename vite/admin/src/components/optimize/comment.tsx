@@ -63,11 +63,11 @@ const App: React.FC = () => {
       </Form.Item>
       {formData.interval && (
         <Form.Item<FieldType>
-          label="时间间隔(秒)"
+          label="时间间隔"
           name="interval_time"
           extra={"指定时间后才能再次评论"}
         >
-          <InputNumber min={0} />
+          <InputNumber  min={0} addonAfter="秒"/>
         </Form.Item>
       )}
       <Form.Item<FieldType>
@@ -88,10 +88,10 @@ const App: React.FC = () => {
       {formData.words_number && (
         <>
           <Form.Item<FieldType> label="最小字数" name="words_number_min">
-            <InputNumber min={0} />
+            <InputNumber min={0} addonAfter="字"/>
           </Form.Item>
           <Form.Item<FieldType> label="最大字数" name="words_number_max">
-            <InputNumber min={0} />
+            <InputNumber min={0} addonAfter="字"/>
           </Form.Item>
         </>
       )}

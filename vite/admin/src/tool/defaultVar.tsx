@@ -23,16 +23,16 @@ const OptimizeMedium = {
   img_add_tag: boo,
   no_auto_size: boo,
   medium_add_svg: boo,
-  upload_auto_name: str,
+  upload_auto_name: "false",
 };
 
 //优化  评论
 const OptimizeComment = {
   interval: boo, //两次评论间隔
-  interval_time: num, //两次评论间隔
+  interval_time: 5, //两次评论间隔
   words_number: boo, //是否开启字数控制
   words_number_min: num, //最少评论字数
-  words_number_max: num, //最多评论字数
+  words_number_max: 120, //最多评论字数
   english: boo, //禁止纯英文评论
   only: boo, //单篇文章仅限评论一次
 };
@@ -78,7 +78,7 @@ const AuthorityAuxiliary = {
   b2_count: boo, //B2商城统计
   no_malice_key: boo, //拒绝恶意关键词
   malice_keu_content: str, //恶意关键词内容
-  login_code: str, //登录验证码
+  login_code: "false", //登录验证码
   tecent_id: str, //腾讯ID
   tecent_key: str, //腾讯秘钥
 };

@@ -18,7 +18,7 @@ class MaMi_Admin
     /**
      * 选项
      */
-    public static $option = "mami_object_option";
+    public static $option = "mami_object_option_f";
     /**
      * 此插件的ID。
      *
