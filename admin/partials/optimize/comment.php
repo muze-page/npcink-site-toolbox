@@ -102,7 +102,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
          * */
         public static function refused_english_comments($incoming_comment)
         {
-            $pattern = '/[\p{Script=Han}]/u';
+            $pattern = '/[一-龥]/u';
             if (!preg_match($pattern, $incoming_comment['comment_content'])) {
                 $message = '您的评论中必须包含汉字!';
                 $message = $message . MaMi_Admin::blank_button();
