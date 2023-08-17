@@ -1,11 +1,13 @@
 <?php
 /*
-Plugin Name: 魔法优化
-Plugin URI: https://www.npc.ink/277510.html
-Description: 文章统计+小功能
-Version: 0.1.5
-Author: Npcink
-Author URI: https://www.npc.ink/
+ * Plugin Name: 魔法优化
+ * Plugin URI: https://www.npc.ink/277510.html
+ * Description: 文章统计+小功能
+ * Version: 0.1.5
+ * Author: Npcink
+ * Author URI: https://www.npc.ink/
+ * Requires at least: 4.6
+ * Requires PHP:      7.0
  */
 //调试内容，在后台顶部显示一个通知
 // 如果直接调用此文件，请中止。
@@ -50,13 +52,8 @@ run_magick_mixture();
 
 
 
- //设置按钮
- add_filter('plugin_action_links_'.plugin_basename(__FILE__), function($links){
-    $links[] = '<a href="'.get_admin_url(null, 'options-general.php?page=mami_config') . '">' . __('设置','n') . '</a>';
+//设置按钮
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links) {
+    $links[] = '<a href="' . get_admin_url(null, 'options-general.php?page=mami_config') . '">' . __('设置', 'n') . '</a>';
     return $links;
 });
-
-
-
-
-
