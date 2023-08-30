@@ -162,19 +162,19 @@ if (!class_exists('Magick_Mixtrue_Census_Shop')) {
                 ),
                 array(
                     'title' => "总订单",
-                    'num' => (int)$option['total_sales'],
+                    'num' => (int)$option['total_order'],
                     'unit' => "个",
                     'icon' => "dashicons dashicons-insert",
                 ),
                 array(
                     'title' => "总退款额",
-                    'num' => (int)$option['total_sales'],
+                    'num' => (int)$option['total_refund_sales'],
                     'unit' => "￥",
                     'icon' => "dashicons dashicons-insert",
                 ),
                 array(
                     'title' => "总退款订单",
-                    'num' => (int)$option['total_sales'],
+                    'num' => (int)$option['total_refund_order'],
                     'unit' => "个",
                     'icon' => "dashicons dashicons-insert",
                 ),
