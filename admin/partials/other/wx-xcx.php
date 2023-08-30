@@ -33,8 +33,8 @@ if (!class_exists('MaMi_Wx_Xcx')) {
             $token = self::wx_json_token($appid, $secret);
             $link = self::get_link($token, $path, $query);
             //TODO:使用缓存技术，缓存token
-            // return $link;
-            echo $link;
+             return $link;
+            //echo $link;
         }
         /**
          * 构造获取token的链接
