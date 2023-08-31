@@ -70,7 +70,7 @@ const StyleAspect = {
   title:boo, //动态标题
   title_front:"(/≧▽≦/)你又回来啦！",//回到当前标签
   title_after:"你别走吖 Σ(っ °Д °;)っ",//离开标签后
-  scrol:boo, //美化滚动条
+  scrol:"false", //美化滚动条
   coupling:boo, //细线联结
 
   screen_hair: boo, //屏幕上的毛

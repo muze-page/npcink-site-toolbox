@@ -92,7 +92,7 @@ export type StyleAspect = {
   title:boolean; //动态标题
   title_front:string;//回到当前标签
   title_after:string;//离开标签后
-  scrol:boolean; //美化滚动条
+  scrol:string; //美化滚动条
   coupling:boolean; //细线联结
 
   screen_hair: boolean; //屏幕上的毛

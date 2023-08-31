@@ -17,7 +17,7 @@ count 文件夹下，是图表展示内容
 - 添加设置选项导入导出功能
 - 设置选项内容添加移动端适配
 
-# 功能
+## 功能
 
 - 去除分类 category https://www.npc.ink/5783.html
 - 复制文字跳出弹窗提示 https://www.npc.ink/5032.html https://www.npc.ink/12196.html
@@ -39,20 +39,15 @@ count 文件夹下，是图表展示内容
 - 文章添加缩略图展示 https://www.npc.ink/17087.html
 - 添加客服按钮 https://www.npc.ink/14571.html
 
-# 外观特效
+## 外观特效
+
 - 烟花粒子 demo2 带圆圈 https://www.npc.ink/14512.html
-
-- 添加动态标题 https://www.cnblogs.com/HaoranZing/p/16917421.html
-- 美化滚动条 https://www.npc.ink/6217.html
-- 添加细线链接特效 https://blog.csdn.net/weixin_42077074/article/details/121031327
-
 
 - 点击出现数字 https://www.npc.ink/5955.html
 - 点击出现文字 https://www.npc.ink/11756.html
-
 - 添加魔方 https://www.npc.ink/12188.html
 
-# 功能特效
+## 功能特效
 
 - 写了多少字+阅读时间 https://www.npc.ink/6896.html
 - 文章底部添加赞赏引导按钮 https://www.npc.ink/6613.html
@@ -66,6 +61,9 @@ count 文件夹下，是图表展示内容
 - 添加网页变灰功能
 - 添加一键黑白功能
 - 添加灯笼效果、全屏飘樱花效果
+- 添加动态标题
+- 添加美化滚动条
+- 添加细线链接特效
 - 修复 B2 商城统计时间倒叙问题
 - 修复月度统计数据不准的问题
 

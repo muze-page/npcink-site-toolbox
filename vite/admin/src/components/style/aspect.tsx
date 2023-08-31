@@ -66,7 +66,7 @@ const App: React.FC = () => {
           extra={"考虑到性能以及操作问题，移动端不加载此特效"}
         >
           <Select
-          style={{ width: "20%" }}
+            style={{ width: "20%" }}
             //TODO:默认值有问题
             options={[
               { value: "diffuse", label: "四散" },
@@ -80,7 +80,7 @@ const App: React.FC = () => {
           valuePropName="checked"
           extra={
             <>
-              离开当前页面后，在标签页上显示有趣的文本
+              离开当前页面后，在标签页上显示有趣的文本，
               <a
                 href="https://www.cnblogs.com/HaoranZing/p/16917421.html"
                 target="_blank"
@@ -95,13 +95,52 @@ const App: React.FC = () => {
         {formData.title && (
           <>
             <Form.Item<FieldType> label="回到当前页" name="title_front">
-              <Input style={{ width: "50%" }}/>
+              <Input style={{ width: "50%" }} />
             </Form.Item>
             <Form.Item<FieldType> label="离开当前页" name="title_after">
-              <Input style={{ width: "50%" }}/>
+              <Input style={{ width: "50%" }} />
             </Form.Item>
           </>
         )}
+
+        <Form.Item<FieldType>
+          label="美化滚动条"
+          name="scrol"
+          extra={
+            <>
+              让你的页面滚动条更美观，
+              <a href="https://www.npc.ink/6217.html" target="_blank">
+                详情
+              </a>
+            </>
+          }
+        >
+          <Select
+            style={{ width: "20%" }}
+            //TODO:默认值有问题
+            options={[
+              { value: "default", label: "默认" },
+              { value: "color", label: "彩条" },
+              { value: "false", label: "禁用" },
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          label="细线联结"
+          name="coupling"
+          valuePropName="checked"
+          extra={
+            <>
+             网页上添加若干蛛网围绕鼠标汇聚，若需进一步个性化配置，请使用<pre className="pre-meat">Canvas-Nest.js</pre>插件，
+              <a href="https://blog.csdn.net/weixin_42077074/article/details/121031327" target="_blank">
+                详情
+              </a>
+            </>
+          }
+        >
+          <Switch />
+        </Form.Item>
 
         <Form.Item<FieldType>
           label="屏幕上的毛"
@@ -109,7 +148,7 @@ const App: React.FC = () => {
           valuePropName="checked"
           extra={
             <>
-              在网页上添加一根毛发，蛮有趣的
+              在网页上添加一根毛发，蛮有趣的，
               <a href="https://mkblog.cn/2382/" target="_blank">
                 详情
               </a>
@@ -140,7 +179,7 @@ const App: React.FC = () => {
           valuePropName="checked"
           extra={
             <>
-              特殊时间下会有特别的意义，移动端不展示
+              特殊时间下会有特别的意义，移动端不展示，
               <a href="https://www.npc.ink/11073.html" target="_blank">
                 实现详情
               </a>
@@ -174,7 +213,7 @@ const App: React.FC = () => {
           valuePropName="checked"
           extra={
             <>
-              全站飘洒樱花
+              全站飘洒樱花，
               <a
                 href="https://www.cnblogs.com/quaint/p/12291936.html"
                 target="_blank"
