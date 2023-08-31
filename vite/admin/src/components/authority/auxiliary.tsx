@@ -5,9 +5,13 @@ import { Switch, Form, Input, Select } from "antd";
 import DataContext from "@/tool/dataContext";
 import { AuthorityAuxiliary } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
+import { AntConfig } from "@/tool/tool";
 
 //选项类型
 type FieldType = AuthorityAuxiliary;
+
+//Ant 组件配置
+const fromConfig = AntConfig.from;
 
 const App: React.FC = () => {
   //拿到值
@@ -44,9 +48,9 @@ const App: React.FC = () => {
     <>
       <Form
         name="auxiliary"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 800 }}
+        labelCol={{ span: fromConfig.labelCol }}
+        wrapperCol={{ span: fromConfig.wrapperCol }}
+        style={{ maxWidth: fromConfig.maxWidth }}
         //表单默认值，只有初始化以及重置时生效
         initialValues={publicData}
         //自动填充功能禁用
@@ -68,8 +72,6 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
-
-       
 
         <Form.Item<FieldType>
           label="屏蔽恶意关键词搜索"
