@@ -12,14 +12,15 @@ export type DataLocal = {
   //个性化
   style: {
     page: StylePage;
+    aspect: StyleAspect;
   };
   //权限
   authority: {
     //禁用
-    disable: AuthorityDisable;//禁用
-    auxiliary: AuthorityAuxiliary;//辅助功能
+    disable: AuthorityDisable; //禁用
+    auxiliary: AuthorityAuxiliary; //辅助功能
     b2: AuthorityB2; //B2主题
-    wx_xcx:AuthorityWxXcx; //微信小程序链接生成
+    wx_xcx: AuthorityWxXcx; //微信小程序链接生成
   };
   h5: {
     home: H5Home;
@@ -87,6 +88,11 @@ export type StylePage = {
   background_img: string; //文字背景图
 };
 
+//外观特效
+export type StyleAspect = {
+  site_grey: boolean; //网站变灰
+};
+
 //权限 禁用
 export type AuthorityDisable = {
   renew: boolean; //禁用自动更新
@@ -111,11 +117,11 @@ export type AuthorityB2 = {
 
 //权限 微信小程序
 export type AuthorityWxXcx = {
-  active:boolean;//开关状态
+  active: boolean; //开关状态
   appid: string; //
   secret: string; //
-  path: string;//路径
-  query: string;//参数
+  path: string; //路径
+  query: string; //参数
 };
 
 //H5 首页

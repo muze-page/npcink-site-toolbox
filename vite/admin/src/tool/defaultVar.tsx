@@ -66,6 +66,11 @@ const StylePage = {
   background_img: str, //文字背景图
 };
 
+//外观特效
+const StyleAspect = {
+  site_grey: boo, //网站变灰
+};
+
 //权限控制 禁用
 const AuthorityDisable = {
   renew: boo, //自动更新
@@ -90,7 +95,7 @@ const AuthorityB2 = {
 
 //权限 微信小程序
 const AuthorityWxXcx = {
-  active:boo,//开关状态
+  active: boo, //开关状态
   appid: str, //
   secret: str, //
   path: str, //路径
@@ -135,6 +140,7 @@ const App = {
   //个性化
   style: {
     page: StylePage, //页面特效
+    aspect: StyleAspect, //外观特效
   },
   //H5
   h5: {
