@@ -1,11 +1,12 @@
 <?php
 /*
- Template Name: Go跳转
+ Go中间页跳转 - 知乎
  */
 //拿到的链接：
 $external_url = isset($_GET['url']) ? $_GET['url'] : '';
 //网站名：
-$site_name = get_bloginfo('name');
+//$site_name = get_bloginfo('name');
+$site_name = '666';
 
 
 ?>

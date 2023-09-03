@@ -23,19 +23,8 @@ add_filter('the_content', 'the_content_nofollowss', 999);
 
 
 
-function custom_plugin_rewrite_rules()
-{
-    add_rewrite_rule(
-        '^too/', // 设置你的链接格式，例如 /too/
-        'index.php?pagename=page-go&custom_id=$matches[1]', // 指向你的自定义模板文件的路径
-        'top'
-    );
 
-    add_rewrite_rule(
-        '^my-page/?$',
-        plugins_url('/page-go.php', __FILE__),
-        'top'
-    );
-}
 
-add_action('init', 'custom_plugin_rewrite_rules');
+
+
+
