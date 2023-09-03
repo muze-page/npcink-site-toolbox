@@ -6,18 +6,9 @@
 if (!class_exists('MaMi_Auxiliary_Index')) {
     class MaMi_Auxiliary_Index
     {
-
         private static $auxiliary; //辅助功能
         //加载
-        //加载文件
-        public static function load()
-        {
-            //文章统计页面
-            require_once plugin_dir_path(__FILE__) . '/block/census-single.php';
 
-            //登录验证码
-            require_once plugin_dir_path(__FILE__) . '/block/login_verify.php';
-        }
         public static function run($auxiliary)
         {
             //加载文件
@@ -47,6 +38,16 @@ if (!class_exists('MaMi_Auxiliary_Index')) {
                 MaMi_Login_Verify::run($login_code);
             }
         }
+        //加载文件
+        public static function load()
+        {
+            //文章统计页面
+            require_once plugin_dir_path(__FILE__) . '/block/census-single.php';
+
+            //登录验证码
+            require_once plugin_dir_path(__FILE__) . '/block/login_verify.php';
+        }
+
         //屏蔽恶意关键词搜索
         public static function ytkah_search_ban()
         {
