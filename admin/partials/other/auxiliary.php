@@ -40,8 +40,12 @@ if (!class_exists('MaMi_Auxiliary_Index')) {
             //跳转中间页
             $go_middle = MaMi_Admin::get_config($auxiliary, 'go_middle');
             if ($go_middle !== "false") {
-                //改造链接
+                //改造文章中的链接
                 add_filter('the_content', array(__CLASS__, 'the_content_nofollowss'), 999);
+
+                 //改造评论中的链接
+                add_filter('get_comment_text', array(__CLASS__, 'the_content_nofollowss'), 999);
+
                 //添加重定向
                 register_activation_hook(__FILE__, array(__CLASS__, 'go_to_new_link'));
                 add_action('init', array(__CLASS__, 'go_to_new_link'));
@@ -88,7 +92,7 @@ if (!class_exists('MaMi_Auxiliary_Index')) {
          * 跳转中间页
          */
         /**
-         * WordPress外链新窗口打开并使用php页面go跳转
+         * WordPress外链新窗口打开并使用php页面go跳转 - 替换文章中的链接内容
          * https://www.dujin.org/12762.html
          */
         public static function the_content_nofollowss($content)
@@ -97,7 +101,9 @@ if (!class_exists('MaMi_Auxiliary_Index')) {
             if ($matches) {
                 foreach ($matches[2] as $val) {
                     if (strpos($val, '://') !== false && strpos($val, home_url()) === false && !preg_match('/\.(jpg|jepg|png|ico|bmp|gif|tiff)/i', $val)) {
-                        $content = str_replace("href=\"$val\"", "href=\"" . home_url() . "/go_to/?url=$val\" ", $content);
+                        $new_link = home_url() . '/go_to/?url=' . $val;
+                        $replacement = "href=\"$new_link\" rel=\"external nofollow\" target=\"_blank\"";
+                        $content = str_replace("href=\"$val\"", $replacement, $content);
                     }
                 }
             }
