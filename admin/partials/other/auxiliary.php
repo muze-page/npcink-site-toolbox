@@ -108,16 +108,16 @@ if (!class_exists('MaMi_Auxiliary_Index')) {
                 return $matches[0];
             }, $content);
 
-            // 处理纯链接内容
-            $content = preg_replace_callback('/(https?:\/\/[^\s]+)/i', function ($matches) {
-                $url = $matches[1];
-                if (strpos($url, home_url()) === false && !preg_match('/\.(jpg|jpeg|png|ico|bmp|gif|tiff)/i', $url)) {
-                    $new_link = home_url('/go_to/?url=' . urlencode($url));
-                    $replacement = '<a href="' . $new_link . '" rel="external nofollow" target="_blank">' . $url . '</a>';
-                    return $replacement;
-                }
-                return $matches[0];
-            }, $content);
+            // 处理纯链接内容 - 有问题
+           //$content = preg_replace_callback('/(https?:\/\/[^\s]+)/i', function ($matches) {
+           //    $url = $matches[1];
+           //    if (strpos($url, home_url()) === false && !preg_match('/\.(jpg|jpeg|png|ico|bmp|gif|tiff)/i', $url)) {
+           //        $new_link = home_url('/go_to/?url=' . urlencode($url));
+           //        $replacement = '<a href="' . $new_link . '" rel="external nofollow" target="_blank">' . $url . '</a>';
+           //        return $replacement;
+           //    }
+           //    return $matches[0];
+           //}, $content);
 
             // 替换评论者填写了网站地址的链接TODO:未完成
 
@@ -156,6 +156,14 @@ if (!class_exists('MaMi_Auxiliary_Index')) {
                 }
                 if ($go_middle === "shimo") {
                     include  $path . 'public/templant/go/shimo.php'; // 石墨文档
+                }
+
+                if ($go_middle === "jianshu") {
+                    include  $path . 'public/templant/go/jianshu.php'; // 简书
+                }
+
+                if ($go_middle === "csdn") {
+                    include  $path . 'public/templant/go/csdn.php'; // CSDN
                 }
 
 

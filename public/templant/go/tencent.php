@@ -57,6 +57,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
       font-weight: 500;
       color: #000;
       margin-bottom: 10px;
+      line-height: 1.6em;
     }
 
     .cdc-external-link-page .mod-external-link-address {
@@ -122,7 +123,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
           <div class="mod-external-link-title">您即将离开<?php echo $site_name ?>，请注意您的账号财产安全</div>
           <div class="mod-external-link-address"><?php echo esc_url($external_url); ?></div>
         </div>
-        <div class="mod-external-link-btn"><a href="<?php echo esc_url($external_url); ?>" target="_blank">继续访问</a></div>
+        <div class="mod-external-link-btn"><a href="<?php echo esc_url($external_url); ?>" target="_self">继续访问</a></div>
       </div>
     </div>
   </div>

@@ -149,6 +149,8 @@ const App: React.FC = () => {
               { value: "zhihu", label: "知乎" },
               { value: "tencent", label: "腾讯云" },
               { value: "shimo", label: "石墨文档" },
+              { value: "jianshu", label: "简书" },
+              { value: "csdn", label: "CSDN" },
             ]}
           />
         </Form.Item>

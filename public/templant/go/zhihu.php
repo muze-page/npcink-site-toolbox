@@ -221,7 +221,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
             <p class="link"><?php echo esc_url($external_url); ?></p>
         </div>
         <div class="actions">
-            <a class="button" href="<?php echo esc_url($external_url); ?>" target="_blank">继续访问</a>
+            <a class="button" href="<?php echo esc_url($external_url); ?>" target="_self">继续访问</a>
         </div>
     </div>
 </body>

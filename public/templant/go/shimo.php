@@ -102,6 +102,21 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
             line-height: 32px;
             padding: 0px 15px;
         }
+
+        @media (max-width: 820px) {
+            .gtGAjh .modal {
+                width: 90%;
+                padding: 30px 10px;
+            }
+
+            .gtGAjh .modal .title {
+                font-size: 18px;
+            }
+
+            .gtGAjh .modal .link {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 
@@ -114,7 +129,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                 <h2 class="title">你即将离开<?php echo $site_name ?>，跳转到外部链接</h2>
                 <p class="subtitle">请谨慎评估风险并注意保护你的隐私及财产安全</p>
                 <p class="link"><?php echo esc_url($external_url); ?></p><br>
-                <a href="<?php echo esc_url($external_url); ?>" target="_blank">
+                <a href="<?php echo esc_url($external_url); ?>" target="_self">
                     <button class=" gKgaxE  button" type="default">继续访问</button>
                 </a>
 
