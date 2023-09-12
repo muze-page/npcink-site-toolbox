@@ -198,7 +198,16 @@ const App: React.FC = () => {
             >
               <Input />
             </Form.Item>
-            <Form.Item<FieldType> label="介绍">
+            <Form.Item<FieldType>
+              label="介绍"
+              extra={
+                <p>
+                  此选项会添加接口，供自定义页面或其他页面调用，地址如下
+                  <pre className="pre-meat">您的网址/wp-json/wx_xcx/v1/qy</pre>
+                 
+                </p>
+              }
+            >
               <Collapse accordion items={items} bordered={false} />
             </Form.Item>
           </>
