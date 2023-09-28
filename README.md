@@ -15,6 +15,7 @@ count 文件夹下，是图表展示内容
 # 计划
 
 - 开启严格模式下开发
+- 给每篇文章自动都生成一个小程序文章链接
 
 - 集成百度文本审核 https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjgn3
 - 撰写文章类型，模仿日记格式https://www.dratk.com/
