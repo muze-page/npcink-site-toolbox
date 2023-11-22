@@ -31,8 +31,7 @@ define('MAGICK_MIXTURE_VERSION', '0.1.7');
 require plugin_dir_path(__FILE__) . 'includes/class-magick-mixtrue.php';
 
 
-//测试类
-require plugin_dir_path(__FILE__) . 'index.php';
+
 
 /**
  * 开始执行插件。
@@ -57,3 +56,8 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links)
     $links[] = '<a href="' . get_admin_url(null, 'options-general.php?page=mami_config') . '">' . __('设置', 'n') . '</a>';
     return $links;
 });
+
+
+
+//测试类 - 开发用，正式用记得注释掉
+require plugin_dir_path(__FILE__) . 'index.php';

@@ -63,6 +63,8 @@ class MaMi_Admin
     public function load()
     {
 
+        //接口
+        require_once plugin_dir_path(__FILE__) . 'interface.php';
 
         //优化设置
         require_once plugin_dir_path(__FILE__) . 'partials/optimize.php';
@@ -86,13 +88,11 @@ class MaMi_Admin
         //加载菜单用的 CSS 和 JS 资源
         add_action('admin_enqueue_scripts', array(__CLASS__, 'load_admin_script'));
 
-
-
-
-
         // 添加Ajax请求处理函数
         add_action('wp_ajax_save_object_option', array(__CLASS__, 'save_object_option_callback'));
 
+        //加载接口
+        MaMi_Interface::run();
         /**
          * 优化
          */
@@ -142,7 +142,7 @@ class MaMi_Admin
         //准备节点
         echo '</h2><div id="root"></div>';
 
-       
+
         // $value = get_option(self::$option);
         // echo "<h2>设置选项的值</h2>";
         // $jsonString = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
