@@ -18,8 +18,17 @@ class MaMi_Interface
     {
         global $wpdb;
 
-        $table_names = $wpdb->tables();
-
+        
+        //获取所有表名
+        $results = $wpdb->get_results("SHOW TABLES", ARRAY_N);
+    
+        $table_names = array();
+        
+        foreach ($results as $result) {
+            $table_names[] = $result[0];
+        }
+        
+        
         // 处理请求，并生成响应数据
         $response = array(
             'data' =>  $table_names,

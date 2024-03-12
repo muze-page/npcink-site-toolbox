@@ -64,6 +64,7 @@ count 文件夹下，是图表展示内容
 
 - 写了多少字+阅读时间 https://www.npc.ink/6896.html
 - 文章底部添加赞赏引导按钮 https://www.npc.ink/6613.html
+- 生成海报功能：https://blog.wpjam.com/project/wpjam-modal/
 
 # 更新记录
 
@@ -168,3 +169,16 @@ count 文件夹下，是图表展示内容
 - https://www.termilk.com/Rose-archive
 
 # 待解决问题
+隐藏wp-admin防垃圾注册
+依据二开文档在适当的位置添加如下代码
+
+add_action(‘login_enqueue_scripts’,’login_protection’); 
+function login_protection(){ 
+if($_GET[‘root‘] != ‘admin‘)header(‘Location: https://www.phpfensi.com’); 
+} 
+
+添加上面的脚本就可以做到隐藏https://www.aovon.com/wp-login.php了，将红色的部分修改成自己需要的就可以了，以后就可以使用下面的链接进行登陆了。
+
+https://www.phpfensi.com/wp-login.php?root=admin
+
+这样的话，别人再使用wp-login.php访问时就会自动跳转到指定的页面了，确保了登陆入口的隐蔽性。
