@@ -158,6 +158,10 @@ count 文件夹下，是图表展示内容
 - 表情：https://7b2.com/circle/56687.html
 
 - 表情用项目：https://github.com/DIYgod/OwO
+## 优化插件
+- 外链跳转：https://www.lovestu.com/cp-link-open.html
+- 优化：https://www.lovestu.com/wpopt.html
+- 文章图片遮罩层水印插件：https://ds17.cn/2711.html
 
 ## 其他
 
