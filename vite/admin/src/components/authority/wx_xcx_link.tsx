@@ -156,6 +156,20 @@ const App: React.FC = () => {
             >
               <Input.Password />
             </Form.Item>
+            <Form.Item<FieldType>
+              label="网址"
+              name="site"
+              extra={
+                <p>
+                小程序中跳转的外部网址，例如
+                  <pre className="pre-meat">
+                    https://www.npc.ink/300485.html
+                  </pre>
+                </p>
+              }
+            >
+              <Input />
+            </Form.Item>
 
             <Form.Item<FieldType>
               label="路径参数"

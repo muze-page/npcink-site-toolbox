@@ -131,6 +131,7 @@ export type AuthorityWxXcx = {
   active: boolean; //开关状态
   appid: string; //
   secret: string; //
+  site: string;//小程序中打开的网址
   path: string; //路径
   query: string; //参数
 };

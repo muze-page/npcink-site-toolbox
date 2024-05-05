@@ -109,6 +109,7 @@ const AuthorityWxXcx = {
   active: boo, //开关状态
   appid: str, //
   secret: str, //
+  site: str, //网址
   path: str, //路径
   query: str, //参数
 };

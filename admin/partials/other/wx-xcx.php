@@ -182,5 +182,12 @@ if (!class_exists('MaMi_Wx_Xcx')) {
 
             return $data;
         }
+
+        //传递网址选项
+        public static function get_h5_options_site()
+        {
+            $site = MaMi_Admin::get_config(self::$option, 'site');
+            return $site;
+        }
     } //end
 }

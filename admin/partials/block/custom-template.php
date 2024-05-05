@@ -18,6 +18,9 @@ $link = MaMi_Wx_Xcx::add_hello_header();
 $page_url = get_permalink();
 
 $site_url = home_url(); // 获取当前网站的URL
+
+//选项中的网址
+$site = MaMi_Wx_Xcx::get_h5_options_site();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,21 +62,6 @@ $site_url = home_url(); // 获取当前网站的URL
         </div>
     </div>
     <script>
-        //打开链接
-        function onJumpWxBtn() {
-            //TODO:待验证
-            fetch(
-                    ' <?php echo $site_url . '/wp-json/wx_xcx/v1/qy' ?>'
-                ) //当前接口
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    window.location.href = data.data; //跳转微信小程序
-                })
-                .catch(error => {
-                    alert(error);
-                });
-        }
 
         //判断是否是手机
         function isMobile() {
@@ -112,13 +100,18 @@ $site_url = home_url(); // 获取当前网站的URL
         //判断是否是微信小程序
         const switchXcx = () => {
             if (window.__wxjs_environment === 'miniprogram') {
+                //选项中的网址
+                let site = <?php echo json_encode($site); ?>;
                 // 当前环境是微信小程序
                 console.log('当前环境是微信小程序');
-                //TODO:如何在小程序中打开页面
-                window.location.href = 'https://dongbd.com/303904.html'; //跳转外部文章页面
+                //TODO:如何在小程序中打开小程序的页面
+                window.location.href = site; //跳转外部文章页面
             } else {
                 // 当前环境不是微信小程序
-                onJumpWxBtn(); //跳转微信小程序
+                //onJumpWxBtn(); //跳转微信小程序
+                //选项中的网址
+                let link = <?php echo json_encode($link); ?>;
+                window.location.href = link; //跳转外部文章页面
             }
         }
 
@@ -132,6 +125,8 @@ $site_url = home_url(); // 获取当前网站的URL
         } else {
             console.log('当前是电脑');
             mobileElement.style.display = 'none';
+
+
         }
     </script>
 
