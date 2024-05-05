@@ -68,13 +68,14 @@ $site_url = home_url(); // 获取当前网站的URL
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    window.location.href = data.data;
+                    window.location.href = data.data; //跳转微信小程序
                 })
                 .catch(error => {
                     alert(error);
                 });
         }
 
+        //判断是否是手机
         function isMobile() {
             const userAgent = navigator.userAgent.toLowerCase();
             const mobileKeywords = ['android', 'iphone', 'ipod', 'ipad', 'windows phone'];
@@ -86,20 +87,6 @@ $site_url = home_url(); // 获取当前网站的URL
             }
 
             return false;
-        }
-
-        //获取位置
-        const pcElement = document.querySelector('#pc');
-        const mobileElement = document.querySelector('#mobile');
-
-        //判断
-        if (isMobile()) {
-            console.log('当前是手机');
-            pcElement.style.display = 'none';
-            onJumpWxBtn()
-        } else {
-            console.log('当前是电脑');
-            mobileElement.style.display = 'none';
         }
 
         /*
@@ -116,6 +103,36 @@ $site_url = home_url(); // 获取当前网站的URL
                     console.log('复制文本失败:', error);
                 });
         });
+
+
+        //获取位置
+        const pcElement = document.querySelector('#pc');
+        const mobileElement = document.querySelector('#mobile');
+
+        //判断是否是微信小程序
+        const switchXcx = () => {
+            if (window.__wxjs_environment === 'miniprogram') {
+                // 当前环境是微信小程序
+                console.log('当前环境是微信小程序');
+                //TODO:如何在小程序中打开页面
+                window.location.href = 'https://dongbd.com/303904.html'; //跳转外部文章页面
+            } else {
+                // 当前环境不是微信小程序
+                onJumpWxBtn(); //跳转微信小程序
+            }
+        }
+
+        //判断
+        if (isMobile()) {
+            console.log('当前是手机');
+            pcElement.style.display = 'none';
+            //判断是否是微信小程序
+            switchXcx();
+
+        } else {
+            console.log('当前是电脑');
+            mobileElement.style.display = 'none';
+        }
     </script>
 
 </body>
