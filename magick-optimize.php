@@ -53,7 +53,7 @@ run_magick_mixture();
 
 //设置按钮
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links) {
-    $links[] = '<a href="' . get_admin_url(null, 'options-general.php?page=mami_config') . '">' . __('设置', 'n') . '</a>';
+    $links[] = '<a href="' . get_admin_url(null, 'plugins.php?page=mami_config') . '">' . __('设置', 'n') . '</a>';
     return $links;
 });
 

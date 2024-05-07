@@ -63,8 +63,6 @@ class MaMi_Admin
     public function load()
     {
 
-       
-
         //优化设置
         require_once plugin_dir_path(__FILE__) . 'partials/optimize.php';
 
@@ -137,7 +135,7 @@ class MaMi_Admin
         echo '<div class="wrap"> <h2>';
 
         //准备菜单标题
-        echo esc_html(get_admin_page_title());
+        //echo esc_html(get_admin_page_title());
         //准备节点
         echo '</h2><div id="root"></div>';
 

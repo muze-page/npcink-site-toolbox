@@ -89,7 +89,7 @@ if (!class_exists('Npcink_Jump_Middle_Page')) {
 
 
             if ($wp->request === 'go_to') {
-                $path = plugin_dir_path(dirname(dirname(dirname(__FILE__))));
+                $path = plugin_dir_path(dirname(dirname(dirname(dirname(__FILE__)))));
 
                 switch ($page_type) {
                     case 'zhihu':
