@@ -63,8 +63,7 @@ class MaMi_Admin
     public function load()
     {
 
-        //接口
-        require_once plugin_dir_path(__FILE__) . 'interface.php';
+       
 
         //优化设置
         require_once plugin_dir_path(__FILE__) . 'partials/optimize.php';
@@ -91,8 +90,7 @@ class MaMi_Admin
         // 添加Ajax请求处理函数
         add_action('wp_ajax_save_object_option', array(__CLASS__, 'save_object_option_callback'));
 
-        //加载接口
-        MaMi_Interface::run();
+       
         /**
          * 优化
          */

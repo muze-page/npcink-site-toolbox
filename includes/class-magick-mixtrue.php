@@ -41,7 +41,7 @@ class Magick_Mixtrue
             $this->version = MAGICK_MIXTURE_VERSION;
         } else {
             //没有的话，设置默认插件版本号值
-            $this->version = '1.0.0';
+            $this->version = '1.0.2';
         }
         $this->plugin_name = 'magick-mixtrue';
 

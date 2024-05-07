@@ -13,10 +13,13 @@ if (!class_exists('MaMi_Function')) {
             //获取设置选项值
             $config = MaMi_Admin::get_seting('authority');
 
+            //下载指定数据库表内容
+            MaMi_Download_SQL_Table::run();
+
             //禁用
             $disable =  MaMi_Admin::get_config($config, 'disable');
             MaMi_Auxiliary_Disable::run($disable);
-            
+
             //辅助功能
             $auxiliary =  MaMi_Admin::get_config($config, 'auxiliary');
             MaMi_Auxiliary_Index::run($auxiliary);
@@ -33,6 +36,9 @@ if (!class_exists('MaMi_Function')) {
         //加载文件
         public static function load()
         {
+            //下载指定数据库表内容
+            require_once plugin_dir_path(__FILE__) . 'function/download-sql-table.php';
+
             //商城统计页面
             require_once plugin_dir_path(__FILE__) . 'other/block/census-shop.php';
 
