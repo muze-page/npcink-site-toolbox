@@ -6,7 +6,6 @@ import Style from "@/components/style/index";
 import Authority from "@/components/authority/index";
 import H5 from "@/components/h5/index";
 
-
 const items: TabsProps["items"] = [
   {
     key: "1",
@@ -27,12 +26,15 @@ const items: TabsProps["items"] = [
     key: "4",
     label: `H5`,
     children: <H5 />,
-  }
-  
+  },
 ];
 
 const App: React.FC = () => (
-  <Tabs defaultActiveKey="1" items={items}  />
+  <Tabs
+    defaultActiveKey="1"
+    tabPosition="left"
+    items={items}
+  />
 );
 
 export default App;

@@ -2,7 +2,7 @@
 //将拿到的值推送到服务器端
 import { useContext } from "react";
 import axios from "axios";
-import { Button, message, Affix } from "antd";
+import { Button, message,  } from "antd";
 import DataContext from "./dataContext";
 
 //开发环境状态
@@ -71,11 +71,11 @@ const App: React.FC = () => {
   return (
     <>
       {contextHolder}
-      <Affix offsetTop={380}>
+     
         <Button type="primary" onClick={postData}>
           保存
         </Button>
-      </Affix>
+     
     </>
   );
 };
