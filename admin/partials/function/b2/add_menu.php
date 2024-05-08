@@ -13,6 +13,11 @@ if (!class_exists('Npcink_B2_Shop_Add_Menu')) {
 
             //加载前端资源并传值
             add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
+
+            //引入每天销售额
+            require_once plugin_dir_path(__FILE__) . './list/day.php';
+            
+
         }
 
         /**
@@ -75,8 +80,12 @@ if (!class_exists('Npcink_B2_Shop_Add_Menu')) {
             //传输数据给JS
             $mami_array = array(
                 'countData' => self::deliver_data(), //统计的数据信息
+                'day_data' => Npcink_B2_Shop_Day::run(),
             );
             wp_localize_script(MAGICK_MIXTURE_NAME . '_index_js', 'dataLocal', $mami_array); //传给vite项目
+            $default_value = $mami_array;
+
+            printf('<script>console.log(%s)</script>', json_encode($default_value));
         }
     }
 }

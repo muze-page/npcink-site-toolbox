@@ -3,10 +3,11 @@ import "./App.css";
 //import "./load-styles.css";
 import B2Shop from "@/components/page/b2Shop/index";
 import SingleCount from "@/components/page/singleCount/index";
-
+import Demo from "@/components/demo";
 function App() {
   return (
     <>
+    <Demo />
       {/**
        * 销售统计
        */}
