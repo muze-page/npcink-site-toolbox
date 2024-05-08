@@ -4,10 +4,12 @@ import "./App.css";
 import B2Shop from "@/components/page/b2Shop/index";
 import SingleCount from "@/components/page/singleCount/index";
 import Demo from "@/components/demo";
+import { ConfigProvider } from "antd";
+import zhCN from "antd/locale/zh_CN";
 function App() {
   return (
-    <>
-    <Demo />
+    <ConfigProvider locale={zhCN}>
+      <Demo />
       {/**
        * 销售统计
        */}
@@ -18,7 +20,7 @@ function App() {
        */}
 
       <SingleCount />
-    </>
+    </ConfigProvider>
   );
 }
 

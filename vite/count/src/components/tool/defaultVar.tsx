@@ -152,16 +152,32 @@ export const SingleCount = [
   },
 ];
 
+const day_data = [
+  {
+    time: "2024-04-08",
+    total: "326.00",
+    color: "red",
+  },
+  {
+    time: "2024-04-10",
+    total: "676.00",
+    color: "green",
+  },
+];
+
 const App = {
-  shop: {
-    today: ShopToday, //今天的销售统计信息
-    month: ShopMonth, //本月销售统计信息
-    form: ShopForm, //最近7天销售统计信息
+  countData: {
+    shop: {
+      today: ShopToday, //今天的销售统计信息
+      month: ShopMonth, //本月销售统计信息
+      form: ShopForm, //最近7天销售统计信息
+    },
+    single: {
+      count: SingleCount, //文章统计
+      today: SinglePublishToday, //今日发文统计
+      month: SinglePublishMonth, //月度发文统计
+    },
   },
-  single: {
-    count: SingleCount, //文章统计
-    today: SinglePublishToday, //今日发文统计
-    month: SinglePublishMonth, //月度发文统计
-  },
+  day_data: day_data,
 };
 export default App;

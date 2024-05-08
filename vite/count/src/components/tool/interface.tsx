@@ -1,3 +1,15 @@
+//传来的值
+export type Receive = {
+  countData: DataLocal;
+  day_data: DayData[];
+};
+
+export type DayData = {
+  time: string;
+  total: string;
+  color: string;
+};
+//表格值
 export type DataLocal = {
   shop: {
     today: Array<Count>;
@@ -9,7 +21,6 @@ export type DataLocal = {
     today: ColumnMore;
     month: ColumnMore;
   };
-
 };
 
 //模块
@@ -23,7 +34,7 @@ export type Count = {
 //单柱状图
 export type Column = {
   title: string; //标题
-  tooltip?:string;//提示符
+  tooltip?: string; //提示符
   x: Array<string>; //横轴数据
   s: {
     title: string; //提示标题
@@ -36,6 +47,6 @@ export type ColumnMore = {
   width: number; //表格宽
   height: number; //表格高
   title: string; //标题
-  tooltip?:string;//提示符
+  tooltip?: string; //提示符
   dataset: Array<Array<string | number>>; //数据
 };

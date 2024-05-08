@@ -1,40 +1,37 @@
 import React from "react";
-import type { BadgeProps, CalendarProps } from "antd";
-import { Badge, Calendar } from "antd";
+import type { CalendarProps } from "antd";
+import { Calendar } from "antd";
 import type { Dayjs } from "dayjs";
+import { day_data } from "./tool/dataContext";
 
+
+
+//月度
 const getListData = (value: Dayjs) => {
-  console.log(`Date: ${value.format("YYYY-MM-DD")}`);
-  let listData;
-  switch (value.date()) {
-    case 8:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-      ];
-      break;
-    case 10:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-        { type: "error", content: "This is error event." },
-      ];
-      break;
-    case 15:
-      listData = [
-        { type: "warning", content: "This is warning event" },
-        { type: "success", content: "This is very long usual event......" },
-        { type: "error", content: "This is error event 1." },
-        { type: "error", content: "This is error event 2." },
-        { type: "error", content: "This is error event 3." },
-        { type: "error", content: "This is error event 4." },
-      ];
-      break;
-    default:
+  //拿到当前时间
+  const time = value.format("YYYY-MM-DD");
+
+  for (let i = 0; i < day_data.length; i++) {
+    if (day_data[i].time === time) {
+      return day_data[i];
+    }
   }
-  return listData || [];
+
+  return null;
 };
 
+const dateCellRender = (value: Dayjs) => {
+  const listData = getListData(value);
+
+  const styles = { "--bgColor": listData?.color } as React.CSSProperties;
+  return (
+    <div className="calendar-box" style={styles}>
+      <span> {listData?.total}</span>
+    </div>
+  );
+};
+
+//年度
 const getMonthData = (value: Dayjs) => {
   if (value.month() === 8) {
     return 1394;
@@ -50,22 +47,6 @@ const App: React.FC = () => {
         <span>Backlog number</span>
       </div>
     ) : null;
-  };
-
-  const dateCellRender = (value: Dayjs) => {
-    const listData = getListData(value);
-    return (
-      <ul className="events">
-        {listData.map((item) => (
-          <li key={item.content}>
-            <Badge
-              status={item.type as BadgeProps["status"]}
-              text={item.content}
-            />
-          </li>
-        ))}
-      </ul>
-    );
   };
 
   const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {

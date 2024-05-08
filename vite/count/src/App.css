@@ -76,3 +76,14 @@
     flex-wrap: wrap;
   }
 }
+.calendar-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: large;
+  border-radius: 6px;
+  background-color: var(--bgColor, #fff);
+}
