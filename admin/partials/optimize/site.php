@@ -21,28 +21,9 @@ if (!class_exists('MaMi_Optimize_Site')) {
             if ($add_inks) {
                 add_filter('the_content', array(__CLASS__, 'tag_link'), 1);
             }
-
-            //登录页LOGO改为首页链接
-            $modify_login_link = MaMi_Admin::get_config($option, 'modify_login_link');
-            if ($modify_login_link) {
-                add_filter('login_headerurl', array(__CLASS__, 'admin_logo_home'));
-            }
-
-            //移除登录页语言选择器
-            $remove_langue = MaMi_Admin::get_config($option, 'remove_langue');
-            //https://www.iowen.cn/yichuwordpress59dengluyemianzhongdeyuyanqiehuankuang/
-            if ($remove_langue) {
-                add_filter('login_display_language_dropdown', '__return_false');
-            }
         }
 
-        /* 作用：登录页LOGO改为首页链接
-         * 来源：https://www.iowen.cn/chundaimameihuawordpressmorendengluye/
-         * */
-        public static function admin_logo_home()
-        {
-            return esc_url(home_url());
-        }
+
 
         /*
          *作用：Wordpress文章关键词自动添加内链链接代码
