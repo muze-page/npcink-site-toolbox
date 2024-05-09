@@ -24,7 +24,7 @@ function getDataLocal(): DataLocal {
 
 //传值
 const dataObject: DataLocal = getDataLocal();
-
+console.log(dataObject);
 const DataContext = createContext(dataObject);
 
 export default DataContext;

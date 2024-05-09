@@ -56,22 +56,17 @@ const StylePage = {
   color_tag: boo, //彩色标签云特效
   past_books: boo, //已写完的书
   comment_emote: boo, //评论区表情包特效
-  custom_login_page: boo, //自定义登录页
-  background_left: str, //左下角颜色
-  background_right: str, //右上角颜色
-  logo_size: 84, //LOGO尺寸
-  top_logo: str, //顶部LOGO
-  background_img: str, //文字背景图
+  
 };
 
 //外观特效
 const StyleAspect = {
   particle: "false", //粒子特效
-  title:boo, //动态标题
-  title_front:"(/≧▽≦/)你又回来啦！",//回到当前标签
-  title_after:"你别走吖 Σ(っ °Д °;)っ",//离开标签后
-  scrol:"false", //美化滚动条
-  coupling:boo, //细线联结
+  title: boo, //动态标题
+  title_front: "(/≧▽≦/)你又回来啦！", //回到当前标签
+  title_after: "你别走吖 Σ(っ °Д °;)っ", //离开标签后
+  scrol: "false", //美化滚动条
+  coupling: boo, //细线联结
 
   screen_hair: boo, //屏幕上的毛
   site_grey: boo, //网站变灰
@@ -95,7 +90,7 @@ const AuthorityAuxiliary = {
   login_code: "false", //登录验证码
   tecent_id: str, //腾讯ID
   tecent_key: str, //腾讯秘钥
-  go_middle:"false",//链接跳转中间页
+  go_middle: "false", //链接跳转中间页
 };
 
 //权限控制 b2
@@ -133,6 +128,16 @@ const H5Contact = {
   introduce: str, //介绍
 };
 
+//登录页 美化
+const LoginBeautify = {
+  custom_login_page: boo, //自定义登录页
+  background_left: str, //左下角颜色
+  background_right: str, //右上角颜色
+  logo_size: 84, //LOGO尺寸
+  top_logo: str, //顶部LOGO
+  background_img: str, //文字背景图
+};
+
 const App = {
   //优化
   optimize: {
@@ -158,6 +163,9 @@ const App = {
   h5: {
     home: H5Home, //首页
     contact: H5Contact, //联系
+  },
+  login: {
+    beautify: LoginBeautify, //美化
   },
 };
 

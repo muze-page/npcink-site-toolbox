@@ -26,6 +26,11 @@ export type DataLocal = {
     home: H5Home;
     contact: H5Contact;
   };
+  //登录
+  login: {
+    beautify: LoginBeautify; //美化
+    //security: LoginSecurity;//安全
+  };
 };
 
 //优化 站点
@@ -78,12 +83,6 @@ export type StylePage = {
   color_tag: boolean; //彩色标签云特效
   past_books: boolean; //已写完的书
   comment_emote: boolean; //评论区表情包特效
-  custom_login_page: boolean; //自定义登录页
-  background_left: string; //左下角颜色
-  background_right: string; //右上角颜色
-  logo_size: number; //LOGO尺寸
-  top_logo: string; //顶部LOGO
-  background_img: string; //文字背景图
 };
 
 //外观特效
@@ -131,7 +130,7 @@ export type AuthorityWxXcx = {
   active: boolean; //开关状态
   appid: string; //
   secret: string; //
-  site: string;//小程序中打开的网址
+  site: string; //小程序中打开的网址
   path: string; //路径
   query: string; //参数
 };
@@ -156,8 +155,18 @@ export type H5Contact = {
   introduce: string; //介绍
 };
 
+//登录 美化
+export type LoginBeautify = {
+  custom_login_page: boolean; //自定义登录页
+  background_left: string; //左下角颜色
+  background_right: string; //右上角颜色
+  logo_size: number; //LOGO尺寸
+  top_logo: string; //顶部LOGO
+  background_img: string; //文字背景图
+};
+
 //下拉列表类型
 export type ListData = {
   label: string;
-  value: string ;
+  value: string;
 };
