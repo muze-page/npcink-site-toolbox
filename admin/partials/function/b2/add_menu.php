@@ -15,7 +15,7 @@ if (!class_exists('Npcink_B2_Shop_Add_Menu')) {
             add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
 
             //引入每天销售额
-            require_once plugin_dir_path(__FILE__) . './list/day.php';
+            require_once plugin_dir_path(__FILE__) . 'day.php';
             
 
         }
