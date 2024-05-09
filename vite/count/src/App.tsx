@@ -3,7 +3,7 @@ import "./App.css";
 //import "./load-styles.css";
 import B2Shop from "@/components/page/b2Shop/index";
 import SingleCount from "@/components/page/singleCount/index";
-import YearList from "@/components/page/yearList";
+import YearList from "@/components/page/time/yearList";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
 function App() {

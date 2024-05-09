@@ -1,7 +1,7 @@
 import React from "react";
 import { Calendar, CalendarProps, theme } from "antd";
 import type { Dayjs } from "dayjs";
-import { day_data } from "../tool/dataContext";
+import { day_data } from "../../tool/dataContext";
 
 //月度
 const getListData = (value: Dayjs) => {
@@ -61,6 +61,41 @@ const dateCellRender = (value: Dayjs) => {
 };
 
 //年度
+//准备年度数据
+//显式声明 monthlySales 对象的类型，告诉 TypeScript 它的键是字符串类型的月份
+interface MonthlySales {
+  [month: string]: number;
+}
+const calculateMonthlySales = (
+  data: { time: string; total: string }[]
+): { month: string; total: string }[] => {
+  const monthlySales: MonthlySales = {};
+
+  // 遍历 day_data 数组
+  data.forEach((item: { time: string; total: string }) => {
+    const month = item.time.substring(0, 7); // 截取年月部分作为键值
+    const total = parseFloat(item.total); // 将 total 转换为浮点数
+
+    // 如果该月份已经存在，则累加销售额，否则初始化为当前销售额
+    if (monthlySales[month]) {
+      monthlySales[month] += total;
+    } else {
+      monthlySales[month] = total;
+    }
+  });
+
+  // 将结果转换为对象数组形式
+  const monthlySalesArray = Object.keys(monthlySales).map((month) => ({
+    month: month,
+    total: monthlySales[month].toFixed(2), // 保留两位小数
+  }));
+
+  return monthlySalesArray;
+};
+
+const monthlySales = calculateMonthlySales(day_data);
+console.log(monthlySales);
+
 const getMonthData = (value: Dayjs) => {
   if (value.month() === 8) {
     return 1394;
@@ -78,7 +113,10 @@ const App: React.FC = () => {
     ) : null;
   };
 
-  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
+  const cellRender: CalendarProps<Dayjs>["cellRender"] = (
+    current: Dayjs,
+    info: { type: string; originNode: any }
+  ) => {
     if (info.type === "date") return dateCellRender(current);
     if (info.type === "month") return monthCellRender(current);
     return info.originNode;
