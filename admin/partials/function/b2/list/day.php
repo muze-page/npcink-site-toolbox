@@ -27,7 +27,7 @@ if (!class_exists('Npcink_B2_Shop_Day')) {
             $current_date = current_time('mysql');
 
             // 计算六个月前的日期
-            $six_months_ago = date('Y-m-d H:i:s', strtotime('-6 months', strtotime($current_date)));
+            $six_months_ago = date('Y-m-d H:i:s', strtotime('-12 months', strtotime($current_date)));
 
             $search = "SELECT DATE(order_date) AS order_date, SUM(order_total) AS total
                 FROM $table_name

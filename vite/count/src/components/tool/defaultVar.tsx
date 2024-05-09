@@ -155,12 +155,12 @@ export const SingleCount = [
 const day_data = [
   {
     time: "2024-04-08",
-    total: "326.00",
+    total: "326",
     color: "red",
   },
   {
     time: "2024-04-10",
-    total: "676.00",
+    total: "676",
     color: "green",
   },
 ];

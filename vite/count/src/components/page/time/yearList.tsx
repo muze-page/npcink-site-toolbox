@@ -53,11 +53,11 @@ const dateCellRender = (value: Dayjs) => {
   const today = getCurrentDate();
   const tableTime = value.format("YYYY-MM-DD");
   const switchTime = compareDates(today, tableTime) === 1;
-  return (
+  return listData ? (
     <div className="calendar-box" style={styles}>
-      <span>{switchTime ? listData?.total ?? "0" : ""}</span>
+      <span>{switchTime ? listData.total ?? "0" : ""}</span>
     </div>
-  );
+  ) : null;
 };
 
 //年度
@@ -87,32 +87,35 @@ const calculateMonthlySales = (
   // 将结果转换为对象数组形式
   const monthlySalesArray = Object.keys(monthlySales).map((month) => ({
     month: month,
-    total: monthlySales[month].toFixed(2), // 保留两位小数
+    total: monthlySales[month].toFixed(0), // 保留两位小数
   }));
 
   return monthlySalesArray;
 };
 
-const monthlySales = calculateMonthlySales(day_data);
-console.log(monthlySales);
-
 const getMonthData = (value: Dayjs) => {
-  if (value.month() === 8) {
-    return 1394;
+  //拿到当前月份
+  const month = value.format("YYYY-MM");
+  //获得月份列表
+  const monthlySales = calculateMonthlySales(day_data);
+
+  //开始循环输出对象
+  for (let i = 0; i < monthlySales.length; i++) {
+    if (monthlySales[i].month === month) {
+      return monthlySales[i];
+    }
   }
+
+  return null;
+};
+
+//做样式
+const monthCellRender = (value: Dayjs) => {
+  const num = getMonthData(value);
+  return num ? <div className="month-box">{num.total}</div> : null;
 };
 
 const App: React.FC = () => {
-  const monthCellRender = (value: Dayjs) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  };
-
   const cellRender: CalendarProps<Dayjs>["cellRender"] = (
     current: Dayjs,
     info: { type: string; originNode: any }
