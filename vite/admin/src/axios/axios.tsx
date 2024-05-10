@@ -8,7 +8,7 @@ export const get_all_table_name = async () => {
   params.append("action", "get_all_table_names");
   try {
     const response = await instance.post(Ajaxurl, params);
-    console.log(response.data.data);
+    //console.log(response.data.data);
     return response.data.data;
   } catch (error: any) {
     console.error("出错：" + error);
@@ -43,7 +43,6 @@ export const get_table_data = async (type: string) => {
   addParamIfDefined(params,"databaseName", type);
   try {
     const response = await instance.post(Ajaxurl, params);
-      console.log(response.data.data);
       //保存成功
       downloadCSV(response.data.data, type + ".csv");
    

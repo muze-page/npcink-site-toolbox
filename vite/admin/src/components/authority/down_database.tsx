@@ -20,7 +20,7 @@ const App: React.FC = () => {
   //选中的结果
   const onChange = (value: string) => {
     setSelected(value);
-    console.log(`selected ${value}`);
+    //console.log(`selected ${value}`);
   };
 
   //搜索
@@ -34,7 +34,6 @@ const App: React.FC = () => {
     try {
       // 获取原始数据
       const list = await get_all_table_name();
-      console.log(`打印列表`+list.data);
 
       // 修改为筛选所需结构并设置表格列表
       const newArray = list.map((item: any) => ({
@@ -47,8 +46,8 @@ const App: React.FC = () => {
     }
   };
 
+  //下载数据
   const get_data = async () => {
-    console.log(`打印列表`+selected);
     await get_table_data(selected);
   };
 
