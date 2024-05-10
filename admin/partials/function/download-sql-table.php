@@ -55,8 +55,6 @@ if (!class_exists('MaMi_Download_SQL_Table')) {
             if ($existingTableName !== $searchTableName) {
                 return wp_send_json_error([
                     'error' => '该表不存在',
-                    'msg1' => $existingTableName,
-                    'msg2' => $searchTableName,
                 ], 404);
             }
 
@@ -73,19 +71,24 @@ if (!class_exists('MaMi_Download_SQL_Table')) {
             // 创建 CSV 文件并写入表头
             $file = fopen($filename, 'w');
             $header = array_keys((array) $results[0]); // 获取第一行数据的属性名作为表头
-            fputcsv($file, $header);
+            fputcsv($file, $header); //将表头写入到 CSV 文件中。
 
             // 写入查询结果
             foreach ($results as $row) {
                 fputcsv($file, (array) $row);
             }
-            fclose($file);
+            fclose($file); //关闭文件句柄，完成文件写入操作。
 
-            // 设置下载头部
-            header('Content-Type: application/csv');
-            header('Content-Disposition: attachment; filename=' . $filename);
-            header('Pragma: no-cache');
-            readfile($filename);
+            // readfile($filename);//将指定的文件发送给浏览器，完成下载操作。
+            // 读取文件内容
+            $file_content = file_get_contents($filename);
+
+            // 如果文件内容读取成功，就将数据传递给前端
+            if ($file_content !== false) {
+                wp_send_json_success(['data' => $file_content, 'message' => '下载成功']);
+            } else {
+                wp_send_json_error(['error' => '无法读取文件内容',], 400);
+            }
 
             // 删除临时文件
             unlink($filename);
