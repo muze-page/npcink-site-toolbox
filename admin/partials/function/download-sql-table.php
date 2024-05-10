@@ -39,10 +39,34 @@ if (!class_exists('MaMi_Download_SQL_Table')) {
         public static function get_table_data()
         {
             global $wpdb;
-            $databaseName = $_POST['databaseName']; // 数据库名通过 POST 请求传递
 
-            $query = "SELECT * FROM $databaseName"; // 根据数据库名构建查询语句
-            $results = $wpdb->get_results($query); // 执行查询
+            // 检查是否传递了数据库名
+            if (empty($_POST['databaseName'])) {
+                return wp_send_json_error(['error' => '没有拿到表名',], 400);
+            }
+
+            $databaseName = sanitize_text_field($_POST['databaseName']); // 对数据库名进行安全过滤
+
+            //待查询的表名
+            $searchTableName = "{$databaseName}";
+
+            // 检查数据库表是否存在
+            $existingTableName = $wpdb->get_var("SHOW TABLES LIKE '{$searchTableName}'");
+            if ($existingTableName !== $searchTableName) {
+                return wp_send_json_error([
+                    'error' => '该表不存在',
+                    'msg1' => $existingTableName,
+                    'msg2' => $searchTableName,
+                ], 404);
+            }
+
+            $query = "SELECT * FROM {$searchTableName}"; // 使用预处理语句构建查询语句
+            $results = $wpdb->get_results($query, ARRAY_A); // 执行查询并获取数组结果
+
+            // 检查查询结果是否为空
+            if (!$results) {
+                return wp_send_json_error(['error' => '没有查到表格的数据，可能该表为空',], 404);
+            }
 
             $filename = $databaseName . '.csv'; // 生成要下载的文件名
 
@@ -62,7 +86,7 @@ if (!class_exists('MaMi_Download_SQL_Table')) {
             header('Content-Disposition: attachment; filename=' . $filename);
             header('Pragma: no-cache');
             readfile($filename);
-            wp_send_json_success(['data' => $filename]);
+
             // 删除临时文件
             unlink($filename);
         }

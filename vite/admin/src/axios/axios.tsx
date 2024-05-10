@@ -1,5 +1,6 @@
 //各种请求
 import { Ajaxurl } from "@/tool/dataContext";
+import axios from "axios";
 import { instance, addParamIfDefined } from "@/axios/public";
 
 //获取所有数据库表名字
@@ -40,16 +41,19 @@ function downloadCSV(csvString: string, filename: string) {
 export const get_table_data = async (type: string) => {
   const params = new URLSearchParams();
   params.append("action", "get_table_data");
-  addParamIfDefined(params, "databaseName", type);
+  params.append("databaseName", type);
   try {
-    const response = await instance.post(Ajaxurl, params);
-    console.log(response);
-    console.log('666');
-    downloadCSV(response.data, type + ".csv");
-  } catch (error: any) {
+    const response = await axios.post(Ajaxurl, params);
 
-    console.log('666');
-    console.error("出错拉：" + error);
+    if (response.status === 200) {
+      console.log(response.data);
+      //保存成功
+      downloadCSV(response.data, type + ".csv");
+    } else {
+      console.error("出错：" + response.data);
+    }
+  } catch (error: any) {
+    console.error("出错：" + error.message);
   }
 };
 
