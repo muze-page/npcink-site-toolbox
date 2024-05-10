@@ -5,7 +5,7 @@ import { Form, Select, Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { AntConfig } from "@/tool/tool";
 import { ListData } from "@/tool/interface";
-import { get_all_table_name, get_table_data } from "@/tool/axios";
+import { get_all_table_name, get_table_data } from "@/axios/axios";
 
 //Ant 组件配置
 const fromConfig = AntConfig.from;
@@ -30,21 +30,21 @@ const App: React.FC = () => {
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
   //替换列表
-//const b: { [key: string]: string } = {
-//  users: "用户",
-//  usermeta: "用户元数据",
-//  posts: "文章",
-//  comments: "评论",
-//  links: "友情链接",
-//  options: "选项",
-//  postmeta: "文章元数据",
-//  terms: "目录、分类和标签",
-//  term_taxonomy: "目录或标签对应的分类关系",
-//  term_relationships: "文章或链接的分类关系",
-//  termmeta: "分类的元数据",
-//  commentmeta: "评论元数据12",
-//  zrz_order: "B2订单数据",
-//};
+  //const b: { [key: string]: string } = {
+  //  users: "用户",
+  //  usermeta: "用户元数据",
+  //  posts: "文章",
+  //  comments: "评论",
+  //  links: "友情链接",
+  //  options: "选项",
+  //  postmeta: "文章元数据",
+  //  terms: "目录、分类和标签",
+  //  term_taxonomy: "目录或标签对应的分类关系",
+  //  term_relationships: "文章或链接的分类关系",
+  //  termmeta: "分类的元数据",
+  //  commentmeta: "评论元数据12",
+  //  zrz_order: "B2订单数据",
+  //};
   //获取列表值
   const get_table = async () => {
     //获取原始数据
@@ -52,12 +52,9 @@ const App: React.FC = () => {
     console.log(list);
 
     //数据替换
-    
-    
 
     //修改为筛选所需结构
     const newArray = list.map((item: any) => {
-      
       return {
         label: item,
         value: item,
@@ -68,7 +65,7 @@ const App: React.FC = () => {
     console.log(newArray);
   };
 
-  const get_data = async() => {
+  const get_data = async () => {
     await get_table_data(selected);
   };
 
@@ -107,7 +104,7 @@ const App: React.FC = () => {
           <Button
             type="primary"
             icon={<DownloadOutlined />}
-            onClick={()=>get_data()}
+            onClick={() => get_data()}
           >
             下载 {selected}
           </Button>

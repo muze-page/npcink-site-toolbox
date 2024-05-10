@@ -38,6 +38,8 @@ function getAjaxurl(): string {
 //传值
 const dataObject: DataLocal = getDataLocal();
 console.log(dataObject);
+
+//组件间传递数据
 const DataContext = createContext(dataObject);
 
 export const Ajaxurl = getAjaxurl();

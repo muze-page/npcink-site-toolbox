@@ -247,17 +247,7 @@ class MaMi_Admin
 
         // 保存设置选项
         update_option(self::$option, $object);
-
-        // 发送成功响应
-        $response = array(
-            'message' => '设置选项已保存！',
-            'object' => $object,
-        );
-
-
-
-        // 使用 wp_send_json 函数发送 JSON 响应，避免汉字转义
-        wp_send_json($response, 200, JSON_UNESCAPED_UNICODE);
+        return wp_send_json_success(['message' => '插入变更数据成功', 'object' => $object,]);
     }
 
     /**

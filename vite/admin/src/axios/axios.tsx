@@ -1,6 +1,6 @@
 //各种请求
 import axios from "axios";
-import { Ajaxurl } from "./dataContext";
+import { Ajaxurl } from "../tool/dataContext";
 
 //获取所有数据库表名字
 export const get_all_table_name = async () => {

@@ -3,6 +3,17 @@ import { Layout, Affix } from "antd";
 import Tab from "./components/tab";
 import Save from "./tool/save";
 import React from "react";
+import { ConfigProvider } from "antd";
+import zhCN from "antd/locale/zh_CN";
+import { message } from "antd";
+//统一弹窗
+message.config({
+  top: 50,
+  duration: 2,
+  maxCount: 3,
+  rtl: true,
+  prefixCls: "my-message",
+});
 
 const { Header, Footer, Content } = Layout;
 
@@ -24,23 +35,25 @@ const footerStyle: React.CSSProperties = {
 };
 const App: React.FC = () => {
   return (
-    <div className="mami_option">
-      <Layout>
-        <Affix offsetTop={20}>
-          <Header style={headerStyle}>
-            <HeaderBlock />
-          </Header>
-        </Affix>
-        <Content>
-          <Tab />
-        </Content>
-        <Footer style={footerStyle}>
-          <div className="float-right">
-            <Save />
-          </div>
-        </Footer>
-      </Layout>
-    </div>
+    <ConfigProvider locale={zhCN}>
+      <div className="mami_option">
+        <Layout>
+          <Affix offsetTop={20}>
+            <Header style={headerStyle}>
+              <HeaderBlock />
+            </Header>
+          </Affix>
+          <Content>
+            <Tab />
+          </Content>
+          <Footer style={footerStyle}>
+            <div className="float-right">
+              <Save />
+            </div>
+          </Footer>
+        </Layout>
+      </div>
+    </ConfigProvider>
   );
 };
 
@@ -48,7 +61,7 @@ const HeaderBlock: React.FC = () => {
   return (
     <>
       <h1 className="text-2xl leading-7 font-medium">
-       魔法优化
+        魔法优化
         <small className="text-xs font-light text-gray-400 ml-2 ">
           For Npcink
         </small>
