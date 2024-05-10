@@ -238,16 +238,29 @@ class MaMi_Admin
 
     public static  function save_object_option_callback()
     {
-
+        global $wpdb;
         // 获取通过 Ajax POST 请求传递的对象数据
-        $object_data = $_POST['object_data'];
+        $object_data = isset($_POST['object_data']) ? sanitize_text_field($_POST['object_data']) : null;
 
         // 将 JSON 字符串解析为 PHP 对象
         $object = json_decode(stripslashes($object_data));
 
+        if (empty($object)) {
+            return wp_send_json_error([
+                'error' => '设置选项为空',
+            ], 403);
+        }
+
+
         // 保存设置选项
-        update_option(self::$option, $object);
-        return wp_send_json_success(['message' => '插入变更数据成功', 'object' => $object,]);
+        $result =  update_option(self::$option, $object);
+        if ($result !== false) {
+            // 发送成功响应
+            return wp_send_json_success(['message' => '设置选项已保存', 'msg' => $object,]);
+        } else {
+            // 选项未改变会返回false
+            return wp_send_json_error(['error' => '错误', 'reason' => $wpdb->last_error, 'msg' => $result, 'msg2' => $object], 500);
+        }
     }
 
     /**

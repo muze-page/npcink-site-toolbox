@@ -1,11 +1,8 @@
-import "./App.css";
-import { Layout, Affix } from "antd";
-import Tab from "./components/tab";
-import Save from "./tool/save";
 import React from "react";
-import { ConfigProvider } from "antd";
+import "@/App.css";
+import { ConfigProvider, message, Layout, Affix } from "antd";
 import zhCN from "antd/locale/zh_CN";
-import { message } from "antd";
+import Tab from "@/components/tab";
 //统一弹窗
 message.config({
   top: 50,
@@ -67,6 +64,29 @@ const HeaderBlock: React.FC = () => {
         </small>
       </h1>
       <Save />
+    </>
+  );
+};
+
+//保存按钮
+//将拿到的值推送到服务器端
+import { useContext } from "react";
+import { Button } from "antd";
+import DataContext from "@/tool/dataContext";
+import { saceOption } from "@/axios/save";
+const Save: React.FC = () => {
+  //拿到值
+  const optionObj = useContext(DataContext);
+
+  //提交动作
+  const postData = async () => {
+    saceOption(optionObj);
+  };
+  return (
+    <>
+      <Button type="primary" onClick={postData}>
+        保存
+      </Button>
     </>
   );
 };
