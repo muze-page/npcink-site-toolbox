@@ -89,30 +89,30 @@ if (!class_exists('Npcink_Jump_Middle_Page')) {
 
 
             if ($wp->request === 'go_to') {
-                $path = plugin_dir_path(dirname(dirname(dirname(dirname(__FILE__)))));
+                $path = plugin_dir_path((__FILE__));
 
                 switch ($page_type) {
                     case 'zhihu':
-                        include $path . 'public/templant/go/zhihu.php'; // 知乎
+                        include $path . 'go/zhihu.php'; // 知乎
                         break;
                     case 'tencent':
-                        include $path . 'public/templant/go/tencent.php'; // 腾讯
+                        include $path . 'go/tencent.php'; // 腾讯
                         break;
                     case 'shimo':
-                        include $path . 'public/templant/go/shimo.php'; // 石墨文档
+                        include $path . 'go/shimo.php'; // 石墨文档
                         break;
                     case 'jianshu':
-                        include $path . 'public/templant/go/jianshu.php'; // 简书
+                        include $path . 'go/jianshu.php'; // 简书
                         break;
                     case 'csdn':
-                        include $path . 'public/templant/go/csdn.php'; // CSDN
+                        include $path . 'go/csdn.php'; // CSDN
                         break;
                     case 'wx_community':
-                        include $path . 'public/templant/go/wx_community.php'; // 微信公众号社群
+                        include $path . 'go/wx_community.php'; // 微信公众号社群
                         break;
                     default:
                         // 默认操作（如果 $page_type 的值不匹配上述任意一种情况）
-                        include $path . 'public/templant/go/demo.php'; // 微信公众号社群
+                        include $path . 'go/demo.php'; // 微信公众号社群
                 }
 
 
