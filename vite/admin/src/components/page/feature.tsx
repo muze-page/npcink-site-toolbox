@@ -5,10 +5,10 @@ import { Form, Switch, Input, Select } from "antd";
 import DataContext from "@/tool/dataContext";
 import defaultVar from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
-import { StyleAspect } from "@/tool/interface";
+import { PageFeature } from "@/tool/interface";
 
 //选项类型
-type FieldType = StyleAspect;
+type FieldType = PageFeature;
 
 //Ant 组件配置
 const fromConfig = AntConfig.from;

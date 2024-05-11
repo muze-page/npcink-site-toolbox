@@ -5,14 +5,13 @@ export type DataLocal = {
   optimize: {
     site: OptimizeSite;
     medium: OptimizeMedium;
-    comment: OptimizeComment;
     secure: OptimizeSecure;
     other: OptimizeOther;
   };
   //个性化
   page: {
-    comment: StylePage;//评论
-    feature: StyleAspect;//外观
+    comment: PageComment; //评论
+    feature: PageFeature; //外观
   };
   //权限
   authority: {
@@ -59,17 +58,6 @@ export type OptimizeMedium = {
   upload_auto_name: string; //自动重命名
 };
 
-//优化 评论
-export type OptimizeComment = {
-  interval: boolean; //两次评论间隔
-  interval_time: number; //间隔时间
-  words_number: boolean; //是否开启字数控制
-  words_number_min: number; //最少评论字数
-  words_number_max: number; //最多评论字数
-  english: boolean; //禁止纯英文评论
-  only: boolean; //单篇文章仅限评论一次
-};
-
 //优化 安全
 export type OptimizeSecure = {
   modify_comment_user: boolean; //修改评论区管理员样式ID
@@ -88,13 +76,20 @@ export type OptimizeOther = {
 };
 
 //功能特效
-export type StylePage = {
+export type PageComment = {
   color_tag: boolean; //彩色标签云特效
   comment_emote: boolean; //评论区表情包特效
+  interval: boolean; //两次评论间隔
+  interval_time: number; //间隔时间
+  words_number: boolean; //是否开启字数控制
+  words_number_min: number; //最少评论字数
+  words_number_max: number; //最多评论字数
+  english: boolean; //禁止纯英文评论
+  only: boolean; //单篇文章仅限评论一次
 };
 
 //外观特效
-export type StyleAspect = {
+export type PageFeature = {
   title: boolean; //动态标题
   title_front: string; //回到当前标签
   title_after: string; //离开标签后

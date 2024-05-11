@@ -22,20 +22,8 @@ const OptimizeMedium = {
   upload_auto_name: "false", //自动重命名
 };
 
-//优化  评论
-const OptimizeComment = {
-  interval: boo, //两次评论间隔
-  interval_time: 5, //两次评论间隔
-  words_number: boo, //是否开启字数控制
-  words_number_min: num, //最少评论字数
-  words_number_max: 120, //最多评论字数
-  english: boo, //禁止纯英文评论
-  only: boo, //单篇文章仅限评论一次
-};
-
 //优化 安全
 const OptimizeSecure = {
-  
   modify_comment_user: boo, //修改评论区管理员样式ID
   remove_RSS_version: boo, //从RSS源中删除WordPress版本信息
 };
@@ -50,15 +38,20 @@ const OptimizeOther = {
 };
 
 //页面 功能特效
-const StylePage = {
-
+const PageComment = {
   color_tag: boo, //彩色标签云特效
-
   comment_emote: boo, //评论区表情包特效
+  interval: boo, //两次评论间隔
+  interval_time: 5, //两次评论间隔
+  words_number: boo, //是否开启字数控制
+  words_number_min: num, //最少评论字数
+  words_number_max: 120, //最多评论字数
+  english: boo, //禁止纯英文评论
+  only: boo, //单篇文章仅限评论一次
 };
 
 //页面 - 外观特效
-const StyleAspect = {
+const PageFeature = {
   title: boo, //动态标题
   title_front: "(/≧▽≦/)你又回来啦！", //回到当前标签
   title_after: "你别走吖 Σ(っ °Д °;)っ", //离开标签后
@@ -148,7 +141,7 @@ const App = {
   optimize: {
     site: OptimizeSite, //站点
     medium: OptimizeMedium, //媒体
-    comment: OptimizeComment, //评论
+
     secure: OptimizeSecure, //安全
     other: OptimizeOther, //其他
   },
@@ -161,8 +154,8 @@ const App = {
   },
   //个性化
   page: {
-    comment: StylePage, //评论
-    feature: StyleAspect, //外观特效
+    comment: PageComment, //评论
+    feature: PageFeature, //外观特效
   },
   //H5
   h5: {

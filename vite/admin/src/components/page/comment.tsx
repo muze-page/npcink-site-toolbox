@@ -2,13 +2,13 @@
  * 页面优化 - 评论
  */
 import { useState, useContext, useEffect } from "react";
-import { Form,  Switch } from "antd";
+import { Form,  Switch,InputNumber } from "antd";
 import DataContext from "@/tool/dataContext";
-import { StylePage } from "@/tool/interface";
+import { PageComment } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
 
-type FieldType = StylePage;
+type FieldType = PageComment;
 
 //Ant 组件配置
 const fromConfig = AntConfig.from;
@@ -76,6 +76,77 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+        label="两次评论间隔时间"
+        name="interval"
+        valuePropName="checked"
+        extra={
+          <>
+            避免短时间内重复灌水评论，对管理员无效,
+            <a href="https://www.npc.ink/19960.html?mami" target="_blank">
+              详细信息
+            </a>
+          </>
+        }
+      >
+        <Switch />
+      </Form.Item>
+      {formData.interval && (
+        <Form.Item<FieldType>
+          label="时间间隔"
+          name="interval_time"
+          extra={"指定时间后才能再次评论"}
+        >
+          <InputNumber min={0} addonAfter="秒" />
+        </Form.Item>
+      )}
+      <Form.Item<FieldType>
+        label="限制评论字数"
+        name="words_number"
+        valuePropName="checked"
+        extra={
+          <>
+            指定最小和最大评论字数，
+            <a href="https://www.npc.ink/17995.html?mami" target="_blank">
+              详细信息
+            </a>
+          </>
+        }
+      >
+        <Switch />
+      </Form.Item>
+      {formData.words_number && (
+        <>
+          <Form.Item<FieldType> label="最小字数" name="words_number_min">
+            <InputNumber min={0} addonAfter="字" />
+          </Form.Item>
+          <Form.Item<FieldType> label="最大字数" name="words_number_max">
+            <InputNumber min={0} addonAfter="字" />
+          </Form.Item>
+        </>
+      )}
+
+      <Form.Item<FieldType>
+        label="禁止纯英文评论"
+        name="english"
+        valuePropName="checked"
+        extra={
+          <a href="https://www.npc.ink/18129.html?mami" target="_blank">
+            详细信息
+          </a>
+        }
+      >
+        <Switch />
+      </Form.Item>
+
+      <Form.Item<FieldType>
+        label="单篇文章仅限评论一次"
+        name="only"
+        valuePropName="checked"
+        extra={"管理员不受此影响"}
+      >
+        <Switch />
+      </Form.Item>
       </Form>
     </>
   );
