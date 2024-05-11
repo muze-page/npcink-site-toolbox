@@ -16,9 +16,15 @@ if (!class_exists('Npcink_Page')) {
              * 页面 - 外观特效
              */
             require_once plugin_dir_path(__FILE__) . 'page/exterior/index.php';
-            //禁用
             $aspect =  MaMi_Admin::get_config($config, 'aspect');
             Npcink_Page_Exterior::run($aspect);
+
+            /**
+             * 页面 - 其他特效
+             */
+            require_once plugin_dir_path(__FILE__) . 'page/about/index.php';
+            $page =  MaMi_Admin::get_config($config, 'page');
+            Npcink_Page_About::run($page);
         }
     }
 }

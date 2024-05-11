@@ -2,7 +2,7 @@
 
 /**
  * 效果：已写完的书
- * 来源：
+ * 来源：https://www.npc.ink/276901.html
  */
 if (!class_exists('Npcink_Page_Completed_Book')) {
     class Npcink_Page_Completed_Book
@@ -11,10 +11,7 @@ if (!class_exists('Npcink_Page_Completed_Book')) {
         {
             add_filter('wp_footer', array(__CLASS__, 'allwords'));
         }
-        /**
-         * 已写完的书
-         * https://www.npc.ink/276901.html
-         */
+
         public static function allwords()
         {
             global $wpdb;
@@ -55,13 +52,13 @@ if (!class_exists('Npcink_Page_Completed_Book')) {
 
             foreach ($books as $numChars => $book) {
                 if ($chars < $numChars) {
-                    echo '<p class="mami_past_books">全站共 ' . $chars . ' 字，写完一本' . $book . '了！</p>';
+                    echo '<p class="completed_book">全站共 <span class="completed_book_num">' . $chars . ' </span>字，写完一本<span class="completed_book_book">' . $book . '</span>了！</p>';
                     return;
                 }
             }
 
             //保底
-            echo '<p class="mami_past_books">全站共 ' . $chars . ' 字，已写一本列夫·托尔斯泰的《战争与和平》了！</p>';
+            echo '<p class="completed_book">全站共 <span class="completed_book_num">' . $chars . '</span> 字，已写一本<span class="completed_book_book">列夫·托尔斯泰的《战争与和平》</span>了！</p>';
         }
     }
 }
