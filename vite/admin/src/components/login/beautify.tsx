@@ -56,10 +56,7 @@ const App: React.FC = () => {
     };
   }, [formData]);
 
-  //打印当前选项
-  const printOption = () => {
-    console.log(optionObj.login.beautify);
-  };
+
 
   return (
     <>
@@ -75,7 +72,6 @@ const App: React.FC = () => {
       >
         <Form.Item>
           <h2>美化</h2>
-          <button onClick={printOption}>打印</button>
         </Form.Item>
         <Form.Item<FieldType>
           label="LOGO链接"

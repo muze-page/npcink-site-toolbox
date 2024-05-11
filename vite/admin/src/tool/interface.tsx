@@ -89,28 +89,25 @@ export type OptimizeOther = {
 
 //功能特效
 export type StylePage = {
-  title: boolean; //动态标题
-  title_front: string; //回到当前标签
-  title_after: string; //离开标签后
   color_tag: boolean; //彩色标签云特效
-  past_books: boolean; //已写完的书
   comment_emote: boolean; //评论区表情包特效
 };
 
 //外观特效
 export type StyleAspect = {
+  title: boolean; //动态标题
+  title_front: string; //回到当前标签
+  title_after: string; //离开标签后
   particle: string; //粒子特效
-
-
   scrol: string; //美化滚动条
   coupling: boolean; //细线联结
-
   screen_hair: boolean; //屏幕上的毛
   site_grey: boolean; //网站变灰
   lantern: boolean; //灯笼效果
   lantern_left: string; //左边的字
   lantern_right: string; //右边的字
   sakura: boolean; //樱花效果
+  past_books: boolean; //已写完的书
 };
 
 //权限 禁用

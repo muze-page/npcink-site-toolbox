@@ -61,6 +61,34 @@ const App: React.FC = () => {
           <h2>外观特效</h2>
         </Form.Item>
         <Form.Item<FieldType>
+          label="动态标题"
+          name="title"
+          valuePropName="checked"
+          extra={
+            <>
+              离开当前页面后，在标签页上显示有趣的文本，
+              <a
+                href="https://www.cnblogs.com/HaoranZing/p/16917421.html"
+                target="_blank"
+              >
+                详情
+              </a>
+            </>
+          }
+        >
+          <Switch />
+        </Form.Item>
+        {formData.title && (
+          <>
+            <Form.Item<FieldType> label="回到当前页" name="title_front">
+              <Input style={{ width: "50%" }} />
+            </Form.Item>
+            <Form.Item<FieldType> label="离开当前页" name="title_after">
+              <Input style={{ width: "50%" }} />
+            </Form.Item>
+          </>
+        )}
+        <Form.Item<FieldType>
           label="粒子特效"
           name="particle"
           extra={"考虑到性能以及操作问题，移动端不加载此特效"}
@@ -74,8 +102,6 @@ const App: React.FC = () => {
             ]}
           />
         </Form.Item>
-        
-        
 
         <Form.Item<FieldType>
           label="美化滚动条"
@@ -106,8 +132,12 @@ const App: React.FC = () => {
           valuePropName="checked"
           extra={
             <>
-             网页上添加若干蛛网围绕鼠标汇聚，若需进一步个性化配置，请使用<pre className="pre-meat">Canvas-Nest.js</pre>插件，
-              <a href="https://blog.csdn.net/weixin_42077074/article/details/121031327" target="_blank">
+              网页上添加若干蛛网围绕鼠标汇聚，若需进一步个性化配置，请使用
+              <pre className="pre-meat">Canvas-Nest.js</pre>插件，
+              <a
+                href="https://blog.csdn.net/weixin_42077074/article/details/121031327"
+                target="_blank"
+              >
                 详情
               </a>
             </>
@@ -193,6 +223,21 @@ const App: React.FC = () => {
                 target="_blank"
               >
                 实现详情
+              </a>
+            </>
+          }
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="页脚添加已读完的书"
+          name="past_books"
+          valuePropName="checked"
+          extra={
+            <>
+              统计您撰写的文章总字数，相当于那本书。
+              <a href="https://www.npc.ink/276901.html" target="_blank">
+                详细信息
               </a>
             </>
           }

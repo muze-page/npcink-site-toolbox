@@ -51,28 +51,27 @@ const OptimizeOther = {
 
 //页面 功能特效
 const StylePage = {
-  title: boo, //动态标题
-  title_front: "(/≧▽≦/)你又回来啦！", //回到当前标签
-  title_after: "你别走吖 Σ(っ °Д °;)っ", //离开标签后
+
   color_tag: boo, //彩色标签云特效
-  past_books: boo, //已写完的书
+
   comment_emote: boo, //评论区表情包特效
 };
 
 //页面 - 外观特效
 const StyleAspect = {
+  title: boo, //动态标题
+  title_front: "(/≧▽≦/)你又回来啦！", //回到当前标签
+  title_after: "你别走吖 Σ(っ °Д °;)っ", //离开标签后
   particle: "false", //粒子特效
- 
-
   scrol: "false", //美化滚动条
   coupling: boo, //细线联结
-
   screen_hair: boo, //屏幕上的毛
   site_grey: boo, //网站变灰
   lantern: boo, //灯笼效果
   lantern_left: "春", //左边的字
   lantern_right: "节", //右边的字
   sakura: boo, //樱花效果
+  past_books: boo, //已写完的书
 };
 
 //权限控制 禁用
