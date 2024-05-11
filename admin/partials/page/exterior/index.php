@@ -38,6 +38,15 @@ if (!class_exists('Npcink_Page_Exterior')) {
                 require_once plugin_dir_path(__FILE__) . 'screen_hair.php';
                 Npcink_Page_Screen_Hair::run();
             }
+
+            /**
+             * 网页整体变灰
+             */
+            $site_grey =  MaMi_Admin::get_config($option, 'site_grey');
+            if ($site_grey === true) {
+                require_once plugin_dir_path(__FILE__) . 'all_grey.php';
+                Npcink_Page_All_Grey::run();
+            }
         }
     }
 }
