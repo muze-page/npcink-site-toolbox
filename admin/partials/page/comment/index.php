@@ -36,6 +36,13 @@ if (!class_exists('Npcink_Page_Comment')) {
                 require_once plugin_dir_path(__FILE__) . 'limit_word_count.php';
                 Npcink_Comment_Limit_Word_Count::run($option);
             }
+
+            //禁止纯英文评论
+            $english = MaMi_Admin::get_config($option, 'english');
+            if ($english=== true) {
+                require_once plugin_dir_path(__FILE__) . 'ban_pure_english.php';
+                Npcink_Comment_Ban_Pure_English::run($option);
+            }
         }
     }
 }

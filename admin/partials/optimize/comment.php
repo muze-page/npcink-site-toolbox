@@ -18,11 +18,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
 
           
 
-            //禁止纯英文评论
-            $english = MaMi_Admin::get_config($option, 'english');
-            if ($english) {
-                add_filter('preprocess_comment', array(__CLASS__, 'refused_english_comments'));
-            }
+          
 
             //TODO:想办法先检查评论一次，再检查纯英文
             //一篇文章只能评论一次
@@ -39,19 +35,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
        
 
        
-        /* 作用：禁止纯英文评论
-         * 来源：https://www.npc.ink/18129.html
-         * */
-        public static function refused_english_comments($incoming_comment)
-        {
-            $pattern = '/[一-龥]/u';
-            if (!preg_match($pattern, $incoming_comment['comment_content'])) {
-                $message = '您的评论中必须包含汉字!';
-                $message = $message . MaMi_Admin::blank_button();
-                wp_die($message);
-            }
-            return $incoming_comment;
-        }
+     
 
 
 
