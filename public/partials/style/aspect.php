@@ -24,11 +24,7 @@ if (!class_exists('MaMi_Style_Aspect')) {
                 
             
 
-            //细线联结
-            $coupling = MaMi_Admin::get_config($option, 'coupling');
-            if ($coupling) {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'coupling'));
-            }
+        
 
 
             //屏幕上有根毛
@@ -73,19 +69,7 @@ if (!class_exists('MaMi_Style_Aspect')) {
 
        
 
-        /**
-         * 细线联结
-         */
-        public static function coupling()
-        {
-            wp_enqueue_script(
-                MAGICK_MIXTURE_NAME . '_canvas-nest',
-                plugin_dir_url(dirname(__DIR__)) . 'js/canvas-nest.min.js',
-                array(),
-                MAGICK_MIXTURE_VERSION,
-                true
-            );
-        }
+
 
         /**
          * 屏幕上有根毛

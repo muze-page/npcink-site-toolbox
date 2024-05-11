@@ -11,9 +11,8 @@ if (!class_exists('Npcink_Page_Exterior')) {
         {
 
 
-            //烟花粒子特效
+            //烟花特效
             $particle = MaMi_Admin::get_config($option, 'particle', "false");
-            //四散
             if ($particle === "diffuse") {
                 require_once plugin_dir_path(__FILE__) . 'add_particle.php';
                 Npcink_Page_Add_Particle::run();
@@ -25,6 +24,22 @@ if (!class_exists('Npcink_Page_Exterior')) {
                 require_once plugin_dir_path(__FILE__) . 'add_scroll_bar.php';
                 Npcink_Page_Add_Scroll_Bar::run($scrol);
             }
+            
+            //粒子特效
+            $coupling = MaMi_Admin::get_config($option, 'coupling');
+            if ($coupling === true) {
+                require_once plugin_dir_path(__FILE__) . 'add_fireworks.php';
+                Npcink_Page_Add_Fireworks::run();
+            }
+
+
+  
+       
+    
+
+
+
+
         }
     }
 }
