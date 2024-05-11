@@ -23,8 +23,8 @@ if (!class_exists('Npcink_Page')) {
              * 页面 - 评论
              */
             require_once plugin_dir_path(__FILE__) . 'page/comment/index.php';
-            $page =  MaMi_Admin::get_config($config, 'comment');
-            Npcink_Page_Comment::run($page);
+            $comment =  MaMi_Admin::get_config($config, 'comment');
+            Npcink_Page_Comment::run($comment);
         }
     }
 }

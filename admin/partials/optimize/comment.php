@@ -14,12 +14,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
             //类内赋值
             self::$option = $option;
 
-            //评论时间间隔
-            $interval = MaMi_Admin::get_config($option, 'interval');
-
-            if ($interval) {
-                add_filter('comment_flood_filter', array(__CLASS__, 'suren_comment_flood_filter'), 10, 3);
-            }
+           
 
             //评论最少和最多字数
             $words_number = MaMi_Admin::get_config($option, 'words_number');
@@ -45,28 +40,7 @@ if (!class_exists('MaMi_Optimize_Comment')) {
          * 优化-评论
          */
 
-        /**
-         * 效果：两次评论之间间隔
-         * 来源：https://www.npc.ink/19960.html
-         */
-        public static function suren_comment_flood_filter($flood_control, $time_last, $time_new)
-        {
-
-            //间隔时间
-            $seconds = MaMi_Admin::get_config(self::$option, 'interval_time');
-
-
-
-            if (($time_new - $time_last) < $seconds) {
-                $time = $seconds - ($time_new - $time_last);
-                $message = '评论过快！请' . $time . '秒后再来评论';
-
-                $message = $message . MaMi_Admin::blank_button();
-                wp_die($message);
-            } else {
-                return false;
-            }
-        }
+       
 
         /**
          * 效果：评论所需的最少和最多字数

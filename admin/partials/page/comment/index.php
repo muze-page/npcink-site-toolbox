@@ -22,6 +22,13 @@ if (!class_exists('Npcink_Page_Comment')) {
                 require_once plugin_dir_path(__FILE__) . 'comment_emoji.php';
                 Npcink_Page_Comment_Emoji::run();
             }
+
+            //评论时间间隔 - 失效
+            $interval = MaMi_Admin::get_config($option, 'interval');
+            if ($interval === true) {
+                require_once plugin_dir_path(__FILE__) . 'comment_interval.php';
+                Npcink_Page_Comment_Interval::run($option);
+            }
         }
     }
 }
