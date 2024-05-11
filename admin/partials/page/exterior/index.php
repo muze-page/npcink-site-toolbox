@@ -70,6 +70,13 @@ if (!class_exists('Npcink_Page_Exterior')) {
                 require_once plugin_dir_path(__FILE__) . 'sakura_drops.php';
                 Npcink_Page_Sakura_Drops::run();
             }
+
+            //已写完的书
+            $past_books = MaMi_Admin::get_config($option, 'past_books');
+            if ($past_books === true) {
+                require_once plugin_dir_path(__FILE__) . 'completed_book.php';
+                Npcink_Page_Completed_Book::run();
+            }
         }
     }
 }
