@@ -35,8 +35,8 @@ if (!class_exists('Npcink_Page_Lantern')) {
          */
         public static function lantern()
         {
-            $lantern_left =  MaMi_Admin::get_config(self::$option, 'lantern_left', "春");
-            $lantern_right =  MaMi_Admin::get_config(self::$option, 'lantern_right', "节");
+            $lantern_left =  MaBox_Admin::get_config(self::$option, 'lantern_left', "春");
+            $lantern_right =  MaBox_Admin::get_config(self::$option, 'lantern_right', "节");
             echo '
 <div id="lantern">
 <div class="deng-box">

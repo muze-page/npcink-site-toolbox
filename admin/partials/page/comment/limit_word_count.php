@@ -17,13 +17,13 @@ if (!class_exists('Npcink_Comment_Limit_Word_Count')) {
 
         public static function set_comments_length($commentdata)
         {
-            $minCommentlength =  MaMi_Admin::get_config(self::$option, 'words_number_min'); //最少字數限制
-            $maxCommentlength = MaMi_Admin::get_config(self::$option, 'words_number_max'); //最多字數限制
+            $minCommentlength =  MaBox_Admin::get_config(self::$option, 'words_number_min'); //最少字數限制
+            $maxCommentlength = MaBox_Admin::get_config(self::$option, 'words_number_max'); //最多字數限制
             $pointCommentlength = mb_strlen($commentdata['comment_content'], 'UTF8'); //mb_strlen 1個中文字符當作1個長度
             if ($pointCommentlength < $minCommentlength) {
                 header("Content-type: text/html; charset=utf-8");
                 $message = '抱歉，您的评论字数过少，请至少输入' . $minCommentlength . '个字（目前字数：' . $pointCommentlength . '个字）';
-                $message = $message . MaMi_Admin::back_button();
+                $message = $message . MaBox_Admin::back_button();
                 wp_die($message);
 
 
@@ -32,7 +32,7 @@ if (!class_exists('Npcink_Comment_Limit_Word_Count')) {
             if ($pointCommentlength > $maxCommentlength) {
                 header("Content-type: text/html; charset=utf-8");
                 $message = '对不起，您的评论字数过多，请少于' . $maxCommentlength . '个字（目前字数：' . $pointCommentlength . '个字）';
-                $message = $message . MaMi_Admin::back_button();
+                $message = $message . MaBox_Admin::back_button();
                 wp_die($message);
 
                 exit;

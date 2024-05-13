@@ -1,7 +1,7 @@
 <?php
 //下载指定数据库表内容
-if (!class_exists('MaMi_Download_SQL_Table')) {
-    class MaMi_Download_SQL_Table
+if (!class_exists('MaBox_Download_SQL_Table')) {
+    class MaBox_Download_SQL_Table
     {
         public static function run()
         {
@@ -31,7 +31,7 @@ if (!class_exists('MaMi_Download_SQL_Table')) {
                 wp_send_json_error(['error' => '获取数据库表名失败', 'data' => []], 404);
             } else {
                 // 返回响应数据
-                wp_send_json_success(['message' => '成功获取数据库表名','data' => $table_names]);
+                wp_send_json_success(['message' => '成功获取数据库表名', 'data' => $table_names]);
             }
         }
 

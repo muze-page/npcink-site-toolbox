@@ -3,15 +3,15 @@
 /**
  * 效果：生成微信小程序跳转链接和页面模版
  */
-if (!class_exists('MaMi_Function_Wx_Xcx_Link')) {
-    class MaMi_Function_Wx_Xcx_Link
+if (!class_exists('MaBox_Function_Wx_Xcx_Link')) {
+    class MaBox_Function_Wx_Xcx_Link
     {
         //选项值
         private static $option;
         public static function run($wx_xcx)
         {
             self::$option = $wx_xcx;
-            $active = MaMi_Admin::get_config(self::$option, 'active'); //状态
+            $active = MaBox_Admin::get_config(self::$option, 'active'); //状态
             if ($active) {
                 //展示链接到首页顶部
                 //add_action('wp_head', array(__CLASS__, 'add_hello_header'));
@@ -29,10 +29,10 @@ if (!class_exists('MaMi_Function_Wx_Xcx_Link')) {
 
         public static function add_hello_header()
         {
-            $appid = MaMi_Admin::get_config(self::$option, 'appid');
-            $secret = MaMi_Admin::get_config(self::$option, 'secret');
-            $path = MaMi_Admin::get_config(self::$option, 'path'); //页面参数
-            $query = MaMi_Admin::get_config(self::$option, 'query'); //查询参数
+            $appid = MaBox_Admin::get_config(self::$option, 'appid');
+            $secret = MaBox_Admin::get_config(self::$option, 'secret');
+            $path = MaBox_Admin::get_config(self::$option, 'path'); //页面参数
+            $query = MaBox_Admin::get_config(self::$option, 'query'); //查询参数
 
             $token = self::wx_json_token($appid, $secret);
             $link = self::get_link($token, $path, $query);
@@ -186,7 +186,7 @@ if (!class_exists('MaMi_Function_Wx_Xcx_Link')) {
         //传递网址选项
         public static function get_h5_options_site()
         {
-            $site = MaMi_Admin::get_config(self::$option, 'site');
+            $site = MaBox_Admin::get_config(self::$option, 'site');
             return $site;
         }
     } //end

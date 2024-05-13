@@ -64,15 +64,15 @@ if (!class_exists('Npcink_Login_Custom_Page')) {
         public static function custom_login_style()
         {
             //左下背景色
-            $bg_left = MaMi_Admin::get_config(self::$option, 'background_left', '#0073aa');
+            $bg_left = MaBox_Admin::get_config(self::$option, 'background_left', '#0073aa');
             //右上背景色
-            $bg_right = MaMi_Admin::get_config(self::$option, 'background_right', '#0073aa');
+            $bg_right = MaBox_Admin::get_config(self::$option, 'background_right', '#0073aa');
             //LOGO
-            $logo_url = MaMi_Admin::get_config(self::$option, 'top_logo');
+            $logo_url = MaBox_Admin::get_config(self::$option, 'top_logo');
             //尺寸
-            $logo_size = MaMi_Admin::get_config(self::$option, 'logo_size');
+            $logo_size = MaBox_Admin::get_config(self::$option, 'logo_size');
             //左边文字背景图
-            $bg_img_left = MaMi_Admin::get_config(self::$option, 'background_img');
+            $bg_img_left = MaBox_Admin::get_config(self::$option, 'background_img');
             echo '<style type="text/css">
              body{
                  background:-o-linear-gradient(45deg,' . $bg_left . ',' . $bg_right . ');

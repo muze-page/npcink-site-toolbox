@@ -3,8 +3,8 @@
 /**
  * H5 项目
  */
-if (!class_exists('MaMi_H5')) {
-    class MaMi_H5
+if (!class_exists('MaBox_H5')) {
+    class MaBox_H5
     {
         private static $home;
         private static $contact;
@@ -12,18 +12,18 @@ if (!class_exists('MaMi_H5')) {
         public static function run()
         {
             //获取设置选项值
-            $config = MaMi_Admin::get_seting('h5');
+            $config = MaBox_Admin::get_seting('h5');
 
             //获取选项 - 首页
-            $home =  MaMi_Admin::get_config($config, 'home');
+            $home =  MaBox_Admin::get_config($config, 'home');
             self::$home = $home;
 
             //获取选项 - 联系
-            $contact =  MaMi_Admin::get_config($config, 'contact');
+            $contact =  MaBox_Admin::get_config($config, 'contact');
             self::$contact = $contact;
 
             //获取开关
-            $switch =  MaMi_Admin::get_config($home, 'switch');
+            $switch =  MaBox_Admin::get_config($home, 'switch');
             if ($switch) {
                 // 定义 REST API 端点（Endpoint）
                 add_action('rest_api_init', array(__CLASS__, 'mytheme_register_rest_endpoints'));
@@ -91,19 +91,19 @@ if (!class_exists('MaMi_H5')) {
             $contact = self::$contact;
 
             //首页
-            $slide =  MaMi_Admin::get_config($home, 'slide');
-            $slide_all =  MaMi_Admin::get_config($home, 'slide_all');
-            $more =  MaMi_Admin::get_config($home, 'more');
+            $slide =  MaBox_Admin::get_config($home, 'slide');
+            $slide_all =  MaBox_Admin::get_config($home, 'slide_all');
+            $more =  MaBox_Admin::get_config($home, 'more');
 
             //联系
-            $title =  MaMi_Admin::get_config($contact, 'title');
-            $title_one =  MaMi_Admin::get_config($contact, 'title_one');
-            $content_one =  MaMi_Admin::get_config($contact, 'content_one');
-            $title_two =  MaMi_Admin::get_config($contact, 'title_two');
-            $content_two =  MaMi_Admin::get_config($contact, 'content_two');
-            $brand_link =  MaMi_Admin::get_config($contact, 'brand_link');
-            $brand_logo =  MaMi_Admin::get_config($contact, 'brand_logo');
-            $introduce =  MaMi_Admin::get_config($contact, 'introduce');
+            $title =  MaBox_Admin::get_config($contact, 'title');
+            $title_one =  MaBox_Admin::get_config($contact, 'title_one');
+            $content_one =  MaBox_Admin::get_config($contact, 'content_one');
+            $title_two =  MaBox_Admin::get_config($contact, 'title_two');
+            $content_two =  MaBox_Admin::get_config($contact, 'content_two');
+            $brand_link =  MaBox_Admin::get_config($contact, 'brand_link');
+            $brand_logo =  MaBox_Admin::get_config($contact, 'brand_logo');
+            $introduce =  MaBox_Admin::get_config($contact, 'introduce');
 
             $options['comm_h5_index_tone'] = $slide; //数字数组
             $options['comm_h5_index_tone_cat'] = $slide_all; //字符串

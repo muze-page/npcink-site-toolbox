@@ -20,8 +20,6 @@
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-weight: bold;
-
-    
   }
 }
 @layer components {
@@ -35,6 +33,6 @@
   background-color: #1677ff;
 }
 
-.mami_option {
+.MaBox_option {
   max-width: 900px;
 }

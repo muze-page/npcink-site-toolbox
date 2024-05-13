@@ -3,35 +3,33 @@
 /**
  * 功能
  */
-if (!class_exists('MaMi_Function')) {
-    class MaMi_Function
+if (!class_exists('MaBox_Function')) {
+    class MaBox_Function
     {
         public static function run()
         {
-            
+
             //获取设置选项值
-            $config = MaMi_Admin::get_seting('authority');
+            $config = MaBox_Admin::get_seting('authority');
 
             //下载指定数据库表内容
             require_once plugin_dir_path(__FILE__) . 'function/download-sql-table.php';
-            MaMi_Download_SQL_Table::run();
+            MaBox_Download_SQL_Table::run();
 
             //辅助功能
             require_once plugin_dir_path(__FILE__) . 'function/auxiliary/index.php';
-            $auxiliary =  MaMi_Admin::get_config($config, 'auxiliary');
-            MaMi_Function_Auxiliary::run($auxiliary);
+            $auxiliary =  MaBox_Admin::get_config($config, 'auxiliary');
+            MaBox_Function_Auxiliary::run($auxiliary);
 
             //微信生成小程序跳转链接
             require_once plugin_dir_path(__FILE__) . 'function/wx_xcx_link/index.php';
-            $wx_xcx =  MaMi_Admin::get_config($config, 'wx_xcx');
-            MaMi_Function_Wx_Xcx_Link::run($wx_xcx);
+            $wx_xcx =  MaBox_Admin::get_config($config, 'wx_xcx');
+            MaBox_Function_Wx_Xcx_Link::run($wx_xcx);
 
             //B2 功能选项
             require_once plugin_dir_path(__FILE__) . 'function/b2/index.php';
-            $b2 =  MaMi_Admin::get_config($config, 'b2');
+            $b2 =  MaBox_Admin::get_config($config, 'b2');
             Npcink_B2_Shop::run($b2);
         }
-
-
     } //end
 }

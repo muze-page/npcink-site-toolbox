@@ -67,11 +67,11 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
             );
 
             //传输数据给JS
-            $mami_array = array(
+            $MaBox_array = array(
                 'countData' => self::deliver_data(), //统计的数据信息
             );
 
-            wp_localize_script(MAGICK_MIXTURE_NAME . '_index_js', 'dataLocal', $mami_array); //传给vite项目
+            wp_localize_script(MAGICK_MIXTURE_NAME . '_index_js', 'dataLocal', $MaBox_array); //传给vite项目
         }
 
         /**
@@ -100,7 +100,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
                 <!--标题-->
                 <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
                 <!--展示内容-->
-                <div id="mami_b2_shop_count"></div>
+                <div id="MaBox_b2_shop_count"></div>
 
                 <!--在保存设置时调用WordPress函数以呈现错误。 -->
                 <?php settings_errors(); ?>

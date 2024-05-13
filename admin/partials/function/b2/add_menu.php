@@ -16,8 +16,6 @@ if (!class_exists('Npcink_B2_Shop_Add_Menu')) {
 
             //引入每天销售额
             require_once plugin_dir_path(__FILE__) . 'day.php';
-            
-
         }
 
         /**
@@ -44,7 +42,7 @@ if (!class_exists('Npcink_B2_Shop_Add_Menu')) {
             $message .= '<h1><?php echo esc_html(get_admin_page_title()); ?></h1>';
 
             $message .= '<!--准备节点-->';
-            $message .= '<div id="mami_b2_shop_count"></div>';
+            $message .= '<div id="MaBox_b2_shop_count"></div>';
             echo $message;
         }
 
@@ -78,12 +76,12 @@ if (!class_exists('Npcink_B2_Shop_Add_Menu')) {
             );
 
             //传输数据给JS
-            $mami_array = array(
+            $MaBox_array = array(
                 'countData' => self::deliver_data(), //统计的数据信息
                 'day_data' => Npcink_B2_Shop_Day::run(),
             );
-            wp_localize_script(MAGICK_MIXTURE_NAME . '_index_js', 'dataLocal', $mami_array); //传给vite项目
-            $default_value = $mami_array;
+            wp_localize_script(MAGICK_MIXTURE_NAME . '_index_js', 'dataLocal', $MaBox_array); //传给vite项目
+            $default_value = $MaBox_array;
 
             printf('<script>console.log(%s)</script>', json_encode($default_value));
         }

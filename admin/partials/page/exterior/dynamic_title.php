@@ -16,8 +16,8 @@ if (!class_exists('Npcink_Page_Dynamic_Title')) {
         //动态标题
         public static function tag_title()
         {
-            $title_front = MaMi_Admin::get_config(self::$option, 'title_front', "(/≧▽≦/)你又回来啦！");
-            $title_after = MaMi_Admin::get_config(self::$option, 'title_after', "你别走吖 Σ(っ °Д °;)っ");
+            $title_front = MaBox_Admin::get_config(self::$option, 'title_front', "(/≧▽≦/)你又回来啦！");
+            $title_after = MaBox_Admin::get_config(self::$option, 'title_after', "你别走吖 Σ(っ °Д °;)っ");
             echo '
     <script>
     //网站动态标题开始 

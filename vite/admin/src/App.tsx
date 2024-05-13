@@ -33,7 +33,7 @@ const footerStyle: React.CSSProperties = {
 const App: React.FC = () => {
   return (
     <ConfigProvider locale={zhCN}>
-      <div className="mami_option">
+      <div className="MaBox_option">
         <Layout>
           <Affix offsetTop={20}>
             <Header style={headerStyle}>

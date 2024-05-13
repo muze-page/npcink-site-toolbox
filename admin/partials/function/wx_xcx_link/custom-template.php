@@ -12,7 +12,7 @@ $logo = plugin_dir_url(__FILE__) . $logo_file;
 $css = plugin_dir_url(__FILE__) . 'template_page.css';
 
 //小程序链接
-$link = MaMi_Function_Wx_Xcx_Link::add_hello_header();
+$link = MaBox_Function_Wx_Xcx_Link::add_hello_header();
 
 //当前页面链接
 $page_url = get_permalink();
@@ -20,7 +20,7 @@ $page_url = get_permalink();
 //$site_url = home_url(); // 获取当前网站的URL
 
 //选项中的网址
-$site = MaMi_Function_Wx_Xcx_Link::get_h5_options_site();
+$site = MaBox_Function_Wx_Xcx_Link::get_h5_options_site();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +62,6 @@ $site = MaMi_Function_Wx_Xcx_Link::get_h5_options_site();
         </div>
     </div>
     <script>
-
         //判断是否是手机
         function isMobile() {
             const userAgent = navigator.userAgent.toLowerCase();

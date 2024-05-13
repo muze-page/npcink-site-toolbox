@@ -108,7 +108,7 @@ class Magick_Mixtrue
     private function define_admin_hooks()
     {
 
-        $plugin_admin = new MaMi_Admin($this->get_plugin_name(), $this->get_version());
+        $plugin_admin = new MaBox_Admin($this->get_plugin_name(), $this->get_version());
 
 
         //01 要向其添加回调的操作的名称。

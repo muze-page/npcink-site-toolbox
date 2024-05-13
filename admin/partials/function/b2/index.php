@@ -14,19 +14,17 @@ if (!class_exists('Npcink_B2_Shop')) {
         {
             //是否加载商城统计
 
-            $b2_count = MaMi_Admin::get_config($option, 'b2_count');
+            $b2_count = MaBox_Admin::get_config($option, 'b2_count');
             if ($b2_count) {
                 require_once plugin_dir_path(__FILE__) . 'add_menu.php'; //载入文件
                 Npcink_B2_Shop_Add_Menu::run_add_menu();
             }
 
             //是否添加订单菜单
-            $add_order_menu = MaMi_Admin::get_config($option, 'add_order_menu');
+            $add_order_menu = MaBox_Admin::get_config($option, 'add_order_menu');
             if ($add_order_menu) {
                 add_action('admin_menu', array(__CLASS__, 'add_order_menu'));
             }
-
-           
         }
 
         /**

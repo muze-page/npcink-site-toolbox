@@ -12,13 +12,13 @@
  * @subpackage Plugin_Name/admin
  * @author     Your Name <email@example.com>
  */
-class MaMi_Admin
+class MaBox_Admin
 {
 
     /**
      * 选项
      */
-    public static $option = "mami_object_option_f";
+    public static $option = "MaBox_object_option_f";
     /**
      * 此插件的ID。
      *
@@ -65,15 +65,15 @@ class MaMi_Admin
 
         //优化设置
         require_once plugin_dir_path(__FILE__) . 'partials/optimize.php';
-        MaMi_Optimize::run();
+        MaBox_Optimize::run();
 
         //功能设置
         require_once plugin_dir_path(__FILE__) . 'partials/function.php';
-        MaMi_Function::run();
+        MaBox_Function::run();
 
         //h5设置
         require_once plugin_dir_path(__FILE__) . 'partials/h5.php';
-        MaMi_H5::run();
+        MaBox_H5::run();
 
         //登录页
         require_once plugin_dir_path(__FILE__) . 'partials/login.php';
@@ -114,8 +114,8 @@ class MaMi_Admin
             '魔法优化设置',             // 要在此页面的浏览器窗口中显示的标题。
             '魔法优化',            // 要为此菜单项显示的文本
             'administrator',            // 哪种类型的用户可以看到此菜单项
-            'mami_config',    // The unique ID - that is, the slug - for this menu item 
-            array(__CLASS__, 'mami_display'),   // 呈现此菜单的页面时要调用的函数的名称
+            'MaBox_config',    // The unique ID - that is, the slug - for this menu item 
+            array(__CLASS__, 'MaBox_display'),   // 呈现此菜单的页面时要调用的函数的名称
             '200.2'
         );
     }
@@ -123,7 +123,7 @@ class MaMi_Admin
     /**
      * 菜单回调
      */
-    public static function mami_display()
+    public static function MaBox_display()
     {
         //准备默认样式
         echo '<div class="wrap"> <h2>';
@@ -153,7 +153,7 @@ class MaMi_Admin
         $name = self::$plugin_name;
 
         //是否是指定页面
-        if ('plugins_page_mami_config' != $hook) {
+        if ('plugins_page_MaBox_config' != $hook) {
             return;
         }
 
@@ -166,13 +166,13 @@ class MaMi_Admin
 
 
 
-        $mami_array = array(
+        $MaBox_array = array(
             'option' => get_option(self::$option), //传递选项
             'cat_arr' => self::get_cat_data(), //分类信息
             'single_arr' => self::get_single_data(), //文章信息
 
         );
-        wp_localize_script($name, 'dataLocal', $mami_array); //传给vite项目
+        wp_localize_script($name, 'dataLocal', $MaBox_array); //传给vite项目
 
 
     }
