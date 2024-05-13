@@ -13,7 +13,7 @@ if (!class_exists('MaBox_Function_Auxiliary')) {
             if ($single_count === true) {
                 //文章统计页面
                 require_once plugin_dir_path(__FILE__) . '/census-single.php';
-                Magick_Mixtrue_Census_Single::run();
+                MaBox_Census_Single::run();
             }
 
             //屏蔽恶意关键词搜索

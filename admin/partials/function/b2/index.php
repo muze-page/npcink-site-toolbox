@@ -199,7 +199,7 @@ if (!class_exists('Npcink_B2_Shop')) {
             //用WordPress提供的全局变量
             global $wpdb;
             //实例化工具
-            $tool = new Magick_Mixtrue_Tool;
+            $tool = new MaBox_Tool;
             //拿到时间
             $time = $tool->get_time();
             $time = $time['a'];
@@ -349,7 +349,7 @@ if (!class_exists('Npcink_B2_Shop')) {
         public static function handle_order_seven()
         {
             //实例化工具类
-            $tool = new Magick_Mixtrue_Tool;
+            $tool = new MaBox_Tool;
             //拿到数据
             $data = self::get_sql_data();
             //拿到时间
@@ -444,7 +444,7 @@ if (!class_exists('Npcink_B2_Shop')) {
             }
 
             //实例化工具
-            $tool = new Magick_Mixtrue_Tool;
+            $tool = new MaBox_Tool;
             //拿到时间
             $math = $tool->get_time_long('this_month');
 

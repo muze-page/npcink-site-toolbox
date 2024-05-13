@@ -1,6 +1,7 @@
 <?php
 /*
- * Plugin Name: 魔法优化
+ * Plugin Name: 魔法工具箱
+ * Description: 魔法工具箱
  * Plugin URI: https://www.npc.ink/277510.html
  * Description: 文章统计+小功能
  * Version: 0.1.7

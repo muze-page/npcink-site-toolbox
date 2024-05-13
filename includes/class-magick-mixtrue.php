@@ -95,7 +95,7 @@ class Magick_Mixtrue
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-magick-mixtrue-tool.php';
 
-        $this->loader = new Magick_Mixtrue_Loader();
+        $this->loader = new MaBox_Loader();
     }
 
     /**
@@ -129,7 +129,7 @@ class Magick_Mixtrue
     private function define_public_hooks()
     {
 
-        $plugin_public = new Magick_Mixtrue_Public($this->get_plugin_name(), $this->get_version());
+        $plugin_public = new MaBox_Public($this->get_plugin_name(), $this->get_version());
     }
 
     /**
@@ -160,7 +160,7 @@ class Magick_Mixtrue
      * 对用插件编排钩子的类的引用。
      *
      * @since     1.0.0
-     * @return    Magick_Mixtrue_Loader    编排插件的挂钩。
+     * @return    MaBox_Loader    编排插件的挂钩。
      */
     public function get_loader()
     {

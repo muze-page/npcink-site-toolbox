@@ -21,7 +21,7 @@
  * @subpackage Plugin_Name/includes
  * @author     Your Name <email@example.com>
  */
-class Magick_Mixtrue_Loader
+class MaBox_Loader
 {
 
     /**
@@ -52,7 +52,6 @@ class Magick_Mixtrue_Loader
 
         $this->actions = array();
         $this->filters = array();
-
     }
 
     /**
@@ -111,7 +110,6 @@ class Magick_Mixtrue_Loader
         );
 
         return $hooks;
-
     }
 
     /**
@@ -130,7 +128,5 @@ class Magick_Mixtrue_Loader
         foreach ($this->actions as $hook) {
             add_action($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['accepted_args']);
         }
-
     }
-
 }

@@ -1,16 +1,16 @@
 <?php
+
 /**
  * 一些公共函数
  */
-if (!class_exists('Magick_Mixtrue_Tool')) {
-    class Magick_Mixtrue_Tool
+if (!class_exists('MaBox_Tool')) {
+    class MaBox_Tool
     {
         private static $time;
         public function __construct()
         {
 
             $time = self::get_time();
-
         }
 
         /**
@@ -39,7 +39,6 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
             if (is_plugin_active($plugin_position)) {
                 //已启用
                 return true;
-
             } else {
                 //没有启用该插件
                 return false;
@@ -81,13 +80,13 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
          */
         public static function magick_admin_notice_acfs($content)
         {
-            ?>
-        <div class = 'notice notice-error '>
-        <p><?php _e($content, 'sample-text-domain');
-            ?></p>
-        </div>
-        <?php
-}
+?>
+            <div class='notice notice-error '>
+                <p><?php _e($content, 'sample-text-domain');
+                    ?></p>
+            </div>
+<?php
+        }
 
         /**
          * 时间很重要
@@ -132,7 +131,6 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
                 $handle_time = date('Y-m-d H:i:s', strtotime($time . '23:59:59'));
             }
             return $handle_time;
-
         }
 
         /**
@@ -203,7 +201,6 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
             }
             $msg = "参数错误！";
             return $msg;
-
         }
 
         /**
@@ -317,7 +314,6 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
 
             $msg = "参数错误！";
             return $msg;
-
         }
 
         /**
@@ -431,7 +427,6 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
             $arr['post_status'] = $type;
             $arr['total'] = $query->post_count;
             return $arr;
-
         }
 
         /**
@@ -452,8 +447,7 @@ if (!class_exists('Magick_Mixtrue_Tool')) {
             $user = new WP_User($id);
             return $user->data->$type;
         }
-
     } //end
 }
 //显示当前页hook
-//add_action('admin_enqueue_scripts', array('Magick_Mixtrue_Tool', 'display_page_hook'));
+//add_action('admin_enqueue_scripts', array('MaBox_Tool', 'display_page_hook'));

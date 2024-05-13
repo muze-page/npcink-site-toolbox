@@ -4,8 +4,8 @@
  * 文章统计功能
  */
 
-if (!class_exists('Magick_Mixtrue_Census_Single')) {
-    class Magick_Mixtrue_Census_Single
+if (!class_exists('MaBox_Census_Single')) {
+    class MaBox_Census_Single
     {
 
         public static function run()
@@ -131,7 +131,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         public static function get_today_data()
         {
             //今天的数据
-            $tool = new Magick_Mixtrue_Tool;
+            $tool = new MaBox_Tool;
             $option = $tool->get_site_census_data();
 
             $array = array(
@@ -376,7 +376,7 @@ if (!class_exists('Magick_Mixtrue_Census_Single')) {
         public static function get_user_release_arr()
         {
             //工具函数
-            $tool = new Magick_Mixtrue_Tool;
+            $tool = new MaBox_Tool;
             //存储数组
             $arr = array();
             //拿到ID数组

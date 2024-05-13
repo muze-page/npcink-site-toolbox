@@ -20,7 +20,7 @@
  * @subpackage magick_mixtrue/public
  * @author     Your Name <email@example.com>
  */
-class Magick_Mixtrue_Public
+class MaBox_Public
 {
 
     /**
@@ -49,14 +49,11 @@ class Magick_Mixtrue_Public
     }
     public function load()
     {
-      
-       
     }
     public function run()
     {
         //加载公共样式
         add_action('wp_enqueue_scripts', array(__CLASS__, 'public_css'));
-
     }
 
     //添加公共样式
