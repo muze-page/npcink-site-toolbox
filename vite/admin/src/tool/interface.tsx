@@ -5,7 +5,7 @@ export type DataLocal = {
   optimize: {
     site: OptimizeSite;
     medium: OptimizeMedium;
-    other: OptimizeOther;
+    admin: OptimizeAdmin;
   };
   //个性化
   page: {
@@ -58,7 +58,7 @@ export type OptimizeMedium = {
 };
 
 //优化 其他
-export type OptimizeOther = {
+export type OptimizeAdmin = {
   //筛选
   add_user: boolean; //作者筛选
   add_time: boolean; //时间筛选

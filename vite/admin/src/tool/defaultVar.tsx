@@ -24,7 +24,7 @@ const OptimizeMedium = {
 };
 
 //优化 其他
-const OptimizeOther = {
+const OptimizeAdmin = {
   add_user: boo, //作者筛选
   add_time: boo, //时间筛选
   show_id: boo, //列表显示ID
@@ -137,7 +137,7 @@ const App = {
   optimize: {
     site: OptimizeSite, //站点
     medium: OptimizeMedium, //媒体
-    other: OptimizeOther, //其他
+    admin: OptimizeAdmin, //其他
   },
   //权限控制
   authority: {

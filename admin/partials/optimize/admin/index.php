@@ -1,5 +1,5 @@
 <?php
-//优化 其他
+//优化 后台
 if (!class_exists('MaMi_Optimize_Admin')) {
     class MaMi_Optimize_Admin
     {
@@ -7,7 +7,7 @@ if (!class_exists('MaMi_Optimize_Admin')) {
         public static function run($config)
         {
             //获取选项
-            $option =  MaMi_Admin::get_config($config, 'other');
+            $option =  MaMi_Admin::get_config($config, 'admin');
 
             //文章管理添加作者筛选
             $add_user = MaMi_Admin::get_config($option, 'add_user');

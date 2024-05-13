@@ -3,12 +3,12 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import { Switch, Form } from "antd";
 import DataContext from "@/tool/dataContext";
-import { OptimizeOther } from "@/tool/interface";
+import { OptimizeAdmin } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
 
 //选项类型
-type FieldType = OptimizeOther;
+type FieldType = OptimizeAdmin;
 
 //Ant 组件配置
 const fromConfig = AntConfig.from;
@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const optionObj = useContext(DataContext) ?? { optimize: {} };
 
   //简化并提供默认值
-  let publicData = optionObj.optimize?.other || defaultVar.optimize.other;
+  let publicData = optionObj.optimize?.admin || defaultVar.optimize.admin;
 
   //创建变量并设默认值
   const [formData, setFormData] = useState(publicData || {});
@@ -38,14 +38,14 @@ const App: React.FC = () => {
   useEffect(() => {
     optionObj.optimize = {
       ...optionObj.optimize,
-      other: formData,
+      admin: formData,
     };
   }, [formData]);
 
   return (
     <>
       <Form
-        name="other"
+        name="admin"
         labelCol={{ span: fromConfig.labelCol }}
         wrapperCol={{ span: fromConfig.wrapperCol }}
         style={{ maxWidth: fromConfig.maxWidth }}
@@ -86,8 +86,6 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
-        
-        
       </Form>
     </>
   );
