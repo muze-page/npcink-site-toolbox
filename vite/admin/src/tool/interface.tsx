@@ -15,8 +15,6 @@ export type DataLocal = {
   };
   //权限
   authority: {
-    //禁用
-    disable: AuthorityDisable; //禁用
     auxiliary: AuthorityAuxiliary; //辅助功能
     b2: AuthorityB2; //B2主题
     wx_xcx: AuthorityWxXcx; //微信小程序链接生成
@@ -48,6 +46,7 @@ export interface axiosType {
 export type OptimizeSite = {
   no_escape: boolean; //禁止转义
   remove_RSS_version: boolean; //从RSS源中删除WordPress版本信息
+  renew: boolean; //禁用自动更新
 };
 
 //优化 媒体
@@ -104,11 +103,6 @@ export type PageFunction = {
   remove_single_link: boolean; //移除文章内超链接
   color_tag: boolean; //彩色标签云特效
   add_last_update: boolean; //添加最后更新时间
-};
-
-//权限 禁用
-export type AuthorityDisable = {
-  renew: boolean; //禁用自动更新
   no_login_img: boolean; //未登录模糊图片
 };
 

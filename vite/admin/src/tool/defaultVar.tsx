@@ -12,6 +12,7 @@ const num: number = 0;
 const OptimizeSite = {
   no_escape: boo, //禁止转义
   remove_RSS_version: boo, //从RSS源中删除WordPress版本信息
+  renew: boo, //自动更新
 };
 
 //优化  媒体
@@ -27,7 +28,6 @@ const OptimizeOther = {
   add_user: boo, //作者筛选
   add_time: boo, //时间筛选
   show_id: boo, //列表显示ID
- 
 };
 
 //页面 功能特效
@@ -67,11 +67,6 @@ const PageFunction = {
   remove_single_link: boo, //移除文章内超链接
   color_tag: boo, //彩色标签云特效
   add_last_update: boo, //添加最后更新时间
-};
-
-//权限控制 禁用
-const AuthorityDisable = {
-  renew: boo, //自动更新
   no_login_img: boo, //未登录模糊图片
 };
 
@@ -146,7 +141,6 @@ const App = {
   },
   //权限控制
   authority: {
-    disable: AuthorityDisable, //禁用
     auxiliary: AuthorityAuxiliary, //辅助功能
     b2: AuthorityB2, //B2
     wx_xcx: AuthorityWxXcx, //微信小程序链接生成

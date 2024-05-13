@@ -82,6 +82,14 @@ const App: React.FC = () => {
           <Switch />
         </Form.Item>
         <Form.Item<FieldType>
+          label="禁用更新"
+          name="renew"
+          valuePropName="checked"
+          extra={"WordPress、主题和插件不再提示更新"}
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item<FieldType>
           label="移除版本信息"
           name="remove_RSS_version"
           valuePropName="checked"

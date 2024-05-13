@@ -95,6 +95,13 @@ const App: React.FC = () => {
           <Switch />
         </Form.Item>
         <Form.Item<FieldType>
+          label="未登录模糊文章内图片"
+          name="no_login_img"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item<FieldType>
           label="添加最后更新时间"
           name="add_last_update"
           valuePropName="checked"
