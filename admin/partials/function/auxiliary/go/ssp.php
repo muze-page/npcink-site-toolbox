@@ -4,6 +4,9 @@
  */
 
 include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
+//准备路径
+$path = plugin_dir_url(__FILE__) . "style.css";
+
 ?>
 <html lang="zh-CN">
 
@@ -16,7 +19,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 
     <title><?php echo $site_name ?> - 安全中心</title>
     <link rel="shortcut icon" href="<?php echo $favicon_url ?>" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href=<?php echo $path ?>>
 </head>
 
 <body>

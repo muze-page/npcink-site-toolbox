@@ -110,6 +110,9 @@ if (!class_exists('Npcink_Jump_Middle_Page')) {
                     case 'wx_community':
                         include $path . 'go/wx_community.php'; // 微信公众号社群
                         break;
+                    case 'ssp':
+                        include $path . 'go/ssp.php'; // 少数派
+                        break;
                     default:
                         // 默认操作（如果 $page_type 的值不匹配上述任意一种情况）
                         include $path . 'go/demo.php'; // 微信公众号社群
