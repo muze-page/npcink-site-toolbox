@@ -46,6 +46,13 @@ if (!class_exists('Npcink_Page_Comment')) {
                 require_once plugin_dir_path(__FILE__) . 'only_comment_once.php';
                 Npcink_Comment_Only_Once::run();
             }
+
+             //修改评论区样式中的管理员信息
+             $modify_comment_user = MaMi_Admin::get_config($option, 'modify_comment_user');
+             if ($modify_comment_user) {
+                require_once plugin_dir_path(__FILE__) . 'comment_modify_user_style.php';
+                Npcink_Comment_Modify_User_Style::run();
+             }
            
         }
     }
