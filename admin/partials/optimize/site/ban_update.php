@@ -3,6 +3,7 @@
 /**
  * 效果：禁用WordPress更新
  * 来源：https://www.npc.ink/15932.html
+ * 参考：https://m.wpjam.com/m/disable-wordpress-auto-update/
  */
 if (!class_exists('Npcink_Ban_Update')) {
     class Npcink_Ban_Update
@@ -14,9 +15,19 @@ if (!class_exists('Npcink_Ban_Update')) {
         {
             self::ban_update();
             // 禁止主题自动检查更新
-            //add_filter('http_request_args', array(__CLASS__,'disable_theme_updates'), 10, 2);
+            add_filter('http_request_args', array(__CLASS__, 'disable_theme_updates'), 10, 2);
             // 隐藏主题更新提示
             add_action('admin_init', array(__CLASS__, 'disable_theme_update_notification'));
+
+            // 禁止插件自动检查更新
+            add_filter('site_transient_update_plugins', array(__CLASS__, 'disable_plugin_updates'));
+            // 隐藏插件更新提示
+            add_action('admin_init', array(__CLASS__, 'disable_plugin_update_notification'));
+
+            // 禁用 WordPress 更新检查
+            add_filter('pre_site_transient_update_core', function ($a) {
+                return null;
+            });
         }
 
         /**
@@ -41,6 +52,7 @@ if (!class_exists('Npcink_Ban_Update')) {
             remove_action('admin_init', '_maybe_update_themes');
         }
 
+        // 隐藏主题更新提示
         public static function disable_theme_updates($r, $url)
         {
             if (0 !== strpos($url, 'https://api.wordpress.org/themes/update-check')) {
@@ -56,11 +68,24 @@ if (!class_exists('Npcink_Ban_Update')) {
             $r['body']['themes'] = json_encode($themes);
             return $r;
         }
-        
+
         public static function disable_theme_update_notification()
         {
             remove_action('load-update-core.php', 'wp_update_themes');
             add_filter('pre_site_transient_update_themes', '__return_null');
+        }
+
+        // 隐藏插件更新提示
+        public static function disable_plugin_updates($value)
+        {
+            unset($value->response); // 移除所有插件的更新信息
+            return $value;
+        }
+
+        public static  function disable_plugin_update_notification()
+        {
+            remove_action('load-update-core.php', 'wp_update_plugins');
+            add_filter('pre_site_transient_update_plugins', '__return_null');
         }
     }
 }
