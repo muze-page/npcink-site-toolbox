@@ -28,6 +28,14 @@ if (!class_exists('Npcink_Page_Function')) {
                 require_once plugin_dir_path(__FILE__) . 'color_tags.php';
                 Npcink_Page_Color_Tags::run();
             }
+
+            //跳转中间页
+            $go_middle = MaMi_Admin::get_config($option, 'go_middle');
+            if ($go_middle !== false) {
+                //跳转中间页
+                require_once plugin_dir_path(__FILE__) . 'jump_middle_page.php';
+                Npcink_Jump_Middle_Page::run($go_middle);
+            }
         }
     }
 }
