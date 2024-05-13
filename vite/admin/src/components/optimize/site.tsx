@@ -81,9 +81,16 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
-       
-        
-       
+        <Form.Item<FieldType>
+          label="移除版本信息"
+          name="remove_RSS_version"
+          valuePropName="checked"
+          extra={
+            "从RSS源和网站中删除WordPress版本信息，如果您无法保持您的WordPres版本为最新，推荐开启"
+          }
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

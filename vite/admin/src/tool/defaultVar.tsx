@@ -11,7 +11,7 @@ const num: number = 0;
 //优化 站点
 const OptimizeSite = {
   no_escape: boo, //禁止转义
- 
+  remove_RSS_version: boo, //从RSS源中删除WordPress版本信息
 };
 
 //优化  媒体
@@ -22,24 +22,16 @@ const OptimizeMedium = {
   upload_auto_name: "false", //自动重命名
 };
 
-//优化 安全
-const OptimizeSecure = {
- 
-  remove_RSS_version: boo, //从RSS源中删除WordPress版本信息
-};
-
 //优化 其他
 const OptimizeOther = {
   add_user: boo, //作者筛选
   add_time: boo, //时间筛选
   show_id: boo, //列表显示ID
-
   add_last_update: boo, //添加最后更新时间
 };
 
 //页面 功能特效
 const PageComment = {
-
   comment_emote: boo, //评论区表情包特效
   interval: boo, //两次评论间隔
   interval_time: 5, //两次评论间隔
@@ -149,8 +141,6 @@ const App = {
   optimize: {
     site: OptimizeSite, //站点
     medium: OptimizeMedium, //媒体
-
-    secure: OptimizeSecure, //安全
     other: OptimizeOther, //其他
   },
   //权限控制

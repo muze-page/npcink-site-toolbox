@@ -5,7 +5,6 @@ export type DataLocal = {
   optimize: {
     site: OptimizeSite;
     medium: OptimizeMedium;
-    secure: OptimizeSecure;
     other: OptimizeOther;
   };
   //个性化
@@ -48,7 +47,7 @@ export interface axiosType {
 //优化 站点
 export type OptimizeSite = {
   no_escape: boolean; //禁止转义
-  
+  remove_RSS_version: boolean; //从RSS源中删除WordPress版本信息
 };
 
 //优化 媒体
@@ -57,12 +56,6 @@ export type OptimizeMedium = {
   no_auto_size: boolean; //禁止缩略图
   medium_add_svg: boolean; //添加svg支持
   upload_auto_name: string; //自动重命名
-};
-
-//优化 安全
-export type OptimizeSecure = {
-
-  remove_RSS_version: boolean; //从RSS源中删除WordPress版本信息
 };
 
 //优化 其他
@@ -78,7 +71,6 @@ export type OptimizeOther = {
 
 //页面 - 评论
 export type PageComment = {
-
   comment_emote: boolean; //评论区表情包特效
   interval: boolean; //两次评论间隔
   interval_time: number; //间隔时间
