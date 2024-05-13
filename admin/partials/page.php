@@ -25,6 +25,13 @@ if (!class_exists('Npcink_Page')) {
             require_once plugin_dir_path(__FILE__) . 'page/comment/index.php';
             $comment =  MaMi_Admin::get_config($config, 'comment');
             Npcink_Page_Comment::run($comment);
+
+            /**
+             * 页面 -功能
+             */
+            require_once plugin_dir_path(__FILE__) . 'page/function/index.php';
+            $function =  MaMi_Admin::get_config($config, 'function');
+            Npcink_Page_Function::run($function);
         }
     }
 }
