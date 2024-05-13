@@ -25,81 +25,17 @@ if (!class_exists('MaMi_Optimize_Medium')) {
 
             //添加媒体库 SVG 图标支持
             $medium_add_svg = MaMi_Admin::get_config($option, 'medium_add_svg');
-            if ($medium_add_svg) {
-                self::run_add_svg();
+            if ($medium_add_svg === true) {
+                require_once plugin_dir_path(__FILE__) . 'svg_support.php';
+                Npcink_Medium_Svg_Support::run();
             }
 
             //媒体文件重命名
             $upload_auto_name = MaMi_Admin::get_config($option, 'upload_auto_name');
-            switch ($upload_auto_name) {
-                    //时间
-                case 'math':
-                    add_filter('wp_handle_upload_prefilter', array(__CLASS__, 'custom_upload_filter_time'));
-                    break;
-                    //md5重命名
-                case 'md5':
-                    add_filter('wp_handle_upload_prefilter', array(__CLASS__, 'custom_upload_filter_md5'));
-                    break;
-                    //默认值
-                default:
-                    return;
+            if ($upload_auto_name !== false) {
+                require_once plugin_dir_path(__FILE__) . 'image_rename.php';
+                Npcink_Medium_Image_Rename::run($upload_auto_name);
             }
-        }
-
-
-
-
-
-       
-
-        //添加媒体库 SVG 图标支持
-        public static function run_add_svg()
-        {
-            add_filter('upload_mimes', array(__CLASS__, 'salong_mime_types'));
-            add_action('admin_head', array(__CLASS__, 'salong_admin_svg_css'));
-        }
-
-        //添加媒体库 SVG 图标支持
-        public static function salong_mime_types($mimes)
-        {
-            $mimes['svg'] = 'image/svg+xml';
-            return $mimes;
-        }
-
-        //在媒体库显示 SVG 图标
-        public static function salong_admin_svg_css()
-        {
-            echo "
-            <style>
-            table.media .column-title .media-icon img[src*='.svg']{
-             width: 100%;
-             height: auto;
-                    }
-        </style>";
-        }
-
-        /**
-         * 重命名
-         */
-
-        /*图片按时间自动重命名*/
-        public static function custom_upload_filter_time($file)
-        {
-            $info = pathinfo($file['name']);
-            $ext = $info['extension'];
-            $filedate = date('YmdHis') . rand(10, 99); //为了避免时间重复，再加一段2位的随机数
-            $file['name'] = $filedate . '.' . $ext;
-            return $file;
-        }
-
-        /*使用md5转码重命名媒体文件名*/
-        public static function custom_upload_filter_md5($file)
-        {
-            $info = pathinfo($file['name']);
-            $ext = '.' . $info['extension'];
-            $md5 = md5($file['name']);
-            $file['name'] = $md5 . $ext;
-            return $file;
         }
     } //end
 }
