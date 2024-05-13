@@ -4,7 +4,7 @@
  */
 
 include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
-$url = $url . "ssp.css";
+$url = $url . "css/ssp.css";
 
 ?>
 <html lang="zh-CN">
@@ -42,9 +42,7 @@ $url = $url . "ssp.css";
             <p class="page__desc">你访问的网站可能包含未知的安全风险，如需继续访问，请手动复制链接访问，并注意保护帐号和隐私信息</p>
             <div id="target" class="page__target">
                 <span>
-                    <a href="<?php echo esc_url($external_url); ?>" target="_self">
-                        <?php echo  $external_url ?>
-                    </a>
+                    <?php echo  $external_url ?>
                 </span>
             </div>
             <div class="btn__wrapper">
