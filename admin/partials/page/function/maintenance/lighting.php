@@ -58,7 +58,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
         <div class="text">
             <h3>升级维护中</h3>
             <p><?php echo $site_name; ?></p>
-            <p><?php echo $description; ?></p>
+            <span><?php echo $description; ?></span>
         </div>
     </div>
 

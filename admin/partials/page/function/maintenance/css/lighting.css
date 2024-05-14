@@ -498,3 +498,13 @@ body {
   text-align: center;
   position: relative;
 }
+.text h3{
+  font-size: 20px;
+  }
+.text p{
+font-size: 20px;
+margin-top: 2em;
+}
+.text span{
+font-size: 14px;
+}

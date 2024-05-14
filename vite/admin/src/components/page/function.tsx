@@ -158,7 +158,6 @@ const App: React.FC = () => {
               { value: "red", label: "红色纯粹" },
               { value: "purple", label: "紫色期待" },
               { value: "lighting", label: "灯光聚焦" },
-              { value: "running_plan", label: "跑路计划" },
             ]}
           />
         </Form.Item>
