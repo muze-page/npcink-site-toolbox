@@ -31,26 +31,22 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
         {
             // if (!current_user_can('edit_themes') || !is_user_logged_in()) {
             if (!current_user_can('administrator')) {
-                //默认
-                if (self::$configs === "default") {
-                    wp_die(self::$blogname . ' 升级维护中，过一会再来吧！');
-                }
-                //默认带图
-                if (self::$configs === "default_img") {
-                    add_action('get_header', array(__CLASS__, 'lxtx_wp_maintenance_mode'));
-                }
-                //红色纯粹
-                if (self::$configs === "red") {
-                    add_action('get_header', array(__CLASS__, 'red'));
-                }
-
-                //紫色期待
-                if (self::$configs === "purple") {
-                    add_action('get_header', array(__CLASS__, 'purple'));
-                }
-                //灯光聚焦
-                if (self::$configs === "lighting") {
-                    add_action('get_header', array(__CLASS__, 'lighting'));
+                switch (self::$configs) {
+                    case "default":
+                        wp_die(self::$blogname . ' 升级维护中，过一会再来吧！');
+                        break;
+                    case "default_img":
+                        add_action('get_header', array(__CLASS__, 'lxtx_wp_maintenance_mode'));
+                        break;
+                    case "red":
+                        add_action('get_header', array(__CLASS__, 'red'));
+                        break;
+                    case "purple":
+                        add_action('get_header', array(__CLASS__, 'purple'));
+                        break;
+                    case "lighting":
+                        add_action('get_header', array(__CLASS__, 'lighting'));
+                        break;
                 }
             }
         }

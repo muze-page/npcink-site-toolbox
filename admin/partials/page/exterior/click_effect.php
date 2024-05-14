@@ -11,39 +11,31 @@ if (!class_exists('Npcink_Page_Add_Click_Effect')) {
     {
         public static function run($config)
         {
-            //爆炸烟花
-            if ($config === "diffuse") {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'add_page_particle_js'));
-                add_action('wp_footer', array(__CLASS__, 'add_page_particle'));
-            }
-            //文字
-            if ($config === "text") {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'text'));
-            }
-            //数字
-            if ($config === "number") {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'number'));
-            }
-
-            //七彩爱心
-            if ($config === "love") {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'love'));
-            }
-            //四散烟花
-            if ($config === "scattered_fireworks") {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'scattered_fireworks'));
-            }
-
-            //星星拖尾
-            if ($config === "star_trail") {
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'star_trail'));
-                add_action('wp_footer', array(__CLASS__, 'add_page_star_trail'));
-            }
-
-            //圆圈烟花
-            if ($config === "circle_fireworks") {
-                add_action('wp_footer', array(__CLASS__, 'add_page_circle_fireworks'));
-                add_action('wp_enqueue_scripts', array(__CLASS__, 'circle_fireworks'));
+            switch ($config) {
+                case "diffuse":
+                    add_action('wp_enqueue_scripts', array(__CLASS__, 'add_page_particle_js'));
+                    add_action('wp_footer', array(__CLASS__, 'add_page_particle'));
+                    break;
+                case "text":
+                    add_action('wp_enqueue_scripts', array(__CLASS__, 'text'));
+                    break;
+                case "number":
+                    add_action('wp_enqueue_scripts', array(__CLASS__, 'number'));
+                    break;
+                case "love":
+                    add_action('wp_enqueue_scripts', array(__CLASS__, 'love'));
+                    break;
+                case "scattered_fireworks":
+                    add_action('wp_enqueue_scripts', array(__CLASS__, 'scattered_fireworks'));
+                    break;
+                case "star_trail":
+                    add_action('wp_enqueue_scripts', array(__CLASS__, 'star_trail'));
+                    add_action('wp_footer', array(__CLASS__, 'add_page_star_trail'));
+                    break;
+                case "circle_fireworks":
+                    add_action('wp_footer', array(__CLASS__, 'add_page_circle_fireworks'));
+                    add_action('wp_enqueue_scripts', array(__CLASS__, 'circle_fireworks'));
+                    break;
             }
         }
 
