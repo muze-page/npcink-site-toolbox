@@ -13,6 +13,7 @@ const OptimizeSite = {
   no_escape: boo, //禁止转义
   remove_RSS_version: boo, //从RSS源中删除WordPress版本信息
   renew: boo, //自动更新
+  category_link_simplify:boo,//分类链接简化
 };
 
 //优化  媒体

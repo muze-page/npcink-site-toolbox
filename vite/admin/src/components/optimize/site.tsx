@@ -99,6 +99,16 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="分类链接简化"
+          name="category_link_simplify"
+          valuePropName="checked"
+          extra={
+            "去掉分类目录链接中的 category 字符。"
+          }
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

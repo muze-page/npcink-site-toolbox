@@ -30,6 +30,13 @@ if (!class_exists('MaBox_Optimize_Site')) {
                 require_once plugin_dir_path(__FILE__) . 'remove_wp_version.php';
                 Npcink_Remove_WP_Version::run();
             }
+
+            //分类链接去除 category
+            $category_link_simplify = MaBox_Admin::get_config($option, 'category_link_simplify');
+            if ($category_link_simplify === true) {
+                require_once plugin_dir_path(__FILE__) . 'category_link_simplify.php';
+                Npcink_Category_Link_Simplify::run();
+            }
         }
     }
 }
