@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 辅助功能
+ * 功能 - 辅助功能
  */
 if (!class_exists('MaBox_Function_Auxiliary')) {
     class MaBox_Function_Auxiliary
@@ -23,6 +23,14 @@ if (!class_exists('MaBox_Function_Auxiliary')) {
                 //屏蔽恶意关键词搜索
                 require_once plugin_dir_path(__FILE__) . 'ban_malice_search.php';
                 Npcink_Ban_Malice_Search::run($keyword_arr);
+            }
+
+            //百度统计
+            $baidu_tonji = MaBox_Admin::get_config($option, 'baidu_tonji'); //关键词数组
+            if ($baidu_tonji !== ''&& $baidu_tonji !== false) {
+                //屏蔽恶意关键词搜索
+                require_once plugin_dir_path(__FILE__) . 'baidu_tonji.php';
+                Npcink_Baidu_Tonji::run($baidu_tonji);
             }
         }
     }

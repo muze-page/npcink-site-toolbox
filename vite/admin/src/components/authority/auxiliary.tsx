@@ -1,7 +1,7 @@
 //权限 - 辅助功能
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { Switch, Form, Input,  } from "antd";
+import { Switch, Form, Input } from "antd";
 import DataContext from "@/tool/dataContext";
 import { AuthorityAuxiliary } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
@@ -12,6 +12,9 @@ type FieldType = AuthorityAuxiliary;
 
 //Ant 组件配置
 const fromConfig = AntConfig.from;
+
+//多行输入
+const { TextArea } = Input;
 
 const App: React.FC = () => {
   //拿到值
@@ -43,7 +46,6 @@ const App: React.FC = () => {
     };
   }, [formData]);
 
-  const { TextArea } = Input;
   return (
     <>
       <Form
@@ -91,10 +93,27 @@ const App: React.FC = () => {
           </Form.Item>
         )}
 
-        
-
-       
-       
+        <Form.Item<FieldType>
+          label="百度统计"
+          name="baidu_tonji"
+          extra={"开启后显示在仪表盘下"}
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="谷歌统计"
+          name="google_tonji"
+          extra={'示例：<meta name="google-site-verification" content="HB..." />'}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="必应统计"
+          name="biying_tonji"
+          extra={'示例：<meta name="msvalidate.01" content="CF..." />'}
+        >
+          <Input />
+        </Form.Item>
       </Form>
     </>
   );

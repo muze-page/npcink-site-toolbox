@@ -114,6 +114,9 @@ export type AuthorityAuxiliary = {
   single_count: boolean; //文章统计
   no_malice_key: boolean; //拒绝恶意关键词
   malice_keu_content: string; //恶意关键词内容
+  baidu_tonji: string; //  百度统计
+  google_tonji: string; // 谷歌统计
+  biying_tonji: string; // 必应统计
 };
 
 //权限 B2

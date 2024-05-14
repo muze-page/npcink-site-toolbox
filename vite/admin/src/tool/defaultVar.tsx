@@ -13,7 +13,7 @@ const OptimizeSite = {
   no_escape: boo, //禁止转义
   remove_RSS_version: boo, //从RSS源中删除WordPress版本信息
   renew: boo, //自动更新
-  category_link_simplify:boo,//分类链接简化
+  category_link_simplify: boo, //分类链接简化
 };
 
 //优化  媒体
@@ -59,7 +59,7 @@ const PageFeature = {
   lantern_right: "节", //右边的字
   sakura: boo, //樱花效果
   past_books: boo, //已写完的书
-  copy_pop_up:"false",//鼠标点击复制弹窗
+  copy_pop_up: "false", //鼠标点击复制弹窗
 };
 
 //页面 功能
@@ -78,6 +78,9 @@ const AuthorityAuxiliary = {
   single_count: boo, //文章统计
   no_malice_key: boo, //拒绝恶意关键词
   malice_keu_content: str, //恶意关键词内容
+  baidu_tonji: str, //  百度统计
+  google_tonji: str, // 谷歌统计
+  biying_tonji: str, // 必应统计
 };
 
 //权限控制 b2
