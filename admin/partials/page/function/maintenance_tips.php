@@ -12,7 +12,8 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
         private static $configs; //配置
         private static $blogname; //博客名
         private static $blogdescription; //博客描述
-        private static $url; //路径
+        private static $url; //网址
+        private static $path; //路径
         /**
          * 传来的页面类型
          */
@@ -22,6 +23,7 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
             self::$blogname =  get_bloginfo('name');
             self::$blogdescription = get_bloginfo('description');
             self::$url = plugin_dir_url((__FILE__)) . 'maintenance/';
+            self::$path = plugin_dir_path((__FILE__)) . 'maintenance/';
             //检查是否是管理员
             add_action('template_redirect', array(__CLASS__, 'check_administrator_permission'));
         }
@@ -35,8 +37,9 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
                 if (self::$configs === "red") {
                     add_action('get_header', array(__CLASS__, 'lxtx_wp_maintenance_mode'));
                 }
+                //紫色期待
                 if (self::$configs === "purple") {
-                    //add_action('get_header', array(__CLASS__, 'lxtx_wp_maintenance_mode'));
+                    add_action('get_header', array(__CLASS__, 'custom_redirect_function'));
                 }
             }
         }
@@ -47,6 +50,18 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
             wp_die('<div style="text-align:center">
             
             <img src="' . $logo . '" alt="' . self::$blogname . '" /><br /><br />' . self::$blogname . '正在例行维护中，请稍候...</div>', '站点维护中 - ' . self::$blogname . ' - ' . self::$blogdescription, array('response' => '503'));
+        }
+
+        //紫色期待
+        public static  function custom_redirect_function()
+        {
+            // 检查条件，如果满足则执行跳转
+          
+               
+                $php_page_path =  self::$path.'purple.php';
+                include( $php_page_path );
+                exit; // 重定向后立即退出
+            
         }
     }
 }
