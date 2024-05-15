@@ -3,12 +3,23 @@
 if (!class_exists('Npcink_Easy_Seo')) {
     class Npcink_Easy_Seo
     {
+        private static $config;
         public static function run($option)
         {
+            self::$config = $option;
+            add_action('wp', array(__CLASS__, 'add_meta_home'));
+        }
+
+        public static function add_meta_home()
+        {
+
             //静态或动态首页
             if (is_front_page()) {
                 //翻页是第一页
                 if (get_query_var('paged') < 2) {
+
+                    //准备选项
+                    $option = self::$config;
                     //站点标题
                     $title = MaBox_Admin::get_config($option, 'title');
                     if ($title !== '' && $title !== false) {
