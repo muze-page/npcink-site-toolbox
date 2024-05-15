@@ -49,8 +49,11 @@ const App: React.FC = () => {
   //处理输入框中的 <script> 标签
   const handleValueChange = (e: { target: { value: any } }) => {
     let value = e.target.value;
-    value = value.replace(/<script[^>]*>(.*?)<\/script>/gis, "$1");
-    return value;
+    let regex = /hm\.js\?([a-f0-9]+)/;
+    let match = value.match(regex);
+
+   
+    return match[1];
   };
 
   return (
@@ -112,12 +115,13 @@ const App: React.FC = () => {
               >
                 百度统计
               </a>
-              → 代码管理（左侧） → 代码获取 → 获取代码 → 复制代码贴入输入框中并保存即可
+              → 代码管理（左侧） → 代码获取 → 获取代码 →
+              复制代码贴入输入框中并保存即可
               <pre className="pre-meat">输入其他来源代码可能造成安全风险</pre>
             </p>
           }
         >
-          <TextArea rows={4} />
+          <Input placeholder="自动处理" />
         </Form.Item>
         <Form.Item<FieldType>
           label="谷歌统计"
