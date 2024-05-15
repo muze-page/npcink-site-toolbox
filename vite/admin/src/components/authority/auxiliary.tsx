@@ -46,6 +46,13 @@ const App: React.FC = () => {
     };
   }, [formData]);
 
+  //处理输入框中的 <script> 标签
+  const handleValueChange = (e: { target: { value: any } }) => {
+    let value = e.target.value;
+    value = value.replace(/<script[^>]*>(.*?)<\/script>/gis, "$1");
+    return value;
+  };
+
   return (
     <>
       <Form
@@ -92,18 +99,31 @@ const App: React.FC = () => {
             <TextArea rows={4} placeholder="一行一个" />
           </Form.Item>
         )}
-
+        {/**TODO:处理script标签 */}
         <Form.Item<FieldType>
           label="百度统计"
           name="baidu_tonji"
-          extra={"开启后显示在仪表盘下"}
+          getValueFromEvent={handleValueChange}
+          extra={
+            <p>
+              <a
+                href="https://tongji.baidu.com/main/setting/self/home/site/index"
+                target="_blank"
+              >
+                百度统计
+              </a>
+              → 代码管理（左侧菜单） → 代码获取 → 获取代码 → 复制代码贴入输入框中即可
+            </p>
+          }
         >
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item<FieldType>
           label="谷歌统计"
           name="google_tonji"
-          extra={'示例：<meta name="google-site-verification" content="HB..." />'}
+          extra={
+            '示例：<meta name="google-site-verification" content="HB..." />'
+          }
         >
           <Input />
         </Form.Item>
