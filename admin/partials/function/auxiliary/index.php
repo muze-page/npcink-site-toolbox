@@ -27,10 +27,18 @@ if (!class_exists('MaBox_Function_Auxiliary')) {
 
             //百度统计
             $baidu_tonji = MaBox_Admin::get_config($option, 'baidu_tonji'); //关键词数组
-            if ($baidu_tonji !== ''&& $baidu_tonji !== false) {
+            if ($baidu_tonji !== '' && $baidu_tonji !== false) {
                 //屏蔽恶意关键词搜索
                 require_once plugin_dir_path(__FILE__) . 'baidu_tonji.php';
                 Npcink_Baidu_Tonji::run($baidu_tonji);
+            }
+
+            //谷歌统计
+            $google_tonji = MaBox_Admin::get_config($option, 'google_tonji'); //关键词数组
+            if ($google_tonji !== '' && $google_tonji !== false) {
+                //屏蔽恶意关键词搜索
+                require_once plugin_dir_path(__FILE__) . 'google_tonji.php';
+                Npcink_Google_Tonji::run($google_tonji);
             }
         }
     }
