@@ -40,6 +40,14 @@ if (!class_exists('MaBox_Function_Auxiliary')) {
                 require_once plugin_dir_path(__FILE__) . 'google_tonji.php';
                 Npcink_Google_Tonji::run($google_tonji);
             }
+
+            //必应统计
+            $biying_tonji = MaBox_Admin::get_config($option, 'biying_tonji'); //关键词数组
+            if ($biying_tonji !== '' && $biying_tonji !== false) {
+                //屏蔽恶意关键词搜索
+                require_once plugin_dir_path(__FILE__) . 'biying_tonji.php';
+                Npcink_Biying_Tonji::run($biying_tonji);
+            }
         }
     }
 }

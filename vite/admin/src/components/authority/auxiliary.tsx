@@ -46,13 +46,20 @@ const App: React.FC = () => {
     };
   }, [formData]);
 
-  //处理输入框中的 <script> 标签
+  //提取百度统计标识符
   const handleValueChange = (e: { target: { value: any } }) => {
     let value = e.target.value;
-    let regex = /hm\.js\?([a-f0-9]+)/;
+    let regex = /hm\.js\?([A-Za-z0-9]+)/;
     let match = value.match(regex);
 
-   
+    return match[1];
+  };
+
+  //提取谷歌或必应标识符
+  const extract = (e: { target: { value: any } }) => {
+    let value = e.target.value;
+    let regex = /content="([A-Za-z0-9]+)"/;
+    let match = value.match(regex);
     return match[1];
   };
 
@@ -126,6 +133,7 @@ const App: React.FC = () => {
         <Form.Item<FieldType>
           label="谷歌统计"
           name="google_tonji"
+          getValueFromEvent={extract}
           extra={
             '示例：<meta name="google-site-verification" content="HB..." />'
           }
@@ -135,6 +143,7 @@ const App: React.FC = () => {
         <Form.Item<FieldType>
           label="必应统计"
           name="biying_tonji"
+          getValueFromEvent={extract}
           extra={'示例：<meta name="msvalidate.01" content="CF..." />'}
         >
           <Input />
