@@ -8,7 +8,7 @@ if (!class_exists('Npcink_Seo_Site_Keywords')) {
         public static function run($option)
         {
             self::$option = $option;
-            add_action('wp_head', array(__CLASS__, 'keywords'),0);
+            add_action('wp_head', array(__CLASS__, 'keywords'),1);
         }
         public static function keywords()
         {

@@ -8,7 +8,7 @@ if (!class_exists('Npcink_Seo_Site_Description')) {
         public static function run($option)
         {
             self::$option = $option;
-            add_action('wp_head', array(__CLASS__, 'description'),0);
+            add_action('wp_head', array(__CLASS__, 'description'),1);
         }
         public static function description()
         {

@@ -48,9 +48,19 @@ if (!class_exists('Npcink_Easy_Seo')) {
                 }
             }
         }
-        /**
-         * <meta name='description' content='SEO 描述' />
-         * <meta name='keywords' content='1,2222,3，5' />
+        /*
+          <meta name='description' content='SEO 描述' />
+          <meta name='keywords' content='1,2222,3，5' />
+          elseif(is_tag() || is_category() || is_tax()){
+			if(get_query_var('paged') < 2){
+				if(self::get_setting('individual')){
+					$value	= get_term_meta(get_queried_object_id(), 'seo_'.$type, true);
+				}
+
+				if(empty($value) && $type == 'description'){
+					$value	= term_description();
+				}
+			}
          */
     }
 }
