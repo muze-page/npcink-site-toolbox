@@ -64,15 +64,15 @@ const App: React.FC = () => {
   };
 
   //重置必应统计
-  const tongji_reset = () => {
-    setFormData({
+  const tongji_reset = (name: string) => {
+    const updatedFormData = {
       ...formData,
-      biying_tonji: "",
+      [name]: "",
       // 其他需要修改的属性和值
-      uniqueKey: Math.random(), // 添加一个随机数作为唯一标识符
-    });
-
-    console.log(formData);
+      uniqueKey: Math.random(),// 添加一个随机数作为唯一标识符
+    };
+    setFormData(updatedFormData);//更新传输的值
+    form.setFieldsValue(updatedFormData); // 更新表单中的值
   };
   const [form] = Form.useForm();
   return (
@@ -84,7 +84,7 @@ const App: React.FC = () => {
         wrapperCol={{ span: fromConfig.wrapperCol }}
         style={{ maxWidth: fromConfig.maxWidth }}
         //表单默认值，只有初始化以及重置时生效
-        initialValues={publicData}
+        initialValues={formData}
         //自动填充功能禁用
         autoComplete="off"
         //指定当表单提交时要执行的回调函数
@@ -179,12 +179,11 @@ const App: React.FC = () => {
             </p>
           }
         >
-          <BiYing tongji_reset={tongji_reset} form={form} />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" onClick={tongji_reset}>
-            重置必应统计
-          </Button>
+          <BiYing
+            tongji_reset={tongji_reset}
+            form={form}
+            name={"biying_tonji"}
+          />
         </Form.Item>
       </Form>
     </>
@@ -195,18 +194,21 @@ const App: React.FC = () => {
 const BiYing = (props: any) => {
   const inputRef = useRef(null);
 
-  const resetInputValue = () => {
-    props.form.resetFields(["biying_tonji"]); // 重置指定字段的值
-    // 如果输入框引用存在，则清空输入框的值
+  //不能直接执行，得用函数装起来
+  const handleReset = () => {
+    resetInputValue(props.name);
+  };
 
-    props.tongji_reset();
+  const resetInputValue = (name: string) => {
+    props.form.resetFields([name]); // 重置指定字段的值
+    props.tongji_reset(name);//更新穿出的值
   };
 
   return (
     <div>
       <Space.Compact style={{ width: "100%" }}>
         <Input ref={inputRef} {...props} placeholder="自动处理" />
-        <Button onClick={resetInputValue}>重置</Button>
+        <Button onClick={handleReset}>重置</Button>
       </Space.Compact>
     </div>
   );
