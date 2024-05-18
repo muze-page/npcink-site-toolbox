@@ -17,9 +17,9 @@ if (!class_exists('Npcink_Easy_Seo')) {
             Npcink_Seo_Home::run($option);
 
             //文章SEO
-            $single = MaBox_Admin::get_config($option, 'single_seo');
+            $single = MaBox_Admin::get_config($option, 'seo_single');
             if ($single === true) {
-                require_once plugin_dir_path(__FILE__) . 'site_single.php'; //载入文件
+                require_once plugin_dir_path(__FILE__) . 'seo_single.php'; //载入文件
                 Npcink_Seo_Single::run();
             }
         }

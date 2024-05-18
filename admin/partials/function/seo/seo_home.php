@@ -8,52 +8,56 @@ if (!class_exists('Npcink_Seo_Home')) {
         {
             self::$config = $option;
             //添加首页标题需要先移除默认的，这里还做不到
-            add_action('wp', array(__CLASS__, 'add_meta_title'));
-            add_action('wp_head', array(__CLASS__, 'add_dk'), 1);
+            add_action('wp', array(__CLASS__, 'add_meta'));
+        }
+
+        public static function add_meta()
+        {
+            if (is_front_page()) {
+                //翻页是第一页
+                if (get_query_var('paged') < 2) {
+
+                    //首页添加关键词和描述
+                    add_action('wp_head', array(__CLASS__, 'add_dk'), 1);
+
+                    //准备选项
+                    $option = self::$config;
+                    //站点标题
+                    $title = MaBox_Admin::get_config($option, 'title');
+                    if ($title !== '' && $title !== false) {
+                        remove_action('wp_head', '_wp_render_title_tag', 1); //移除默认标题
+                    }
+                }
+            }
         }
 
         //添加首页关键词和描述
         public static function add_dk()
         {
             //静态或动态首页
-            if (is_front_page()) {
-                //翻页是第一页
-                if (get_query_var('paged') < 2) {
-                    //准备选项
-                    $option = self::$config;
-                    //站点描述
-                    $description = MaBox_Admin::get_config($option, 'description');
-                    if ($description !== '' && $description !== false) {
-                        echo '<meta name="description" content="' . $description . '" />';
-                        echo "\n";
-                    }
 
-                    //站点关键词
-                    $keywords = MaBox_Admin::get_config($option, 'keywords');
-                    if ($keywords !== '' && $keywords !== false) {
-                        echo '<meta name="keywords" content="' . $keywords . '" />';
-                        echo "\n";
-                    }
-                }
+            //准备选项
+            $option = self::$config;
+
+            //站点标题
+            $title = MaBox_Admin::get_config($option, 'title');
+            if ($title !== '' && $title !== false) {
+                echo '<title>' . $title . '</title>';
+                echo "\n";
             }
-        }
 
-        //添加首页标题
-        public static function add_meta_title()
-        {
-            //静态或动态首页
-            if (is_front_page()) {
-                //翻页是第一页
-                if (get_query_var('paged') < 2) {
-                    //准备选项
-                    $option = self::$config;
-                    //站点标题
-                    $title = MaBox_Admin::get_config($option, 'title');
-                    if ($title !== '' && $title !== false) {
-                        require_once plugin_dir_path(__FILE__) . 'site_title.php'; //载入文件
-                        Npcink_Seo_Site_Title::run($title);
-                    }
-                }
+            //站点关键词
+            $keywords = MaBox_Admin::get_config($option, 'keywords');
+            if ($keywords !== '' && $keywords !== false) {
+                echo '<meta name="keywords" content="' . $keywords . '" />';
+                echo "\n";
+            }
+
+            //站点描述
+            $description = MaBox_Admin::get_config($option, 'description');
+            if ($description !== '' && $description !== false) {
+                echo '<meta name="description" content="' . $description . '" />';
+                echo "\n";
             }
         }
     }

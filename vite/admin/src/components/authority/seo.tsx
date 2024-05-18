@@ -83,17 +83,21 @@ const App: React.FC = () => {
         </Form.Item>
         <Form.Item<FieldType>
           label="文章SEO"
-          name="single_seo"
+          name="seo_single"
           valuePropName="checked"
-          extra={<p>title是文章标题，keywords是文章标签，description是文章描述</p>}
+          extra={
+            <p>title是文章标题，keywords是文章标签，description是文章描述</p>
+          }
         >
           <Switch />
         </Form.Item>
         <Form.Item<FieldType>
           label="分类和标签SEO"
-          name="category_seo"
+          name="seo_category"
           valuePropName="checked"
-          extra={<p>title 是分类名称，keywords 是分类名称，description 是分类描述</p>}
+          extra={
+            <p>title 是分类名称，keywords 是分类名称，description 是分类描述</p>
+          }
         >
           <Switch />
         </Form.Item>

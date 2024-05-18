@@ -11,18 +11,18 @@ if (!class_exists('Npcink_Seo_Single')) {
 
         public static function run()
         {
-            add_action('wp_head', array(__CLASS__, 'single_seo'), 1);
+            add_action('wp_head', array(__CLASS__, 'seo_single'), 1);
         }
 
 
-        public static function single_seo()
+        public static function seo_single()
         {
             //是文章
             if (is_singular()) {
                 //文章ID
                 //拿到文章的描述，关键词
                 $description_data = get_the_excerpt();
-               
+
                 $description = mb_substr($description_data, 0, 55, 'utf-8'); //只取前40个字
 
                 //拿到文章的关键词

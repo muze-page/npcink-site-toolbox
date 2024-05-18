@@ -105,8 +105,8 @@ const FunctionSeo = {
   title: str, //网站标题
   keywords: str, //网站关键字
   description: str, //网站描述
-  single_seo: boo, //文章SEO
-  category_seo: boo, //分类和标签SEO
+  seo_single: boo, //文章SEO
+  seo_category: boo, //分类和标签SEO
 };
 
 // H5 首页

@@ -141,8 +141,8 @@ export type FunctionSeo = {
   title: string; //网站标题
   keywords: string; //网站关键字
   description: string; //网站描述
-  single_seo: boolean; //文章SEO
-  category_seo: boolean; //分类和标签SEO
+  seo_single: boolean; //文章SEO
+  seo_category: boolean; //分类和标签SEO
 };
 
 //H5 首页
