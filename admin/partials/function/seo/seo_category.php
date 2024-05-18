@@ -16,13 +16,15 @@ if (!class_exists('Npcink_Seo_Category')) {
         {
             //判断是分类
             if (is_category()) {
-                add_action('wp_head', array(__CLASS__, 'seo_category'), 1);
-                //分类ID
-                $term_id = get_query_var('cat');
-                //分类标题
-                $title = get_option('cat-title-' . $term_id);
-                if ($title !== '' && $title !== false) {
-                    remove_action('wp_head', '_wp_render_title_tag', 1); //移除默认标题
+                if (get_query_var('paged') < 2) {
+                    add_action('wp_head', array(__CLASS__, 'seo_category'), 1);
+                    //分类ID
+                    $term_id = get_query_var('cat');
+                    //分类标题
+                    $title = get_option('cat-title-' . $term_id);
+                    if ($title !== '' && $title !== false) {
+                        remove_action('wp_head', '_wp_render_title_tag', 1); //移除默认标题
+                    }
                 }
             }
         }
