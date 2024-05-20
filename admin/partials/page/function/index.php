@@ -53,8 +53,13 @@ if (!class_exists('Npcink_Page_Function')) {
 
             //维护提示
             $maintenance_tips = MaBox_Admin::get_config($option, 'maintenance_tips');
-            //不是管理员
-            if ($maintenance_tips !== false) {
+            //倒计时时间
+            $countdown = MaBox_Admin::get_config($option, 'countdown');
+            $givenTime = strtotime($countdown); //传来的时间
+            $currentTime = time(); //现在时间
+
+            //有选项，且时间有效
+            if ($maintenance_tips !== false && $givenTime > $currentTime) {
                 require_once plugin_dir_path(__FILE__) . 'maintenance_tips.php';
                 Npcink_Maintenance_Tips::run($maintenance_tips);
             }

@@ -11,3 +11,12 @@ $favicon_url = get_site_icon_url();
 //准备路径
 $url_css = plugin_dir_url(__FILE__) . "css/";
 $url_image = plugin_dir_url(__FILE__) . "image/";
+
+//传来的值
+//获取设置选项值
+$config = MaBox_Admin::get_seting('page');
+$function =  MaBox_Admin::get_config($config, 'function');
+//标题
+$countdown_title =  MaBox_Admin::get_config($function, 'countdown_title');
+//内容
+$countdown_content =  MaBox_Admin::get_config($function, 'countdown_content');

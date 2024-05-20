@@ -56,9 +56,13 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
             <div class="leaf3"></div>
         </div>
         <div class="text">
-            <h3>升级维护中</h3>
-            <p><?php echo $site_name; ?></p>
-            <span><?php echo $description; ?></span>
+            <h3>
+                <?php
+                $countdown_title = isset($countdown_title) && !empty($countdown_title) ? $countdown_title : "升级维护中";
+                echo $countdown_title;
+                ?>
+            </h3>
+            <p><?php echo $countdown_content; ?></p>
         </div>
     </div>
 

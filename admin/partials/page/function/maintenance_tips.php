@@ -24,11 +24,12 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
             self::$blogdescription = get_bloginfo('description');
             self::$url = plugin_dir_url((__FILE__)) . 'maintenance/';
             self::$path = plugin_dir_path((__FILE__)) . 'maintenance/';
-            //检查是否是管理员
+            //检查
             add_action('template_redirect', array(__CLASS__, 'check_administrator_permission'));
         }
         public static  function check_administrator_permission()
         {
+            //不是管理员
             // if (!current_user_can('edit_themes') || !is_user_logged_in()) {
             if (!current_user_can('administrator')) {
                 switch (self::$configs) {
@@ -46,6 +47,8 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
                         break;
                     case "lighting":
                         add_action('get_header', array(__CLASS__, 'lighting'));
+                        break;
+                    default:
                         break;
                 }
             }
