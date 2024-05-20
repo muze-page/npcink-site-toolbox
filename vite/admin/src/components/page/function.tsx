@@ -48,18 +48,18 @@ const App: React.FC = () => {
       ...formData,
       countdown: timeData,
       // 其他需要修改的属性和值
-      uniqueKey: Math.random(), // 添加一个随机数作为唯一标识符
+      // uniqueKey: Math.random(), // 添加一个随机数作为唯一标识符
     };
     setFormData(updatedFormData); //更新传输的值
-    form.setFieldsValue(updatedFormData); // 更新表单中的值
+    //form.setFieldsValue(updatedFormData); // 更新表单中的值
   };
-  const [form] = Form.useForm();
+  //const [form] = Form.useForm();
 
   return (
     <>
       <Form
-        form={form}
-        name="aspect"
+       //form={form}
+        name="function"
         labelCol={{ span: fromConfig.labelCol }}
         wrapperCol={{ span: fromConfig.wrapperCol }}
         style={{ maxWidth: fromConfig.maxWidth }}
@@ -196,12 +196,12 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
-
 //倒计时
 const Countdown = (props: any) => {
-  //创建变量并设默认值
+  //时间
   const [choiceDate, setChoiceDate] = useState("");
-  //创建变量并设默认值
+
+  //日期
   const [choiceTime, setChoiceTime] = useState("");
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
@@ -211,22 +211,59 @@ const Countdown = (props: any) => {
     console.log(time, timeString);
     setChoiceTime(timeString);
   };
-  const choiceData = choiceDate + "T" + choiceTime;
+  const choiceData = choiceDate + "T" + choiceTime; //组合成时间
+
+  //展示传来的数据
+  const showData = () => {
+    // 创建一个新的 Date 对象
+    const dateObj = new Date(props.value);
+
+    // 提取日期和时间部分
+    const a = dateObj.toISOString().split("T")[0]; // 日期部分
+    setChoiceDate(a);
+    const b = dateObj.toTimeString().slice(0, 8); // 时间部分
+    setChoiceTime(b);
+    console.log(a);
+    console.log(b);
+    console.log(choiceDate);
+    console.log(choiceTime);
+  };
+
+  //获取时间
+  const demoData = () => {
+    // 创建一个新的 Date 对象
+    const dateObj = new Date(props.value);
+    // 提取日期和时间部分
+    const date = dateObj.toISOString().split("T")[0]; // 日期部分
+    const time = dateObj.toTimeString().slice(0, 8); // 时间部分
+    const data = {
+      date: date,
+      time: time,
+    };
+    return data;
+  };
+  const data = demoData();
+
+  //提交数据
   const show = () => {
     console.log(choiceDate);
     console.log(choiceTime);
     console.log(choiceData);
     props.updataTime(choiceData); //更新值
+    console.log(props.value);
   };
   return (
     <div>
-      <DatePicker onChange={onChange} />
+      <DatePicker onChange={onChange} defaultValue={dayjs(data.date)} />
       &nbsp;&nbsp;：
       <TimePicker
         onChange={onChanges}
-        defaultOpenValue={dayjs("12:00:00", "HH:mm:ss")}
+        defaultValue={dayjs(data.time, "HH:mm:ss")}
       />
+      <br />
       <button onClick={show}>提交</button>
+      <br />
+      <button onClick={showData}>传来的数据</button>
     </div>
   );
 };
