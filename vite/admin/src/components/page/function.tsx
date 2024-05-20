@@ -1,7 +1,16 @@
 //页面 - 功能
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { Form, Switch, Select, DatePicker, TimePicker, message } from "antd";
+import {
+  Form,
+  Switch,
+  Select,
+  DatePicker,
+  TimePicker,
+  message,
+  Button,
+  Input,
+} from "antd";
 import type { DatePickerProps, TimePickerProps } from "antd";
 import DataContext from "@/tool/dataContext";
 import defaultVar from "@/tool/defaultVar";
@@ -54,7 +63,7 @@ const App: React.FC = () => {
     //form.setFieldsValue(updatedFormData); // 更新表单中的值
   };
   //const [form] = Form.useForm();
-
+  const { TextArea } = Input;
   return (
     <>
       <Form
@@ -183,10 +192,42 @@ const App: React.FC = () => {
             ]}
           />
         </Form.Item>
-
-        <Form.Item label="倒计时" name="countdown">
-          <Countdown updataTime={updataTime} />
-        </Form.Item>
+        {formData.maintenance_tips !== "false" && (
+          <>
+            <Form.Item
+              label="倒计时"
+              name="countdown"
+              extra={<>选中时间后，需先点击生成时间，方可保存选项</>}
+            >
+              <Countdown updataTime={updataTime} />
+            </Form.Item>
+            <Form.Item label="倒计时标题" name="countdown_title">
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="倒计时内容"
+              name="countdown_content"
+              extra={
+                <>
+                  可使用HTML，例如：
+                  <br />
+                  <pre className="pre-meat">
+                    &lt;p&gt; 抱歉，我们的网站正在维护中...
+                    <br />
+                    &lt;span class="dull-text"&gt; <br />
+                    请倒计时结束后再回来，我们准备了全新的内容哦！
+                    <br />
+                    &lt;/span&gt;
+                    <br />
+                    &lt;/p&gt;
+                  </pre>
+                </>
+              }
+            >
+              <TextArea rows={4} />
+            </Form.Item>
+          </>
+        )}
       </Form>
     </>
   );
@@ -203,18 +244,26 @@ const Countdown = (props: any) => {
 
   //日期
   const [choiceTime, setChoiceTime] = useState<string>("06:00:00");
-  const onChange: DatePickerProps["onChange"] = (date, [dateString]) => {
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
-    setChoiceDate(dateString);
+    setChoiceDate(dateString as string);
   };
-  const onChanges: TimePickerProps["onChange"] = (time, [timeString]) => {
+  const onChanges: TimePickerProps["onChange"] = (time, timeString) => {
     console.log(time, timeString);
-    setChoiceTime(timeString);
+    setChoiceTime(timeString as string);
   };
 
   //获取时间
+  //检查时间格式
+  const checkFormat = (time: string) => {
+    var pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
+    return pattern.test(time);
+  };
+
+  //获取默认时间
   const demoData = () => {
-    if (props.value) {
+    //存在默认时间，且符合格式
+    if (props.value && checkFormat(props.value)) {
       // 创建一个新的 Date 对象
       const dateObj = new Date(props.value);
       // 提取日期和时间部分
@@ -230,8 +279,8 @@ const Countdown = (props: any) => {
   //默认数据
   const defaultData = demoData();
 
-  //提交数据
-  const show = () => {
+  //生成日期
+  const generateDate = () => {
     const choiceData = choiceDate + "T" + choiceTime; //组合成时间
     props.updataTime(choiceData); //更新值
     message.success("成功生成日期，现在可以保存了");
@@ -248,8 +297,8 @@ const Countdown = (props: any) => {
         onChange={onChanges}
         defaultValue={dayjs(defaultData?.time ?? choiceTime, "HH:mm:ss")}
       />
-      <br />
-      <button onClick={show}>生成日期</button>
+      &nbsp;&nbsp;
+      <Button onClick={generateDate}>生成日期</Button>
     </div>
   );
 };
