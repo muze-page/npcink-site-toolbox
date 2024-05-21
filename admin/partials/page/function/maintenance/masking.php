@@ -1,6 +1,6 @@
 <?php
 /*
- 暂停页模版 - 背景遮罩
+ 暂停页模版 - 背景遮罩 zaxu 
  */
 
 include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据

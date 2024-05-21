@@ -190,7 +190,7 @@ const App: React.FC = () => {
               { value: "purple", label: "紫色期待" },
               { value: "lighting", label: "灯光聚焦" },
               { value: "masking", label: "高级遮罩" },
-              { value: "rotate", label: "旋转时钟" },
+              { value: "rotate", label: "炫彩时钟" },
             ]}
           />
         </Form.Item>
