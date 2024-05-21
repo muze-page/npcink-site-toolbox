@@ -12,6 +12,8 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
     <meta charset="<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <?php wp_head(); ?>
+
+
 </head>
 
 <body <?php body_class(); ?>>
@@ -20,6 +22,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
     <!--
         来源：https://www.npc.ink/5239.html
     -->
+
     <div class="container">
         <div class="lamp-holder"></div>
         <div class="lamp"></div>
@@ -63,11 +66,34 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                 ?>
             </h3>
             <p><?php echo $countdown_content; ?></p>
+
+            <!--载入倒计时-->
+            <link href="<?php echo $url_css . "Countdown.css" ?>" rel="stylesheet" type="text/css" />
+            <script type="text/javascript" src="<?php echo $url_js . "Countdown.js" ?>"></script>
+            <script>
+                // 目标日期和时间
+                var targetDate = new Date("<?php echo $countdown ?>"); //规定以T分隔日期和时间
+            </script>
+            <section class="countdown-container">
+                <h3 class="countdown-desc text-center">倒计时结束后即可正常访问</h3>
+                <div id="countdown"></div>
+            </section>
+            <style>
+                body {
+                    height: 70vh !important;
+                }
+
+                .countdown-container {
+                    margin-top: 20rem;
+                }
+            </style>
+            <!--载入倒计时结束-->
         </div>
     </div>
 
     <!--载入CSS样式-->
     <link href="<?php echo $url_css . "lighting.css" ?>" rel="stylesheet" type="text/css" />
+
 </body>
 
 </html>

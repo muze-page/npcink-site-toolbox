@@ -1,0 +1,49 @@
+.countdown-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 68rem;
+  width: calc(100% - 10rem);
+  margin-top: 6rem;
+}
+.countdown-container h3 {
+  text-align: center;
+  font-size: 2rem;
+  margin: 1.6rem 0;
+}
+
+.countdown-container .countdown-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.countdown-container .countdown-content li {
+  position: relative;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 2rem;
+}
+.countdown-container .countdown-content li .digits {
+  display: block;
+  font-size: 4.6rem;
+  font-family: "Chivo Mono", monospace;
+}
+.countdown-container .countdown-content li i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -2.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  font-size: 2rem;
+  font-family: "Chivo Mono", monospace;
+  font-style: normal;
+}
+.countdown-container .countdown-content li .label {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+}

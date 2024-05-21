@@ -42,9 +42,9 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
   </style>
   <div class="main">
     <div class="waitimg">
-      <!--
-      <div class="beian">鄂ICP备18019477号</div>
-  -->
+      
+      <div class="beian">  <?php echo $countdown_content; ?></div>
+  
     </div>
   </div>
 
