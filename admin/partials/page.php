@@ -27,11 +27,18 @@ if (!class_exists('Npcink_Page')) {
             Npcink_Page_Comment::run($comment);
 
             /**
-             * 页面 -功能
+             * 页面 - 功能
              */
             require_once plugin_dir_path(__FILE__) . 'page/function/index.php';
             $function =  MaBox_Admin::get_config($config, 'function');
             Npcink_Page_Function::run($function);
+
+             /**
+             * 页面 - 权限
+             */
+            require_once plugin_dir_path(__FILE__) . 'page/jurisdiction/index.php';
+            $jurisdiction =  MaBox_Admin::get_config($config, 'jurisdiction');
+            Npcink_Page_Jurisdiction::run($jurisdiction);
         }
     }
 }

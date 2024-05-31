@@ -40,12 +40,23 @@ function downloadCSV(csvString: string, filename: string) {
 export const get_table_data = async (type: string) => {
   const params = new URLSearchParams();
   params.append("action", "get_table_data");
-  addParamIfDefined(params,"databaseName", type);
+  addParamIfDefined(params, "databaseName", type);
   try {
     const response = await instance.post(Ajaxurl, params);
-      //保存成功
-      downloadCSV(response.data.data, type + ".csv");
-   
+    //保存成功
+    downloadCSV(response.data.data, type + ".csv");
+  } catch (error: any) {
+    console.error("出错：" + error.message);
+  }
+};
+
+//获取分类数据
+export const getCategoryData = async () => {
+  const params = new URLSearchParams();
+  params.append("action", "get_all_category_names");
+  try {
+    const response = await instance.post(Ajaxurl, params);
+    return response.data.data;
   } catch (error: any) {
     console.error("出错：" + error.message);
   }

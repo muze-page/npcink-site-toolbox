@@ -7,6 +7,7 @@ import DataContext from "@/tool/dataContext";
 import { PageJurisdiction } from "@/tool/interface";
 import defaultVar from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
+import { getCategoryData } from "@/axios/axios";
 
 type FieldType = PageJurisdiction;
 
@@ -42,9 +43,9 @@ const App: React.FC = () => {
   }, [formData]);
 
   //调试
-  const print=()=>{
-    console.log(formData)
-  }
+  const print = () => {
+    console.log(formData);
+  };
 
   //准备分类数据
   const options = [
@@ -53,8 +54,20 @@ const App: React.FC = () => {
     { label: "文章三", value: 27 },
   ];
 
+  //打印表单
   const handleChange = (value: string[]) => {
     console.log(`selected ${value}`);
+  };
+
+  //获取分类数组
+  const getData = async () => {
+    try {
+      // 获取原始数据
+      const list = await getCategoryData();
+      console.log(list);
+    } catch (error) {
+      console.error("Error fetching table data:", error);
+    }
   };
 
   return (
@@ -72,6 +85,7 @@ const App: React.FC = () => {
         <Form.Item>
           <h2>未登录权限</h2>
           <button onClick={print}>打印</button>
+          <button onClick={getData}>获取对象</button>
         </Form.Item>
 
         <Form.Item<FieldType>
