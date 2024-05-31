@@ -7,24 +7,36 @@
 if (!class_exists('Npcink_Page_Hide_Tag')) {
     class Npcink_Page_Hide_Tag
     {
-        private static $id_array; //配置
+        private static $id_array; //标签数组
         public static function run($array)
         {
             self::$id_array = $array;
-            add_action('pre_get_posts', array(__CLASS__, 'exclude_posts_by_tag')); //隐藏标签下的文章
+            add_action('the_content', array(__CLASS__, 'restrict_content_for_specific_tags')); //隐藏标签下的文章
         }
 
         //隐藏指定标签下的文章
-        public static function exclude_posts_by_tag($query)
+        public static function restrict_content_for_specific_tags($content)
         {
-            if (!is_admin() && !is_user_logged_in() && $query->is_main_query()) {
-                $excluded_tag_ids = self::$id_array; // 要隐藏的标签ID数组
+            // 定义受限的标签ID数组
+            $restricted_tag_ids = self::$id_array; // 将这里替换为你想要限制的标签ID数组
 
-                // 检查是否在标签页
-                if ($query->is_tag($excluded_tag_ids)) {
-                    $query->set('tag__not_in', $excluded_tag_ids); // 排除特定标签
+            // 获取当前文章的所有标签
+            $post_tags = get_the_tags();
+
+            // 检查文章的标签是否属于受限的标签
+            if ($post_tags) {
+                $post_tag_ids = array();
+                foreach ($post_tags as $tag) {
+                    $post_tag_ids[] = $tag->term_id;
+                }
+                if (array_intersect($post_tag_ids, $restricted_tag_ids)) {
+                    if (!is_user_logged_in()) {
+                        // 如果用户未登录，则将文章内容替换为登录提示
+                        $content = '<div class="login-hint">抱歉，您没有权限访问此内容，请<a href="' . wp_login_url(get_permalink()) . '">登录</a>后访问。</div>';
+                    }
                 }
             }
+            return $content;
         }
     }
 }
