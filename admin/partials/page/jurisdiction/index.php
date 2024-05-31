@@ -15,12 +15,19 @@ if (!class_exists('Npcink_Page_Jurisdiction')) {
 
             //标签数组
             $tag_id = MaBox_Admin::get_config($option, 'tag_id');
-            
+
+            //合并数组
+            $mergedArray = array_merge($category_id,  $tag_id);
+
             //分类数组或标签数组是非空数组才开启接口
-            if (!empty($category_id) || !empty($tag_id)) {
+            if (!empty($mergedArray)) {
                 //添加分类数据接口
                 require_once plugin_dir_path(__FILE__) . 'interface_category_data.php';
                 Npcink_Interface_Category_Data::run();
+
+                //添加隐藏文章提示
+                require_once plugin_dir_path(__FILE__) . 'hide_prompt.php';
+                Npcink_Page_Hide_Prompt::run($mergedArray);
             }
 
             //隐藏指定分类
