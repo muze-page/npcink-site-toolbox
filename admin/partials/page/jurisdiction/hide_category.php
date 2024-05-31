@@ -23,7 +23,7 @@ if (!class_exists('Npcink_Page_Hide_Category')) {
             if (in_category($restricted_category_ids)) {
                 if (!is_user_logged_in()) {
                     // 如果用户未登录，则将文章内容替换为登录提示
-                    $content = '<div class="login-hint">抱歉，您没有权限访问此内容，请<a href="' . wp_login_url(get_permalink()) . '">登录</a>后访问。</div>';
+                    $content = '<div class="login-hint">抱歉，您没有权限访问此内容，请<strong><a href="' . wp_login_url(get_permalink()) . '">登录</a></strong>后访问。</div>';
                 }
             }
             return $content;
