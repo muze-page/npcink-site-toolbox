@@ -37,9 +37,10 @@ const App: React.FC = () => {
   };
 
   //修改公共值
+  const dataContext = useContext(DataContext)
   useEffect(() => {
-    optionObj.page = {
-      ...optionObj.page,
+    dataContext.page = {
+      ...dataContext.page,
       jurisdiction: formData,
     };
   }, [formData]);
