@@ -1,17 +1,8 @@
 //页面 - 功能
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import {
-  Form,
-  Switch,
-  Select,
-  DatePicker,
-  TimePicker,
-  message,
-  Button,
-  Input,
-} from "antd";
-import type { DatePickerProps, TimePickerProps } from "antd";
+import { Form, Switch, Select, DatePicker, Input } from "antd";
+
 import DataContext from "@/tool/dataContext";
 import defaultVar from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
@@ -181,9 +172,9 @@ const App: React.FC = () => {
             <Form.Item
               label="倒计时"
               name="countdown"
-              extra={<>选中时间后，需先点击生成时间，方可保存选项</>}
+              extra={<>此时间段内才会显示内容</>}
             >
-              <Countdown />
+              <TimePeriod />
             </Form.Item>
             <Form.Item label="倒计时标题" name="countdown_title">
               <Input />
@@ -229,76 +220,47 @@ const App: React.FC = () => {
   );
 };
 
+//时间段
+//["2024-05-01 12:00:00","2024-05-09 12:00:00"]
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+const TimePeriod: React.FC = (props: any) => {
+  //准备时间组件
+  const { RangePicker } = DatePicker;
 
-dayjs.extend(customParseFormat);
-//倒计时
-const Countdown = (props: any) => {
-  //时间
-  const [choiceDate, setChoiceDate] = useState<string>("2024-05-01");
+  //时间格式
+  //const dateFormat = "YYYY-MM-DD HH:mm:ss";
+  const dateFormat = "YYYY-MM-DD HH:mm";
 
-  //日期
-  const [choiceTime, setChoiceTime] = useState<string>("06:00:00");
+  // 获取当前时间并格式化
+  const currentTime = dayjs().format(dateFormat);
 
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
-    setChoiceDate(dateString as string);
-  };
+  // 计算1天后的时间并格式化
+  const nextDay = dayjs().add(1, "day").format(dateFormat);
 
-  const onChanges: TimePickerProps["onChange"] = (time, timeString) => {
-    console.log(time, timeString);
-    setChoiceTime(timeString as string);
-  };
-
-  //获取时间
-  //检查时间格式
-  const checkFormat = (time: string) => {
-    var pattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
-    return pattern.test(time);
-  };
-
-  //获取默认时间
-  const demoData = () => {
-    //存在默认时间，且符合格式
-    if (props.value && checkFormat(props.value)) {
-      // 创建一个新的 Date 对象
-      const dateObj = new Date(props.value);
-      // 提取日期和时间部分
-      const date = dateObj.toISOString().split("T")[0]; // 日期部分
-      const time = dateObj.toTimeString().slice(0, 8); // 时间部分
-      const data = {
-        date: date,
-        time: time,
-      };
-      return data;
-    }
-  };
-  //默认数据
-  const defaultData = demoData();
-
-  //生成日期
-  const generateDate = () => {
-    const choiceData = choiceDate + "T" + choiceTime; //组合成时间
-    props.onChange(choiceData); //更新值
-    console.log(props);
-    message.success("成功生成日期，现在可以保存了");
-    console.log(choiceData);
+  //触发
+  const onChange = (value: any, dateString: any) => {
+    console.log("Selected Time: ", value);
+    console.log("Formatted Selected Time: ", dateString);
+    //格式化时间
+    const data = dateString.map((item: any) =>
+      dayjs(item).format("YYYY-MM-DD HH:mm")
+    );
+    console.log(data);
+    props.onChange(data);
   };
   return (
-    <div>
-      <DatePicker
+    <>
+      <RangePicker
+        showTime={{ format: dateFormat }}
+        format="YYYY-MM-DD HH:mm"
         onChange={onChange}
-        defaultValue={dayjs(defaultData?.date ?? choiceDate)}
+        //TODO:想办法抽离下
+        defaultValue={[
+          dayjs(props.value[0] ?? currentTime, dateFormat),
+          dayjs(props.value[1] ?? nextDay, dateFormat),
+        ]}
       />
-      &nbsp;&nbsp;：
-      <TimePicker
-        onChange={onChanges}
-        defaultValue={dayjs(defaultData?.time ?? choiceTime, "HH:mm:ss")}
-      />
-      &nbsp;&nbsp;
-      <Button onClick={generateDate}>生成日期</Button>
-    </div>
+    </>
   );
 };
 
