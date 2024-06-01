@@ -42,13 +42,6 @@ const App: React.FC = () => {
     };
   }, [formData]);
 
-  //调试
-  const print = () => {
-    console.log(formData);
-  };
-
-
-
   //存储表单值
   interface TagData {
     categorys: ListData[];
@@ -86,7 +79,7 @@ const App: React.FC = () => {
       >
         <Form.Item>
           <h2>未登录权限</h2>
-          <button onClick={print}>打印</button>
+         
         </Form.Item>
 
         <Form.Item<FieldType>
