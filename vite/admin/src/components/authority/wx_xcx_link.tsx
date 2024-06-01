@@ -67,8 +67,9 @@ const items: CollapseProps["items"] = [
 ];
 
 const App: React.FC = () => {
-  //拿到值
-  const optionObj = useContext(DataContext) ?? { authority: {} };
+  //拿到默认选项值
+  const { authority: optionData } = useContext(DataContext) ?? {};
+  const optionObj = { authority: optionData || {} };
 
   //简化并提供默认值
   const publicData =
