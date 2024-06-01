@@ -17,7 +17,7 @@ export const AboutPlugin = () => (
         </li>
         <li>
           开源地址：
-          <Link target="_blank" href="#">
+          <Link target="_blank" href="https://gitee.com/gitgreat/wp-magick-toolbox">
             Gitee
           </Link>
         </li>
@@ -45,7 +45,7 @@ export const Proposal = () => (
           </Link>
         </li>
         <li>
-          <Link target="_blank" href="#">
+          <Link target="_blank" href="https://gitee.com/gitgreat/wp-magick-toolbox/issues">
             Gitee Issue
           </Link>
         </li>

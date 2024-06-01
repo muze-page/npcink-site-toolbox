@@ -1,9 +1,8 @@
 <?php
 /*
- * Plugin Name: 魔法工具箱
- * Description: 魔法工具箱
+ * Plugin Name: 魔法工具箱【BETA】
+ * Description: 魔法工具箱，诸多实用且有趣的功能合集，简单易用；详情请见插件中的「关于」页内容
  * Plugin URI: https://www.npc.ink/277510.html
- * Description: 文章统计+小功能
  * Version: 1.0.0
  * Author: Npcink
  * Author URI: https://www.npc.ink/
@@ -62,4 +61,3 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links)
 
 //测试类 - 开发用，正式用记得注释掉
 //require plugin_dir_path(__FILE__) . 'index.php';
-
