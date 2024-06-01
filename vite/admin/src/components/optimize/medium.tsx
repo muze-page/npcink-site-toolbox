@@ -30,9 +30,10 @@ const App: React.FC = () => {
   };
 
   // 表单值发生变化时更新dataContext的值
+  const dataContext = useContext(DataContext);
   useEffect(() => {
-    optionObj.optimize = {
-      ...optionObj.optimize,
+    dataContext.optimize = {
+      ...dataContext.optimize,
       medium: formData,
     };
   }, [formData]);
