@@ -33,9 +33,10 @@ const App: React.FC = () => {
   };
 
   // 表单值发生变化时更新dataContext的值
+  const dataContext = useContext(DataContext);
   useEffect(() => {
-    optionObj.h5 = {
-      ...optionObj.h5,
+    dataContext.h5 = {
+      ...dataContext.h5,
       contact: formData,
     };
   }, [formData]);
