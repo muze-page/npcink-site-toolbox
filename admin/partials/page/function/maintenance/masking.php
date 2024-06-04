@@ -1,9 +1,13 @@
 <?php
 /*
- 暂停页模版 - 背景遮罩 zaxu 
+ 暂停页模版 - 高级遮罩 zaxu 
  */
 
 include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
+
+//准备图片 1920 1080
+$img_url = $countdown_image ? $countdown_image : plugin_dir_url(__FILE__) . './image/masking_1920.jpg';
+
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -22,7 +26,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
     <link href="<?php echo $url_css . "masking.css" ?>" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<?php echo $url_js . "Countdown.js" ?>"></script>
     <picture class="pending-bg-img">
-        <img src="<?php echo $countdown_image ?>" alt="<?php echo $countdown_title ?>">
+        <img src="<?php echo $img_url ?>" alt="<?php echo $countdown_title ?>">
     </picture>
     <section class="site-main-container">
         <div class="site-carry">

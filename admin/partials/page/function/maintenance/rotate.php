@@ -91,6 +91,11 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                 </div>
             </div>
         </div>
+        <style>
+            .countdown-caption{
+                color: #fff;
+            }
+        </style>
     </body>
 
 </html>

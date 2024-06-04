@@ -48,10 +48,7 @@ const FixedImage: React.FC<FixedImageProps> = (props: any) => {
     setImageValue(e.target.value);
   };
 
-  //准备图片预览内容
-  const content = (
-    <>{props.value ? <Image src={imageValue} width={300} /> : "暂无选中图片"}</>
-  );
+
 
   return (
     <>

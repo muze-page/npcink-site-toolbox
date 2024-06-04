@@ -65,7 +65,7 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
             $logo = self::$url . 'image/tips.svg';
             wp_die('<div style="text-align:center">
             
-            <img src="' . $logo . '" alt="' . self::$blogname . '" /><br /><br />' . self::$blogname . '正在例行维护中，请稍候...</div>', '站点维护中 - ' . self::$blogname . ' - ' . self::$blogdescription, array('response' => '503'));
+            <img src="' . $logo . '" alt="' . self::$blogname . '" /><br /><br />' . self::$blogname . ' 正在例行维护中，请稍候...</div>', '站点维护中 - ' . self::$blogname . ' - ' . self::$blogdescription, array('response' => '503'));
         }
 
         //红色纯粹

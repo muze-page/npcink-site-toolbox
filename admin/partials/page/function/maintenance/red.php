@@ -50,6 +50,11 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                 <?php include 'countdown.php'; ?>
             </div>
             <style>
+                .box {
+                    color: #fff;
+                    text-align: center;
+                }
+
                 .boxs {
                     display: flex;
                     justify-content: center;
