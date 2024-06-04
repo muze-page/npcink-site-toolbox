@@ -30,7 +30,7 @@ if (!class_exists('Npcink_Page_Jurisdiction')) {
             }
 
             //隐藏指定标签
-            if (!empty($category_id)) {
+            if (!empty($tag_id)) {
                 require_once plugin_dir_path(__FILE__) . 'hide_tag.php';
                 Npcink_Page_Hide_Tag::run($tag_id);
             }
