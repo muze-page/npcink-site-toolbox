@@ -7,10 +7,12 @@ import "./main.css";
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);
 
+  //开弹窗
   const showDrawer = () => {
     setOpen(true);
   };
 
+  //关弹窗
   const onClose = () => {
     setOpen(false);
   };
@@ -41,7 +43,7 @@ const App: React.FC = () => {
         rootClassName="share"
         classNames={classNameNames}
       >
-        <ShareContent />
+        <ShareContent toggleDrawer={onClose}/>
       </Drawer>
     </>
   );

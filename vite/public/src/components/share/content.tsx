@@ -11,7 +11,11 @@ import X from "@/assets/share/X.svg";
 
 import { message, QRCode } from "antd";
 import { ScanOutlined } from "@ant-design/icons";
-const App: React.FC = () => {
+interface AppProps {
+  toggleDrawer: () => void;
+}
+
+const App: React.FC<AppProps> = ({ toggleDrawer }) => {
   //准备当前网页链接
   const url_site = window.location.href;
   //复制当前链接
@@ -42,6 +46,73 @@ const App: React.FC = () => {
         marginTop: "20vh",
       },
     });
+    //关闭弹窗
+    toggleDrawer();
+  };
+
+  //发出邮件
+  const sendEmail = () => {
+    const mail = "recipient@example.com";
+    const title = "Hello";
+    const content = "This is a test email.";
+    const url = `mailto:${mail}?subject=${title}&body=${content}`;
+    window.open(url);
+  };
+
+  //分享到微博
+  const shareWeibo = () => {
+    // 替换下面的 URL 和文本为你想分享的内容
+    const url = encodeURIComponent("https://www.npc.ink");
+    const text = encodeURIComponent("发现一个蛮有意思的站点，分享给你看看：");
+
+    // 构建微博分享链接
+    const shareUrl =
+      "http://service.weibo.com/share/share.php?url=" + url + "&title=" + text;
+
+    // 打开分享链接
+    window.open(shareUrl, "_blank");
+  };
+
+  //分享到QQ 空间
+  const shareQzone = () => {
+    // 替换下面的 URL 和标题为你想分享的内容
+    const url = encodeURIComponent("https://sofile.cn");
+    const title = encodeURIComponent("发现一个蛮有意思的站点，分享给你看看：");
+
+    // 构建QQ空间分享链接
+    const shareUrl =
+      "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" +
+      url +
+      "/&title=" +
+      title;
+
+    // 打开分享链接
+    window.open(shareUrl, "_blank");
+  };
+
+  //分享到FacebookTODO:待验证
+  const shareToFacebook = () => {
+    // 替换下面的 URL 为你想分享的网站链接
+    const url = encodeURIComponent("https://www.npc.ink");
+
+    // 构建 Facebook 分享链接
+    const shareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + url;
+
+    // 打开分享链接
+    window.open(shareUrl, "_blank");
+  };
+
+  //分享到X
+  const shareToX = () => {
+    // 替换下面的 URL 和文本为你想分享的内容
+    const url = encodeURIComponent("https://www.npc.ink");
+    const text = encodeURIComponent("发现一个蛮有意思的站点，分享给你看看：");
+
+    // 构建 Twitter 分享链接
+    const shareUrl = "https://x.com/intent/tweet?url=" + url + "&text=" + text;
+
+    // 打开分享链接
+    window.open(shareUrl, "_blank");
   };
 
   return (
@@ -69,31 +140,31 @@ const App: React.FC = () => {
               </span>
               <span className="title">微信</span>
             </li>
-            <li>
+            <li onClick={sendEmail}>
               <span className="icon">
                 <img src={Mail} />
               </span>
               <span className="title">邮件</span>
             </li>
-            <li>
+            <li onClick={shareWeibo}>
               <span className="icon">
                 <img src={WeiBo} />
               </span>
               <span className="title">微博</span>
             </li>
-            <li>
+            <li onClick={shareQzone}>
               <span className="icon">
                 <img src={Qzone} />
               </span>
               <span className="title">QQ 空间</span>
             </li>
-            <li>
+            <li onClick={shareToFacebook}>
               <span className="icon">
                 <img src={Facebook} />
               </span>
               <span className="title">Facebook</span>
             </li>
-            <li>
+            <li onClick={shareToX}>
               <span className="icon">
                 <img src={X} />
               </span>
