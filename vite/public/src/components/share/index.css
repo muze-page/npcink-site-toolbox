@@ -1,3 +1,14 @@
+/** 
+ * @name: index.css
+ * @description:  分享
+ */
+.open_share {
+  position: fixed;
+  right: 12px;
+  top: 195px;
+  z-index: 11;
+}
+
 ol,
 ul {
   box-sizing: border-box;
@@ -7,10 +18,8 @@ ul {
   -webkit-tap-highlight-color: transparent;
 }
 .site-sharing-container {
-  
   line-height: 1.5;
 }
-
 
 .site-sharing-container.opened .site-sharing-content {
   will-change: auto;
@@ -23,7 +32,7 @@ ul {
   position: fixed;
   left: 0;
   bottom: 0;
-  font-size: 1.40px;
+  font-size: 1.4px;
   width: 100%;
   min-width: 320px;
   height: 100%;
@@ -59,7 +68,7 @@ ul {
 }
 .site-sharing-container .site-sharing-content > .title {
   display: block;
-  font-size: 1.40px;
+  font-size: 1.4px;
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -129,7 +138,6 @@ ul {
     height: 40px;
   }
 }
-
 
 /*优化弹出框*/
 /**

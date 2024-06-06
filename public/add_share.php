@@ -32,65 +32,9 @@ if (!class_exists('Npcink_Public_Add_Share')) {
         //添加HTML
         public static function add_share_html()
         {
-            $url = plugin_dir_url(__FILE__).'share/';
+
             echo '
-            <!--
-            侧边
-        -->
-        <div class="elevator_item ">
-            <div class=" medium ">
-                <button class="btn" onclick="activeType()">展开</button>
-            </div>
-    
-        </div>
-        <!--
-            弹窗内容
-        -->
-        <section class="site-sharing-container site-overlay">
-            <div class="site-sharing-content">
-                <span class="title">分享</span>
-                <ul>
-                    <li>
-                        <span class="icon">
-                            <img src="' . $url . 'image/画报.svg" />
-                        </span>
-                        <span class="title">创建画报</span>
-                    </li>
-                    <li>
-                        <span class="icon" onclick="copyLink()"> <img src="' . $url . 'image/链接.svg" /></span>
-                        <span class="title">复制链接</span>
-    
-                    </li>
-                    <li>
-                        <span class="icon"> <img src="' . $url . 'image/微信.svg" /></span>
-                        <span class="title">微信</span>
-                    </li>
-                    <li>
-                        <span class="icon"> <img src="' . $url . 'image/邮件.svg" /></span>
-                        <span class="title">邮件</span>
-                    </li>
-                    <li>
-                    <span class="icon">
-                        <img src="' . $url . 'image/微博.svg" />
-                    </span>
-                    <span class="title">微博</span>
-                </li>
-                <li>
-                    <span class="icon"> <img src="' . $url . 'image/QQ 空间.svg" /></span>
-                    <span class="title">QQ 空间</span>
-                </li>
-                <li>
-                    <span class="icon"> <img src="' . $url . 'image/Facebook.svg" /></span>
-                    <span class="title">Facebook</span>
-                </li>
-                <li>
-                    <span class="icon"> <img src="' . $url . 'image/X.svg" /></span>
-                    <span class="title">X</span>
-                </li>
-    
-                </ul>
-            </div>
-        </section>
+            <div id="react_public"></div>
             ';
         }
     }

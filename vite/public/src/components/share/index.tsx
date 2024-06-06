@@ -1,6 +1,7 @@
 //分享
 import { useState } from "react";
 import { Drawer, Button } from "antd";
+import { ShareAltOutlined } from "@ant-design/icons";
 import ShareContent from "@/components/share/content";
 import "./index.css";
 const App: React.FC = () => {
@@ -19,10 +20,6 @@ const App: React.FC = () => {
   //准备样式
 
   const classNameNames = {
-    //  body: "drawer_body",
-    //  mask: "drawer_mask",
-    //  header: "drawer_header",
-    //  footer: "drawer_footer",
     content: "drawer_content",
   };
 
@@ -30,9 +27,13 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Button type="primary" onClick={showDrawer}>
-        分享
-      </Button>
+      
+      <Button
+        shape="circle"
+        icon={<ShareAltOutlined />}
+        onClick={showDrawer}
+        className="open_share"
+      />
 
       <Drawer
         placement="bottom"
