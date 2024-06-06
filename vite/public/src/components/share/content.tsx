@@ -11,6 +11,7 @@ import X from "@/assets/share/X.svg";
 
 import { message, QRCode } from "antd";
 import { ScanOutlined } from "@ant-design/icons";
+import Poster from "@/components/share/poster";
 interface AppProps {
   toggleDrawer: () => void;
 }
@@ -26,8 +27,32 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
     "发现一个蛮有意思的站点，分享给你看看 - " + page_title + "："
   );
 
+  //准备弹窗
+  const [messageApi, contextHolder] = message.useMessage();
+
   //生成海报
-  
+  const poster = () => {
+    messageApi.open({
+      type: "success",
+      content: (
+        <>
+          <Poster />
+        </>
+      ),
+      duration: 300, //10秒后自动关闭
+      icon: (
+        <ScanOutlined
+          style={{ fontSize: "32px", color: "#000", display: "none" }}
+        />
+      ),
+      style: {
+        marginTop: "10vh",
+      },
+    });
+    //关闭弹窗
+    toggleDrawer();
+  };
+
   //复制当前链接
   const copyLink = () => {
     navigator.clipboard.writeText(site_url).then(() => {
@@ -36,7 +61,7 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
   };
 
   //生成二维码
-  const [messageApi, contextHolder] = message.useMessage();
+
   const qrCode = () => {
     messageApi.open({
       type: "success",
@@ -132,7 +157,7 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
         <div className="site-sharing-content">
           <span className="title">分享</span>
           <ul>
-            <li>
+            <li onClick={poster}>
               <span className="icon">
                 <img src={Pictorial} />
               </span>
