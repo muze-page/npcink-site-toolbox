@@ -24,25 +24,32 @@ const App: React.FC<AppProps> = ({ closePoster }) => {
   //海报图
   const posterCanvasRef = useRef<HTMLDivElement>(null);
 
+  //TODO:执行这个时会报错
   useEffect(() => {
     const capturePoster = async () => {
       if (posterRef.current && posterCanvasRef.current) {
         // 确保引用已经存在
-        const canvas = await html2canvas(posterRef.current);
-        const canvasContainer = document.createElement("div");
-        canvasContainer.classList.add("canvas-container");
-        canvasContainer.appendChild(canvas);
+        try {
+          const canvas = await html2canvas(posterRef.current, {
+            useCORS: true,
+          });
+          const canvasContainer = document.createElement("div");
+          canvasContainer.classList.add("canvas-container");
+          canvasContainer.appendChild(canvas);
 
-        // 清空节点b中的内容
-        posterCanvasRef.current.innerHTML = "";
+          // 清空节点b中的内容
+          posterCanvasRef.current.innerHTML = "";
 
-        // 将生成的canvas元素添加到节点b中
-        posterCanvasRef.current.appendChild(canvasContainer);
+          // 将生成的canvas元素添加到节点b中
+          posterCanvasRef.current.appendChild(canvasContainer);
 
-        // 销毁节点a
-        const posterNode = posterRef.current;
-        if (posterNode && posterNode.parentNode) {
-          posterNode.parentNode.removeChild(posterNode);
+          // 销毁节点a
+          const posterNode = posterRef.current;
+          if (posterNode && posterNode.parentNode) {
+            posterNode.parentNode.removeChild(posterNode);
+          }
+        } catch (error) {
+          console.error("Failed to capture poster:", error);
         }
       }
     };
