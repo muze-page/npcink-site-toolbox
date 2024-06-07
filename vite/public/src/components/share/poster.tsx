@@ -16,13 +16,14 @@ interface AppProps {
 //弹窗内容
 const App: React.FC<AppProps> = ({ closePoster }) => {
   //准备当前网页链接
-  const site_url = encodeURIComponent(window.location.href);
+  const site_url = encodeURIComponent(publicShareData.url);
 
   //海报
   const posterRef = useRef<HTMLDivElement>(null); // 创建一个持久的引用
 
   //海报图
   const posterCanvasRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const capturePoster = async () => {
       if (posterRef.current && posterCanvasRef.current) {

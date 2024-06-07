@@ -145,7 +145,7 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
     window.open(shareUrl, "_blank");
   };
 
-  //弹窗
+  //海报弹窗
   const [open, setOpen] = useState(false);
 
   //开海报弹窗
