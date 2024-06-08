@@ -45,7 +45,7 @@
   position: absolute;
   left: 50%;
   bottom: 0;
-  width: calc(100% - 40px);
+  width: calc(100% - 80px);
   max-width: 450px;
   height: auto;
   color: #333;

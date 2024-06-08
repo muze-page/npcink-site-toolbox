@@ -1,10 +1,14 @@
 <?php
-//添加分享按钮
+
+/**
+ * 功能：添加分享按钮
+ * 参考：https://demo.zaxu.com/
+ */
 
 if (!class_exists('Npcink_Public_Add_Share')) {
     class Npcink_Public_Add_Share
     {
-        private static $config; //分类数组
+        //private static $config; //分类数组
         public static function run()
         {
             //self::$config = $option;
@@ -18,11 +22,9 @@ if (!class_exists('Npcink_Public_Add_Share')) {
         //添加HTML
         public static function add_share_html()
         {
-
-            echo '
-            <p id="react_public"></p>
-            ';
+            echo '<div id="react_public"></div>';
         }
+
         //添加公共前端资源
         public static function public_dist()
         {
@@ -32,8 +34,8 @@ if (!class_exists('Npcink_Public_Add_Share')) {
             }
 
             //准备打包后的数据
-            $build_css = plugin_dir_url(dirname(__FILE__)) . 'vite/public/dist/index.css';
-            $build_js = plugin_dir_url(dirname(__FILE__)) . 'vite/public/dist/index.js';
+            $build_css = plugin_dir_url(dirname(dirname(__FILE__))) . 'vite/public/dist/index.css';
+            $build_js = plugin_dir_url(dirname(dirname(__FILE__))) . 'vite/public/dist/index.js';
 
 
             wp_enqueue_style(
@@ -66,13 +68,16 @@ if (!class_exists('Npcink_Public_Add_Share')) {
          */
         public static function get_page_meat()
         {
+
             $info = array();
+
             //文章页、单页
             if (is_single() || is_singular()) {
                 // 当前是单篇文章页
 
                 $info = self::get_page_info();
-                $info['type'] = "single";
+                $info['type'] = "single"; //类型
+
             }
 
             if (is_page()) {
@@ -93,9 +98,16 @@ if (!class_exists('Npcink_Public_Add_Share')) {
 
             if (is_home()) {
                 // 当前是首页
-                $info = self::get_page_info();
+                $info = self::get_home_info();
                 $info['type'] = "home";
             }
+
+            //准备默认图
+            $default_image = plugin_dir_url(__FILE__) . 'file-light-1920x1280.jpg';
+
+            $info['image'] = $info['image'] ?: $default_image;
+
+
 
             return $info;
         }
@@ -221,6 +233,31 @@ if (!class_exists('Npcink_Public_Add_Share')) {
             $page_info['description'] = $tagDescription;
             $page_info['image'] = $tagImage;
             $page_info['url'] = $tagUrl;
+            return $page_info;
+        }
+
+        /**
+         * 获取首页相关信息
+         */
+        public static function get_home_info()
+        {
+            // 获取站点标题
+            $site_title = get_bloginfo('name');
+
+            // 获取站点描述
+            $site_description = get_bloginfo('description');
+
+            // 获取页面特色图
+            $page_thumbnail = '';
+
+            // 获取首页链接
+            $home_url = home_url('/');
+
+            $page_info = array();
+            $page_info['title'] = $site_title;
+            $page_info['description'] = $site_description;
+            $page_info['image'] = $page_thumbnail;
+            $page_info['url'] = $home_url;
             return $page_info;
         }
     }

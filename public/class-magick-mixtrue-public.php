@@ -58,7 +58,7 @@ class MaBox_Public
       
 
         //添加分享按钮
-        require_once plugin_dir_path(__FILE__) . 'share.php';
+        require_once plugin_dir_path(__FILE__) . 'share/index.php';
         Npcink_Public_Add_Share::run();
     }
 

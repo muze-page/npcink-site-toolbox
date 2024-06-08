@@ -146,6 +146,7 @@ const App: React.FC<AppProps> = ({ closePoster }) => {
         onClick={downloadButton}
         icon={<DownloadOutlined />}
         iconPosition="end"
+        style={{ display: "none" }}
       >
         下载海报
       </Button>
