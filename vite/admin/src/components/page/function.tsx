@@ -200,6 +200,9 @@ const App: React.FC = () => {
         </Form.Item>
         {formData.share && (
           <>
+            <Form.Item label="分享">
+              <h3>按钮位置</h3>
+            </Form.Item>
             <Form.Item<FieldType> label="分享按钮位置" name="share_position">
               <Radio.Group
                 options={[
@@ -213,6 +216,27 @@ const App: React.FC = () => {
             <Form.Item<FieldType> label="按钮距离顶部" name="share_top">
               <InputNumber addonAfter="px" style={{ width: "120px" }} />
             </Form.Item>
+            <Form.Item<FieldType> label="按钮距离侧边" name="share_margins">
+              <InputNumber addonAfter="px" style={{ width: "120px" }} />
+            </Form.Item>
+            <Form.Item label="分享">
+              <h3>邮箱</h3>
+            </Form.Item>
+            <Form.Item<FieldType> label="邮箱地址" name="share_email_email">
+              <Input  />
+            </Form.Item>
+            <Form.Item<FieldType> label="邮箱标题" name="share_email_title">
+              <Input  />
+            </Form.Item>
+            <Form.Item<FieldType> label="邮箱内容" name="share_email_content">
+              <Input  />
+            </Form.Item>
+            <Form.Item label="分享">
+              <h3>分享信息</h3>
+            </Form.Item>
+            <Form.Item<FieldType> label="分享文本" name="share_text">
+              <Input  />
+            </Form.Item>
             <Form.Item<FieldType> label="首页默认图" name="share_img_home">
               <SelectImage />
             </Form.Item>
@@ -222,6 +246,7 @@ const App: React.FC = () => {
             <Form.Item<FieldType> label="其他默认图" name="share_img_about">
               <SelectImage />
             </Form.Item>
+
           </>
         )}
       </Form>

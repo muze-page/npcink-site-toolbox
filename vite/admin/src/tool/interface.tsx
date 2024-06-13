@@ -121,6 +121,11 @@ export type PageFunction = {
   share: boolean; //分享
   share_position: string; //按钮位置
   share_top: string; //按钮距离顶部距离
+  share_margins:string;//按钮距离侧边位置
+  share_text:string;//分享用文本
+  share_email_email:string;//邮箱地址
+  share_email_title:string;//邮箱标题
+  share_email_content:string;//邮箱内容
   share_img_home: string; //首页默认图
   share_img_page: string; //页面默认图
   share_img_about: string; //其他默认图
