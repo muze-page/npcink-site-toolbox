@@ -10,10 +10,10 @@ import Facebook from "@/assets/share/Facebook.svg";
 import X from "@/assets/share/X.svg";
 
 import { useState } from "react";
-import { message, QRCode, Drawer } from "antd";
-import { ScanOutlined } from "@ant-design/icons";
+import { message, Drawer } from "antd";
 import Poster from "@/components/share/poster";
-import {publicShareData} from "@/store/index";
+import QRCode from "@/components/share/QRcode";
+import { publicShareData } from "@/store/index";
 interface AppProps {
   toggleDrawer: () => void;
 }
@@ -21,16 +21,17 @@ interface AppProps {
 const App: React.FC<AppProps> = ({ toggleDrawer }) => {
   //当前页面标题
   const page_title = publicShareData.page.title;
+
   //准备当前网页链接
-  const site_url = encodeURIComponent(publicShareData.page.url);
+  const page_url = encodeURIComponent(publicShareData.page.url);
 
   //准备宣传语
-  const site_title = encodeURIComponent(
+  const promo = encodeURIComponent(
     "发现一个蛮有意思的站点，分享给你看看 - " + page_title + "："
   );
 
-  //准备弹窗
-  const [messageApi, contextHolder] = message.useMessage();
+  //当前弹窗展示内容
+  const [drawerContent, setDrawerContent] = useState("");
 
   //生成海报
   const poster = () => {
@@ -40,45 +41,28 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
     // 1 秒后执行 showDrawer
     setTimeout(() => {
       //开海报弹窗
+      setDrawerContent("poster");
       showDrawer();
-    }, 200);
+    }, 300);
   };
 
   //复制当前链接
   const copyLink = () => {
-    navigator.clipboard.writeText(site_url).then(() => {
+    navigator.clipboard.writeText(page_url).then(() => {
       message.info("链接已复制到剪贴板");
     });
   };
 
   //生成二维码
-
   const qrCode = () => {
-    messageApi.open({
-      type: "success",
-      content: (
-        <>
-          <QRCode
-            errorLevel="H"
-            value={site_url}
-            icon={WeXin}
-            style={{ border: "0px" }}
-          />
-          <span>微信扫一扫浏览本页</span>
-        </>
-      ),
-      duration: 3, //10秒后自动关闭
-      icon: (
-        <ScanOutlined
-          style={{ fontSize: "32px", color: "#000", display: "none" }}
-        />
-      ),
-      style: {
-        marginTop: "20vh",
-      },
-    });
     //关闭弹窗
     toggleDrawer();
+    // 1 秒后执行 showDrawer
+    setTimeout(() => {
+      //开二维码弹窗
+      setDrawerContent("QRCode");
+      showDrawer();
+    }, 300);
   };
 
   //发出邮件
@@ -93,8 +77,8 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
   //分享到微博
   const shareWeibo = () => {
     // 替换下面的 URL 和文本为你想分享的内容
-    const url = site_url;
-    const text = site_title;
+    const url = page_url;
+    const text = promo;
 
     // 构建微博分享链接
     const shareUrl =
@@ -107,8 +91,8 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
   //分享到QQ 空间
   const shareQzone = () => {
     // 替换下面的 URL 和标题为你想分享的内容
-    const url = site_url;
-    const title = site_title;
+    const url = page_url;
+    const title = promo;
 
     // 构建QQ空间分享链接
     const shareUrl =
@@ -124,7 +108,7 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
   //分享到FacebookTODO:待验证
   const shareToFacebook = () => {
     // 替换下面的 URL 为你想分享的网站链接
-    const url = site_url;
+    const url = page_url;
 
     // 构建 Facebook 分享链接
     const shareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + url;
@@ -136,8 +120,8 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
   //分享到X
   const shareToX = () => {
     // 替换下面的 URL 和文本为你想分享的内容
-    const url = site_url;
-    const text = site_title;
+    const url = page_url;
+    const text = promo;
 
     // 构建 Twitter 分享链接
     const shareUrl = "https://x.com/intent/tweet?url=" + url + "&text=" + text;
@@ -166,7 +150,6 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
 
   return (
     <>
-      {contextHolder}
       <section className="site-sharing-container site-overlay opened">
         <div className="site-sharing-content">
           <span className="title">分享</span>
@@ -233,7 +216,8 @@ const App: React.FC<AppProps> = ({ toggleDrawer }) => {
         rootClassName="poster_drawer"
         classNames={classNameNames}
       >
-        <Poster closePoster={onClose} />
+        {drawerContent === "poster" && <Poster closePoster={onClose} />}
+        {drawerContent === "QRCode" && <QRCode />}
       </Drawer>
     </>
   );
