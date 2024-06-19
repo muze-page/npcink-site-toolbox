@@ -1,7 +1,7 @@
 //页面 - 外观优化
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { Form, Switch, Input } from "antd";
+import { Form, Switch, Input, InputNumber } from "antd";
 import { DataContext } from "@/tool/dataContext";
 import { defaultVarOption } from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
@@ -237,9 +237,7 @@ const App: React.FC = () => {
           label="平滑滚动"
           name="page_scrolling"
           valuePropName="checked"
-          extra={
-            "让页面滚动起来更丝滑，部分浏览器不支持"
-          }
+          extra={"让页面滚动起来更丝滑，部分浏览器不支持"}
         >
           <Switch />
         </Form.Item>
@@ -247,12 +245,19 @@ const App: React.FC = () => {
           label="上吊猫"
           name="page_back_top_cat"
           valuePropName="checked"
-          extra={
-            "添加一个可爱的猫猫，点击即可返回页面顶部"
-          }
+          extra={"添加一个可爱的猫猫，点击即可返回页面顶部"}
         >
           <Switch />
         </Form.Item>
+        {formData.page_back_top_cat !== false && (
+          <Form.Item<FieldType>
+            label="猫猫距离右边"
+            name="page_back_top_cat_right"
+            extra={"右边距离"}
+          >
+            <InputNumber addonAfter={"px"} style={{ width: "120px" }} />
+          </Form.Item>
+        )}
       </Form>
     </>
   );

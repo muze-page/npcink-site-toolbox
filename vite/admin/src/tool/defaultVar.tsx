@@ -99,6 +99,7 @@ const PageFeature = {
   copy_pop_up: "false", //鼠标点击复制弹窗
   page_scrolling: boo, //平滑滚动
   page_back_top_cat: boo, //上吊猫
+  page_back_top_cat_right:60,//右边距
 };
 
 //页面 功能

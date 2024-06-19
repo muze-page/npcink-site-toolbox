@@ -97,7 +97,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
             $page_back_top_cat = MaBox_Admin::get_config($option, 'page_back_top_cat');
             if ($page_back_top_cat === true) {
                 require_once plugin_dir_path(__FILE__) . 'back_top_cat/index.php';
-                Npcink_Page_Back_Top_Cat::run();
+                Npcink_Page_Back_Top_Cat::run($option);
             }
         }
     }

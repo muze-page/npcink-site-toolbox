@@ -104,7 +104,8 @@ export type PageFeature = {
   past_books: boolean; //已写完的书
   copy_pop_up: string; //鼠标点击复制弹窗
   page_scrolling: boolean; //平滑滚动
-  page_back_top_cat: boolean;//上吊猫
+  page_back_top_cat: boolean; //上吊猫
+  page_back_top_cat_right: number; //右边距
 };
 
 //页面 - 功能

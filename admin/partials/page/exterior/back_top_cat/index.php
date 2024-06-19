@@ -7,8 +7,10 @@
 if (!class_exists('Npcink_Page_Back_Top_Cat')) {
     class Npcink_Page_Back_Top_Cat
     {
-        public static function run()
+        public static $option; //配置
+        public static function run($config)
         {
+            self::$option = $config;
             //加载jS
             add_action('wp_enqueue_scripts', array(__CLASS__, 'load_js'));
 
@@ -18,15 +20,29 @@ if (!class_exists('Npcink_Page_Back_Top_Cat')) {
 
         public static function add_code()
         {
-            echo '
-            <div class="back-to-top cd-top faa-float animated cd-is-visible" style="top: -600px;">9527</div>
-            <style>  
-            /*隐藏网页滚动条*/
-            ::-webkit-scrollbar {
-            display: none; /* 针对 Chrome、Safari、Opera */
+            //右边距
+            $right = MaBox_Admin::get_config(self::$option, 'page_back_top_cat_right');
+            //设默认值
+            if (empty($right)) {
+                $right = 30;
             }
+?>
+
+            <div class="back-to-top cd-top faa-float animated cd-is-visible" style="top: -600px;">9527</div>
+            <style>
+                /*隐藏网页滚动条*/
+                ::-webkit-scrollbar {
+                    display: none;
+                    /* 针对 Chrome、Safari、Opera */
+                }
+
+                /*右边距*/
+                .back-to-top {
+                    right: <?php echo $right; ?>px;
+                }
             </style>
-            ';
+<?php
+
         }
         public static function load_js()
         {
