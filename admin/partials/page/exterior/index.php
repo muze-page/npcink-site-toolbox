@@ -50,7 +50,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
             //屏幕上有根毛
             $screen_hair = MaBox_Admin::get_config($option, 'screen_hair');
             if ($screen_hair === true) {
-                require_once plugin_dir_path(__FILE__) . 'screen_hair.php';
+                require_once plugin_dir_path(__FILE__) . 'screen_hair/index.php';
                 Npcink_Page_Screen_Hair::run();
             }
 
@@ -67,7 +67,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
              */
             $lantern =  MaBox_Admin::get_config($option, 'lantern');
             if ($lantern === true) {
-                require_once plugin_dir_path(__FILE__) . 'lantern.php';
+                require_once plugin_dir_path(__FILE__) . 'lantern/index.php';
                 Npcink_Page_Lantern::run($option);
             }
 

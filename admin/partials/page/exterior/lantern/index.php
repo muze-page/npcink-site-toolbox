@@ -1,8 +1,8 @@
 <?php
 
 /**
- * 效果：灯笼
- * 来源：
+ * 效果：喜庆红灯笼
+ * 来源：https://www.npc.ink/11073.html
  */
 if (!class_exists('Npcink_Page_Lantern')) {
     class Npcink_Page_Lantern
@@ -24,7 +24,7 @@ if (!class_exists('Npcink_Page_Lantern')) {
         {
             wp_enqueue_style(
                 MAGICK_MIXTURE_NAME . '_lantern',
-                plugin_dir_url(__FILE__) . 'css/lantern.css',
+                plugin_dir_url(__FILE__) . 'lantern.css',
                 array(),
                 MAGICK_MIXTURE_VERSION,
                 false

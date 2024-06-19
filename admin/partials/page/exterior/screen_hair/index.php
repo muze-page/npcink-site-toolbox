@@ -19,13 +19,13 @@ if (!class_exists('Npcink_Page_Screen_Hair')) {
         {
             wp_enqueue_script(
                 MAGICK_MIXTURE_NAME . '_hair',
-                plugin_dir_url(__FILE__) . 'js/hair.js',
+                plugin_dir_url(__FILE__) . 'hair.js',
                 array(),
                 MAGICK_MIXTURE_VERSION,
                 true
             );
             // 获取上一层的 image 文件夹路径
-            $image_folder_path =  plugin_dir_url(__FILE__) . 'image/';
+            $image_folder_path =  plugin_dir_url(__FILE__) . '';
 
             //拼接完整图片地址
             $image_url = $image_folder_path. "hair.png";
