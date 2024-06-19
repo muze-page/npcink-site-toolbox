@@ -36,7 +36,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
             //汇聚线条
             $coupling = MaBox_Admin::get_config($option, 'coupling');
             if ($coupling === true) {
-                require_once plugin_dir_path(__FILE__) . 'convergence_line.php';
+                require_once plugin_dir_path(__FILE__) . 'convergence_line/index.php';
                 Npcink_Page_Add_Convergence_Line::run();
             }
 
@@ -76,7 +76,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
              */
             $sakura =  MaBox_Admin::get_config($option, 'sakura');
             if ($sakura === true) {
-                require_once plugin_dir_path(__FILE__) . 'sakura_drops.php';
+                require_once plugin_dir_path(__FILE__) . 'sakura_drops/index.php';
                 Npcink_Page_Sakura_Drops::run();
             }
 

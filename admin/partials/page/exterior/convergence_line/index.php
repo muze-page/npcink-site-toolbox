@@ -20,7 +20,7 @@ if (!class_exists('Npcink_Page_Add_Convergence_Line')) {
         {
             wp_enqueue_script(
                 MAGICK_MIXTURE_NAME . '_canvas-nest',
-                plugin_dir_url(__FILE__) . 'js/canvas-nest.min.js',
+                plugin_dir_url(__FILE__) . 'canvas-nest.min.js',
                 array(),
                 MAGICK_MIXTURE_VERSION,
                 true

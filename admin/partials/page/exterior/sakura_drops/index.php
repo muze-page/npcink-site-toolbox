@@ -18,7 +18,7 @@ if (!class_exists('Npcink_Page_Sakura_Drops')) {
         {
             wp_enqueue_script(
                 MAGICK_MIXTURE_NAME . '_sakura',
-                plugin_dir_url(__FILE__) . 'js/sakuraPlus.js',
+                plugin_dir_url(__FILE__) . 'sakuraPlus.js',
                 array(),
                 MAGICK_MIXTURE_VERSION,
                 true
