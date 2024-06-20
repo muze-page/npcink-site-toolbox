@@ -23,4 +23,4 @@ function allow_cors()
 {
     header("Access-Control-Allow-Origin: *");
 }
-add_action('init', 'allow_cors');
+//add_action('init', 'allow_cors');

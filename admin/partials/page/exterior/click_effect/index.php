@@ -12,7 +12,7 @@ if (!class_exists('Npcink_Page_Add_Click_Effect')) {
         public static function run($config)
         {
             switch ($config) {
-                case "diffuse":
+                case "diffuse": //爆炸烟花
                     add_action('wp_enqueue_scripts', array(__CLASS__, 'add_page_particle_js'));
                     add_action('wp_footer', array(__CLASS__, 'add_page_particle'));
                     break;
@@ -25,14 +25,17 @@ if (!class_exists('Npcink_Page_Add_Click_Effect')) {
                 case "love":
                     add_action('wp_enqueue_scripts', array(__CLASS__, 'love'));
                     break;
-                case "scattered_fireworks":
+                case "scatteredFireworks": //四散烟花
                     add_action('wp_enqueue_scripts', array(__CLASS__, 'scattered_fireworks'));
                     break;
-                case "star_trail":
+                case "starTrail": //星星拖尾
                     add_action('wp_enqueue_scripts', array(__CLASS__, 'star_trail'));
                     add_action('wp_footer', array(__CLASS__, 'add_page_star_trail'));
                     break;
-                case "circle_fireworks":
+                case "loveWhirl": //爱心回旋
+                    add_action('wp_footer', array(__CLASS__, 'add_page_circle_loveWhirl'));
+                    break;
+                case "circleFireworks": //圆圈烟花
                     add_action('wp_footer', array(__CLASS__, 'add_page_circle_fireworks'));
                     add_action('wp_enqueue_scripts', array(__CLASS__, 'circle_fireworks'));
                     break;
@@ -138,6 +141,118 @@ if (!class_exists('Npcink_Page_Add_Click_Effect')) {
                 MAGICK_MIXTURE_VERSION,
                 true
             );
+        }
+
+        /**
+         * 爱心回旋
+         */
+        public static function add_page_circle_loveWhirl()
+        {
+?>
+            <style>
+                /* 彩色心 */
+                .heartWrap {
+                    position: absolute;
+                    z-index: 999;
+                }
+
+                .heart {
+                    position: absolute;
+                    background-color: #faa;
+                    animation: heartMove 1s linear infinite;
+                    animation-iteration-count: 1;
+                    animation-delay: var(--delay, 0);
+                    animation-fill-mode: forwards;
+                    transform-origin: center;
+                    opacity: 0;
+                    /* transition: all 1s linear; */
+                }
+
+                .heart:before,
+                .heart:after {
+                    position: absolute;
+                    content: "";
+                    left: 6px;
+                    top: 0;
+                    width: 6px;
+                    height: 10px;
+                    background: inherit;
+                    border-radius: 15px 15px 0 0;
+                    transform-origin: 0 100%;
+                    transform: rotate(-45deg);
+                }
+
+                .heart:after {
+                    left: 0;
+                    transform-origin: 100% 100%;
+                    transform: rotate(45deg);
+                }
+
+                .late0 {
+                    --lateX: -0px;
+                    --delay: 0.2s;
+                }
+
+                .late1 {
+                    --lateX: -10px;
+                    --delay: 0.1s;
+                }
+
+                .late2 {
+                    --lateX: -20px;
+                }
+
+                .late3 {
+                    --lateX: 10px;
+                    --delay: 0.3s;
+                }
+
+                .late4 {
+                    --lateX: 20px;
+                    --delay: 0.4s;
+                }
+
+                @keyframes heartMove {
+                    0% {
+                        transform: scale(0.5);
+                        opacity: 0.1;
+                    }
+
+                    150% {
+                        transform: translate(var(--lateX, 0px), -30px);
+                    }
+
+                    50% {
+                        transform: scale(1) translate(var(--lateX, 0px), -100px);
+                        opacity: 1;
+                    }
+
+                    100% {
+                        opacity: 0;
+                    }
+                }
+            </style>
+
+            <script>
+                document.addEventListener('click', (e) => {
+                    const vNode = document.createElement('div');
+                    vNode.className = "heartWrap";
+                    Array.from(new Array(5), (_, index) => {
+                        const heart = document.createElement('div');
+                        heart.className = `heart late${index}`;
+                        heart.style.background = "#" + Math.random().toString(16).slice(-6);
+                        // heart.style.top = -index * 2 + 'px';
+                        vNode.appendChild(heart);
+                    });
+                    document.body.appendChild(vNode);
+                    vNode.style.top = e.pageY - 20 + "px";
+                    vNode.style.left = e.pageX - 10 + "px";
+                    setTimeout(() => {
+                        document.body.removeChild(vNode);
+                    }, 2000)
+                });
+            </script>
+<?php
         }
 
         /**

@@ -249,24 +249,28 @@ const App: React.FC = () => {
 
 //准备特效
 import Diffuse from "@/assets/effects/爆炸烟花.png";
-import Circle_fireworks from "@/assets/effects/圆圈烟花.png";
-import Scattered_fireworks from "@/assets/effects/四散烟花.png";
+import CircleFireworks from "@/assets/effects/圆圈烟花.png";
+import ScatteredFireworks from "@/assets/effects/四散烟花.png";
 import Text from "@/assets/effects/随机文字.png";
 import Number from "@/assets/effects/随机数字.png";
 import Love from "@/assets/effects/七彩爱心.png";
-import Star_trail from "@/assets/effects/星星拖尾.png";
+import LoveWhirl from "@/assets/effects/爱心回旋.png";
+import StarTrail from "@/assets/effects/星星拖尾.png";
+
 const effectsList = [
   { value: "diffuse", label: Diffuse, title: "爆炸烟花" },
-  { value: "circle_fireworks", label: Circle_fireworks, title: "圆圈烟花" },
+  { value: "circleFireworks", label: CircleFireworks, title: "圆圈烟花" },
   {
-    value: "scattered_fireworks",
-    label: Scattered_fireworks,
+    value: "scatteredFireworks",
+    label: ScatteredFireworks,
     title: "四散烟花",
   },
   { value: "text", label: Text, title: "随机文字" },
   { value: "number", label: Number, title: "随机数字" },
   { value: "love", label: Love, title: "七彩爱心" },
-  { value: "star_trail", label: Star_trail, title: "星星拖尾" },
+  { value: "loveWhirl", label: LoveWhirl, title: "爱心回旋" },
+  { value: "starTrail", label: StarTrail, title: "星星拖尾" },
+  
 ];
 
 //背景特效
