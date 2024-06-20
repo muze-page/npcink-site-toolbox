@@ -153,14 +153,7 @@ const App: React.FC = () => {
           label="添加喜庆灯笼"
           name="lantern"
           valuePropName="checked"
-          extra={
-            <>
-              特殊时间下会有特别的意义，移动端不展示，
-              <a href="https://www.npc.ink/11073.html" target="_blank">
-                实现详情
-              </a>
-            </>
-          }
+          extra={<>特殊时间下会有特别的意义，移动端不展示，</>}
         >
           <Switch />
         </Form.Item>
@@ -221,20 +214,13 @@ const App: React.FC = () => {
           <Switch />
         </Form.Item>
         <Form.Item<FieldType>
-          label="已读完的书"
-          name="past_books"
+          label="背景-底部漂浮星星"
+          name="footer_star"
           valuePropName="checked"
-          extra={
-            <>
-              页脚添加，统计您撰写的文章总字数，相当于那本书。
-              <a href="https://www.npc.ink/276901.html" target="_blank">
-                详细信息
-              </a>
-            </>
-          }
         >
           <Switch />
         </Form.Item>
+
         <Form.Item<FieldType>
           label="复制弹窗"
           name="copy_pop_up"
@@ -267,6 +253,21 @@ const App: React.FC = () => {
             <InputNumber addonAfter={"px"} style={{ width: "120px" }} />
           </Form.Item>
         )}
+        <Form.Item<FieldType>
+          label="已读完的书"
+          name="past_books"
+          valuePropName="checked"
+          extra={
+            <>
+              页脚添加，统计您撰写的文章总字数，相当于那本书。
+              <a href="https://www.npc.ink/276901.html" target="_blank">
+                详细信息
+              </a>
+            </>
+          }
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

@@ -101,6 +101,7 @@ const PageFeature = {
   page_scrolling: boo, //平滑滚动
   page_back_top_cat: boo, //上吊猫
   page_back_top_cat_right: 60, //右边距
+  footer_star: boo, //底部漂浮星星
 };
 
 //页面 功能

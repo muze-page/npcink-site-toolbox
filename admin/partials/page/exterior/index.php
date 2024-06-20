@@ -40,6 +40,13 @@ if (!class_exists('Npcink_Page_Exterior')) {
                 Npcink_Page_Add_Convergence_Line::run();
             }
 
+            //底部漂浮星星
+            $footer_star = MaBox_Admin::get_config($option, 'footer_star');
+            if ($footer_star === true) {
+                require_once plugin_dir_path(__FILE__) . 'footer-star/index.php';
+                Npcink_Page_Footer_Star::run();
+            }
+
             //美化滚动条
             $scrol = MaBox_Admin::get_config($option, 'scrol');
             if ($scrol !== "false") {
