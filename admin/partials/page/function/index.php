@@ -90,6 +90,13 @@ if (!class_exists('Npcink_Page_Function')) {
                 require_once plugin_dir_path(__FILE__) . 'runcode/index.php';
                 Npcink_Page_Runcode::run();
             }
+
+            //添加简体繁体切换按钮
+            $switch_lang_jf = MaBox_Admin::get_config($option, 'switch_lang_jf');
+            if ($switch_lang_jf !== false) {
+                require_once plugin_dir_path(__FILE__) . 'lang_jf/index.php';
+                Npcink_Single_Lang_Jf::run();
+            }
         }
 
         //计算时间

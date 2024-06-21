@@ -298,12 +298,20 @@ const App: React.FC = () => {
           name="runcode"
           extra={
             <>
-              文章中添加短代码，其中可运行前端代码,<pre className="pre-meat">&lt;runcode&gt;&lt;/runcode&gt;</pre>；
+              文章中添加短代码，其中可运行前端代码,
+              <pre className="pre-meat">&lt;runcode&gt;&lt;/runcode&gt;</pre>；
               <Popover content={<img src={Runcode} width={500} />} title="预览">
                 预览
               </Popover>
             </>
           }
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="简繁切换"
+          name="switch_lang_jf"
+          extra={<>屏幕右下角添加简体繁体切换按钮</>}
         >
           <Switch />
         </Form.Item>
