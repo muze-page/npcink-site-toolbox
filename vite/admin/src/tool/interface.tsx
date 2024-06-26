@@ -134,6 +134,7 @@ export type PageFunction = {
   share_img_about: string; //其他默认图
   runcode: boolean; //运行代码
   switch_lang_jf: boolean; //简繁切换
+  front_debug: boolean; //前端调试
 };
 
 // 页面 - 权限
