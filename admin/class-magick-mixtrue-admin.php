@@ -18,7 +18,7 @@ class MaBox_Admin
     /**
      * 选项
      */
-    public static $option = "Magick_ToolBox_Option";
+
     /**
      * 此插件的ID。
      *
@@ -167,7 +167,7 @@ class MaBox_Admin
 
 
         $MaBox_array = array(
-            'option' => get_option(self::$option), //传递选项
+            'option' => get_option(MAGICK_MIXTURE_OPTION), //传递选项
             'cat_arr' => self::get_cat_data(), //分类信息
             'single_arr' => self::get_single_data(), //文章信息
             'url_site' => get_site_url(), //当前首页网址
@@ -242,7 +242,7 @@ class MaBox_Admin
 
 
         // 保存设置选项
-        $result =  update_option(self::$option, $object);
+        $result =  update_option(MAGICK_MIXTURE_OPTION, $object);
         if ($result !== false) {
             // 发送成功响应
             return wp_send_json_success(['message' => '保存成功', 'msg' => $object,]);
@@ -258,7 +258,7 @@ class MaBox_Admin
     public static function get_seting($option)
     {
         //拿到选项值
-        $config = get_option(self::$option);
+        $config = get_option(MAGICK_MIXTURE_OPTION);
         $value =  self::get_config($config, $option);
         return $value;
     }

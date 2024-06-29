@@ -24,8 +24,6 @@ if (!class_exists('Npcink_Page_Background_Effect')) {
                     require_once plugin_dir_path(__FILE__) . 'convergence_line/index.php';
                     Npcink_Page_Add_Convergence_Line::run();
                     break;
-                default:
-                    echo "i is not equal to 0, 1 or 2";
             }
         }
     }
