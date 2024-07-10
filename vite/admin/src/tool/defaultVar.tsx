@@ -227,6 +227,7 @@ const LoginSecurity = {
 //短代码
 const CodeCompose = {
   single_list: boo, //开启
+  single_copy: boo,//复制
 };
 
 export const defaultVarOption = {

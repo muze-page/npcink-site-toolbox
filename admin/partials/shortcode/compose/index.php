@@ -19,6 +19,18 @@ if (!class_exists('MaBox_ShortCode_Compose')) {
                 <option value="[past_posts_display ids=&quot;1,2,3&quot; limit=&quot;10&quot;]">文章列表</option>
               ';
             }
+
+            //复制按钮
+            $single_copy = MaBox_Admin::get_config($option, 'single_copy');
+            if ($single_copy === true) {
+                require_once plugin_dir_path(__FILE__) . 'single_copy/index.php';
+                MaBox_ShortCode_Single_Copy::run();
+                //下拉中添加短代码
+                //这里需要进行转义，不然会丢失部分短代码内容
+                self::$option_list .= '
+                 <option value="[mabox_copy_btn copy=&quot;提供复制的内容&quot; alert=&quot;复制成功&quot; link=&quot;#&quot;]复制我吧[/mabox_copy_btn]">复制按钮</option>
+               ';
+            }
         }
     } //end
 }

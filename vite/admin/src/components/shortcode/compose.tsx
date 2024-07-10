@@ -61,6 +61,14 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="复制"
+          name="single_copy"
+          valuePropName="checked"
+          extra={"第一个属性是弹窗的内容，第二个属性是跳转的地址，第三个属性是微信中不跳转"}
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

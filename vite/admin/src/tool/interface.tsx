@@ -39,8 +39,8 @@ export type Option = {
     security: LoginSecurity; //安全
   };
   //短代码
-  shortcode:{
-    compose:CodeCompose;//板式
+  shortcode: {
+    compose: CodeCompose; //板式
   };
 };
 
@@ -237,7 +237,8 @@ export type LoginSecurity = {
 export type CodeCompose = {
   //首页
   single_list: boolean; //文章列表
-}
+  single_copy: boolean; //复制
+};
 
 //下拉列表类型
 export type ListData = {

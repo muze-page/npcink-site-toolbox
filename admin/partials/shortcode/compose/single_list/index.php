@@ -17,10 +17,6 @@ if (!class_exists('MaBox_ShortCode_Single_List')) {
             
         }
 
-       
-        
-        
-
         public static function past_posts_display_shortcode($atts)
         {
             // Shortcode attributes with defaults
