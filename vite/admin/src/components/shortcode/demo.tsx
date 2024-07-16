@@ -112,23 +112,51 @@ interface DataType {
 
 type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
-const App: React.FC = () => {
-  const [dataSource, setDataSource] = useState<DataType[]>([
-    {
-      key: "0",
-      name: "上海",
-      longitude: 121.48,
-      latitude: 31.4,
-    },
-    {
-      key: "1",
-      name: "天津",
-      longitude: 117.2,
-      latitude: 39.09,
-    },
-  ]);
+//初始数据
+//准备足迹类型
+interface MarkersType {
+  latLng: number[];
+  name: string;
+}
 
-  const [count, setCount] = useState(2);
+const markers = [
+  // 足迹位置
+  {
+    latLng: [31.4, 121.48],
+    name: "上海",
+  },
+  {
+    latLng: [39.09, 117.2],
+    name: "天津",
+  },
+];
+
+//转化方法 地图数据转表格数据
+const convertMarkers = (markers: MarkersType[]) => {
+  return markers.map((marker, index) => ({
+    key: (index + 1),
+    name: marker.name,
+    longitude: marker.latLng[1], // 经度在数组的第二个位置
+    latitude: marker.latLng[0], // 纬度在数组的第一个位置
+  }));
+};
+
+//转换方法 - 表格数据转地图数据
+const convertBackToOriginal = (convertedMarkers: DataType[]) => {
+  return convertedMarkers.map((marker) => ({
+    latLng: [marker.latitude, marker.longitude], // 将 latitude 和 longitude 组成 latLng 数组
+    name: marker.name,
+  }));
+};
+
+const App: React.FC = () => {
+  //准备默认表格数据
+  const convertedMarkers = convertMarkers(markers);
+  //准备默认值
+  const [dataSource, setDataSource] = useState<DataType[]>(convertedMarkers);
+
+  //添加数据的序号
+  const [count, setCount] = useState(markers.length+1);
 
   //删除数据
   const handleDelete = (key: React.Key) => {
@@ -141,6 +169,11 @@ const App: React.FC = () => {
     editable?: boolean;
     dataIndex: string;
   })[] = [
+    {
+      title: "序号",
+      dataIndex: "key",
+      width: "10%",
+    },
     {
       title: "地区",
       dataIndex: "name",
