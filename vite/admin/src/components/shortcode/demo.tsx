@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import type { GetRef, InputRef } from 'antd';
-import { Button, Form, Input, Popconfirm, Table } from 'antd';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import type { GetRef, InputRef } from "antd";
+import { Button, Form, Input, Popconfirm, Table } from "antd";
 
 type FormInstance<T> = GetRef<typeof Form<T>>;
 
@@ -9,8 +9,7 @@ const EditableContext = React.createContext<FormInstance<any> | null>(null);
 interface Item {
   key: string;
   name: string;
-  age: string;
-  
+  age: number[];
 }
 
 interface EditableRowProps {
@@ -67,7 +66,7 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
       toggleEdit();
       handleSave({ ...record, ...values });
     } catch (errInfo) {
-      console.log('Save failed:', errInfo);
+      console.log("Save failed:", errInfo);
     }
   };
 
@@ -88,7 +87,11 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
-      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onClick={toggleEdit}>
+      <div
+        className="editable-cell-value-wrap"
+        style={{ paddingRight: 24 }}
+        onClick={toggleEdit}
+      >
         {children}
       </div>
     );
@@ -102,25 +105,22 @@ type EditableTableProps = Parameters<typeof Table>[0];
 interface DataType {
   key: React.Key;
   name: string;
-  age: string;
- 
+  age: number[];
 }
 
-type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
+type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
 
 const App: React.FC = () => {
   const [dataSource, setDataSource] = useState<DataType[]>([
     {
-      key: '0',
-      name: 'Edward King 0',
-      age: '32',
-     
+      key: "0",
+      name: "Edward King 0",
+      age: [66, 66],
     },
     {
-      key: '1',
-      name: 'Edward King 1',
-      age: '32',
-     
+      key: "1",
+      name: "Edward King 1",
+      age: [66, 66],
     },
   ]);
 
@@ -131,24 +131,36 @@ const App: React.FC = () => {
     setDataSource(newData);
   };
 
-  const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
+  const defaultColumns: (ColumnTypes[number] & {
+    editable?: boolean;
+    dataIndex: string;
+  })[] = [
     {
-      title: '地区',
-      dataIndex: 'name',
-      width: '30%',
+      title: "地区",
+      dataIndex: "name",
+      width: "30%",
       editable: true,
     },
     {
-      title: '经纬度',
-      dataIndex: 'age',
+      title: "经纬度",
+      dataIndex: "age",
+      editable: true,
+      render: (text) => (
+        <p>
+          [{text[0]} , {text[1]}]
+        </p>
+      ),
     },
-    
+
     {
-      title: '操作',
-      dataIndex: 'operation',
+      title: "操作",
+      dataIndex: "operation",
       render: (_, record) =>
         dataSource.length >= 1 ? (
-          <Popconfirm title="确定要删除吗?" onConfirm={() => handleDelete(record.key)}>
+          <Popconfirm
+            title="确定要删除吗?"
+            onConfirm={() => handleDelete(record.key)}
+          >
             <a>删除</a>
           </Popconfirm>
         ) : null,
@@ -159,9 +171,8 @@ const App: React.FC = () => {
   const handleAdd = () => {
     const newData: DataType = {
       key: count,
-      name: `Edward King ${count}`,
-      age: '[]',
-     
+      name: `新地方 ${count}`,
+      age: [66, 77],
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
@@ -204,11 +215,11 @@ const App: React.FC = () => {
   return (
     <div>
       <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-       添加新足迹
+        添加
       </Button>
       <Table
         components={components}
-        rowClassName={() => 'editable-row'}
+        rowClassName={() => "editable-row"}
         bordered
         dataSource={dataSource}
         columns={columns as ColumnTypes}
