@@ -1,7 +1,7 @@
 //地图编辑表格
 import React, { useContext, useEffect, useRef, useState } from "react";
 import type { GetRef, InputRef } from "antd";
-import { Button, Form, Input, Popconfirm, Table, Space } from "antd";
+import { Button, Form, Input, Popconfirm, Table } from "antd";
 
 type FormInstance<T> = GetRef<typeof Form<T>>;
 
@@ -175,12 +175,12 @@ const App: React.FC = (props: any) => {
     {
       title: "序号",
       dataIndex: "key",
-      width: "10%",
+      width: "20%",
     },
     {
       title: "地区",
       dataIndex: "name",
-      width: "30%",
+      width: "20%",
       editable: true,
     },
     {
@@ -237,7 +237,7 @@ const App: React.FC = (props: any) => {
     setDataSource(newData);
 
     //传出数据
-    const data = convertBackToOriginal(dataSource);
+    const data = convertBackToOriginal(newData);
     props.onChange(data);
   };
 
@@ -266,27 +266,30 @@ const App: React.FC = (props: any) => {
   });
 
   //打印当前数组内容
-  const printData = () => {
-    const data = convertBackToOriginal(dataSource);
-    console.log(data);
-  };
+  //const printData = () => {
+  //  const data = convertBackToOriginal(dataSource);
+  //  console.log(data);
+  //};
 
   return (
-    <div>
-      <Space align="baseline">
-        <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-          添加
-        </Button>
-        <Button onClick={printData}>打印</Button>
-      </Space>
+    <>
+      <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
+        添加
+      </Button>
+      {
+        //<Button onClick={printData}>打印</Button>
+      }
+
       <Table
         components={components} //覆盖默认的 table 元素
         rowClassName={() => "editable-row"} //表格行的类名
-        bordered
         dataSource={dataSource} //数据数组
         columns={columns as ColumnTypes} //表格列的配置描述
+        bordered
+        size="small"
+        style={{ width: 550,textAlign: "center" }}
       />
-    </div>
+    </>
   );
 };
 
