@@ -264,14 +264,14 @@ const App: React.FC = () => {
 };
 
 //准备特效
-import Diffuse from "@/assets/effects/爆炸烟花.png";
-import CircleFireworks from "@/assets/effects/圆圈烟花.png";
-import ScatteredFireworks from "@/assets/effects/四散烟花.png";
-import Text from "@/assets/effects/随机文字.png";
-import Number from "@/assets/effects/随机数字.png";
-import Love from "@/assets/effects/七彩爱心.png";
-import LoveWhirl from "@/assets/effects/爱心回旋.png";
-import StarTrail from "@/assets/effects/星星拖尾.png";
+import Diffuse from "@/assets/page/feature/effects/爆炸烟花.png";
+import CircleFireworks from "@/assets/page/feature/effects/圆圈烟花.png";
+import ScatteredFireworks from "@/assets/page/feature/effects/四散烟花.png";
+import Text from "@/assets/page/feature/effects/随机文字.png";
+import Number from "@/assets/page/feature/effects/随机数字.png";
+import Love from "@/assets/page/feature/effects/七彩爱心.png";
+import LoveWhirl from "@/assets/page/feature/effects/爱心回旋.png";
+import StarTrail from "@/assets/page/feature/effects/星星拖尾.png";
 
 const effectsList = [
   { value: "diffuse", label: Diffuse, title: "爆炸烟花" },
@@ -289,9 +289,9 @@ const effectsList = [
 ];
 
 //背景特效
-import Star from "@/assets/backgroundEffect/漂浮星星.png";
-import Sakura from "@/assets/backgroundEffect/樱花.png";
-import Coupling from "@/assets/backgroundEffect/细线联结.png";
+import Star from "@/assets/page/feature/backgroundEffect/漂浮星星.png";
+import Sakura from "@/assets/page/feature/backgroundEffect/樱花.png";
+import Coupling from "@/assets/page/feature/backgroundEffect/细线联结.png";
 const backgroundList = [
   { value: "star", label: Star, title: "漂浮星星" },
   { value: "sakura", label: Sakura, title: "樱花效果" },
