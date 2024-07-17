@@ -245,10 +245,16 @@ export type CodeCompose = {
 //挂件
 export type CodePendant = {
   merc_map: boolean; //足迹
-  merc_location: Array<number>; //地点
+  merc_location: mapData[]; //地点
 };
 //下拉列表类型
 export type ListData = {
   label: string;
   value: string;
+};
+
+//地图数据表类型
+type mapData = {
+  latLng: number[];
+  name: string;
 };

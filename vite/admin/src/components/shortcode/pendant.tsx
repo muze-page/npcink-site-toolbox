@@ -2,12 +2,12 @@
  * 短代码 挂件
  */
 import { useState, useContext, useEffect } from "react";
-import { Form, Switch, Table } from "antd";
-import type { TableProps } from "antd";
+import { Form, Switch,  } from "antd";
 import { DataContext } from "@/tool/dataContext";
 import { CodePendant } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
+import Map from "@/basic/mapTable";
 
 type FieldType = CodePendant;
 
@@ -39,45 +39,7 @@ const App: React.FC = () => {
     updateOption("shortcode", "pendant", formData);
   }, [formData]);
 
-  //数据类型
-  interface DataType {
-    name: string;
-    latLng: [number, number];
-  }
 
-  //演示用数据 - 足迹位置
-  const markers: DataType[] = [
-    // 足迹位置
-
-    {
-      latLng: [31.4, 121.48],
-      name: "上海",
-    },
-    {
-      latLng: [39.09, 117.2],
-      name: "天津",
-    },
-    {
-      latLng: [22.54, 114.06],
-      name: "深圳",
-    },
-  ];
-  //表头
-  const columns: TableProps<DataType>["columns"] = [
-    {
-      title: "地址",
-      dataIndex: "name",
-    },
-    {
-      title: "经纬度",
-      dataIndex: "latLng",
-      render: (text) => (
-        <p>
-          [{text[0]} , {text[1]}]
-        </p>
-      ),
-    },
-  ];
 
   return (
     <>
@@ -115,12 +77,7 @@ const App: React.FC = () => {
                 </>
               }
             >
-              <Table
-                dataSource={markers}
-                columns={columns}
-                bordered
-                size="small"
-              />
+              <Map />
             </Form.Item>
           </>
         )}

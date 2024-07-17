@@ -234,7 +234,16 @@ const CodeCompose = {
 //挂件
 const CodePendant = {
   merc_map: boo, //足迹
-  merc_location: [], //地点
+  merc_location: [
+    {
+      latLng: [31.4, 121.48],
+      name: "上海",
+    },
+    {
+      latLng: [39.09, 117.2],
+      name: "天津",
+    },
+  ], //地点
 };
 
 export const defaultVarOption = {

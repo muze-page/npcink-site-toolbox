@@ -1,7 +1,7 @@
 //地图编辑表格
 import React, { useContext, useEffect, useRef, useState } from "react";
 import type { GetRef, InputRef } from "antd";
-import { Button, Form, Input, Popconfirm, Table } from "antd";
+import { Button, Form, Input, Popconfirm, Table, Space } from "antd";
 
 type FormInstance<T> = GetRef<typeof Form<T>>;
 
@@ -120,18 +120,6 @@ interface MarkersType {
   name: string;
 }
 
-const markers = [
-  // 足迹位置
-  {
-    latLng: [31.4, 121.48],
-    name: "上海",
-  },
-  {
-    latLng: [39.09, 117.2],
-    name: "天津",
-  },
-];
-
 //转化方法 地图数据转表格数据
 const convertMarkers = (markers: MarkersType[]) => {
   return markers.map((marker, index) => ({
@@ -150,9 +138,23 @@ const convertBackToOriginal = (convertedMarkers: DataType[]) => {
   }));
 };
 
-const App: React.FC = () => {
+const App: React.FC = (props: any) => {
+  //const markers = [
+  //  // 足迹位置
+  //  {
+  //    latLng: [31.4, 121.48],
+  //    name: "上海",
+  //  },
+  //  {
+  //    latLng: [39.09, 117.2],
+  //    name: "天津",
+  //  },
+  //];
+  const markers = props.value;
+
   //准备默认表格数据
   const convertedMarkers = convertMarkers(markers);
+
   //准备默认值
   const [dataSource, setDataSource] = useState<DataType[]>(convertedMarkers);
 
@@ -261,14 +263,17 @@ const App: React.FC = () => {
   const printData = () => {
     const data = convertBackToOriginal(dataSource);
     console.log(data);
+    props.onChange(data);
   };
 
   return (
     <div>
-      <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-        添加
-      </Button>
-      <Button onClick={printData}>打印当前数组内容</Button>
+      <Space align="baseline">
+        <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
+          添加
+        </Button>
+        <Button onClick={printData}>保存</Button>
+      </Space>
       <Table
         components={components} //覆盖默认的 table 元素
         rowClassName={() => "editable-row"} //表格行的类名
