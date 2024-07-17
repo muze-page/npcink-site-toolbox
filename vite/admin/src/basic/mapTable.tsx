@@ -287,7 +287,7 @@ const App: React.FC = (props: any) => {
         columns={columns as ColumnTypes} //表格列的配置描述
         bordered
         size="small"
-        style={{ width: 550,textAlign: "center" }}
+        style={{ width: 550,}}
       />
     </>
   );

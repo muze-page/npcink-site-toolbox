@@ -73,7 +73,7 @@ const App: React.FC = () => {
               extra={
                 <>
                   需填写地址和经纬度，保留两位小数
-                  <a href="https://lbs.amap.com/tools/picker">高德坐标拾取</a>
+                  <a href="https://jingweidu.bmcx.com/">经纬度查询</a>
                 </>
               }
             >
