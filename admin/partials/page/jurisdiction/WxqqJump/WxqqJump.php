@@ -4,25 +4,29 @@
 // require_once('WxqqJump/WxqqJump.php');
 
 // 是否开启跳转
-$conf["wxqqjump"]="yes";
+$conf["wxqqjump"] = "yes";
 // 排除路径 vpay回调地址
-$conf["vpayurl"]="vpay";
-$conf["payurl"]="pay";
+$conf["vpayurl"] = "vpay";
+$conf["payurl"] = "pay";
 // 排除路径 后台登陆地址
-$conf["adminurl"]="admin";
+$conf["adminurl"] = "admin";
 
 
-if(strpos($_SERVER['HTTP_USER_AGENT'], 'QQ/')||strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false
+if (
+    strpos($_SERVER['HTTP_USER_AGENT'], 'QQ/') || strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false
 
-    && strpos($_SERVER['REQUEST_URI'], strval($conf["vpayurl"]))===false
-    && strpos($_SERVER['REQUEST_URI'], strval($conf["adminurl"]))===false
-    && strpos($_SERVER['REQUEST_URI'], strval($conf["payurl"]))===false
+    && strpos($_SERVER['REQUEST_URI'], strval($conf["vpayurl"])) === false
+    && strpos($_SERVER['REQUEST_URI'], strval($conf["adminurl"])) === false
+    && strpos($_SERVER['REQUEST_URI'], strval($conf["payurl"])) === false
 
-    && $conf["wxqqjump"]==="yes"){
-    $siteurl='http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+    && $conf["wxqqjump"] === "yes"
+) {
+    $siteurl = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
+    //准备网址
+    $site = plugin_dir_url(__DIR__);
 
-echo '<html>
+    echo '<html>
 <head>
     <meta charset="UTF-8">
     <title>使用浏览器打开</title>
@@ -51,7 +55,7 @@ echo '<html>
             font-size:20px;
             margin-bottom: 125px;
         }
-        .top-bar-guidance{font-size:15px;color:#fff;height:70%;line-height:1.8;padding-left:20px;padding-top:20px;background:url(/WxqqJump/banner.png) center top/contain no-repeat}
+        .top-bar-guidance{font-size:15px;color:#fff;height:70%;line-height:1.8;padding-left:20px;padding-top:20px;background:url(' . $site . '/WxqqJump/banner.png) center top/contain no-repeat}
         .top-bar-guidance .icon-safari{width:25px;height:25px;vertical-align:middle;margin:0 .2em}
         .app-download-tip{margin:0 auto;width:290px;text-align:center;font-size:15px;color:#2466f4;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAcAQMAAACak0ePAAAABlBMVEUAAAAdYfh+GakkAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjwA8acEkAAAy4AIE4hQq/AAAAAElFTkSuQmCC) left center/auto 15px repeat-x}
         .app-download-tip .guidance-desc{background-color:#fff;padding:0 5px}
@@ -62,8 +66,8 @@ echo '<html>
 <body>
 
 <div class="top-bar-guidance">
-    <p>点击右上角<img src="/WxqqJump/3dian.png" class="icon-safari">在 浏览器 打开</p>
-    <p>苹果设备<img src="/WxqqJump/iphone.png" class="icon-safari">安卓设备<img src="/WxqqJump/android.png" class="icon-safari">↗↗↗</p>
+    <p>点击右上角<img src="' . $site . '/WxqqJump/3dian.png" class="icon-safari">在 浏览器 打开</p>
+    <p>苹果设备<img src="' . $site . '/WxqqJump/iphone.png" class="icon-safari">安卓设备<img src="' . $site . '/WxqqJump/android.png" class="icon-safari">↗↗↗</p>
 </div>
 
 <div id="contens">
@@ -73,19 +77,19 @@ echo '<html>
 </div>
 
 <div class="app-download-tip">
-    <span class="guidance-desc">'.$siteurl.'</span>
+    <span class="guidance-desc">' . $siteurl . '</span>
 </div>
 <p><br/></p>
 <div class="app-download-tip">
-    <span class="guidance-desc">点击右上角<img src="/WxqqJump/3dian.png" class="icon-sgd"> or 复制网址自行打开</span>
+    <span class="guidance-desc">点击右上角<img src="' . $site . '/WxqqJump/3dian.png" class="icon-sgd"> or 复制网址自行打开</span>
 </div>
 
 <script type="text/javascript">$.getScript("https://baidu.com/",function(data){});</script>
-<script src="/WxqqJump/jquery-3.3.1.min.js"></script>
-<script src="/WxqqJump/clipboard.min.js"></script>
-<a data-clipboard-text="'.$siteurl.'" class="app-download-btn"  >点此复制本站网址</a>
+<script src="' . $site . '/WxqqJump/jquery-3.3.1.min.js"></script>
+<script src="' . $site . '/WxqqJump/clipboard.min.js"></script>
+<a data-clipboard-text="' . $siteurl . '" class="app-download-btn"  >点此复制本站网址</a>
 <script src="https://cdn.staticfile.org/jquery/1.12.3/jquery.min.js"></script>
-<script src="/WxqqJump/layer/layer.js"></script>
+<script src="' . $site . '/WxqqJump/layer/layer.js"></script>
 <script type="text/javascript">new ClipboardJS(".app-download-btn");</script>
 <script>
 $(".app-download-btn").click(function() {
@@ -96,6 +100,5 @@ layer.msg("复制成功，么么哒", function(){
 
 <body>
 </html>';
-exit;
+    exit;
 }
-?>
