@@ -10,7 +10,8 @@ if (!class_exists('Npcink_Page_Ban_Open_WeiXing')) {
     {
         public static function run()
         {
-            add_action('wp_footer', array(__CLASS__, 'add_js'));
+            //add_action('wp_footer', array(__CLASS__, 'add_js'));
+            require_once('WxqqJump/WxqqJump.php');
         }
 
         //添加jS
