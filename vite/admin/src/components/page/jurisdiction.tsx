@@ -85,14 +85,14 @@ const App: React.FC = () => {
         <Form.Item<FieldType>
           label="禁止在微信中打开"
           name="ban_open_weixing"
-          extra={<>（可能防红）</>}
+          extra={<>（可能有防红功能）</>}
         >
           <Switch />
         </Form.Item>
         <Form.Item<FieldType>
           label="禁止在 QQ 中打开"
           name="ban_open_qq"
-          extra={<>（可能防红）</>}
+          extra={<>（可能有防红功能）</>}
         >
           <Switch />
         </Form.Item>

@@ -77,27 +77,17 @@ if (
 </div>
 
 <div class="app-download-tip">
-    <span class="guidance-desc">' . $siteurl . '</span>
+    <span id="site" class="guidance-desc">' . $siteurl . '</span>
 </div>
 <p><br/></p>
 <div class="app-download-tip">
     <span class="guidance-desc">点击右上角<img src="' . $site . '/WxqqJump/3dian.png" class="icon-sgd"> or 复制网址自行打开</span>
 </div>
 
-<script type="text/javascript">$.getScript("https://baidu.com/",function(data){});</script>
-<script src="' . $site . '/WxqqJump/jquery-3.3.1.min.js"></script>
-<script src="' . $site . '/WxqqJump/clipboard.min.js"></script>
-<a data-clipboard-text="' . $siteurl . '" class="app-download-btn"  >点此复制本站网址</a>
-<script src="https://cdn.staticfile.org/jquery/1.12.3/jquery.min.js"></script>
-<script src="' . $site . '/WxqqJump/layer/layer.js"></script>
-<script type="text/javascript">new ClipboardJS(".app-download-btn");</script>
-<script>
-$(".app-download-btn").click(function() {
-layer.msg("复制成功，么么哒", function(){
-      //关闭后的操作
-      });})
-</script>
 
+<a id="copyButton" class="app-download-btn" >点此复制本站网址</a>
+
+ <script src="' . $site . '/WxqqJump/copy.js"></script>
 <body>
 </html>';
     exit;
