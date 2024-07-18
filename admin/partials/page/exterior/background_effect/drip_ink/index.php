@@ -10,8 +10,10 @@ if (!class_exists('Npcink_Page_Drip_Ink')) {
     {
         public static function run()
         {
-            //细线连接
+            //加载jS
             add_action('wp_enqueue_scripts', array(__CLASS__, 'add_js'));
+
+            //加载节点
             add_action('wp_footer', array(__CLASS__, 'add_node'));
         }
 

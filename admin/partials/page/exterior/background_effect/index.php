@@ -28,6 +28,10 @@ if (!class_exists('Npcink_Page_Background_Effect')) {
                     require_once plugin_dir_path(__FILE__) . 'drip_ink/index.php';
                     Npcink_Page_Drip_Ink::run();
                     break;
+                case 'sliding_ribbon': //滑动彩带
+                    require_once plugin_dir_path(__FILE__) . 'sliding_ribbon/index.php';
+                    Npcink_Page_Sliding_Ribbon::run();
+                    break;
             }
         }
     }
