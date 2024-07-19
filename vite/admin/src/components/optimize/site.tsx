@@ -93,6 +93,14 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="安全 - 移除 wp-sitemap-users"
+          name="remove_sitemap_users"
+          valuePropName="checked"
+          extra={"移除原生站点地图中的用户信息部分，可减少用户信息暴露风险"}
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

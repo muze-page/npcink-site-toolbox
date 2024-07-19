@@ -2,7 +2,8 @@
 
 /**
  * 效果：文章列表添加缩略图展示、添加和删除
- * 来源：https://wordpress.org/plugins/easy-thumbnail-switcher/
+ * 来源1：https://wordpress.org/plugins/easy-thumbnail-switcher/
+ * 来源2：https://www.huitheme.com/wordpress_posts_custom_thumbnail.html
  */
 if (!class_exists('Npcink_Admin_Single_Thumbnail_Switcher')) {
     class Npcink_Admin_Single_Thumbnail_Switcher
