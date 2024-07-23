@@ -53,6 +53,7 @@ const OptimizeSite = {
   renew: boo, //自动更新
   category_link_simplify: boo, //分类链接简化
   remove_sitemap_users: boo, //安全 - 移除 wp-sitemap-users
+  user_list_show_nickname: boo,//用户列表展示昵称
 };
 
 //优化  媒体

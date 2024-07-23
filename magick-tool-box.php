@@ -3,7 +3,7 @@
  * Plugin Name: WP Magick Toolbox【BETA】
  * Description: 魔法工具箱，诸多实用且有趣的功能合集，简单易用；详情请见插件中的「关于」页内容
  * Plugin URI: https://www.npc.ink/277510.html
- * Version: 2.0.8
+ * Version: 2.0.81
  * Author: Npcink
  * Author URI: https://www.npc.ink/
  * Requires at least: 4.6
@@ -23,7 +23,7 @@ if (!defined('WPINC')) {
 //定义插件名
 define('MAGICK_MIXTURE_NAME', 'magick-optimize');
 //定义插件版本
-define('MAGICK_MIXTURE_VERSION', '2.0.8');
+define('MAGICK_MIXTURE_VERSION', '2.0.81');
 //定义保存选项字段
 define('MAGICK_MIXTURE_OPTION', "Magick_ToolBox_Option");
 
@@ -63,6 +63,3 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links)
 
 //测试类 - 开发用，正式用记得注释掉
 //require plugin_dir_path(__FILE__) . 'index.php';
-
-
-

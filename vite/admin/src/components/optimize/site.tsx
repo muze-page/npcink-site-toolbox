@@ -101,6 +101,14 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="用户列表展示昵称"
+          name="user_list_show_nickname"
+          valuePropName="checked"
+          extra={"移除原生站点地图中的用户信息部分，可减少用户信息暴露风险"}
+        >
+          <Switch />
+        </Form.Item>
       </Form>
     </>
   );

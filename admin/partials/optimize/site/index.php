@@ -44,6 +44,12 @@ if (!class_exists('MaBox_Optimize_Site')) {
                 require_once plugin_dir_path(__FILE__) . 'remove_sitemap_users.php';
                 Npcink_Remove_Sitemap_Users::run();
             }
+            //用户列表展示昵称
+            $user_list_show_nickname = MaBox_Admin::get_config($option, 'user_list_show_nickname');
+            if ($user_list_show_nickname === true) {
+                require_once plugin_dir_path(__FILE__) . 'user_list_show_nickname.php';
+                Npcink_User_List_Show_Nickname::run();
+            }
         }
     }
 }
