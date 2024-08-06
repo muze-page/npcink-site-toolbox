@@ -91,6 +91,13 @@ if (!class_exists('Npcink_Page_Exterior')) {
                 Npcink_Page_Copy_Pop_Up::run($copy_pop_up);
             }
 
+            //页底特效TODO:移动端不展示
+            $bottom_effect = MaBox_Admin::get_config($option, 'bottom_effect');
+            if ($bottom_effect !== "false") {
+                require_once plugin_dir_path(__FILE__) . 'bottom_effect/index.php';
+                Npcink_Page_Bottom_Effect::run($bottom_effect);
+            }
+
             //平滑滚动
             $page_scrolling = MaBox_Admin::get_config($option, 'page_scrolling');
             if ($page_scrolling === true) {

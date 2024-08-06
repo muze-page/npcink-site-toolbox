@@ -59,7 +59,7 @@ export interface axiosType {
 
 //优化 站点
 export type OptimizeSite = {
-  hide_top_toolbar: boolean;//隐藏顶部工具条
+  hide_top_toolbar: boolean; //隐藏顶部工具条
   no_escape: boolean; //禁止转义
   remove_RSS_version: boolean; //从RSS源中删除WordPress版本信息
   renew: boolean; //禁用自动更新
@@ -115,6 +115,7 @@ export type PageFeature = {
   pixel_chicken: boolean; //像素小鸡
   past_books: boolean; //已写完的书
   copy_pop_up: string; //鼠标点击复制弹窗
+  bottom_effect: string; //页底特效
   page_scrolling: boolean; //平滑滚动
   page_back_top_cat: boolean; //抓绳猫
   page_back_top_cat_right: number; //右边距

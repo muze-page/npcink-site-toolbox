@@ -147,6 +147,13 @@ const App: React.FC = () => {
         >
           <FixedImage alists={popUpList} />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="页底效果"
+          name="bottom_effect"
+          extra={"页面底部添加装饰效果，移动端不显示（待实现）"}
+        >
+          <FixedImage alists={bottomEffectList} />
+        </Form.Item>
 
         <Form.Item>
           <h3 className="menu-header">美化</h3>
@@ -321,5 +328,9 @@ const popUpList = [
   { value: "concise", label: Concise, title: "原生弹窗" },
   { value: "sweetalert", label: Sweetalert, title: "通用圆角" },
 ];
+
+//页底效果
+import Fish from "@/assets/page/feature/bottom/鱼群.png";
+const bottomEffectList = [{ value: "fish", label: Fish, title: "鱼群跃动" }];
 
 export default App;
