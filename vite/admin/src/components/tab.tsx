@@ -12,6 +12,7 @@ import Login from "@/components/login/index";
 import H5 from "@/components/h5/index";
 import About from "@/components/about/index";
 import Shortcode from "@/components/shortcode/index";
+import Template from "@/components/template/index";
 
 const items: TabsProps["items"] = [
   {
@@ -46,6 +47,11 @@ const items: TabsProps["items"] = [
   },
   {
     key: "8",
+    label: `页面模版`,
+    children: <Template />,
+  },
+  {
+    key: "9",
     label: `关于`,
     children: <About />,
   },

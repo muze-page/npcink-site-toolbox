@@ -43,6 +43,10 @@ export type Option = {
     compose: CodeCompose; //板式
     pendant: CodePendant; //挂件
   };
+  //页面模版
+  template: {
+    static: TemplateStatic; //静态
+  };
 };
 
 /**
@@ -265,4 +269,8 @@ export type ListData = {
 type mapData = {
   latLng: number[];
   name: string;
+};
+
+export type TemplateStatic = {
+  love: boolean;
 };

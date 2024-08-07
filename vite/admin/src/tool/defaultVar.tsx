@@ -55,7 +55,7 @@ const OptimizeSite = {
   category_link_simplify: boo, //分类链接简化
   search_link_simplify: boo, //搜索链接简化
   remove_sitemap_users: boo, //安全 - 移除 wp-sitemap-users
-  user_list_show_nickname: boo,//用户列表展示昵称
+  user_list_show_nickname: boo, //用户列表展示昵称
 };
 
 //优化  媒体
@@ -103,7 +103,7 @@ const PageFeature = {
   pixel_chicken: boo, //像素小鸡
   past_books: boo, //已写完的书
   copy_pop_up: "false", //鼠标点击复制弹窗
-  bottom_effect: "false",//页底特效
+  bottom_effect: "false", //页底特效
   page_scrolling: boo, //平滑滚动
   page_back_top_cat: boo, //抓绳猫
   page_back_top_cat_right: 60, //右边距
@@ -254,6 +254,10 @@ const CodePendant = {
   ], //地点
 };
 
+const TemplateStatic = {
+  love: boo,
+};
+
 export const defaultVarOption = {
   //优化
   optimize: {
@@ -290,6 +294,10 @@ export const defaultVarOption = {
   shortcode: {
     compose: CodeCompose, //短代码
     pendant: CodePendant, //挂件
+  },
+  //页面模版
+  template: {
+    static: TemplateStatic, //静态
   },
 };
 export const defaultVarData = {

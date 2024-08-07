@@ -5,6 +5,7 @@ import { Option } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
 //接收选项
 export const saceOption = async (data: Option) => {
+  //console.log("待保存数据：" + JSON.stringify(data, null, 2));
   const params = new URLSearchParams();
   params.append("action", "save_option_wmt");
 
