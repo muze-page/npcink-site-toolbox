@@ -8,16 +8,14 @@ if (!class_exists('Npcink_Template_Static')) {
     {
         public static function runs($option)
         {
-            //爱心页面
-            $love = MaBox_Admin::get_config($option, 'love');
-            if ($love === true) {
-                self::$add_template['template-special.php'] = '专题页面';
-                self::$load_template['template-special.php'] = 'static/special/template-special.php';
-                self::$add_template['template-two.php'] = 'Custom Template Two';
-                self::$load_template['template-two.php'] = 'static/template-two.php';
+            //立体三角
+            $triangle = MaBox_Admin::get_config($option, 'triangle');
+            if ($triangle === true) {
+                self::$add_template['template-triangle.php'] = '立体三角';
+                self::$load_template['template-triangle.php'] = 'static/triangle/template-triangle.php';
 
-                require_once plugin_dir_path(__FILE__) . 'special/index.php';
-                Npcink_Template_Special::run();
+                require_once plugin_dir_path(__FILE__) . 'triangle/index.php';
+                Npcink_Template_Triangle::run();
                 //下拉中添加短代码
                 //这里需要进行转义，不然会丢失部分短代码内容
 

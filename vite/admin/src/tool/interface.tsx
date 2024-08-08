@@ -274,7 +274,7 @@ type mapData = {
 
 //静态
 export type TemplateStatic = {
-  love: boolean;
+  triangle: boolean;//立体三角
 };
 
 //动态

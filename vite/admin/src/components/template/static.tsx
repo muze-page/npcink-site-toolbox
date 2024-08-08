@@ -56,7 +56,7 @@ const App: React.FC = () => {
 
         <Form.Item<FieldType>
           label="立体三角"
-          name="love"
+          name="triangle"
           valuePropName="checked"
           extra={"展示高级质感的立体三角，可添加文本"}
         >

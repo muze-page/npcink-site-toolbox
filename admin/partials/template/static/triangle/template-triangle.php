@@ -1,7 +1,7 @@
 <?php
     get_header();
 // Custom template code goes here
-echo "two";
+echo "立体三角";
 // 获取当前页面的标题
 $page_title = get_the_title();
 echo $page_title;

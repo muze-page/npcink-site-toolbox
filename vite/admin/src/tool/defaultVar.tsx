@@ -254,10 +254,12 @@ const CodePendant = {
   ], //地点
 };
 
+//静态
 const TemplateStatic = {
-  love: boo,
+  triangle: boo,//立体三角
 };
 
+//动态
 const TemplateTrends= {
   special: boo, //专题列表
 };
