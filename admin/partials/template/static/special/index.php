@@ -22,7 +22,7 @@ if (!class_exists('Npcink_Template_Special')) {
             $page_template = get_post_meta($post->ID, '_wp_page_template', true);
 
             // 如果页面模板是你希望显示Meta Box的模板，这里假设模板名称为 'custom-template.php'
-            if ($page_template == 'template-one.php') {
+            if ($page_template == 'template-special.php') {
                 add_meta_box(
                     'custom_fields', // 自定义字段框的 ID
                     '专题模版', // 自定义字段框的标题

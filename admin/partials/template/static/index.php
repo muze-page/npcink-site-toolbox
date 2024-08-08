@@ -11,8 +11,8 @@ if (!class_exists('Npcink_Template_Static')) {
             //爱心页面
             $love = MaBox_Admin::get_config($option, 'love');
             if ($love === true) {
-                self::$add_template['template-one.php'] = 'Custom Template one';
-                self::$load_template['template-one.php'] = 'static/template-one.php';
+                self::$add_template['template-special.php'] = '专题页面';
+                self::$load_template['template-special.php'] = 'static/special/template-special.php';
                 self::$add_template['template-two.php'] = 'Custom Template Two';
                 self::$load_template['template-two.php'] = 'static/template-two.php';
 
