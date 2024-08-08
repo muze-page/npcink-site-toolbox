@@ -258,6 +258,10 @@ const TemplateStatic = {
   love: boo,
 };
 
+const TemplateTrends= {
+  special: boo, //专题列表
+};
+
 export const defaultVarOption = {
   //优化
   optimize: {
@@ -298,6 +302,7 @@ export const defaultVarOption = {
   //页面模版
   template: {
     static: TemplateStatic, //静态
+    trends: TemplateTrends, //动态
   },
 };
 export const defaultVarData = {

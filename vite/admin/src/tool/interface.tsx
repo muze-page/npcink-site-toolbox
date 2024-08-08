@@ -46,6 +46,7 @@ export type Option = {
   //页面模版
   template: {
     static: TemplateStatic; //静态
+    trends: TemplateTrends; //动态
   };
 };
 
@@ -271,6 +272,12 @@ type mapData = {
   name: string;
 };
 
+//静态
 export type TemplateStatic = {
   love: boolean;
+};
+
+//动态
+export type TemplateTrends = {
+  special: boolean; //专题列表
 };
