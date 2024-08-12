@@ -14,10 +14,10 @@ if (!class_exists('MaBox_ShortCode_Single_List')) {
             //添加短代码
             add_shortcode('past_posts_display', array(__CLASS__, 'past_posts_display_shortcode'));
 
-            // 判断当前页面是否有 mabox_copy_btn 短代码，如果有则加载 加载前端资源
+            // 判断当前文章或单页面是否有 past_posts_display 短代码，如果有则加载前端资源
             add_action('wp_enqueue_scripts', function () {
                 global $post;
-                if (has_shortcode($post->post_content, 'past_posts_display')) {
+                if (is_singular() && has_shortcode($post->post_content, 'past_posts_display')) {
                     self::load_js();
                 }
             });
