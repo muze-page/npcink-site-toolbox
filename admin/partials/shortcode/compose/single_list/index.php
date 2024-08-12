@@ -59,11 +59,13 @@ if (!class_exists('MaBox_ShortCode_Single_List')) {
                     $query->the_post();
                     $post_title = get_the_title();
                     $post_link = get_permalink();
-                    $post_date = get_the_date('F j, Y');
-                    $output .= '<div class="past-post-item">';
-                    $output .= '<div class="past-post-content"><a href="' . esc_url($post_link) . '" target="_blank">' . esc_html($post_title) . '</a></div>';
+                    $post_date = get_the_date('Y年m月d日');
+
+
+                    $output .= '<div class="past-post-item"><a href="' . esc_url($post_link) . '" target="_blank">';
+                    $output .= '<div class="past-post-content">' . esc_html($post_title) . '</div>';
                     $output .= '<div class="past-post-timestamp">' . esc_html($post_date) . '</div>';
-                    $output .= '</div>';
+                    $output .= '</a></div>';
                 }
                 wp_reset_postdata();
             } else {

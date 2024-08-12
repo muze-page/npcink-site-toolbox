@@ -16,7 +16,7 @@ if (!class_exists('MaBox_ShortCode_Compose')) {
                 //下拉中添加短代码
                 //这里需要进行转义，不然会丢失部分短代码内容
                 self::$option_list .= '
-                <option value="[past_posts_display ids=&quot;1,2,3&quot; limit=&quot;10&quot;]">文章列表</option>
+                <option value="[past_posts_display ids=&quot;文章ID-1,文章ID-2,文章ID-3&quot; limit=&quot;10&quot;]">文章列表</option>
               ';
             }
 
