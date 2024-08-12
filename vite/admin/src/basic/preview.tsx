@@ -17,7 +17,8 @@ const App: React.FC<PreviewProps> = (props: any) => {
         }
         title={"预览样式：" + props.title}
       >
-        预览效果
+        <span className="cursor-pointer font-bold">预览效果</span>
+        
         {
           //props.title
         }

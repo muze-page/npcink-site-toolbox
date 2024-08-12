@@ -2,13 +2,15 @@
  * 短代码 功能
  */
 import { useState, useContext, useEffect } from "react";
-import { Form, Switch, Popover } from "antd";
+import { Form, Switch } from "antd";
 import { DataContext } from "@/tool/dataContext";
 import { CodeCompose } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
+import Preview from "@/basic/preview";
 import Runcode from "@/assets/shortcode/compose/运行代码.png";
-
+import SingleList from "@/assets/shortcode/compose/文章列表.png";
+import CopyBtn from "@/assets/shortcode/compose/复制按钮.png";
 type FieldType = CodeCompose;
 
 //Ant 组件配置
@@ -59,7 +61,12 @@ const App: React.FC = () => {
           label="文章列表"
           name="single_list"
           valuePropName="checked"
-          extra={"填写若干文章 ID 就能生成漂亮的文章列表"}
+          extra={
+            <>
+              "填写若干文章 ID 就能生成漂亮的文章列表"，
+              <Preview title="文章列表" img={SingleList} />
+            </>
+          }
         >
           <Switch />
         </Form.Item>
@@ -68,7 +75,10 @@ const App: React.FC = () => {
           name="single_copy"
           valuePropName="checked"
           extra={
-            "第一个属性是弹窗的内容，第二个属性是跳转的地址，第三个属性是微信中不跳转"
+            <>
+              "第一个属性是按钮名称，第二个属性是弹窗内容，第三个属性是跳转网址"，
+              <Preview title="复制按钮" img={CopyBtn} />
+            </>
           }
         >
           <Switch />
@@ -79,10 +89,8 @@ const App: React.FC = () => {
           extra={
             <>
               1、仅支持经典编辑器，2、[runcode]和[/runcode]不能换行，会有换行符,
-              <pre className="pre-meat">&lt;runcode&gt;&lt;/runcode&gt;</pre>；
-              <Popover content={<img src={Runcode} width={500} />} title="预览">
-                预览
-              </Popover>
+              <pre className="pre-meat">&lt;runcode&gt;&lt;/runcode&gt;</pre>，
+              <Preview title="在线运行前端代码" img={Runcode} />
             </>
           }
         >
