@@ -28,7 +28,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
             //点击特效
             $particle = MaBox_Admin::get_config($option, 'particle', "false");
             //有值且不是手机端
-            if ($particle !== false && !wp_is_mobile()) {
+            if ($particle !== 'false' && !wp_is_mobile()) {
                 require_once plugin_dir_path(__FILE__) . 'click_effect/index.php';
                 Npcink_Page_Add_Click_Effect::run($particle);
             }
@@ -39,7 +39,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
 
             //美化滚动条
             $scrol = MaBox_Admin::get_config($option, 'scrol');
-            if ($scrol !== "false") {
+            if ($scrol !== 'false') {
                 require_once plugin_dir_path(__FILE__) . 'add_scroll_bar.php';
                 Npcink_Page_Add_Scroll_Bar::run($scrol);
             }
@@ -86,7 +86,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
 
             //复制弹窗
             $copy_pop_up = MaBox_Admin::get_config($option, 'copy_pop_up');
-            if ($copy_pop_up !== "false") {
+            if ($copy_pop_up !== 'false') {
                 require_once plugin_dir_path(__FILE__) . 'copy_pop_up/index.php';
                 Npcink_Page_Copy_Pop_Up::run($copy_pop_up);
             }
@@ -94,7 +94,7 @@ if (!class_exists('Npcink_Page_Exterior')) {
             //页底特效TODO:移动端不展示
             $bottom_effect = MaBox_Admin::get_config($option, 'bottom_effect');
             if (!wp_is_mobile()) {
-                if ($bottom_effect !== "false") {
+                if ($bottom_effect !== 'false') {
                     require_once plugin_dir_path(__FILE__) . 'bottom_effect/index.php';
                     Npcink_Page_Bottom_Effect::run($bottom_effect);
                 }

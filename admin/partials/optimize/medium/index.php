@@ -32,7 +32,7 @@ if (!class_exists('MaBox_Optimize_Medium')) {
 
             //媒体文件重命名
             $upload_auto_name = MaBox_Admin::get_config($option, 'upload_auto_name');
-            if ($upload_auto_name !== false) {
+            if ($upload_auto_name !== 'false') {
                 require_once plugin_dir_path(__FILE__) . 'image_rename.php';
                 Npcink_Medium_Image_Rename::run($upload_auto_name);
             }

@@ -52,7 +52,7 @@ if (!class_exists('Npcink_Page_Function')) {
 
             //跳转中间页
             $go_middle = MaBox_Admin::get_config($option, 'go_middle');
-            if ($go_middle !== "false") {
+            if ($go_middle !== 'false') {
                 require_once plugin_dir_path(__FILE__) . 'jump_middle_page.php';
                 Npcink_Jump_Middle_Page::run($go_middle);
             }
@@ -67,7 +67,7 @@ if (!class_exists('Npcink_Page_Function')) {
             $countdown = MaBox_Admin::get_config($option, 'countdown');
 
             //选项非关闭
-            if ($maintenance_tips !== false) {
+            if ($maintenance_tips !== 'false') {
                 //若时间段不存在，给默认值
                 if (count($countdown) !== 2) {
                     $countdown = array('2024-01-01 00:00:00', '2024-01-01 23:59:59');
@@ -90,7 +90,7 @@ if (!class_exists('Npcink_Page_Function')) {
                 Npcink_Public_Add_Share::run($option);
             }
 
-           
+
 
             //添加简体繁体切换按钮
             $switch_lang_jf = MaBox_Admin::get_config($option, 'switch_lang_jf');
@@ -98,8 +98,6 @@ if (!class_exists('Npcink_Page_Function')) {
                 require_once plugin_dir_path(__FILE__) . 'lang_jf/index.php';
                 Npcink_Single_Lang_Jf::run();
             }
-
-           
         }
 
         //计算时间
