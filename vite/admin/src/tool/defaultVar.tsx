@@ -102,6 +102,7 @@ const PageFeature = {
   lantern_right: "节", //右边的字
   pixel_chicken: boo, //像素小鸡
   past_books: boo, //已写完的书
+  go_top:"false",//返回顶部
   copy_pop_up: "false", //鼠标点击复制弹窗
   bottom_effect: "false", //页底特效
   page_scrolling: boo, //平滑滚动

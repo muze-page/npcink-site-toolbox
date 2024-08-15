@@ -120,6 +120,13 @@ if (!class_exists('Npcink_Page_Exterior')) {
                 require_once plugin_dir_path(__FILE__) . 'background_effect/index.php';
                 Npcink_Page_Background_Effect::run($background_effect);
             }
+
+            //返回顶部
+            $go_top = MaBox_Admin::get_config($option, 'go_top');
+            if ($go_top !== 'false') {
+                require_once plugin_dir_path(__FILE__) . 'go_top/index.php';
+                Npcink_Page_Go_Top::run($go_top);
+            }
         }
     }
 }

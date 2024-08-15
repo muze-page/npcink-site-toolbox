@@ -119,6 +119,7 @@ export type PageFeature = {
   lantern_right: string; //右边的字
   pixel_chicken: boolean; //像素小鸡
   past_books: boolean; //已写完的书
+  go_top: string; //返回顶部
   copy_pop_up: string; //鼠标点击复制弹窗
   bottom_effect: string; //页底特效
   page_scrolling: boolean; //平滑滚动
@@ -274,7 +275,7 @@ type mapData = {
 
 //静态
 export type TemplateStatic = {
-  triangle: boolean;//立体三角
+  triangle: boolean; //立体三角
 };
 
 //动态

@@ -177,6 +177,7 @@ const App: React.FC = () => {
         <Form.Item>
           <h3 className="menu-header">挂件</h3>
         </Form.Item>
+
         <Form.Item<FieldType>
           label="屏幕上的毛"
           name="screen_hair"
@@ -265,6 +266,13 @@ const App: React.FC = () => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item<FieldType>
+          label="返回顶部"
+          name="go_top"
+          extra={<>屏幕底部右侧，添加返回顶部挂件</>}
+        >
+          <FixedImage alists={goTopList} />
+        </Form.Item>
       </Form>
     </>
   );
@@ -334,5 +342,11 @@ const popUpList = [
 //页底效果
 import Fish from "@/assets/page/feature/bottom/鱼群.png";
 const bottomEffectList = [{ value: "fish", label: Fish, title: "鱼群跃动" }];
+
+//返回顶部
+const goTopList = [
+  { value: "cat", label: Concise, title: "偷瞄猫猫" },
+  { value: "arrow", label: Sweetalert, title: "圆角箭头" },
+];
 
 export default App;
