@@ -336,10 +336,13 @@ import Fish from "@/assets/page/feature/bottom/鱼群.png";
 const bottomEffectList = [{ value: "fish", label: Fish, title: "鱼群跃动" }];
 
 //返回顶部
+import Smooth_arrow from "@/assets/page/feature/go_top/平滑箭头.png";
+import Peep_cat from "@/assets/page/feature/go_top/偷瞄猫猫.png";
+import Cord_cat from "@/assets/page/feature/go_top/抓绳猫猫.png";
 const goTopList = [
-  { value: "smooth_arrow", label: Sweetalert, title: "平滑箭头" },
-  { value: "peep_cat", label: Concise, title: "偷瞄猫猫" },
-  { value: "cord_cat", label: Concise, title: "抓绳猫猫" },
+  { value: "smooth_arrow", label: Smooth_arrow, title: "平滑箭头" },
+  { value: "peep_cat", label: Peep_cat, title: "偷瞄猫猫" },
+  { value: "cord_cat", label: Cord_cat, title: "抓绳猫猫" },
 ];
 
 export default App;
