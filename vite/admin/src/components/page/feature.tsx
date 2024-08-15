@@ -337,8 +337,8 @@ const bottomEffectList = [{ value: "fish", label: Fish, title: "鱼群跃动" }]
 
 //返回顶部
 const goTopList = [
-  { value: "arrow", label: Sweetalert, title: "圆角箭头" },
-  { value: "cat", label: Concise, title: "偷瞄猫猫" },
+  { value: "smooth_arrow", label: Sweetalert, title: "平滑箭头" },
+  { value: "peep_cat", label: Concise, title: "偷瞄猫猫" },
   { value: "cord_cat", label: Concise, title: "抓绳猫猫" },
 ];
 
