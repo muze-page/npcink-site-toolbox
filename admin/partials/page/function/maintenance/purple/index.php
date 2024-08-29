@@ -30,9 +30,6 @@ include plugin_dir_path((__FILE__)) . '../index.php'; // 获取数据
     <div class="waitimg">
       <!--倒计时开始-->
       <div class="box">
-
-
-
         <?php include $file_path . 'countdown.php'; ?>
       </div>
 

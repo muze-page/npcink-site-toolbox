@@ -1,9 +1,9 @@
 <?php
 /*
- 暂停页模版
+ 暂停页模版 灯光聚焦
  */
 
-include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
+include plugin_dir_path((__FILE__)) . '../index.php'; // 获取数据
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -65,7 +65,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 
             <div class="content"> <?php echo $countdown_content; ?></div>
 
-            <?php include 'countdown.php'; ?>
+            <?php include $file_path . 'countdown.php'; ?>
             <style>
                 body {
                     height: 70vh !important;
@@ -80,7 +80,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                 }
 
                 .text p {
-                    margin-top: .2em!important;
+                    margin-top: .2em !important;
                 }
 
                 .text .content {
@@ -92,7 +92,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
     </div>
 
     <!--载入CSS样式-->
-    <link href="<?php echo $url_css . "lighting.css" ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $file_url  . "lighting/style.css" ?>" rel="stylesheet" type="text/css" />
 
 </body>
 

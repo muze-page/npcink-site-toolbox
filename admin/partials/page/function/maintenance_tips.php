@@ -50,7 +50,7 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
                         break;
 
                     case "lighting": //灯光聚焦
-                        include(self::$path . 'lighting.php');
+                        include(self::$path . 'lighting/index.php');
                         exit;
                         break;
                     case "masking": //大气遮罩
