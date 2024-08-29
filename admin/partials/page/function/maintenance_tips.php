@@ -19,7 +19,7 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
          */
         public static function run($config)
         {
-            self::$configs = $config;//展示类型
+            self::$configs = $config; //展示类型
             self::$blogname =  get_bloginfo('name');
             self::$blogdescription = get_bloginfo('description');
             self::$url = plugin_dir_url((__FILE__)) . 'maintenance/';
@@ -40,13 +40,15 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
                         add_action('get_header', array(__CLASS__, 'lxtx_wp_maintenance_mode'));
                         break;
                     case "red":
-                        add_action('get_header', array(__CLASS__, 'red'));
+
+                        include(self::$path . 'red.php');
+                        exit; // 重定向后立即退出
                         break;
                     case "purple":
                         add_action('get_header', array(__CLASS__, 'purple'));
                         break;
                     case "lighting":
-                        add_action('get_header', array(__CLASS__, 'lighting'));//灯光聚焦
+                        add_action('get_header', array(__CLASS__, 'lighting')); //灯光聚焦
                         break;
                     case "masking": //大气遮罩
                         add_action('get_header', array(__CLASS__, 'masking'));
@@ -60,7 +62,7 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
             }
         }
 
-        public static   function lxtx_wp_maintenance_mode()
+        public static function lxtx_wp_maintenance_mode()
         {
             $logo = self::$url . 'image/tips.svg';
             wp_die('<div style="text-align:center">

@@ -55,6 +55,16 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                     text-align: center;
                 }
 
+                .box h1,
+                .box h2,
+                .box h3,
+                .box h4,
+                .box h5,
+                .box h6,
+                .box p {
+                    color: #fff;
+                }
+
                 .boxs {
                     display: flex;
                     justify-content: center;
@@ -72,9 +82,10 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 
         <style type="text/css">
             body {
-                background-color: #b52424;
+                background-color: #b52424 !important;
                 margin-top: 10vh;
                 padding: 0 10vw;
+
             }
 
             .box {
@@ -105,6 +116,11 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
             .n-description span {
                 font-size: 32px;
                 font-weight: bold;
+            }
+
+            /**倒计时 */
+            .countdown-desc {
+                color: #fff;
             }
         </style>
 
