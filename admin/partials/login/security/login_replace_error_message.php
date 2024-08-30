@@ -23,3 +23,17 @@ if (!class_exists('Npcink_Login_Replace_Error_Message')) {
         }
     }
 }
+
+/*
+function custom_login_error_message($errors) {
+    if (isset($errors->errors['invalid_username'])) {
+        $errors->errors['invalid_username'][0] = '用户名无效，请检查并重试。';
+    }
+    if (isset($errors->errors['incorrect_password'])) {
+        $errors->errors['incorrect_password'][0] = '密码错误，请重新输入。';
+    }
+    return $errors;
+}
+
+add_filter('wp_login_errors', 'custom_login_error_message');
+*/
