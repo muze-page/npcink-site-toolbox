@@ -37,7 +37,8 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
                         wp_die(self::$blogname . ' 升级维护中，过一会再来吧！');
                         break;
                     case "default_img": //默认带图
-                        self::default_img();
+                        include(self::$path . 'default/index.php');
+                        exit; // 重定向后立即退出
                         break;
                     case "red": //红色纯粹
                         include(self::$path . 'red.php');
@@ -67,13 +68,5 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
             }
         }
 
-        //默认带图
-        public static function default_img()
-        {
-            $logo = self::$url . 'default/tips.svg';
-            wp_die('<div style="text-align:center">
-            
-            <img src="' . $logo . '" alt="' . self::$blogname . '" /><br /><br />' . self::$blogname . ' 正在例行维护中，请稍候...</div>', '站点维护中 - ' . self::$blogname . ' - ' . self::$blogdescription, array('response' => '503'));
-        }
     }
 }

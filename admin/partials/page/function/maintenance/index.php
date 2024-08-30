@@ -7,14 +7,15 @@ $site_name = get_bloginfo('name');
 // 获取网站描述
 $description = get_bloginfo('description');
 
-//网页标题
-$page_title = '临时维护中 - '.$site_name;
+
 
 //ico图标
 $favicon_url = get_site_icon_url();
 
 //准备资源路径
 $file_path = plugin_dir_path((__FILE__));
+
+//准备资源链接
 $file_url = plugin_dir_url(__FILE__);
 
 //传来的值
@@ -25,6 +26,7 @@ $function =  MaBox_Admin::get_config($config, 'function');
 
 //时间
 $countdown_data = MaBox_Admin::get_config($function, 'countdown');
+
 //组合成结束时间
 $countdown = $countdown_data[1] . ":00";
 
@@ -32,9 +34,13 @@ $countdown = $countdown_data[1] . ":00";
 $countdown_title =  MaBox_Admin::get_config($function, 'countdown_title');
 
 //标题默认值
+// $countdown_title = isset($countdown_title) && !empty($countdown_title) ? $countdown_title : "升级维护中";
 if (isset($countdown_title) && empty($countdown_title)) {
     $countdown_title = '升级维护中';
 }
+
+//网页标题
+$page_title = $countdown_title . ' - ' . $site_name;
 
 //图片
 $countdown_image =  MaBox_Admin::get_config($function, 'countdown_image');

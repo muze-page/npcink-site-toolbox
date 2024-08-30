@@ -12,7 +12,8 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
     <meta charset="<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><?php echo $page_title; ?></title>
-    <?php //wp_head(); ?>
+    <?php //wp_head(); 
+    ?>
 </head>
 
 <body <?php body_class(); ?>>
@@ -32,9 +33,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 
 
         <h2 class="n-title main">
-            <?php
-            $countdown_title = isset($countdown_title) && !empty($countdown_title) ? $countdown_title : "升级维护中";
-            echo $countdown_title;
+            <?php echo $countdown_title;
             ?>
         </h2>
 
@@ -54,16 +53,6 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                 .box {
                     color: #fff;
                     text-align: center;
-                }
-
-                .box h1,
-                .box h2,
-                .box h3,
-                .box h4,
-                .box h5,
-                .box h6,
-                .box p {
-                    color: #fff;
                 }
 
                 .boxs {

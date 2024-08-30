@@ -59,9 +59,7 @@ include plugin_dir_path((__FILE__)) . '../index.php'; // 获取数据
             <div class="leaf3"></div>
         </div>
         <div class="text">
-            <h3>
-                <?php echo $countdown_title; ?>
-            </h3>
+           
 
             <div class="content"> <?php echo $countdown_content; ?></div>
 
