@@ -7,6 +7,9 @@ $site_name = get_bloginfo('name');
 // 获取网站描述
 $description = get_bloginfo('description');
 
+//网页标题
+$page_title = '临时维护中 - '.$site_name;
+
 //ico图标
 $favicon_url = get_site_icon_url();
 

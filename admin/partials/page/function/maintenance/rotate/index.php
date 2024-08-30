@@ -3,7 +3,7 @@
  暂停页模版 - 炫彩时钟 Autumn Pro
  */
 
-include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
+include plugin_dir_path((__FILE__)) . '../index.php'; // 获取数据
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -11,15 +11,15 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 <head>
     <meta charset="<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <?php wp_head(); ?>
+    <title><?php echo $page_title; ?></title>
 </head>
 
 <body class="white-font" <?php body_class(); ?>>
     <?php wp_body_open(); ?>
 
     <body>
-        <link href="<?php echo $url_css . "rotate.css" ?>" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="<?php echo $url_js . "rotate.js" ?>"></script>
+        <link href="<?php echo $file_url . "rotate/style.css" ?>" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<?php echo $file_url . "rotate/main.js" ?>"></script>
         <script type="text/javascript">
             //var countDownDate = new Date("2024/07/02 02:00").getTime();
             // 目标日期和时间
@@ -41,7 +41,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                     </div>
                     <div class="middle-area">
                         <div class="countdown-row">
-                            <a href="http://wp.sofile.cn" class="logo">
+                            <a href="#" class="logo">
                                 <img src="" alt=""></a>
                             <div class="counting-row">
                                 <div class="slot-type">
@@ -64,7 +64,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                             <div class="seconds-holder">
                                 <div class="circle-holder">
                                     <div class="dark_digit IE_HIDE">
-                                        <img src="<?php echo $url_image ?>/rotate/secondwhite.svg" class="round" alt="">
+                                        <img src="<?php echo $file_url ?>/rotate/img/secondwhite.svg" class="round" alt="">
                                     </div>
                                     <svg class="dark_digit" width="100%" height="100%">
                                         <g id="clipPath">
@@ -79,7 +79,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
                                         </defs>
                                     </svg>
                                     <div class="down_opacity_circle">
-                                        <img src="<?php echo $url_image ?>/rotate/secondtrans_.svg" class="round" id="digitalsecond" alt="">
+                                        <img src="<?php echo $file_url ?>/rotate/img/secondtrans_.svg" class="round" id="digitalsecond" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
             </div>
         </div>
         <style>
-            .countdown-caption{
+            .countdown-caption {
                 color: #fff;
             }
         </style>

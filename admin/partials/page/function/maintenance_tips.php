@@ -58,7 +58,7 @@ if (!class_exists('Npcink_Maintenance_Tips')) {
                         exit;
                         break;
                     case "rotate": //旋转时钟
-                        include(self::$path . 'rotate.php');
+                        include(self::$path . 'rotate/index.php');
                         exit;
                         break;
                     default:
