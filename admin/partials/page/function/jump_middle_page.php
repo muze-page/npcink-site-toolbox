@@ -29,9 +29,6 @@ if (!class_exists('Npcink_Jump_Middle_Page')) {
                 self::go_new_link_move($page_type);
             });
         }
-        public static function jump_middle_page()
-        {
-        }
         /**
          * 跳转中间页
          */
@@ -113,13 +110,13 @@ if (!class_exists('Npcink_Jump_Middle_Page')) {
                     case 'ssp':
                         include $path . 'go/ssp.php'; // 少数派
                         break;
+                    case 'wps':
+                        include $path . 'go/wps.php'; // WPS
+                        break;
                     default:
                         // 默认操作（如果 $page_type 的值不匹配上述任意一种情况）
                         include $path . 'go/demo.php'; // 微信公众号社群
                 }
-
-
-
                 exit();
             }
         }

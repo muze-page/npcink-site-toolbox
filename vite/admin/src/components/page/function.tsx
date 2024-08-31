@@ -1,7 +1,7 @@
 //页面 - 功能
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { Form, Switch,  Input, Radio, InputNumber } from "antd";
+import { Form, Switch, Input, Radio, InputNumber } from "antd";
 import TimePeriod from "@/basic/timeInput";
 import TextAreaHtml from "@/basic/htmlInput";
 import { DataContext } from "@/tool/dataContext";
@@ -300,9 +300,6 @@ const App: React.FC = () => {
   );
 };
 
-
-
-
 //准备跳转链接用数组对象
 import Zhihu from "@/assets/page/function/go/知乎.png";
 import Tencent from "@/assets/page/function/go/腾讯云.png";
@@ -311,15 +308,17 @@ import Jianshu from "@/assets/page/function/go/简书.png";
 import Wx_community from "@/assets/page/function/go/微信社区.png";
 import CSDN from "@/assets/page/function/go/CSDN.png";
 import SSP from "@/assets/page/function/go/少数派.png";
+import WPS from "@/assets/page/function/go/WPS.png";
 
 const goLink = [
   { value: "zhihu", label: Zhihu, title: "知乎" },
   { value: "tencent", label: Tencent, title: "腾讯云" },
   { value: "shimo", label: Shimo, title: "石墨" },
   { value: "jianshu", label: Jianshu, title: "简书" },
+  { value: "ssp", label: SSP, title: "少数派" },
   { value: "wx_community", label: Wx_community, title: "微信社区" },
   { value: "csdn", label: CSDN, title: "CSDN" },
-  { value: "ssp", label: SSP, title: "少数派" },
+  { value: "wps", label: WPS, title: "WPS" },
 ];
 
 //准备维护界面
