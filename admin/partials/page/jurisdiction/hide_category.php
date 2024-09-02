@@ -28,9 +28,28 @@ if (!class_exists('Npcink_Page_Hide_Category')) {
                     // 转义
 
                     $content = self::$tip_content;
+                    add_action('wp_footer', array(__CLASS__, 'covert_content')); //使用jS隐藏文章内容
                 }
             }
             return $content;
+        }
+        //覆盖文章内容
+        public static function covert_content()
+        {
+            // 将 PHP 变量转义为 JavaScript 友好的格式
+            // $tip_content = esc_js(self::$tip_content);
+            // 只保留 HTML 标记
+            $tip_content = wp_kses_post(self::$tip_content);
+?>
+            <script>
+                // 获取 .entry-content 元素，文章内容
+                const entryContent = document.querySelector(".entry-content");
+                // 设置新的内容
+                if (entryContent) {
+                    entryContent.innerHTML = '<?php echo $tip_content ?>';
+                }
+            </script>
+<?php
         }
     }
 }
