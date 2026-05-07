@@ -27,9 +27,11 @@ if (!class_exists('MaBox_Function')) {
             MaBox_Function_Wx_Xcx_Link::run($wx_xcx);
 
             //B2 功能选项
-            require_once plugin_dir_path(__FILE__) . 'b2/index.php';
-            $b2 =  MaBox_Admin::get_config($config, 'b2');
-            Npcink_B2_Shop::run($b2);
+            if (MaBox_Tool::theme_active('B2')) {
+                require_once plugin_dir_path(__FILE__) . 'b2/index.php';
+                $b2 =  MaBox_Admin::get_config($config, 'b2');
+                Npcink_B2_Shop::run($b2);
+            }
 
             //简单SEO
             require_once plugin_dir_path(__FILE__) . 'seo/index.php';

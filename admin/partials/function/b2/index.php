@@ -484,13 +484,15 @@ if (!class_exists('Npcink_B2_Shop')) {
             );
             //第二天到第7天拿到的值
             //总销售额
-            $arr['total_sales'] = isset(($wpdb->get_results($judge_later_a, ARRAY_A))['0']['total']) ? ($wpdb->get_results($judge_later_a, ARRAY_A))['0']['total'] : 0;
+            $sales_result = $wpdb->get_results($judge_later_a, ARRAY_A);
+            $arr['total_sales'] = isset($sales_result['0']['total']) ? $sales_result['0']['total'] : 0;
 
             //总订单数
             $arr['total_order'] = $wpdb->get_var($judge_later_b);
 
             //总退款
-            $arr['total_refund_sales'] = isset(($wpdb->get_results($judge_later_c, ARRAY_A))['0']['refund']) ? ($wpdb->get_results($judge_later_c, ARRAY_A))['0']['refund'] : 0;
+            $refund_result = $wpdb->get_results($judge_later_c, ARRAY_A);
+            $arr['total_refund_sales'] = isset($refund_result['0']['refund']) ? $refund_result['0']['refund'] : 0;
 
             //总退款订单
             $arr['total_refund_order'] = $wpdb->get_var($judge_later_d);

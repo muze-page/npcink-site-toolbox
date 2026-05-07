@@ -16,13 +16,12 @@ instance.interceptors.response.use(
     const responseData = response.data;
     //console.log(responseData);
     if (responseData.success) {
-      if (responseData.data.message) {
+      if (responseData.data?.message) {
         message.success(responseData.data.message);
-      } else {
-        
       }
     } else {
-      message.error(responseData.data.message);
+      const errMsg = responseData.data?.error || responseData.data?.message || '未知错误';
+      message.error(errMsg);
     }
     return responseData;
   },
@@ -31,7 +30,7 @@ instance.interceptors.response.use(
 
     const errorMessage =
       error.response && error.response.status
-        ? `出错： ${error.response.data.data.error}`
+        ? `出错： ${error.response.data?.data?.error || error.response.data?.data?.message || error.message}`
         : `出错：${error.message}`;
     message.error(errorMessage);
     console.error(errorMessage);

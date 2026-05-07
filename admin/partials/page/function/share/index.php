@@ -208,7 +208,7 @@ if (!class_exists('Npcink_Public_Add_Share')) {
                     $categoryImage = get_the_post_thumbnail_url($category_post->ID);
                 } else {
                     // 如果文章没有特色图，使用默认特色图
-                    $categoryImage = 'URL_TO_DEFAULT_IMAGE'; // 替换为你的默认特色图像的URL
+                    $categoryImage = ''; // 分类默认图（留空则不展示）
                 }
             }
 
@@ -255,7 +255,7 @@ if (!class_exists('Npcink_Public_Add_Share')) {
 
             // 如果没有找到特色图，使用默认特色图
             if (empty($tagImage)) {
-                $tagImage = 'URL_TO_DEFAULT_IMAGE_TAG'; // 替换为你的默认特色图像的URL
+                $tagImage = ''; // 标签默认图（留空则不展示）
             }
 
             // 获取标签链接

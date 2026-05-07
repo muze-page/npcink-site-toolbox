@@ -68,12 +68,6 @@ if (!class_exists('MaBox_Tool')) {
 
             echo '<h1 style="color: crimson;text-align: center;">' . esc_html($hook) . '</h1>';
         }
-        /**
-         * 调试
-         * 查看页面参数
-         */
-
-        //add_action('admin_enqueue_scripts', array(&$this, 'display_page_hook'));
 
         /**
          * 创建一个方法，在后台顶部显示一个通知
@@ -92,9 +86,8 @@ if (!class_exists('MaBox_Tool')) {
          */
         public static function get_time()
         {
-            date_default_timezone_set("Asia/Shanghai");
-            $a = strtotime(date("Y-m-d H:i:s")); //当前时间戳
-            $todaytime = strtotime("today"); //今日起始时间戳
+            $a = strtotime(current_time("Y-m-d H:i:s")); //当前时间戳
+            $todaytime = strtotime(current_time("Y-m-d", false)); //今日起始时间戳
 
             return array(
                 'a' => array(
@@ -451,5 +444,3 @@ if (!class_exists('MaBox_Tool')) {
         }
     } //end
 }
-//显示当前页hook
-//add_action('admin_enqueue_scripts', array('MaBox_Tool', 'display_page_hook'));

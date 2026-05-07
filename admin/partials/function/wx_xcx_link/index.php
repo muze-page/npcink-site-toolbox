@@ -48,10 +48,11 @@ if (!class_exists('MaBox_Function_Wx_Xcx_Link')) {
             //构造链接
             $link = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $appid . "&secret=" . $secret;
 
-            $curl = curl_init();
+            if (!function_exists('curl_init') || !function_exists('curl_exec')) {
+                return new \WP_Error('curl_missing', '服务器未安装 cURL 扩展，无法获取 Token');
+            }
 
-            curl_setopt_array($curl, [
-                CURLOPT_URL => $link,
+            $curl = curl_init();
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -100,6 +101,9 @@ if (!class_exists('MaBox_Function_Wx_Xcx_Link')) {
 
             $data = json_encode($params);
 
+            if (!function_exists('curl_init') || !function_exists('curl_exec')) {
+                return new \WP_Error('curl_missing', '服务器未安装 cURL 扩展，无法生成跳转链接');
+            }
 
             $curl = curl_init();
 

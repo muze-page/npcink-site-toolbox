@@ -4,16 +4,6 @@
 class Magick_Mixtrue
 {
     /**
-     * 负责维护和注册所有电源挂钩的加载器
-     *插件。
-     *
-     * @since    1.0.0
-     * @access   protected
-     * @var      Plugin_Name_Loader    $loader   维护并注册插件的所有钩子。
-     */
-    protected $loader;
-
-    /**
      * 此插件的唯一标识符。
      *
      * @since    1.0.0
@@ -72,14 +62,6 @@ class Magick_Mixtrue
     {
 
         /**
-         * 负责编排
-         *核心插件。
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-magick-mixtrue-loader.php';
-
-
-
-        /**
          * 负责定义后台中发生的所有操作的类。
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-magick-mixtrue-admin.php';
@@ -94,8 +76,6 @@ class Magick_Mixtrue
          * 公共工具类
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-magick-mixtrue-tool.php';
-
-        $this->loader = new MaBox_Loader();
     }
 
     /**
@@ -139,7 +119,6 @@ class Magick_Mixtrue
      */
     public function run()
     {
-        $this->loader->run();
         //对js文件进行module接入
         add_filter('script_loader_tag', array(__CLASS__, 'refund_type_script'), 10, 2);
     }
@@ -154,17 +133,6 @@ class Magick_Mixtrue
     public function get_plugin_name()
     {
         return $this->plugin_name;
-    }
-
-    /**
-     * 对用插件编排钩子的类的引用。
-     *
-     * @since     1.0.0
-     * @return    MaBox_Loader    编排插件的挂钩。
-     */
-    public function get_loader()
-    {
-        return $this->loader;
     }
 
     /**

@@ -281,52 +281,52 @@ if (!class_exists('MaBox_Census_Single')) {
 
 
         /**
-         * 临时处理
+         * 优化：单次查询替代 N+1 WP_Query
          */
         public static function get_article_counts($data, $id)
         {
-            $result = array();
+            global $wpdb;
 
+            if (empty($data)) {
+                return array();
+            }
+
+            // 计算日期范围
+            $start_date = min($data);
+            $end_date = max($data);
+
+            // 单次 SQL 查询，按日期和作者分组
+            $results = $wpdb->get_results($wpdb->prepare(
+                "SELECT DATE(post_date) as post_date, post_author, COUNT(*) as cnt
+                FROM {$wpdb->posts}
+                WHERE post_status = 'publish'
+                AND post_type = 'post'
+                AND DATE(post_date) >= %s
+                AND DATE(post_date) <= %s
+                GROUP BY DATE(post_date), post_author",
+                $start_date,
+                $end_date
+            ));
+
+            // 构建查找表：[date => [author_id => count]]
+            $lookup = array();
+            foreach ($results as $row) {
+                if (!isset($lookup[$row->post_date])) {
+                    $lookup[$row->post_date] = array();
+                }
+                $lookup[$row->post_date][$row->post_author] = (int) $row->cnt;
+            }
+
+            // 构建输出数组
+            $result = array();
             foreach ($data as $date) {
                 $current_date = DateTime::createFromFormat('Y-m-d', $date);
                 $current_day = $current_date->format('d');
-                $current_time = $current_date->format('H');
 
-                $counts = array($current_day); // 第一个元素是当前日期的天数
-
-                // 初始化用户发文数量为0
+                $counts = array($current_day);
                 foreach ($id as $userId) {
-                    $counts[] = 0;
+                    $counts[] = isset($lookup[$date][$userId]) ? $lookup[$date][$userId] : 0;
                 }
-
-                // 查询对应日期的文章
-                $args = array(
-                    'post_type' => 'post',
-                    'post_status' => 'publish',
-                    'date_query' => array(
-                        array(
-                            'year'  => $current_date->format('Y'),
-                            'month' => $current_date->format('m'),
-                            'day'   => $current_date->format('d'),
-                        ),
-                    ),
-                );
-                $query = new WP_Query($args);
-
-                // 统计各个作者的发文数量
-                if ($query->have_posts()) {
-                    while ($query->have_posts()) {
-                        $query->the_post();
-                        $author_id = get_the_author_meta('ID');
-
-                        if (in_array($author_id, $id)) {
-                            $index = array_search($author_id, $id);
-                            $counts[$index + 1]++;
-                        }
-                    }
-                }
-
-                wp_reset_postdata();
 
                 $result[] = $counts;
             }

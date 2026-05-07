@@ -149,16 +149,6 @@ class MaBox_Admin
         //echo esc_html(get_admin_page_title());
         //准备节点
         echo '</h2><div id="root"></div>';
-
-
-        // $value = get_option(self::$option);
-        // echo "<h2>设置选项的值</h2>";
-        // $jsonString = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        // if ($jsonString !== "false") {
-        //     echo '<pre>' . $jsonString . '</pre>';
-        // } else {
-        //     echo '<pre>暂无对象值</pre>';
-        // }
     }
 
     /**
@@ -203,7 +193,7 @@ class MaBox_Admin
      */
     public static function get_single_data()
     {
-        $posts = get_posts();
+        $posts = get_posts(array('posts_per_page' => 200, 'orderby' => 'date', 'order' => 'DESC'));
 
         $post_list = array();
 

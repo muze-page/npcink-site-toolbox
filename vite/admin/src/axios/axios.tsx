@@ -1,6 +1,7 @@
 //各种请求
 import { Ajaxurl, getNonce } from "@/tool/dataContext";
 import { instance, addParamIfDefined } from "@/axios/public";
+import { message } from "antd";
 
 //获取所有数据库表名字
 export const get_all_table_name = async () => {
@@ -13,6 +14,7 @@ export const get_all_table_name = async () => {
     return response.data.data;
   } catch (error: any) {
     console.error("出错：" + error);
+    message.error("获取数据库表名失败");
   }
 };
 
@@ -49,6 +51,7 @@ export const get_table_data = async (type: string) => {
     downloadCSV(response.data.data, type + ".csv");
   } catch (error: any) {
     console.error("出错：" + error.message);
+    message.error("获取表格数据失败");
   }
 };
 
@@ -62,6 +65,7 @@ export const getCategoryData = async () => {
     return response.data.data;
   } catch (error: any) {
     console.error("出错：" + error.message);
+    message.error("获取分类数据失败");
   }
 };
 

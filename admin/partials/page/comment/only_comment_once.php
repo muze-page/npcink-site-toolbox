@@ -10,7 +10,7 @@ if (!class_exists('Npcink_Comment_Only_Once')) {
     {
         public static function run()
         {
-            add_filter('preprocess_comment', array(__CLASS__, 'ludou_only_one_comment'));
+            add_filter('pre_comment_approved', array(__CLASS__, 'ludou_only_one_comment'), 10, 2);
         }
 
         // 获取评论用户的ip，参考wp-includes/comment.php
@@ -21,7 +21,7 @@ if (!class_exists('Npcink_Comment_Only_Once')) {
 
             return $ip;
         }
-        public static function ludou_only_one_comment($commentdata)
+        public static function ludou_only_one_comment($approved, $commentdata)
         {
             global $wpdb;
             $currentUser = wp_get_current_user();
@@ -37,13 +37,11 @@ if (!class_exists('Npcink_Comment_Only_Once')) {
                 ));
 
                 if ($bool) {
-                    $message = '本站每篇文章仅允许评论一次。';
-                    $message = $message . MaBox_Admin::back_button();
-                    wp_die($message);
+                    return new \WP_Error('comment_once_only', '本站每篇文章仅允许评论一次。');
                 }
             }
 
-            return $commentdata;
+            return $approved;
         }
     }
 }

@@ -242,6 +242,9 @@ if (!class_exists('Npcink_Login_Verify')) {
          */
         public static function txcurl($url, $params = false, $ispost = 0)
         {
+            if (!function_exists('curl_init') || !function_exists('curl_exec')) {
+                return false;
+            }
             $httpInfo = array();
             $ch = curl_init();
 

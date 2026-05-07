@@ -10,15 +10,29 @@ if (!class_exists('Npcink_Page_Completed_Book')) {
         public static function run()
         {
             add_filter('wp_footer', array(__CLASS__, 'allwords'));
+            // 发布/更新文章时清除缓存
+            add_action('save_post', array(__CLASS__, 'clear_cache'));
+        }
+
+        public static function clear_cache()
+        {
+            delete_transient('mabox_total_chars');
         }
 
         public static function allwords()
         {
             global $wpdb;
-            $chars = 0;
-            $results = $wpdb->get_results("SELECT post_content FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_type = 'post'");
-            foreach ($results as $result) {
-                $chars += mb_strlen(trim($result->post_content), 'UTF-8');
+
+            // 尝试从缓存获取
+            $chars = get_transient('mabox_total_chars');
+            if ($chars === false) {
+                $chars = 0;
+                $results = $wpdb->get_results("SELECT post_content FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_type = 'post'");
+                foreach ($results as $result) {
+                    $chars += mb_strlen(trim($result->post_content), 'UTF-8');
+                }
+                // 缓存 1 小时
+                set_transient('mabox_total_chars', $chars, HOUR_IN_SECONDS);
             }
 
             $books = [

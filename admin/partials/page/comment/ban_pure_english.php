@@ -10,18 +10,16 @@ if (!class_exists('Npcink_Comment_Ban_Pure_English')) {
     {
         public static function run()
         {
-            add_filter('preprocess_comment', array(__CLASS__, 'refused_english_comments'));
+            add_filter('pre_comment_approved', array(__CLASS__, 'refused_english_comments'), 10, 2);
         }
 
-        public static function refused_english_comments($incoming_comment)
+        public static function refused_english_comments($approved, $commentdata)
         {
             $pattern = '/[一-龥]/u';
-            if (!preg_match($pattern, $incoming_comment['comment_content'])) {
-                $message = '您的评论中必须包含汉字!';
-                $message = $message . MaBox_Admin::back_button();
-                wp_die($message);
+            if (!preg_match($pattern, $commentdata['comment_content'])) {
+                return new \WP_Error('comment_chinese_required', '您的评论中必须包含汉字!');
             }
-            return $incoming_comment;
+            return $approved;
         }
     }
 }

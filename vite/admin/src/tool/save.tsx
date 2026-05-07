@@ -1,7 +1,7 @@
 //保存按钮
 //将拿到的值推送到服务器端
 import { useContext, useState, useEffect } from "react";
-import { Button,Space } from "antd";
+import { Button, Space, message } from "antd";
 import { DataContext } from "@/tool/dataContext";
 import { saceOption } from "@/axios/save";
 import { UpOutlined } from "@ant-design/icons";
@@ -9,11 +9,19 @@ const App: React.FC = () => {
   //拿到值
   const { optionData } = useContext(DataContext);
 
+  //保存 loading 状态
+  const [saving, setSaving] = useState(false);
+
   //提交动作
   const postData = async () => {
-    //console.log("提交动作");
-    // console.log(optionObj);
-    saceOption(optionData);
+    setSaving(true);
+    try {
+      await saceOption(optionData);
+    } catch (error) {
+      message.error("保存失败，请重试");
+    } finally {
+      setSaving(false);
+    }
   };
 
   //返回顶部
@@ -54,7 +62,7 @@ const App: React.FC = () => {
             icon={<UpOutlined />}
           ></Button>
         )}
-        <Button type="primary" onClick={postData}>
+        <Button type="primary" onClick={postData} loading={saving}>
           保存
         </Button>
       </Space>
