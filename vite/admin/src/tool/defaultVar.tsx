@@ -139,6 +139,21 @@ const PageFunction = {
   share_img_about: "", //其他默认图
 
   switch_lang_jf: boo, //简繁切换
+  default_thumbnail: "", //默认文章缩略图
+  search_limit: boo, //限制搜索频次
+  search_limit_count: 10, //每分钟最大搜索次数
+  top_ad: boo, //顶部广告位
+  top_ad_content: "", //广告内容
+  top_ad_position: "before_header", //广告位置
+  batch_replace: boo, //文章批量替换
+  batch_replace_pairs: [], //替换规则
+  login_search: boo, //仅登录可搜索
+  article_rating: boo, //文章评分
+  header_notice: boo, //页眉通知栏
+  header_notice_text: "", //通知文本
+  header_notice_color: "#1677ff", //通知颜色
+  header_notice_link: "", //通知链接
+  header_notice_dismissible: true, //可关闭
 };
 
 // 页面 - 权限

@@ -102,6 +102,55 @@ if (!class_exists('Npcink_Page_Function')) {
                 require_once plugin_dir_path(__FILE__) . 'lang_jf/index.php';
                 Npcink_Single_Lang_Jf::run();
             }
+
+            //默认文章缩略图
+            $default_thumbnail = MaBox_Admin::get_config($option, 'default_thumbnail');
+            if (!empty($default_thumbnail)) {
+                require_once plugin_dir_path(__FILE__) . 'default_thumbnail.php';
+                Npcink_Page_Default_Thumbnail::run($option);
+            }
+
+            //限制搜索频次
+            $search_limit = MaBox_Admin::get_config($option, 'search_limit');
+            if ($search_limit === true) {
+                require_once plugin_dir_path(__FILE__) . 'search_limit.php';
+                Npcink_Page_Search_Limit::run($option);
+            }
+
+            //顶部广告位
+            $top_ad = MaBox_Admin::get_config($option, 'top_ad');
+            if ($top_ad === true) {
+                require_once plugin_dir_path(__FILE__) . 'top_ad.php';
+                Npcink_Page_Top_Ad::run($option);
+            }
+
+            //文章批量替换
+            $batch_replace = MaBox_Admin::get_config($option, 'batch_replace');
+            if ($batch_replace === true) {
+                require_once plugin_dir_path(__FILE__) . 'batch_replace.php';
+                Npcink_Page_Batch_Replace::run($option);
+            }
+
+            //仅登录可搜索
+            $login_search = MaBox_Admin::get_config($option, 'login_search');
+            if ($login_search === true) {
+                require_once plugin_dir_path(__FILE__) . 'login_search.php';
+                Npcink_Page_Login_Search::run();
+            }
+
+            //文章评分
+            $article_rating = MaBox_Admin::get_config($option, 'article_rating');
+            if ($article_rating === true) {
+                require_once plugin_dir_path(__FILE__) . 'article_rating.php';
+                Npcink_Page_Article_Rating::run();
+            }
+
+            //页眉通知栏
+            $header_notice = MaBox_Admin::get_config($option, 'header_notice');
+            if ($header_notice === true) {
+                require_once plugin_dir_path(__FILE__) . 'header_notice.php';
+                Npcink_Page_Header_Notice::run($option);
+            }
         }
 
         //计算时间

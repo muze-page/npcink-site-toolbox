@@ -113,6 +113,10 @@ class MaBox_Admin
         // 添加Ajax请求处理函数
         add_action('wp_ajax_save_option_wmt', array(__CLASS__, 'save_option_wmt_callback'));
 
+        // 设置导入导出
+        add_action('wp_ajax_export_settings', array(__CLASS__, 'export_settings_callback'));
+        add_action('wp_ajax_import_settings', array(__CLASS__, 'import_settings_callback'));
+
         // 注册 REST API 端点
         add_action('rest_api_init', array(__CLASS__, 'register_rest_routes'));
     }
@@ -267,6 +271,61 @@ class MaBox_Admin
         }
 
         wp_send_json_success(['message' => '保存成功']);
+    }
+
+    /**
+     * 导出设置
+     */
+    public static function export_settings_callback()
+    {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('权限不足', 403);
+        }
+
+        $settings = get_option(MAGICK_MIXTURE_OPTION, array());
+        $json = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        header('Content-Type: application/json');
+        header('Content-Disposition: attachment; filename="mabox-settings-' . date('Y-m-d') . '.json"');
+        header('Content-Length: ' . strlen($json));
+        echo $json;
+        exit;
+    }
+
+    /**
+     * 导入设置
+     */
+    public static function import_settings_callback()
+    {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('权限不足', 403);
+        }
+
+        if (empty($_FILES['settings_file'])) {
+            wp_send_json_error('未上传文件', 400);
+        }
+
+        $file = $_FILES['settings_file'];
+        if ($file['type'] !== 'application/json' && pathinfo($file['name'], PATHINFO_EXTENSION) !== 'json') {
+            wp_send_json_error('仅支持 JSON 文件', 400);
+        }
+
+        $json_content = file_get_contents($file['tmp_name']);
+        $settings = json_decode($json_content, true);
+
+        if (!is_array($settings)) {
+            wp_send_json_error('JSON 格式无效', 400);
+        }
+
+        $old_backup = get_option(MAGICK_MIXTURE_OPTION);
+        $result = update_option(MAGICK_MIXTURE_OPTION, $settings);
+
+        if ($result === false) {
+            update_option(MAGICK_MIXTURE_OPTION, $old_backup);
+            wp_send_json_error('导入失败，已恢复原设置', 500);
+        }
+
+        wp_send_json_success('导入成功');
     }
 
     /**

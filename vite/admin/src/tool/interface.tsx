@@ -157,6 +157,21 @@ export type PageFunction = {
   share_img_about: string; //其他默认图
 
   switch_lang_jf: boolean; //简繁切换
+  default_thumbnail: string; //默认文章缩略图
+  search_limit: boolean; //限制搜索频次
+  search_limit_count: number; //每分钟最大搜索次数
+  top_ad: boolean; //顶部广告位
+  top_ad_content: string; //广告内容
+  top_ad_position: string; //广告位置
+  batch_replace: boolean; //文章批量替换
+  batch_replace_pairs: Array<{find: string; replace: string}>; //替换规则
+  login_search: boolean; //仅登录可搜索
+  article_rating: boolean; //文章评分
+  header_notice: boolean; //页眉通知栏
+  header_notice_text: string; //通知文本
+  header_notice_color: string; //通知颜色
+  header_notice_link: string; //通知链接
+  header_notice_dismissible: boolean; //可关闭
 };
 
 // 页面 - 权限
