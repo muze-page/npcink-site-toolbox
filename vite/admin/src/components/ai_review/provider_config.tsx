@@ -7,6 +7,9 @@ import FeatureSwitch from "@/basic/feature-switch";
 const fromConfig = AntConfig.from;
 const { TextArea } = Input;
 
+const getNonce = (): string =>
+  typeof window.dataLocal === "object" ? window.dataLocal.nonce || "" : "";
+
 const providerOptions = [
   { label: "本地规则引擎（默认）", value: "local" },
   { label: "DeepSeek", value: "deepseek" },
@@ -42,7 +45,7 @@ const App: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-WP-Nonce": (window as any).dataLocal?.nonce || "",
+          "X-WP-Nonce": getNonce(),
         },
       });
       const result = await res.json();

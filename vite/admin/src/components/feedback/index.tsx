@@ -41,7 +41,7 @@ const App: React.FC = () => {
     try {
       const res = await fetch("/wp-json/mabox/v1/feedback/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "X-WP-Nonce": (window as any).dataLocal?.nonce || "" },
+        headers: { "Content-Type": "application/json", "X-WP-Nonce": typeof window.dataLocal === "object" ? window.dataLocal.nonce || "" : "" },
         body: JSON.stringify(feedbackForm),
       });
       const result = await res.json();
@@ -76,13 +76,13 @@ const App: React.FC = () => {
     <>
       <div style={{ marginBottom: 16, display: "flex", gap: 8 }}>
         {[
-          { key: "submit", label: "提交反馈" },
-          { key: "settings", label: "反馈设置" },
-          { key: "insights", label: "数据洞察" },
+          { key: "submit" as const, label: "提交反馈" },
+          { key: "settings" as const, label: "反馈设置" },
+          { key: "insights" as const, label: "数据洞察" },
         ].map((tab) => (
           <button
             key={tab.key}
-            onClick={() => setActiveTab(tab.key as any)}
+            onClick={() => setActiveTab(tab.key)}
             style={{
               padding: "6px 16px",
               border: "none",

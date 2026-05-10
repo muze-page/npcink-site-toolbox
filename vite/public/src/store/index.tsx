@@ -12,9 +12,8 @@ const getDataLocal = () => {
     return data;
   } else {
     //打包
-    return (window as any).dataLocal !== ""
-      ? (window as any).dataLocal
-      : DefaultVar;
+    const wl = window.dataLocal;
+    return wl !== "" && typeof wl === "object" ? wl : DefaultVar;
   }
 };
 
