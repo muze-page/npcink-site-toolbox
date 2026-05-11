@@ -38,11 +38,18 @@ export default defineConfig({
           items: [
             { text: '开发规范', link: '/guide/development' },
             { text: '技术架构', link: '/guide/architecture' },
+            { text: '架构决策', link: '/guide/adrs' },
             { text: '更新日志', link: '/guide/changelog' },
           ],
         },
       ],
       '/features/': [
+        {
+          text: '功能总览',
+          items: [
+            { text: '全部功能', link: '/features/overview' },
+          ],
+        },
         {
           text: '站点优化',
           items: [
