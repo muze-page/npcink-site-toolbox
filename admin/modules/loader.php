@@ -128,6 +128,37 @@ if (!class_exists('MaBox_Module_Loader')) {
             return array_keys(self::get_registry());
         }
 
+        /**
+         * 获取模块分层信息
+         *
+         * @return array tier => module_ids 映射
+         * @since 2.4.0
+         */
+        public static function get_tiers() {
+            static $tiers = null;
+            if ($tiers === null) {
+                $tiers = require plugin_dir_path(__FILE__) . 'tiers.php';
+            }
+            return $tiers;
+        }
+
+        /**
+         * 获取指定模块的层级
+         *
+         * @param string $module_id
+         * @return string
+         * @since 2.4.0
+         */
+        public static function get_module_tier($module_id) {
+            $tiers = self::get_tiers();
+            foreach ($tiers as $tier => $modules) {
+                if (in_array($module_id, $modules, true)) {
+                    return $tier;
+                }
+            }
+            return 'advanced'; // 默认层级
+        }
+
         private static function get_nested_value($data, $path) {
             $keys = explode('.', $path);
             $current = $data;

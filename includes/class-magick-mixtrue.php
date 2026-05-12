@@ -62,6 +62,12 @@ class Magick_Mixtrue
     {
         require_once plugin_dir_path(__FILE__) . 'class-magick-helpers.php';
 
+        require_once plugin_dir_path(__FILE__) . 'class-magick-rate-limiter.php';
+
+        require_once plugin_dir_path(__FILE__) . 'class-magick-audit-logger.php';
+
+        require_once plugin_dir_path(__FILE__) . 'class-magick-site-health.php';
+
         require_once plugin_dir_path(__FILE__) . 'class-magick-mixtrue-tool.php';
 
         require_once plugin_dir_path(__FILE__) . 'class-magick-config-manager.php';
@@ -84,6 +90,11 @@ class Magick_Mixtrue
     {
 
         $plugin_admin = new MaBox_Admin($this->get_plugin_name(), $this->get_version());
+
+        // 站点健康检测
+        if (class_exists('MaBox_Site_Health')) {
+            MaBox_Site_Health::run();
+        }
 
 
         //01 要向其添加回调的操作的名称。

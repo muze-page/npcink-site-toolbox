@@ -385,6 +385,12 @@ class MaBox_Admin
 
         self::clear_config_cache();
 
+        if (class_exists('MaBox_Audit_Logger')) {
+            MaBox_Audit_Logger::config('插件配置已更新', array(
+                'user_id' => get_current_user_id(),
+            ));
+        }
+
         return rest_ensure_response([
             'success' => true,
             'message' => '保存成功',
@@ -424,6 +430,24 @@ class MaBox_Admin
                 'permission_callback' => function () {
                     return current_user_can('manage_options');
                 },
+                'args'                => array(
+                    'modules' => array(
+                        'required'          => false,
+                        'type'              => 'object',
+                        'description'       => '模块配置对象',
+                        'sanitize_callback' => function ($value) {
+                            return is_array($value) ? $value : array();
+                        },
+                    ),
+                    'global' => array(
+                        'required'          => false,
+                        'type'              => 'object',
+                        'description'       => '全局配置',
+                        'sanitize_callback' => function ($value) {
+                            return is_array($value) ? $value : array();
+                        },
+                    ),
+                ),
             ),
         ));
 
@@ -434,6 +458,15 @@ class MaBox_Admin
             'permission_callback' => function () {
                 return current_user_can('manage_options');
             },
+            'args'                => array(
+                'post_id' => array(
+                    'required'          => false,
+                    'validate_callback' => function ($value) {
+                        return empty($value) || (is_numeric($value) && $value > 0);
+                    },
+                    'sanitize_callback' => 'intval',
+                ),
+            ),
         ));
         register_rest_route('mabox/v1', '/performance/media/fix-alt', array(
             'methods'             => \WP_REST_Server::CREATABLE,
@@ -441,6 +474,47 @@ class MaBox_Admin
             'permission_callback' => function () {
                 return current_user_can('manage_options');
             },
+            'args'                => array(
+                'post_id' => array(
+                    'required'          => false,
+                    'validate_callback' => function ($value) {
+                        return empty($value) || (is_numeric($value) && $value > 0);
+                    },
+                ),
+            ),
+        ));
+
+        // ===== Performance: SEO Checker =====
+        register_rest_route('mabox/v1', '/performance/seo/check', array(
+            'methods'             => \WP_REST_Server::CREATABLE,
+            'callback'            => array('MaBox_Performance_Seo_Checker', 'ajax_check'),
+            'permission_callback' => function () {
+                return current_user_can('manage_options');
+            },
+            'args'                => array(
+                'post_id' => array(
+                    'required'          => false,
+                    'validate_callback' => function ($value) {
+                        return empty($value) || (is_numeric($value) && $value > 0);
+                    },
+                ),
+            ),
+        ));
+        register_rest_route('mabox/v1', '/performance/seo/fix-alt', array(
+            'methods'             => \WP_REST_Server::CREATABLE,
+            'callback'            => array('MaBox_Performance_Seo_Checker', 'ajax_fix_alt'),
+            'permission_callback' => function () {
+                return current_user_can('manage_options');
+            },
+            'args'                => array(
+                'post_id' => array(
+                    'required'          => false,
+                    'validate_callback' => function ($value) {
+                        return empty($value) || (is_numeric($value) && $value > 0);
+                    },
+                    'sanitize_callback' => 'intval',
+                ),
+            ),
         ));
 
         // ===== Performance: DB Clean =====
@@ -451,37 +525,41 @@ class MaBox_Admin
                 return current_user_can('manage_options');
             },
         ));
+        register_rest_route('mabox/v1', '/performance/db/preview', array(
+            'methods'             => \WP_REST_Server::CREATABLE,
+            'callback'            => array('MaBox_Performance_Db_Clean', 'ajax_preview'),
+            'permission_callback' => function () {
+                return current_user_can('manage_options');
+            },
+            'args'                => array(
+                'type' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        $allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'all', 'pending', 'trash');
+                        return is_string($value) && in_array($value, $allowed, true);
+                    },
+                ),
+            ),
+        ));
         register_rest_route('mabox/v1', '/performance/db/clean', array(
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => array('MaBox_Performance_Db_Clean', 'ajax_clean'),
             'permission_callback' => function () {
                 return current_user_can('manage_options');
             },
-        ));
-
-        // ===== Performance: SEO Checker =====
-        register_rest_route('mabox/v1', '/performance/seo/check', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Seo_Checker', 'ajax_check'),
-            'permission_callback' => function () {
-                return current_user_can('manage_options');
-            },
-        ));
-        register_rest_route('mabox/v1', '/performance/seo/fix-alt', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Seo_Checker', 'ajax_fix_alt'),
-            'permission_callback' => function () {
-                return current_user_can('manage_options');
-            },
-        ));
-
-        // ===== Domestic: Baidu Push =====
-        register_rest_route('mabox/v1', '/domestic/baidu/push', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Domestic_Baidu_Push', 'ajax_batch_push'),
-            'permission_callback' => function () {
-                return current_user_can('manage_options');
-            },
+            'args'                => array(
+                'type' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        $allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'all', 'pending', 'trash');
+                        return is_string($value) && in_array($value, $allowed, true);
+                    },
+                ),
+                'dry_run' => array(
+                    'default'           => true,
+                    'sanitize_callback' => 'rest_sanitize_boolean',
+                ),
+            ),
         ));
 
         // ===== Page: Batch Replace =====
@@ -491,6 +569,73 @@ class MaBox_Admin
             'permission_callback' => function () {
                 return current_user_can('edit_posts');
             },
+            'args'                => array(
+                'pairs' => array(
+                    'required'          => true,
+                    'type'              => 'array',
+                    'description'       => '替换规则数组，每项含 search 和 replace',
+                    'items'             => array(
+                        'type'       => 'object',
+                        'properties' => array(
+                            'search'  => array('type' => 'string', 'required' => true),
+                            'replace' => array('type' => 'string', 'required' => true),
+                        ),
+                    ),
+                    'sanitize_callback' => function ($value) {
+                        if (!is_array($value)) return array();
+                        return array_map(function ($pair) {
+                            return array(
+                                'search'  => isset($pair['search']) ? wp_kses_post($pair['search']) : '',
+                                'replace' => isset($pair['replace']) ? wp_kses_post($pair['replace']) : '',
+                            );
+                        }, $value);
+                    },
+                    'validate_callback' => function ($value) {
+                        if (!is_array($value) || empty($value)) return false;
+                        foreach ($value as $pair) {
+                            if (!is_array($pair) || !isset($pair['search']) || !isset($pair['replace'])) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    },
+                ),
+                'dry_run' => array(
+                    'default'           => true,
+                    'sanitize_callback' => 'rest_sanitize_boolean',
+                ),
+            ),
+        ));
+        register_rest_route('mabox/v1', '/page/batch-replace/rollback', array(
+            'methods'             => \WP_REST_Server::CREATABLE,
+            'callback'            => array('MaBox_Page_Batch_Replace', 'rollback_all'),
+            'permission_callback' => function () {
+                return current_user_can('edit_posts');
+            },
+            'args'                => array(
+                'confirm' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return $value === true || $value === 'true' || $value === 1;
+                    },
+                    'sanitize_callback' => 'rest_sanitize_boolean',
+                ),
+            ),
+        ));
+        register_rest_route('mabox/v1', '/page/batch-replace/rollback/(?P<post_id>\d+)', array(
+            'methods'             => \WP_REST_Server::CREATABLE,
+            'callback'            => array('MaBox_Page_Batch_Replace', 'rollback'),
+            'permission_callback' => function () {
+                return current_user_can('edit_posts');
+            },
+            'args'                => array(
+                'post_id' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_numeric($value) && $value > 0;
+                    },
+                ),
+            ),
         ));
 
         // ===== Tools: Database Tables =====
@@ -507,6 +652,29 @@ class MaBox_Admin
             'permission_callback' => function () {
                 return current_user_can('manage_options');
             },
+            'args'                => array(
+                'databaseName' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_string($value) && preg_match('/^[a-zA-Z0-9_]+$/', $value);
+                    },
+                    'sanitize_callback' => 'sanitize_text_field',
+                ),
+                'limit' => array(
+                    'default'           => 1000,
+                    'validate_callback' => function ($value) {
+                        return is_numeric($value) && $value > 0 && $value <= 1000;
+                    },
+                    'sanitize_callback' => 'intval',
+                ),
+                'offset' => array(
+                    'default'           => 0,
+                    'validate_callback' => function ($value) {
+                        return is_numeric($value) && $value >= 0;
+                    },
+                    'sanitize_callback' => 'intval',
+                ),
+            ),
         ));
 
         // ===== Tools: Categories =====
@@ -520,28 +688,93 @@ class MaBox_Admin
         register_rest_route('mabox/v1', '/public/search-log', array(
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => array('MaBox_Performance_Search_Enhance', 'ajax_log_search'),
-            'permission_callback' => array(__CLASS__, 'verify_public_nonce'),
+            'permission_callback' => function () {
+                return MaBox_Rate_Limiter::permission_callback('search-log', array('max_requests' => 30, 'time_window' => 60))();
+            },
+            'args'                => array(
+                'keyword' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_string($value) && strlen($value) <= 200;
+                    },
+                    'sanitize_callback' => 'sanitize_text_field',
+                ),
+            ),
         ));
 
         // ===== Public: Anti-Crawler Verify =====
         register_rest_route('mabox/v1', '/public/anti-crawler/verify', array(
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => array('MaBox_Page_Anti_Crawler', 'ajax_verify'),
-            'permission_callback' => array(__CLASS__, 'verify_public_nonce'),
+            'permission_callback' => function () {
+                return MaBox_Rate_Limiter::permission_callback('anti-crawler', array('max_requests' => 20, 'time_window' => 60))();
+            },
+            'args'                => array(
+                'ticket' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_string($value) && !empty($value);
+                    },
+                    'sanitize_callback' => 'sanitize_text_field',
+                ),
+                'randstr' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_string($value) && !empty($value);
+                    },
+                    'sanitize_callback' => 'sanitize_text_field',
+                ),
+            ),
         ));
 
         // ===== Public: Article Rating =====
         register_rest_route('mabox/v1', '/public/rating', array(
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => array('MaBox_Page_Article_Rating', 'handle_rating'),
-            'permission_callback' => array(__CLASS__, 'verify_public_nonce'),
+            'permission_callback' => function () {
+                return MaBox_Rate_Limiter::permission_callback('rating', array('max_requests' => 30, 'time_window' => 60))();
+            },
+            'args'                => array(
+                'post_id' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_numeric($value) && $value > 0;
+                    },
+                    'sanitize_callback' => 'intval',
+                ),
+                'score' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_numeric($value) && $value >= 1 && $value <= 5;
+                    },
+                    'sanitize_callback' => 'intval',
+                ),
+            ),
         ));
 
         // ===== Public: WX Unlock Verify =====
         register_rest_route('mabox/v1', '/public/wx-unlock/verify', array(
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => array('MaBox_ShortCode_Wx_Unlock', 'ajax_verify'),
-            'permission_callback' => array(__CLASS__, 'verify_public_nonce'),
+            'permission_callback' => function () {
+                return MaBox_Rate_Limiter::permission_callback('wx-unlock', array('max_requests' => 20, 'time_window' => 60))();
+            },
+            'args'                => array(
+                'ticket' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_string($value) && !empty($value);
+                    },
+                    'sanitize_callback' => 'sanitize_text_field',
+                ),
+                'randstr' => array(
+                    'required'          => true,
+                    'validate_callback' => function ($value) {
+                        return is_string($value) && !empty($value);
+                    },
+                    'sanitize_callback' => 'sanitize_text_field',
+                ),
+            ),
         ));
 
         // 触发模块路由注册钩子（统一路由注册模式）
