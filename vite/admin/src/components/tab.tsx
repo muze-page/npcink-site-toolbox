@@ -3,7 +3,7 @@ import { useState, lazy, Suspense, useEffect, useRef, useCallback } from "react"
 import { Tabs, Layout, Affix, Spin } from "antd";
 import type { TabsProps } from "antd";
 
-import { defaultOption, DataContext } from "@/tool/dataContext";
+import { defaultOption, DataContext, fetchSettings } from "@/tool/dataContext";
 import Save from "@/tool/save";
 import FeatureSearch from "@/components/feature-search";
 
@@ -41,6 +41,12 @@ const App: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    fetchSettings().then((data) => {
+      setOptionData(data);
+    });
+  }, []);
+
   const updateOption = (father: string, son: string, newValue: any) => {
     setOptionData((prevOptionData) => {
       const updatedOptionData = { ...prevOptionData };
@@ -50,6 +56,11 @@ const App: React.FC = () => {
       updatedOptionData[father][son] = newValue;
       return updatedOptionData;
     });
+  };
+
+  const refreshOption = async () => {
+    const freshData = await fetchSettings();
+    setOptionData(freshData);
   };
 
   const handleSearchNavigate = useCallback((tabKey: string, itemId: string) => {
@@ -158,7 +169,7 @@ const App: React.FC = () => {
   };
   return (
     <>
-      <DataContext.Provider value={{ optionData, updateOption }}>
+      <DataContext.Provider value={{ optionData, updateOption, refreshOption }}>
         <div className="MaBox_option">
           <Layout>
             <Affix offsetTop={30}>

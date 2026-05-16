@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Table, Tag, Button, Space, Popconfirm, message, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { RestNonce } from "@/tool/dataContext";
 
 const { Text } = Typography;
-
-const getNonce = (): string =>
-  typeof window.dataLocal === "object" ? window.dataLocal.nonce || "" : "";
 
 interface LogEntry {
   comment_author: string;
@@ -51,7 +49,7 @@ const App: React.FC = () => {
         `/wp-json/mabox/v1/ai-review/logs?page=${p}&per_page=20`,
         {
           headers: {
-            "X-WP-Nonce": getNonce(),
+            "X-WP-Nonce": RestNonce,
           },
         }
       );
@@ -76,7 +74,7 @@ const App: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-WP-Nonce": getNonce(),
+          "X-WP-Nonce": RestNonce,
         },
         body: JSON.stringify({ index, action }),
       });
@@ -97,7 +95,7 @@ const App: React.FC = () => {
       const res = await fetch("/wp-json/mabox/v1/ai-review/clear-logs", {
         method: "POST",
         headers: {
-          "X-WP-Nonce": getNonce(),
+          "X-WP-Nonce": RestNonce,
         },
       });
       const result = await res.json();

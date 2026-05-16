@@ -1,65 +1,75 @@
-//准备初始数据
 import { createContext } from "react";
 import { DataLocal, Option } from "@/tool/interface";
 import { defaultVarData } from "@/tool/defaultVar";
+import { restInstance } from "@/axios/public";
 import axios from "axios";
 
-//开发环境状态
 const state: boolean = import.meta.env.VITE_STATE;
 
-//组建开发环境下的对象
-
-//输出选项值
 function getDataLocal(): DataLocal {
   if (state) {
-    axios.defaults.baseURL = "/api"; //开发模式下使用代理
-    //开发
+    axios.defaults.baseURL = "/api";
     return defaultVarData as DataLocal;
   } else {
-    //打包
     return window.dataLocal ? (window.dataLocal as unknown as DataLocal) : (defaultVarData as DataLocal);
   }
 }
 
-//输出ajaxurl
 function getAjaxurl(): string {
   if (state) {
-    //开发
     return "/wp-admin/admin-ajax.php";
   } else {
-    //打包
     return window.dataLocal?.ajaxurl || "/wp-admin/admin-ajax.php";
   }
 }
 
-//拿到传来的值
-const dataObject: DataLocal = getDataLocal();
-//console.log("拿到的选项");
-//console.log(dataObject);
+function getApiBase(): string {
+  if (state) {
+    return "/api";
+  } else {
+    const dl = window.dataLocal as any;
+    return dl?.apiBase || "/wp-json/mabox/v1";
+  }
+}
 
-//选项
-export const defaultOption = dataObject?.option;
-//站点地址
-export const url_site = dataObject?.url_site;
-
-//ajaxurl
-export const Ajaxurl = getAjaxurl();
-
-export const getNonce = (): string => {
+function getRestNonce(): string {
   if (state) {
     return "";
   }
-  return window.dataLocal?.nonce || "";
-};
-
-//准备选项默认值
-interface OptionContextType {
-  optionData: Option; //选项默认值
-  updateOption: (father: string, son: string, newValue: unknown) => void; // 修改选项方法
+  const dl = window.dataLocal as any;
+  return dl?.restNonce || "";
 }
 
-//组件间传递选项数据
+const dataObject: DataLocal = getDataLocal();
+
+export const defaultOption = dataObject?.option;
+export const url_site = dataObject?.url_site;
+export const serverDefaults = dataObject?.defaults || null;
+
+export const Ajaxurl = getAjaxurl();
+export const ApiBase = getApiBase();
+export const RestNonce = getRestNonce();
+
+export const fetchSettings = async (): Promise<Option> => {
+  try {
+    const response: any = await restInstance.get("/settings");
+    if (response?.success && response?.data) {
+      return response.data as Option;
+    }
+  } catch (error) {
+    console.error("从 REST API 拉取配置失败，使用本地注入数据:", error);
+  }
+  return defaultOption;
+};
+
+interface OptionContextType {
+  optionData: Option;
+  updateOption: (father: string, son: string, newValue: unknown) => void;
+  refreshOption: () => Promise<void>;
+}
+
 export const DataContext = createContext<OptionContextType>({
-  optionData: defaultOption, //选项值
-  updateOption: () => {}, // 空函数作为默认值
+  optionData: defaultOption,
+  updateOption: () => {},
+  refreshOption: async () => {},
 });

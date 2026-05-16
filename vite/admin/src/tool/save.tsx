@@ -6,7 +6,7 @@ import { createSnapshot } from "@/tool/snapshot";
 import { UpOutlined } from "@ant-design/icons";
 
 const App: React.FC = () => {
-  const { optionData } = useContext(DataContext);
+  const { optionData, refreshOption } = useContext(DataContext);
   const [saving, setSaving] = useState(false);
 
   const postData = async () => {
@@ -14,6 +14,7 @@ const App: React.FC = () => {
     try {
       createSnapshot(optionData);
       await saceOption(optionData);
+      await refreshOption();
     } catch (error) {
       message.error("保存失败，请重试");
     } finally {

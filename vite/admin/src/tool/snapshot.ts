@@ -1,5 +1,6 @@
 import { Option } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
+import { serverDefaults } from "@/tool/dataContext";
 
 const SNAPSHOT_KEY = "mabox_snapshots";
 const MAX_SNAPSHOTS = 5;
@@ -81,5 +82,6 @@ export function clearSnapshots(): boolean {
 }
 
 export function getDefaultConfig(): Option {
-  return JSON.parse(JSON.stringify(defaultVarOption));
+  const source = serverDefaults || defaultVarOption;
+  return JSON.parse(JSON.stringify(source));
 }

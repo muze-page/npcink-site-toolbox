@@ -6,6 +6,9 @@ export type DataLocal = {
   url_site: string;
   ajaxurl?: string;
   nonce?: string;
+  apiBase?: string;
+  restNonce?: string;
+  defaults?: Option;
 };
 
 //选项

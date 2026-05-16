@@ -1,20 +1,20 @@
 import axios from "axios";
 import { message } from "antd";
-//import { Ajaxurl } from "@/tool/dataContext";
-// 创建 axios 实例
-export const instance = axios.create({
-  //baseURL: Ajaxurl, // 设置请求的基础URL
+import { ApiBase, RestNonce } from "@/tool/dataContext";
+
+export const instance = axios.create({});
+
+export const restInstance = axios.create({
+  baseURL: ApiBase,
+  headers: {
+    "Content-Type": "application/json",
+    "X-WP-Nonce": RestNonce,
+  },
 });
 
-//添加一个请求拦截器
-// 设置默认的请求配置
-//instance.defaults.baseURL = Ajaxurl;
-
-// 响应拦截器
 instance.interceptors.response.use(
   (response) => {
     const responseData = response.data;
-    //console.log(responseData);
     if (responseData.success) {
       if (responseData.data?.message) {
         message.success(responseData.data.message);
@@ -26,8 +26,6 @@ instance.interceptors.response.use(
     return responseData;
   },
   (error) => {
-    //检查，有没有返回错误信息，有的话展示，没有就做其他的
-
     const errorMessage =
       error.response && error.response.status
         ? `出错： ${error.response.data?.data?.error || error.response.data?.data?.message || error.message}`
@@ -38,13 +36,28 @@ instance.interceptors.response.use(
   }
 );
 
-/**
- * 检查它们的值是否为 undefined 并据此决定是否将它们添加到 URLSearchParams 实例中
- * 默认情况下，若不传值，则会输出 undefined字符串
- * @param params 实例
- * @param key 关键词
- * @param value 值
- */
+restInstance.interceptors.response.use(
+  (response) => {
+    const responseData = response.data;
+    if (responseData.success) {
+      if (responseData.message) {
+        message.success(responseData.message);
+      }
+    } else {
+      const errMsg = responseData.message || '未知错误';
+      message.error(errMsg);
+    }
+    return responseData;
+  },
+  (error) => {
+    const errorData = error.response?.data;
+    const errMsg = errorData?.message || errorData?.code || error.message;
+    message.error(`出错：${errMsg}`);
+    console.error(errMsg);
+    return Promise.reject(error);
+  }
+);
+
 export const addParamIfDefined = (
   params: URLSearchParams,
   key: string,

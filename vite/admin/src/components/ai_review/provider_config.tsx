@@ -1,14 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Form, Input, Select, Button, message, Tag, Space, Card } from "antd";
-import { DataContext } from "@/tool/dataContext";
+import { DataContext, RestNonce } from "@/tool/dataContext";
 import { AntConfig } from "@/tool/tool";
 import FeatureSwitch from "@/basic/feature-switch";
 
 const fromConfig = AntConfig.from;
 const { TextArea } = Input;
-
-const getNonce = (): string =>
-  typeof window.dataLocal === "object" ? window.dataLocal.nonce || "" : "";
 
 const providerOptions = [
   { label: "本地规则引擎（默认）", value: "local" },
@@ -45,7 +42,7 @@ const App: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-WP-Nonce": getNonce(),
+          "X-WP-Nonce": RestNonce,
         },
       });
       const result = await res.json();
