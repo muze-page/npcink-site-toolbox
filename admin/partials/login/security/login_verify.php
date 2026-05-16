@@ -55,31 +55,26 @@ if (!class_exists('MaBox_Login_Verify')) {
 
         public static function login_val()
         {
-            //初始化
-            $_POST['sum'] = isset($_POST['sum']) ? (int) $_POST['sum'] : 0;
-            $_POST['num1'] = isset($_POST['num1']) ? (int) $_POST['num1'] : 0;
-            $_POST['num2'] = isset($_POST['num2']) ? (int) $_POST['num2'] : 0;
-            $sum = $_POST['sum']; //用户提交的计算结果
+            $sum = isset($_POST['sum']) ? (int) $_POST['sum'] : 0;
+            $num1 = isset($_POST['num1']) ? (int) $_POST['num1'] : 0;
+            $num2 = isset($_POST['num2']) ? (int) $_POST['num2'] : 0;
+
             switch ($sum) {
-                    //得到正确的计算结果则直接跳出
-                case $_POST['num1'] + $_POST['num2']:
+                case $num1 + $num2:
                     break;
-                    //未填写结果时的错误讯息
-                case null:
-                    function empty_captcha()
+                case 0:
+                    function empty_captcha_math()
                     {
                         return new WP_Error("empty_captcha", __('<strong>错误</strong>: 请输入数学验证码.', 'magick-toolbox'));
                     }
-                    add_filter("wp_authenticate_user", "empty_captcha", 10, 2);
-
+                    add_filter("wp_authenticate_user", "empty_captcha_math", 10, 2);
                     break;
-                    //计算错误时的错误讯息
                 default:
-                    function incorrect_captcha()
+                    function incorrect_captcha_math()
                     {
-                        return new WP_Error("empty_captcha", __('<strong>错误</strong>: 验证码错误，请重新输入.', 'magick-toolbox'));
+                        return new WP_Error("incorrect_captcha", __('<strong>错误</strong>: 验证码错误，请重新输入.', 'magick-toolbox'));
                     }
-                    add_filter("wp_authenticate_user", "incorrect_captcha", 10, 2);
+                    add_filter("wp_authenticate_user", "incorrect_captcha_math", 10, 2);
             }
         }
 
@@ -106,28 +101,25 @@ if (!class_exists('MaBox_Login_Verify')) {
         //判断验证码是否空白和错误
         public static function loper_login_calculation()
         {
-            $_POST['sum'] = isset($_POST['sum']) ? (int) $_POST['sum'] : 0;
-            $_POST['num1'] = isset($_POST['num1']) ? (int) $_POST['num1'] : 0;
-            $sum = $_POST['sum'];
-            switch ($sum) {
-                case $_POST['num1']:
-                    break;
-                    //未填写结果时的错误讯息
-                case null:
+            $sum = isset($_POST['sum']) ? (int) $_POST['sum'] : 0;
+            $num1 = isset($_POST['num1']) ? (int) $_POST['num1'] : 0;
 
-                    function empty_captcha()
+            switch ($sum) {
+                case $num1:
+                    break;
+                case 0:
+                    function empty_captcha_random()
                     {
                         return new WP_Error("empty_captcha", __('<strong>错误</strong>: 请输入验证码.', 'magick-toolbox'));
                     }
-                    add_filter("wp_authenticate_user", "empty_captcha", 10, 2);
+                    add_filter("wp_authenticate_user", "empty_captcha_random", 10, 2);
                     break;
-                    //计算错误时的错误讯息
                 default:
-                    function incorrect_captcha()
+                    function incorrect_captcha_random()
                     {
-                        return new WP_Error("empty_captcha", __('<strong>错误</strong>: 验证码错误，请重新输入.', 'magick-toolbox'));
+                        return new WP_Error("incorrect_captcha", __('<strong>错误</strong>: 验证码错误，请重新输入.', 'magick-toolbox'));
                     }
-                    add_filter("wp_authenticate_user", "incorrect_captcha", 10, 2);
+                    add_filter("wp_authenticate_user", "incorrect_captcha_random", 10, 2);
             }
         }
 

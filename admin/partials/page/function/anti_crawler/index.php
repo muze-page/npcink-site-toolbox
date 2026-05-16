@@ -45,7 +45,7 @@ if (!class_exists('MaBox_Page_Anti_Crawler')) {
                     return;
                 }
                 add_action('wp', function () {
-                    wp_die(self::challenge_page(), esc_html__('访问过于频繁'), array('response_code' => 429));
+                    wp_die(self::challenge_page(), esc_html__('访问过于频繁', 'magick-toolbox'), array('response_code' => 429));
                 });
             }
         }

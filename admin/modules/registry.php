@@ -94,7 +94,7 @@ return array(
     'optimize.widgets' => array(
         'class'     => 'MaBox_Widgets',
         'file'      => 'optimize/widget/index.php',
-        'option_key'=> 'optimize.site.hide_email_ip',
+        'option_key'=> 'optimize.widgets',
         'category'  => 'optimize',
         'scope'     => 'both',
         'always_load' => true,

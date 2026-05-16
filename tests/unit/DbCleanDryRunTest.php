@@ -43,7 +43,7 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
      * 测试 REST API 路由中 dry_run 默认为 true
      */
     public function test_rest_route_has_dry_run_default(): void {
-        $admin_file = dirname(__FILE__) . '/../admin/class-magick-mixtrue-admin.php';
+        $admin_file = dirname(__FILE__) . '/../admin/class-magick-mixture-admin.php';
         $this->assertFileExists($admin_file);
 
         $content = file_get_contents($admin_file);
@@ -114,7 +114,7 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
      * 测试 batch replace REST API dry_run 默认为 true
      */
     public function test_batch_replace_rest_dry_run_default(): void {
-        $admin_file = dirname(__FILE__) . '/../admin/class-magick-mixtrue-admin.php';
+        $admin_file = dirname(__FILE__) . '/../admin/class-magick-mixture-admin.php';
         $content = file_get_contents($admin_file);
 
         // 在 /page/batch-replace 路由附近查找 dry_run 默认值

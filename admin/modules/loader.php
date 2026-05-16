@@ -95,14 +95,33 @@ if (!class_exists('MaBox_Module_Loader')) {
             // 验证模块是否实现接口契约
             $class = $meta['class'];
             if (!is_subclass_of($class, 'MaBox_Module_Interface')) {
-                error_log("[MaBox] Module {$class} does not implement MaBox_Module_Interface");
+                if (class_exists('MaBox_Audit_Logger')) {
+                    MaBox_Audit_Logger::log('warning', 'config', "Module {$class} does not implement MaBox_Module_Interface");
+                } else {
+                    error_log("[MaBox] Module {$class} does not implement MaBox_Module_Interface");
+                }
+            }
+
+            // 统一调用 run() 方法，兼容非标准方法名（如 runs）
+            $method = 'run';
+            if (!method_exists($class, 'run')) {
+                if (method_exists($class, 'runs')) {
+                    $method = 'runs';
+                } else {
+                    if (class_exists('MaBox_Audit_Logger')) {
+                        MaBox_Audit_Logger::log('error', 'config', "Module {$class} has no run() or runs() method");
+                    } else {
+                        error_log("[MaBox] Module {$class} has no run() or runs() method");
+                    }
+                    return;
+                }
             }
 
             if (!empty($meta['config_path'])) {
                 $module_config = self::get_nested_value($config, $meta['config_path']);
-                call_user_func(array($meta['class'], 'run'), $module_config);
+                call_user_func(array($meta['class'], $method), $module_config);
             } else {
-                call_user_func(array($meta['class'], 'run'));
+                call_user_func(array($meta['class'], $method));
             }
         }
 

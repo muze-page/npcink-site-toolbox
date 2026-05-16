@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    magick_mixtrue
- * @subpackage magick_mixtrue/public
+ * @package    magick_mixture
+ * @subpackage magick_mixture/public
  */
 
 /**
@@ -16,8 +16,8 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    magick_mixtrue
- * @subpackage magick_mixtrue/public
+ * @package    magick_mixture
+ * @subpackage magick_mixture/public
  * @author     Your Name <email@example.com>
  */
 class MaBox_Public
@@ -27,7 +27,7 @@ class MaBox_Public
      * The ID of this plugin.
      *
      */
-    private $magick_mixtrue;
+    private $plugin_name;
 
     /**
      * The version of this plugin.
@@ -39,10 +39,11 @@ class MaBox_Public
      * Initialize the class and set its properties.
      *
      */
-    public function __construct($magick_mixtrue, $version)
+    public function __construct($plugin_name, $version)
     {
 
-        $this->magick_mixtrue = $magick_mixtrue;
+        $this->plugin_name = $plugin_name;
+        $this->version = $version;
         $this->version = $version;
         $this->load();
         $this->run();

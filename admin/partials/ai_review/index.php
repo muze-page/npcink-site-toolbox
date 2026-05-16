@@ -55,7 +55,7 @@ if (!class_exists('MaBox_Ai_Review')) {
                 if ($mode === 'block') {
                     wp_die(
                         esc_html__('您的评论未通过审核：' . $result['reason']),
-                        esc_html__('评论审核'),
+                        esc_html__('评论审核', 'magick-toolbox'),
                         array('response' => 403)
                     );
                 } else {

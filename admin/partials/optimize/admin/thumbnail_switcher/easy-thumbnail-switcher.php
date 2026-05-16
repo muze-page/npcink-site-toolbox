@@ -158,8 +158,12 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
             wp_die();
         }
         
-        $id = $_POST['post_id'];
-        $thumb_id = $_POST['thumb_id'];
+        $id = intval($_POST['post_id']);
+        $thumb_id = intval($_POST['thumb_id']);
+        
+        if ($id <= 0 || $thumb_id <= 0) {
+            wp_die();
+        }
         
         set_post_thumbnail( $id, $thumb_id );
         
@@ -190,7 +194,11 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
             wp_die();
         }
         
-        $id = $_POST['post_id'];
+        $id = intval($_POST['post_id']);
+        
+        if ($id <= 0) {
+            wp_die();
+        }
         
         delete_post_thumbnail( $id );
         

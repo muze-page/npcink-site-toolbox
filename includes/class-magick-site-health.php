@@ -26,37 +26,37 @@ if (!class_exists('MaBox_Site_Health')) {
         {
             // 直接检测（不依赖 REST API）
             $tests['direct']['mabox_php_version'] = array(
-                'label' => __('PHP 版本'),
+                'label' => __('PHP 版本', 'magick-toolbox'),
                 'test'  => array(__CLASS__, 'test_php_version'),
             );
 
             $tests['direct']['mabox_wp_version'] = array(
-                'label' => __('WordPress 版本'),
+                'label' => __('WordPress 版本', 'magick-toolbox'),
                 'test'  => array(__CLASS__, 'test_wp_version'),
             );
 
             $tests['direct']['mabox_permalink'] = array(
-                'label' => __('伪静态（固定链接）'),
+                'label' => __('伪静态（固定链接）', 'magick-toolbox'),
                 'test'  => array(__CLASS__, 'test_permalink'),
             );
 
             $tests['direct']['mabox_object_cache'] = array(
-                'label' => __('对象缓存'),
+                'label' => __('对象缓存', 'magick-toolbox'),
                 'test'  => array(__CLASS__, 'test_object_cache'),
             );
 
             $tests['direct']['mabox_rest_api'] = array(
-                'label' => __('REST API 可用性'),
+                'label' => __('REST API 可用性', 'magick-toolbox'),
                 'test'  => array(__CLASS__, 'test_rest_api'),
             );
 
             $tests['direct']['mabox_module_count'] = array(
-                'label' => __('已激活模块数'),
+                'label' => __('已激活模块数', 'magick-toolbox'),
                 'test'  => array(__CLASS__, 'test_module_count'),
             );
 
             $tests['direct']['mabox_high_risk_modules'] = array(
-                'label' => __('高风险模块检查'),
+                'label' => __('高风险模块检查', 'magick-toolbox'),
                 'test'  => array(__CLASS__, 'test_high_risk_modules'),
             );
 
@@ -82,23 +82,23 @@ if (!class_exists('MaBox_Site_Health')) {
 
             $result = array(
                 'label'       => $is_ok
-                    ? __('PHP 版本符合要求')
-                    : __('PHP 版本过低'),
+                    ? __('PHP 版本符合要求', 'magick-toolbox')
+                    : __('PHP 版本过低', 'magick-toolbox'),
                 'status'      => $is_ok ? 'good' : 'critical',
                 'badge'       => array(
-                    'label' => __('魔法工具箱'),
+                    'label' => __('魔法工具箱', 'magick-toolbox'),
                     'color' => 'blue',
                 ),
                 'description' => sprintf(
                     '<p>%s</p>',
                     $is_ok
-                        ? sprintf(__('当前 PHP 版本 %s，满足最低要求（%s+）。'), $current, $recommended)
-                        : sprintf(__('当前 PHP 版本 %s，低于最低要求 %s。部分功能可能无法正常工作。'), $current, $recommended)
+                        ? sprintf(__('当前 PHP 版本 %s，满足最低要求（%s+）。', 'magick-toolbox'), $current, $recommended)
+                        : sprintf(__('当前 PHP 版本 %s，低于最低要求 %s。部分功能可能无法正常工作。', 'magick-toolbox'), $current, $recommended)
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s" target="_blank">%s</a></p>',
                     'https://wordpress.org/support/update-php/',
-                    __('了解如何升级 PHP 版本')
+                    __('了解如何升级 PHP 版本', 'magick-toolbox')
                 ),
                 'test'        => 'mabox_php_version',
             );
@@ -119,23 +119,23 @@ if (!class_exists('MaBox_Site_Health')) {
 
             $result = array(
                 'label'       => $is_ok
-                    ? __('WordPress 版本符合要求')
-                    : __('WordPress 版本过低'),
+                    ? __('WordPress 版本符合要求', 'magick-toolbox')
+                    : __('WordPress 版本过低', 'magick-toolbox'),
                 'status'      => $is_ok ? 'good' : 'recommended',
                 'badge'       => array(
-                    'label' => __('魔法工具箱'),
+                    'label' => __('魔法工具箱', 'magick-toolbox'),
                     'color' => 'blue',
                 ),
                 'description' => sprintf(
                     '<p>%s</p>',
                     $is_ok
-                        ? sprintf(__('当前 WordPress 版本 %s，建议使用 %s+ 以获得最佳体验。'), $current, $recommended)
-                        : sprintf(__('当前 WordPress 版本 %s，建议升级至 %s+。'), $current, $recommended)
+                        ? sprintf(__('当前 WordPress 版本 %s，建议使用 %s+ 以获得最佳体验。', 'magick-toolbox'), $current, $recommended)
+                        : sprintf(__('当前 WordPress 版本 %s，建议升级至 %s+。', 'magick-toolbox'), $current, $recommended)
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
                     admin_url('update-core.php'),
-                    __('检查更新')
+                    __('检查更新', 'magick-toolbox')
                 ),
                 'test'        => 'mabox_wp_version',
             );
@@ -153,23 +153,23 @@ if (!class_exists('MaBox_Site_Health')) {
 
             $result = array(
                 'label'       => $is_ok
-                    ? __('伪静态已启用')
-                    : __('伪静态未启用'),
+                    ? __('伪静态已启用', 'magick-toolbox')
+                    : __('伪静态未启用', 'magick-toolbox'),
                 'status'      => $is_ok ? 'good' : 'recommended',
                 'badge'       => array(
-                    'label' => __('魔法工具箱'),
+                    'label' => __('魔法工具箱', 'magick-toolbox'),
                     'color' => 'blue',
                 ),
                 'description' => sprintf(
                     '<p>%s</p>',
                     $is_ok
-                        ? sprintf(__('当前固定链接结构：%s'), esc_html($permalink_structure))
-                        : __('当前使用默认固定链接（?p=123），不利于 SEO 和部分插件功能。')
+                        ? sprintf(__('当前固定链接结构：%s', 'magick-toolbox'), esc_html($permalink_structure))
+                        : __('当前使用默认固定链接（?p=123），不利于 SEO 和部分插件功能。', 'magick-toolbox')
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
                     admin_url('options-permalink.php'),
-                    __('设置固定链接')
+                    __('设置固定链接', 'magick-toolbox')
                 ),
                 'test'        => 'mabox_permalink',
             );
@@ -186,23 +186,23 @@ if (!class_exists('MaBox_Site_Health')) {
 
             $result = array(
                 'label'       => $is_ok
-                    ? __('对象缓存已启用')
-                    : __('对象缓存未启用'),
+                    ? __('对象缓存已启用', 'magick-toolbox')
+                    : __('对象缓存未启用', 'magick-toolbox'),
                 'status'      => $is_ok ? 'good' : 'recommended',
                 'badge'       => array(
-                    'label' => __('魔法工具箱'),
+                    'label' => __('魔法工具箱', 'magick-toolbox'),
                     'color' => 'blue',
                 ),
                 'description' => sprintf(
                     '<p>%s</p>',
                     $is_ok
-                        ? __('已启用外部对象缓存（如 Redis、Memcached），有助于提升性能。')
-                        : __('未启用外部对象缓存。对于高流量站点，建议安装 Redis 或 Memcached 对象缓存插件。')
+                        ? __('已启用外部对象缓存（如 Redis、Memcached），有助于提升性能。', 'magick-toolbox')
+                        : __('未启用外部对象缓存。对于高流量站点，建议安装 Redis 或 Memcached 对象缓存插件。', 'magick-toolbox')
                 ),
                 'actions'     => $is_ok ? '' : sprintf(
                     '<p><a href="%s" target="_blank">%s</a></p>',
                     'https://wordpress.org/plugins/search/object+cache/',
-                    __('浏览对象缓存插件')
+                    __('浏览对象缓存插件', 'magick-toolbox')
                 ),
                 'test'        => 'mabox_object_cache',
             );
@@ -225,22 +225,22 @@ if (!class_exists('MaBox_Site_Health')) {
 
             $result = array(
                 'label'       => $is_ok
-                    ? __('REST API 可用')
-                    : __('REST API 不可用'),
+                    ? __('REST API 可用', 'magick-toolbox')
+                    : __('REST API 不可用', 'magick-toolbox'),
                 'status'      => $is_ok ? 'good' : 'critical',
                 'badge'       => array(
-                    'label' => __('魔法工具箱'),
+                    'label' => __('魔法工具箱', 'magick-toolbox'),
                     'color' => 'blue',
                 ),
                 'description' => sprintf(
                     '<p>%s</p>',
                     $is_ok
-                        ? sprintf(__('REST API 端点 %s 响应正常。'), esc_html($rest_url))
-                        : __('REST API 无法访问，可能导致插件后台功能异常。')
+                        ? sprintf(__('REST API 端点 %s 响应正常。', 'magick-toolbox'), esc_html($rest_url))
+                        : __('REST API 无法访问，可能导致插件后台功能异常。', 'magick-toolbox')
                 ),
                 'actions'     => $is_ok ? '' : sprintf(
                     '<p>%s</p>',
-                    __('请检查是否有安全插件或服务器配置阻止了 REST API 访问。')
+                    __('请检查是否有安全插件或服务器配置阻止了 REST API 访问。', 'magick-toolbox')
                 ),
                 'test'        => 'mabox_rest_api',
             );
@@ -255,10 +255,10 @@ if (!class_exists('MaBox_Site_Health')) {
         {
             if (!class_exists('MaBox_Module_Loader')) {
                 return array(
-                    'label'  => __('模块检测不可用'),
+                    'label'  => __('模块检测不可用', 'magick-toolbox'),
                     'status' => 'recommended',
                     'badge'  => array(
-                        'label' => __('魔法工具箱'),
+                        'label' => __('魔法工具箱', 'magick-toolbox'),
                         'color' => 'blue',
                     ),
                     'description' => '<p>模块加载器未初始化。</p>',
@@ -271,15 +271,15 @@ if (!class_exists('MaBox_Site_Health')) {
             $total = count(MaBox_Module_Loader::get_all_module_ids());
 
             $result = array(
-                'label'       => sprintf(__('已激活 %d / %d 个模块'), $count, $total),
+                'label'       => sprintf(__('已激活 %d / %d 个模块', 'magick-toolbox'), $count, $total),
                 'status'      => 'good',
                 'badge'       => array(
-                    'label' => __('魔法工具箱'),
+                    'label' => __('魔法工具箱', 'magick-toolbox'),
                     'color' => 'blue',
                 ),
                 'description' => sprintf(
                     '<p>%s</p>',
-                    sprintf(__('当前已激活 %d 个模块，共 %d 个可用模块。按需加载机制有助于减少不必要的资源消耗。'), $count, $total)
+                    sprintf(__('当前已激活 %d 个模块，共 %d 个可用模块。按需加载机制有助于减少不必要的资源消耗。', 'magick-toolbox'), $count, $total)
                 ),
                 'test'        => 'mabox_module_count',
             );
@@ -294,10 +294,10 @@ if (!class_exists('MaBox_Site_Health')) {
         {
             if (!class_exists('MaBox_Module_Loader')) {
                 return array(
-                    'label'  => __('模块检测不可用'),
+                    'label'  => __('模块检测不可用', 'magick-toolbox'),
                     'status' => 'recommended',
                     'badge'  => array(
-                        'label' => __('魔法工具箱'),
+                        'label' => __('魔法工具箱', 'magick-toolbox'),
                         'color' => 'blue',
                     ),
                     'description' => '<p>模块加载器未初始化。</p>',
@@ -322,10 +322,10 @@ if (!class_exists('MaBox_Site_Health')) {
 
             if ($total_risky === 0) {
                 return array(
-                    'label'       => __('未启用高风险模块'),
+                    'label'       => __('未启用高风险模块', 'magick-toolbox'),
                     'status'      => 'good',
                     'badge'       => array(
-                        'label' => __('魔法工具箱'),
+                        'label' => __('魔法工具箱', 'magick-toolbox'),
                         'color' => 'blue',
                     ),
                     'description' => '<p>当前未启用任何高风险或实验性模块，站点运行状态安全。</p>',
@@ -335,18 +335,18 @@ if (!class_exists('MaBox_Site_Health')) {
 
             $desc = '<p>';
             if (!empty($high_risk_active)) {
-                $desc .= sprintf(__('<strong>高风险模块（%d 个）：</strong>%s<br>'), count($high_risk_active), esc_html(implode(', ', $high_risk_active)));
+                $desc .= sprintf(__('<strong>高风险模块（%d 个）：</strong>%s<br>', 'magick-toolbox'), count($high_risk_active), esc_html(implode(', ', $high_risk_active)));
             }
             if (!empty($experimental_active)) {
-                $desc .= sprintf(__('<strong>实验性模块（%d 个）：</strong>%s<br>'), count($experimental_active), esc_html(implode(', ', $experimental_active)));
+                $desc .= sprintf(__('<strong>实验性模块（%d 个）：</strong>%s<br>', 'magick-toolbox'), count($experimental_active), esc_html(implode(', ', $experimental_active)));
             }
-            $desc .= __('这些模块可能影响站点稳定性，建议在测试环境验证后再在生产环境启用。</p>');
+            $desc .= __('这些模块可能影响站点稳定性，建议在测试环境验证后再在生产环境启用。</p>', 'magick-toolbox');
 
             $result = array(
-                'label'       => sprintf(__('已启用 %d 个高风险/实验性模块'), $total_risky),
+                'label'       => sprintf(__('已启用 %d 个高风险/实验性模块', 'magick-toolbox'), $total_risky),
                 'status'      => $total_risky > 3 ? 'critical' : 'recommended',
                 'badge'       => array(
-                    'label' => __('魔法工具箱'),
+                    'label' => __('魔法工具箱', 'magick-toolbox'),
                     'color' => 'blue',
                 ),
                 'description' => $desc,

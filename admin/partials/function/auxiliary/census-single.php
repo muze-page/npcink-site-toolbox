@@ -29,8 +29,8 @@ if (!class_exists('MaBox_Census_Single')) {
 
             add_submenu_page(
                 'index.php',
-                __('发文统计'),
-                __('发文统计'),
+                __('发文统计', 'magick-toolbox'),
+                __('发文统计', 'magick-toolbox'),
                 'administrator',
                 'magick-census-single',
                 array(__CLASS__, 'load_content')

@@ -36,7 +36,7 @@ if (!class_exists('MaBox_Single_Keyword_Add_Link')) {
                     $keyword = $tag->name;
                     //连接代码
                     $cleankeyword = stripslashes($keyword);
-                    $url = "<strong><a href=\"$link\" title=\"" . str_replace('%s', addcslashes($cleankeyword, '$'), __('查看所有文章关于 %s')) . "\"";
+                    $url = "<strong><a href=\"$link\" title=\"" . str_replace('%s', addcslashes($cleankeyword, '$'), __('查看所有文章关于 %s', 'magick-toolbox')) . "\"";
                     $url .= 'target="_blank"';
                     $url .= ">" . addcslashes($cleankeyword, '$') . "</a></strong>";
                     $limit = rand($match_num_from, $match_num_to);

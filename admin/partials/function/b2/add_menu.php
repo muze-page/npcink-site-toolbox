@@ -25,8 +25,8 @@ if (!class_exists('MaBox_B2_Shop_Add_Menu')) {
         {
             add_submenu_page(
                 'index.php',
-                __('销售统计'),
-                __('销售统计'),
+                __('销售统计', 'magick-toolbox'),
+                __('销售统计', 'magick-toolbox'),
                 'administrator',
                 'magick-census-shop',
                 array(__CLASS__, 'load_content')

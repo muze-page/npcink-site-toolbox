@@ -35,7 +35,7 @@ if (!class_exists('MaBox_Page_Search_Limit')) {
                 }
 
                 if ($search_count >= $max_count) {
-                    wp_die(esc_html__('搜索过于频繁，请稍后再试。'));
+                    wp_die(esc_html__('搜索过于频繁，请稍后再试。', 'magick-toolbox'));
                 }
 
                 set_transient($transient_key, $search_count + 1, MINUTE_IN_SECONDS);

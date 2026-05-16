@@ -39,8 +39,8 @@ if (!class_exists('MaBox_Comment_Baidu_Moderation')) {
             if ($result === 'non_compliant') {
                 if ($action === 'block') {
                     wp_die(
-                        esc_html__('您的评论未通过内容审核，请修改后重新提交。'),
-                        esc_html__('评论被拦截'),
+                        esc_html__('您的评论未通过内容审核，请修改后重新提交。', 'magick-toolbox'),
+                        esc_html__('评论被拦截', 'magick-toolbox'),
                         array('back_link' => true)
                     );
                 }
@@ -154,8 +154,8 @@ if (!class_exists('MaBox_Comment_Baidu_Moderation')) {
                 if (mb_stripos($content, $word) !== false) {
                     if ($action === 'block') {
                         wp_die(
-                            esc_html__('您的评论包含敏感词，请修改后重新提交。'),
-                            esc_html__('评论被拦截'),
+                            esc_html__('您的评论包含敏感词，请修改后重新提交。', 'magick-toolbox'),
+                            esc_html__('评论被拦截', 'magick-toolbox'),
                             array('back_link' => true)
                         );
                     }

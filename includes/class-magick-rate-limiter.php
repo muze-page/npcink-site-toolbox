@@ -74,7 +74,6 @@ if (!class_exists('MaBox_Rate_Limiter')) {
                         'time_window' => $config['time_window'],
                     ));
                 }
-                error_log('[MaBox] 频率限制触发: ' . $key . ' (' . $data['count'] . ' 次/' . $config['time_window'] . '秒)');
 
                 return false;
             }
@@ -97,7 +96,7 @@ if (!class_exists('MaBox_Rate_Limiter')) {
         }
 
         /**
-         * REST API 权限回调：检查频率限制
+         * REST API 权限回调：仅检查频率限制
          *
          * @param string $endpoint   端点标识
          * @param array  $config     自定义配置
@@ -117,8 +116,46 @@ if (!class_exists('MaBox_Rate_Limiter')) {
                     );
                 }
 
-                // 频率检查通过，继续验证 nonce（公开接口使用 nonce）
-                return MaBox_Admin::verify_public_nonce(null);
+                return true;
+            };
+        }
+
+        /**
+         * REST API 权限回调：频率限制 + nonce 验证（组合使用）
+         *
+         * @param string $endpoint   端点标识
+         * @param string $nonce_action Nonce 动作名称
+         * @param array  $config     自定义配置
+         * @return callable          权限回调函数
+         */
+        public static function permission_callback_with_nonce($endpoint, $nonce_action, $config = array())
+        {
+            return function () use ($endpoint, $nonce_action, $config) {
+                $client_id = self::get_client_id();
+                $key = $endpoint . ':' . $client_id;
+
+                if (!self::check($key, $config)) {
+                    return new \WP_Error(
+                        'rate_limit_exceeded',
+                        '请求过于频繁，请稍后再试',
+                        array('status' => 429)
+                    );
+                }
+
+                $nonce = isset($_SERVER['HTTP_X_MABOX_NONCE']) ? $_SERVER['HTTP_X_MABOX_NONCE'] : '';
+                if (empty($nonce)) {
+                    $nonce = isset($_REQUEST['nonce']) ? $_REQUEST['nonce'] : '';
+                }
+
+                if (empty($nonce) || wp_verify_nonce($nonce, $nonce_action) === false) {
+                    return new \WP_Error(
+                        'invalid_nonce',
+                        '安全验证失败，请刷新页面重试',
+                        array('status' => 403)
+                    );
+                }
+
+                return true;
             };
         }
 

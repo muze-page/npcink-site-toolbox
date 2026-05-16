@@ -9,8 +9,7 @@ if (!class_exists('MaBox_Tool')) {
         private static $time;
         public function __construct()
         {
-
-            $time = self::get_time();
+            self::$time = self::get_time();
         }
 
         /**
@@ -242,13 +241,13 @@ if (!class_exists('MaBox_Tool')) {
                     'post_type' => $type,
                     'post_status' => $status,
                     'date_query' => $time_week,
-                    'no_found_rows' => true, //跳过计算找到的总行数
+                    'no_found_rows' => true,
                     'suppress_filters' => true,
                     'fields' => 'ids',
-                    'posts_per_page' => -1,
+                    'posts_per_page' => 10000,
                 );
                 $query_week = new WP_Query($args_week);
-                return $query_week->post_count;
+                return $query_week->found_posts;
             }
 
             /**
@@ -259,16 +258,18 @@ if (!class_exists('MaBox_Tool')) {
                 $args = array(
                     'post_type' => $type,
                     'post_status' => $status,
-                    'post__not_in' => get_option('sticky_posts'), //排除置顶文章
+                    'post__not_in' => get_option('sticky_posts'),
                     'date_query' => array(
                         array(
                             'after' => '1 month ago',
                         ),
                     ),
-                    'posts_per_page' => -1,
+                    'no_found_rows' => true,
+                    'fields' => 'ids',
+                    'posts_per_page' => 10000,
                 );
                 $query = new WP_Query($args);
-                return $query->post_count;
+                return $query->found_posts;
             }
 
             /**
@@ -279,16 +280,18 @@ if (!class_exists('MaBox_Tool')) {
                 $args = array(
                     'post_type' => $type,
                     'post_status' => $status,
-                    'post__not_in' => get_option('sticky_posts'), //排除置顶文章
+                    'post__not_in' => get_option('sticky_posts'),
                     'date_query' => array(
                         array(
                             'after' => '1 year ago',
                         ),
                     ),
-                    'posts_per_page' => -1,
+                    'no_found_rows' => true,
+                    'fields' => 'ids',
+                    'posts_per_page' => 10000,
                 );
                 $query = new WP_Query($args);
-                return $query->post_count;
+                return $query->found_posts;
             }
 
             /**

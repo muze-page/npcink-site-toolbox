@@ -35,7 +35,7 @@ return array(
         'page.diary', 'page.ticket',
         'function.config', 'function.download_sql_table',
         'page.interface_category_data',
-        'privacy.main', 'services.main', 'feedback.main',
+        'services.main', 'feedback.main',
         'page.first_picture', 'page.add_article_update_time',
         'page.search_limit', 'page.default_thumbnail',
         'page.comment_emoji', 'page.comment_interval', 'page.limit_word_count',
@@ -53,7 +53,7 @@ return array(
 
     // ===== advanced: 进阶功能 =====
     'advanced' => array(
-        'page.bottom_effect', 'page.go_top',
+        'page.bottom_effect',
         'page.maintenance_tips',
         'page.top_ad',
     ),
