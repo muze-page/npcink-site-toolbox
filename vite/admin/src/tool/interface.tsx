@@ -89,6 +89,56 @@ export interface axiosType {
   };
 }
 
+/**
+ * 诊断相关类型
+ * @since 2.5.0
+ */
+export interface DiagnosticItem {
+  id: string;
+  title: string;
+  status: "good" | "warning" | "critical";
+  message: string;
+  action?: string;
+}
+
+export interface DiagnosticRecommendation {
+  id: string;
+  title: string;
+  module: string;
+  field: string;
+  reason: string;
+}
+
+export interface DiagnosticRisk {
+  module_id: string;
+  tier: "config" | "high_risk" | "experimental";
+  title: string;
+  message: string;
+}
+
+export interface DiagnosticServiceHint {
+  type: string;
+  message: string;
+}
+
+export interface ConfigDiffItem {
+  path: string;
+  label: string;
+  module: string;
+  before: any;
+  after: any;
+  riskLevel: "none" | "low" | "high";
+}
+
+export interface DiagnosticSummary {
+  score: number;
+  status: "good" | "warning" | "critical";
+  items: DiagnosticItem[];
+  recommendations: DiagnosticRecommendation[];
+  risks: DiagnosticRisk[];
+  service_hints: DiagnosticServiceHint[];
+}
+
 //优化 站点
 export type OptimizeSite = {
   hide_top_toolbar: boolean; //隐藏顶部工具条

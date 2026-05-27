@@ -33,3 +33,4 @@ phpstan-baseline.neon
 # Temporary files
 *.tmp
 *.temp
+phpunit.phar

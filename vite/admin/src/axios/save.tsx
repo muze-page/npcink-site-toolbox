@@ -2,7 +2,7 @@ import { restInstance } from "@/axios/public";
 import { Option } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
 
-export const saceOption = async (data: Option) => {
+export const saveOption = async (data: Option) => {
   const payload = data || defaultVarOption;
 
   try {
