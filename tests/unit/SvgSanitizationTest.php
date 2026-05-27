@@ -190,4 +190,32 @@ class MaBox_Svg_Sanitization_Test extends TestCase {
 
         $this->assertStringNotContainsString('<base', $output);
     }
+
+    public function test_removes_javascript_in_attribute_value(): void {
+        $input = '<svg><a xlink:href="javascript:alert(1)">link</a></svg>';
+        $output = MaBox_Medium_Svg_Support::sanitize_svg_content($input);
+
+        $this->assertStringNotContainsString('javascript:', $output);
+    }
+
+    public function test_removes_vbscript_in_attribute_value(): void {
+        $input = '<svg><a xlink:href="vbscript:msgbox(1)">link</a></svg>';
+        $output = MaBox_Medium_Svg_Support::sanitize_svg_content($input);
+
+        $this->assertStringNotContainsString('vbscript:', $output);
+    }
+
+    public function test_removes_expression_in_style_value(): void {
+        $input = '<svg><rect style="width:expression(alert(1));fill:red"/></svg>';
+        $output = MaBox_Medium_Svg_Support::sanitize_svg_content($input);
+
+        $this->assertStringNotContainsString('expression(', $output);
+    }
+
+    public function test_removes_javascript_in_unquoted_attr(): void {
+        $input = '<svg><a href=javascript:alert(1)>link</a></svg>';
+        $output = MaBox_Medium_Svg_Support::sanitize_svg_content($input);
+
+        $this->assertStringNotContainsString('javascript:', $output);
+    }
 }

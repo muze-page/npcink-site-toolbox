@@ -18,7 +18,7 @@ return array(
         'optimize.hide_top_toolbar', 'optimize.no_escape', 'optimize.remove_wp_version',
         'optimize.category_link_simplify', 'optimize.search_link_simplify',
         'optimize.remove_sitemap_users', 'optimize.hide_email_ip',
-        'optimize.image_add_tag', 'optimize.svg_support', 'optimize.image_rename',
+        'optimize.image_add_tag', 'optimize.image_rename',
         'optimize.widgets',
         'optimize.admin_single_add_user_screen', 'optimize.admin_add_time_screen',
         'optimize.admin_single_show_id', 'optimize.admin_thumbnail_switcher',
@@ -32,10 +32,10 @@ return array(
         'domestic.compliance', 'domestic.baidu_push', 'domestic.wechat',
         'domestic.comment_security', 'domestic.login_security',
         'performance.oss', 'performance.seo_checker', 'performance.media_health',
-        'performance.search_enhance', 'performance.db_clean',
+        'performance.search_enhance',
         'ai_review.main',
         'page.diary', 'page.ticket',
-        'function.config', 'function.download_sql_table',
+        'function.config',
         'page.interface_category_data',
         'services.main', 'feedback.main',
         'page.first_picture', 'page.add_article_update_time',
@@ -58,6 +58,7 @@ return array(
         'page.bottom_effect',
         'page.maintenance_tips',
         'page.top_ad',
+        'optimize.svg_support',
     ),
 
     // ===== high_risk: 高风险功能 =====
@@ -68,6 +69,8 @@ return array(
         'page.front_debug',
         'page.batch_replace',
         'page.single_keyword_add_link', 'page.single_remove_link',
+        'performance.db_clean',
+        'function.download_sql_table',
     ),
 
     // ===== experimental: 实验性功能 =====

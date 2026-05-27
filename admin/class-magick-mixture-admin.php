@@ -430,9 +430,11 @@ class MaBox_Admin
         }
 
         $settings = MaBox_Config_Manager::get_merged_config();
+        $wizard_completed = get_option('mabox_wizard_completed', null);
         return rest_ensure_response([
             'success' => true,
             'data' => $settings,
+            'wizard_completed' => $wizard_completed,
         ]);
     }
 
@@ -467,6 +469,10 @@ class MaBox_Admin
         }
 
         $settings = MaBox_Config_Manager::export_config();
+
+        if (class_exists('MaBox_Diagnostics')) {
+            $settings = MaBox_Diagnostics::sanitize_for_export($settings);
+        }
 
         return rest_ensure_response([
             'success' => true,
@@ -528,6 +534,26 @@ class MaBox_Admin
         return rest_ensure_response(array(
             'success' => true,
             'data'    => $summary,
+        ));
+    }
+
+    public static function rest_wizard_complete(\WP_REST_Request $request)
+    {
+        $preset_id = $request->get_param('preset_id');
+        update_option('mabox_wizard_completed', array(
+            'completed_at' => current_time('mysql'),
+            'preset_id'    => $preset_id ? sanitize_text_field($preset_id) : '',
+        ));
+
+        if (class_exists('MaBox_Audit_Logger')) {
+            MaBox_Audit_Logger::log('wizard_completed', 'config', array(
+                'preset_id' => $preset_id,
+            ));
+        }
+
+        return rest_ensure_response(array(
+            'success' => true,
+            'message' => '向导完成标记已保存',
         ));
     }
 
@@ -948,11 +974,63 @@ class MaBox_Admin
 
         // ===== Diagnostics: Summary =====
         register_rest_route('mabox/v1', '/diagnostics/summary', array(
-            'methods'             => \WP_REST_Server::READABLE,
-            'callback'            => array(__CLASS__, 'rest_get_diagnostics_summary'),
-            'permission_callback' => function () {
-                return current_user_can('manage_options');
-            },
+            array(
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => array(__CLASS__, 'rest_get_diagnostics_summary'),
+                'permission_callback' => function () {
+                    return current_user_can('manage_options');
+                },
+            ),
+        ));
+
+        // ===== Wizard: Complete =====
+        register_rest_route('mabox/v1', '/settings/wizard-complete', array(
+            array(
+                'methods'             => \WP_REST_Server::CREATABLE,
+                'callback'            => array(__CLASS__, 'rest_wizard_complete'),
+                'permission_callback' => function () {
+                    return current_user_can('manage_options');
+                },
+                'args'                => array(
+                    'preset_id' => array(
+                        'required'          => false,
+                        'type'              => 'string',
+                        'description'       => '选用的配置方案 ID',
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+            ),
+        ));
+
+        // ===== Domestic: Environment =====
+        register_rest_route('mabox/v1', '/domestic/environment/check', array(
+            array(
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => array('MaBox_Domestic_Environment', 'rest_check'),
+                'permission_callback' => function () {
+                    return current_user_can('manage_options');
+                },
+            ),
+        ));
+        register_rest_route('mabox/v1', '/domestic/environment/apply', array(
+            array(
+                'methods'             => \WP_REST_Server::CREATABLE,
+                'callback'            => array('MaBox_Domestic_Environment', 'rest_apply'),
+                'permission_callback' => function () {
+                    return current_user_can('manage_options');
+                },
+                'args'                => array(
+                    'fixes' => array(
+                        'required'          => true,
+                        'type'              => 'array',
+                        'description'       => '要修复的项目列表',
+                        'items'             => array('type' => 'string'),
+                        'sanitize_callback' => function ($value) {
+                            return is_array($value) ? array_map('sanitize_text_field', $value) : array();
+                        },
+                    ),
+                ),
+            ),
         ));
 
         // 触发模块路由注册钩子（统一路由注册模式）

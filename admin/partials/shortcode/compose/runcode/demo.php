@@ -1,14 +1,14 @@
-// 运行代码功能PHP脚本
+<?php
 $RunCode = new RunCode();
-add_filter('the_content', array(&$RunCode, 'part_one'), -500);
-add_filter('the_content', array(&$RunCode, 'part_two'), 500);
+add_filter('the_content', array($RunCode, 'part_one'), -500);
+add_filter('the_content', array($RunCode, 'part_two'), 500);
 unset($RunCode);
 
 class RunCode
 {
-    var $blocks = array();
+    public $blocks = array();
 
-    function part_one($content)
+    public function part_one($content)
     {
         $str_pattern = "/(\<runcode(.*?)\>(.*?)\<\/runcode\>)/is";
         if (preg_match_all($str_pattern, $content, $matches)) {
@@ -31,7 +31,7 @@ class RunCode
         return $content;
     }
 
-    function part_two($content)
+    public function part_two($content)
     {
         if (count($this->blocks)) {
             $content = str_replace(array_keys($this->blocks), array_values($this->blocks), $content);
@@ -41,22 +41,13 @@ class RunCode
     }
 }
 
-// 运行代码功能PHP脚本
-
-
-
-/*添加文本编辑自定义快捷标签按钮 开始*/
- add_action('after_wp_tiny_mce', 'bolo_after_wp_tiny_mce');
- function bolo_after_wp_tiny_mce($mce_settings) {
- ?>
- <script type="text/javascript"> 
-
- QTags.addButton( 'shipindai', '代码运行', '\n<runcode>\n','\n</runcode>\n' );
-
- 
- function bolo_QTnextpage_arg1() {
- }
- </script>
- <?php
- }
- /*添加文本编辑自定义快捷标签按钮 结束*/
+add_action('after_wp_tiny_mce', 'bolo_after_wp_tiny_mce');
+function bolo_after_wp_tiny_mce($mce_settings) {
+?>
+<script type="text/javascript">
+QTags.addButton( 'shipindai', '代码运行', '\n<runcode>\n','\n</runcode>\n' );
+function bolo_QTnextpage_arg1() {
+}
+</script>
+<?php
+}

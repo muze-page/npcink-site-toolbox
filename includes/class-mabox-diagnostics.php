@@ -125,6 +125,16 @@ if (!class_exists('MaBox_Diagnostics')) {
             }
 
             // ===== 减分项（配置风险） =====
+            $cdn_gravatar = !empty($optimize_site['cdn_gravatar']) && $optimize_site['cdn_gravatar'] !== 'false';
+            $cdn_google_fonts = !empty($optimize_site['cdn_google_fonts']) && $optimize_site['cdn_google_fonts'] !== 'false';
+            $cdn_google_ajax = !empty($optimize_site['cdn_google_ajax']) && $optimize_site['cdn_google_ajax'] !== 'false';
+            $cdn_replaced_count = ($cdn_gravatar ? 1 : 0) + ($cdn_google_fonts ? 1 : 0) + ($cdn_google_ajax ? 1 : 0);
+            if ($cdn_replaced_count === 3) {
+                $score += 5;
+            } elseif ($cdn_replaced_count === 0) {
+                $score -= 3;
+            }
+
             $page_feature = self::get_nested($config, 'page', 'feature');
             if (!empty($page_feature['background_effect']) && $page_feature['background_effect'] !== 'false' && $page_feature['background_effect'] !== false) {
                 $score -= 5;
@@ -325,6 +335,30 @@ if (!class_exists('MaBox_Diagnostics')) {
                     ? __('已启用图片 Alt 自动补全，有助于 SEO 和可访问性。', 'magick-toolbox')
                     : __('未启用图片 Alt 自动补全，建议开启以提升图片搜索收录。', 'magick-toolbox'),
                 'action'  => $img_tag_on ? '' : __('去配置媒体优化', 'magick-toolbox'),
+            );
+
+            // 中国访问适配
+            $optimize_site = self::get_nested($config, 'optimize', 'site');
+            $cdn_gravatar = !empty($optimize_site['cdn_gravatar']) && $optimize_site['cdn_gravatar'] !== 'false';
+            $cdn_google_fonts = !empty($optimize_site['cdn_google_fonts']) && $optimize_site['cdn_google_fonts'] !== 'false';
+            $cdn_google_ajax = !empty($optimize_site['cdn_google_ajax']) && $optimize_site['cdn_google_ajax'] !== 'false';
+            $cdn_replaced = ($cdn_gravatar ? 1 : 0) + ($cdn_google_fonts ? 1 : 0) + ($cdn_google_ajax ? 1 : 0);
+            $cdn_status = 'warning';
+            $cdn_msg = '';
+            if ($cdn_replaced === 3) {
+                $cdn_status = 'good';
+                $cdn_msg = __('已全部开启国内 CDN 替换（Gravatar、Google Fonts、Google Ajax）。', 'magick-toolbox');
+            } elseif ($cdn_replaced > 0) {
+                $cdn_msg = sprintf(__('已开启 %d/3 项国内 CDN 替换，建议补全。', 'magick-toolbox'), $cdn_replaced);
+            } else {
+                $cdn_msg = __('未开启任何国内 CDN 替换，国内访问可能受影响。', 'magick-toolbox');
+            }
+            $items[] = array(
+                'id'      => 'domestic_environment',
+                'title'   => __('中国访问适配', 'magick-toolbox'),
+                'status'  => $cdn_status,
+                'message' => $cdn_msg,
+                'action'  => $cdn_replaced < 3 ? __('去配置国内环境适配', 'magick-toolbox') : '',
             );
 
             return $items;
@@ -598,6 +632,40 @@ if (!class_exists('MaBox_Diagnostics')) {
                 }
             }
             return $current;
+        }
+
+        private static $sensitive_patterns = array(
+            'token', 'secret', 'api_key', 'apikey', 'access_key',
+            'secret_key', 'secretkey', 'appsecret', 'app_key',
+            'app_secret', 'password', 'passwd', 'tecent_key',
+            'deepseek_api_key', 'aliyun_secret_key', 'aliyun_access_key',
+            'baidu_moderation_api_key', 'baidu_moderation_secret_key',
+        );
+
+        public static function sanitize_for_export($data)
+        {
+            if (!is_array($data)) {
+                return $data;
+            }
+            foreach ($data as $key => &$value) {
+                if (is_array($value)) {
+                    $value = self::sanitize_for_export($value);
+                } elseif (is_string($value) && self::is_sensitive_key($key) && !empty($value)) {
+                    $value = '***已隐藏***';
+                }
+            }
+            return $data;
+        }
+
+        private static function is_sensitive_key($key)
+        {
+            $lower = strtolower($key);
+            foreach (self::$sensitive_patterns as $pattern) {
+                if ($lower === $pattern || strpos($lower, $pattern) !== false) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

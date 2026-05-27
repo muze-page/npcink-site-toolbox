@@ -15,6 +15,7 @@ import {
   Divider,
   Badge,
   Input,
+  Alert,
 } from "antd";
 import {
   SafetyOutlined,
@@ -24,15 +25,17 @@ import {
   ArrowRightOutlined,
   CustomerServiceOutlined,
   FileTextOutlined,
+  RocketOutlined,
 } from "@ant-design/icons";
 import { DataContext, serverDefaults } from "@/tool/dataContext";
 import { saveOption } from "@/axios/save";
-import { diagnosticsApi } from "@/api";
+import { diagnosticsApi, settingsApi } from "@/api";
 import { DiagnosticSummary, DiagnosticItem } from "@/tool/interface";
 import { getAllPresets, Preset, saveCustomPreset, deleteCustomPreset } from "@/tool/presets";
 import { getSnapshots, deleteSnapshot, restoreSnapshot, clearSnapshots, Snapshot, getDefaultConfig } from "@/tool/snapshot";
 import { Dropdown } from "antd";
 import FavoritesPanel from "@/components/favorites-panel";
+import WizardModal from "@/components/wizard";
 
 const { Title, Text, Paragraph } = Typography;
 const { confirm } = Modal;
@@ -72,29 +75,6 @@ function countFeatures(data: any): FeatureStats {
 
   traverse(data);
   return { total, enabled, disabled };
-}
-
-function calculateHealthScore(optionData: any): number {
-  let score = 60;
-
-  if (optionData.function?.seo?.seo_home) score += 5;
-  if (optionData.function?.seo?.seo_single) score += 5;
-  if (optionData.function?.seo?.seo_category) score += 5;
-
-  if (optionData.login?.security?.login_code && optionData.login?.security?.login_code !== "false") score += 5;
-  if (optionData.optimize?.site?.remove_RSS_version) score += 5;
-  if (optionData.page?.function?.search_limit) score += 5;
-
-  if (optionData.optimize?.site?.hide_top_toolbar) score += 3;
-  if (optionData.optimize?.medium?.img_add_tag) score += 3;
-  if (optionData.optimize?.medium?.upload_auto_name && optionData.optimize?.medium?.upload_auto_name !== "false") score += 4;
-
-  if (optionData.page?.feature?.background_effect && optionData.page?.feature?.background_effect !== "false") score -= 5;
-  if (optionData.page?.feature?.particle && optionData.page?.feature?.particle !== "false") score -= 3;
-  if (optionData.page?.jurisdiction?.ban_copy) score -= 3;
-  if (optionData.page?.feature?.site_grey) score -= 2;
-
-  return Math.max(0, Math.min(100, score));
 }
 
 interface Recommendation {
@@ -277,6 +257,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const [snapshots, setSnapshots] = useState<Snapshot[]>(getSnapshots());
   const [diagnosticSummary, setDiagnosticSummary] = useState<DiagnosticSummary | null>(null);
   const [diagnosticLoading, setDiagnosticLoading] = useState(false);
+  const [wizardVisible, setWizardVisible] = useState(false);
+  const [wizardCompleted, setWizardCompleted] = useState(false);
 
   useEffect(() => {
     setDiagnosticLoading(true);
@@ -293,10 +275,15 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
       .finally(() => {
         setDiagnosticLoading(false);
       });
+
+    settingsApi.get().then((res: any) => {
+      if (res?.wizard_completed) {
+        setWizardCompleted(true);
+      }
+    }).catch(() => {});
   }, []);
 
   const stats = useMemo(() => countFeatures(optionData), [optionData]);
-  const healthScore = useMemo(() => calculateHealthScore(optionData), [optionData]);
   const recommendations = useMemo(() => getRecommendations(optionData), [optionData]);
   const securityItems = useMemo(() => getSecurityStatus(optionData), [optionData]);
 
@@ -428,12 +415,20 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
 
     lines.push("---");
     lines.push("*本报告由 WP Magick Toolbox 体检中心自动生成*");
+    lines.push("*报告不含任何 API Key、Secret 等敏感信息*");
 
     const reportText = lines.join("\n");
 
-    // 复制到剪贴板
     navigator.clipboard.writeText(reportText).then(() => {
       message.success("诊断报告已复制到剪贴板");
+      Modal.info({
+        title: "导出报告并反馈",
+        content: "诊断报告已复制到剪贴板，您可以将报告粘贴到反馈页面提交问题或建议。",
+        okText: "前往反馈",
+        onOk: () => {
+          if (onNavigate) onNavigate("13", "");
+        },
+      });
     }).catch(() => {
       // 降级：下载为文件
       const blob = new Blob([reportText], { type: "text/markdown" });
@@ -555,20 +550,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
     }
   };
 
+const diagnosticScore = diagnosticSummary?.score ?? 60;
+  const diagnosticStatus = diagnosticSummary?.status ?? "warning";
+
   const getScoreColor = (score: number) => {
     if (score >= 80) return "#52c41a";
     if (score >= 60) return "#faad14";
     return "#f5222d";
   };
-
-const getScoreStatus = (score: number) => {
-  if (score >= 80) return "优秀";
-  if (score >= 60) return "良好";
-  return "需优化";
-};
-
-  const diagnosticScore = diagnosticSummary?.score ?? healthScore;
-  const diagnosticStatus = diagnosticSummary?.status ?? (healthScore >= 80 ? "good" : healthScore >= 60 ? "warning" : "critical");
 
   const getDiagnosticStatusText = (status: string) => {
     if (status === "good") return "优秀";
@@ -587,6 +576,36 @@ const getScoreStatus = (score: number) => {
 
   return (
     <div className="space-y-6">
+      {!wizardCompleted && (
+        <Alert
+          message="欢迎使用 WP Magick Toolbox！"
+          description="首次使用？让我们帮您快速配置推荐方案，3 分钟搞定核心设置。"
+          type="info"
+          showIcon
+          icon={<RocketOutlined />}
+          action={
+            <Button type="primary" size="small" icon={<RocketOutlined />} onClick={() => setWizardVisible(true)}>
+              开始配置
+            </Button>
+          }
+          closable
+          onClose={() => setWizardCompleted(true)}
+        />
+      )}
+      {wizardCompleted && (
+        <div style={{ textAlign: "right", marginBottom: -8 }}>
+          <Button size="small" type="link" icon={<RocketOutlined />} onClick={() => setWizardVisible(true)}>
+            配置向导
+          </Button>
+        </div>
+      )}
+
+      <WizardModal
+        open={wizardVisible}
+        onCancel={() => setWizardVisible(false)}
+        onComplete={() => setWizardCompleted(true)}
+        onNavigate={onNavigate}
+      />
       {/* ===== 体检中心（后端诊断数据驱动） ===== */}
       <Card loading={diagnosticLoading}>
         <Row gutter={[24, 24]} align="middle">
@@ -677,88 +696,59 @@ const getScoreStatus = (score: number) => {
         </Row>
       </Card>
 
-      {/* ===== 原有健康评分（前端计算，保留作为参考） ===== */}
+      {/* ===== 功能统计 ===== */}
       <Card>
-        <Row gutter={[24, 24]} align="middle">
-          <Col xs={24} md={8}>
-            <div style={{ textAlign: "center" }}>
-              <Progress
-                type="circle"
-                percent={healthScore}
-                strokeColor={getScoreColor(healthScore)}
-                size={140}
-                format={(percent) => (
-                  <div>
-                    <div style={{ fontSize: 32, fontWeight: "bold", color: getScoreColor(healthScore) }}>
-                      {percent}
-                    </div>
-                    <div style={{ fontSize: 14, color: "#999" }}>健康评分</div>
-                  </div>
-                )}
-              />
-              <div style={{ marginTop: 8 }}>
-                <Tag color={healthScore >= 80 ? "success" : healthScore >= 60 ? "warning" : "error"}>
-                  {getScoreStatus(healthScore)}
-                </Tag>
-              </div>
-            </div>
+        <Row gutter={[16, 16]}>
+          <Col span={6}>
+            <Statistic
+              title="总功能数"
+              value={stats.total}
+              valueStyle={{ fontSize: 24 }}
+            />
           </Col>
-          <Col xs={24} md={16}>
-            <Row gutter={[16, 16]}>
-              <Col span={8}>
-                <Statistic
-                  title="总功能数"
-                  value={stats.total}
-                  valueStyle={{ fontSize: 24 }}
-                />
-              </Col>
-              <Col span={8}>
-                <Statistic
-                  title="已启用"
-                  value={stats.enabled}
-                  valueStyle={{ color: "#52c41a", fontSize: 24 }}
-                />
-              </Col>
-              <Col span={8}>
-                <Statistic
-                  title="已禁用"
-                  value={stats.disabled}
-                  valueStyle={{ color: "#f5222d", fontSize: 24 }}
-                />
-              </Col>
-              <Col span={8}>
-                <Statistic
-                  title="配置快照"
-                  value={snapshotCount}
-                  suffix="个"
-                  valueStyle={{ fontSize: 24 }}
-                />
-              </Col>
-              <Col span={16}>
-                <div style={{ marginTop: 8 }}>
-                  <Text type="secondary">
-                    <SafetyOutlined /> 安全状态：
-                    {securityItems.map((item, idx) => (
-                      <span key={item.label} style={{ marginLeft: 8 }}>
-                        <Badge
-                          status={
-                            item.status === "active"
-                              ? "success"
-                              : item.status === "partial"
-                              ? "warning"
-                              : "error"
-                          }
-                          text={item.label}
-                        />
-                        {idx < securityItems.length - 1 && <Divider type="vertical" />}
-                      </span>
-                    ))}
-                  </Text>
-                </div>
-              </Col>
-            </Row>
+          <Col span={6}>
+            <Statistic
+              title="已启用"
+              value={stats.enabled}
+              valueStyle={{ color: "#52c41a", fontSize: 24 }}
+            />
+          </Col>
+          <Col span={6}>
+            <Statistic
+              title="已禁用"
+              value={stats.disabled}
+              valueStyle={{ color: "#f5222d", fontSize: 24 }}
+            />
+          </Col>
+          <Col span={6}>
+            <Statistic
+              title="配置快照"
+              value={snapshotCount}
+              suffix="个"
+              valueStyle={{ fontSize: 24 }}
+            />
           </Col>
         </Row>
+        <div style={{ marginTop: 12 }}>
+          <Text type="secondary">
+            <SafetyOutlined /> 安全状态：
+            {securityItems.map((item: any, idx: number) => (
+              <span key={item.label} style={{ marginLeft: 8 }}>
+                <Badge
+                  status={
+                    item.status === "active"
+                      ? "success"
+                      : item.status === "partial"
+                      ? "warning"
+                      : "error"
+                  }
+                  text={item.label}
+                />
+                {idx < securityItems.length - 1 && <Divider type="vertical" />}
+              </span>
+            ))}
+          </Text>
+        </div>
       </Card>
 
       <FavoritesPanel optionData={optionData} />

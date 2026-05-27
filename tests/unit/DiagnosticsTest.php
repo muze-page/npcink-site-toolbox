@@ -74,8 +74,8 @@ class DiagnosticsTest extends TestCase {
         );
 
         $score = $method->invoke(null, $config, $env);
-        // 基础 60 + 5*3(seo) + 5(login) + 5(remove_RSS) + 3(toolbar) + 5(search) + 3(img_alt) + 4(upload_name) = 100
-        $this->assertEquals(100, $score);
+        // 基础 60 + 5*3(seo) + 5(login) + 5(remove_RSS) + 3(toolbar) + 5(search) + 3(img_alt) + 4(upload_name) - 3(no CDN) = 97
+        $this->assertEquals(97, $score);
     }
 
     /**
@@ -100,8 +100,8 @@ class DiagnosticsTest extends TestCase {
         );
 
         $score = $method->invoke(null, $config, $env);
-        // 基础 60 - 5(background) - 3(particle) - 2(site_grey) - 3(ban_copy) = 47
-        $this->assertEquals(47, $score);
+        // 基础 60 - 5(background) - 3(particle) - 2(site_grey) - 3(ban_copy) - 3(no CDN) = 44
+        $this->assertEquals(44, $score);
     }
 
     /**
@@ -120,8 +120,8 @@ class DiagnosticsTest extends TestCase {
         );
 
         $score = $method->invoke(null, $config, $env);
-        // 基础 60 - 10(php) - 5(wp) - 5(permalink) - 3(cache) - 10(rest) = 27
-        $this->assertEquals(27, $score);
+        // 基础 60 - 10(php) - 5(wp) - 5(permalink) - 3(cache) - 10(rest) - 3(no CDN) = 24
+        $this->assertEquals(24, $score);
     }
 
     /**

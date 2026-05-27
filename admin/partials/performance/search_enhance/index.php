@@ -20,7 +20,6 @@ if (!class_exists('MaBox_Performance_Search_Enhance')) {
             _deprecated_function('wp_ajax_mabox_search_log', '2.1.0', 'REST API POST /mabox/v1/public/search-log');
             self::ajax_log_search();
         }
-        }
         public static function highlight_search($text) {
             if (!is_search()) return $text;
             $query = get_search_query();

@@ -68,6 +68,7 @@ if (!class_exists('MaBox_Download_SQL_Table')) {
             $sensitive_patterns = array(
                 'pass', 'password', 'secret', 'token', 'key', 'api_key',
                 'api_secret', 'access_token', 'refresh_token',
+                'email', 'ip',
             );
 
             foreach ($sensitive_patterns as $pattern) {

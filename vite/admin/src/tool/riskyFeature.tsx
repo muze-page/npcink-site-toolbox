@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
-const RISKY_FEATURES: Record<string, { title: string; warning: string; suggestion: string }> = {
+const RISKY_FEATURES: Record<string, { title: string; warning: string; suggestion: string; noDismiss?: boolean }> = {
   "page-jurisdiction-ban_copy": {
     title: "禁止复制",
     warning: "此功能可能影响正常用户复制内容，导致用户无法复制文章中的代码或引用。",
@@ -46,6 +46,34 @@ const RISKY_FEATURES: Record<string, { title: string; warning: string; suggestio
     title: "像素小鸡",
     warning: "此功能会在页脚添加动画元素，可能影响页面性能。",
     suggestion: "移动端不显示，但性能敏感站点仍需谨慎。",
+  },
+  "performance-db_clean-enabled": {
+    title: "数据库清理",
+    warning: "数据库清理操作不可逆，删除的数据无法恢复。",
+    suggestion: "执行前务必先预览影响数量，并做好备份。",
+    noDismiss: true,
+  },
+  "function-download_sql_table": {
+    title: "数据库导出",
+    warning: "此功能允许导出数据库表内容，包含敏感数据。",
+    suggestion: "仅限管理员使用，导出后妥善保管。",
+    noDismiss: true,
+  },
+  "optimize-medium-medium_add_svg": {
+    title: "SVG 上传支持",
+    warning: "SVG 文件可能包含恶意脚本，已做安全过滤但仍需注意。",
+    suggestion: "仅允许可信用户上传 SVG 文件。",
+  },
+  "domestic-login_security-custom_login_enabled": {
+    title: "自定义登录地址",
+    warning: "修改登录地址后，原 wp-login.php 将被重定向，配置错误可能导致无法登录。",
+    suggestion: "记住新的登录地址，避免锁定自己。",
+    noDismiss: true,
+  },
+  "domestic-login_security-ip_lock_enabled": {
+    title: "IP 锁定",
+    warning: "IP 锁定可能在反向代理环境下误判，导致正常用户被锁定。",
+    suggestion: "如使用 CDN 或反向代理，请配置可信代理 IP。",
   },
 };
 
@@ -92,7 +120,7 @@ export function checkRiskyFeature(
   }
 
   const dismissed = getDismissedFeatures();
-  if (dismissed.includes(featureId)) {
+  if (!riskInfo.noDismiss && dismissed.includes(featureId)) {
     return true;
   }
 
@@ -110,22 +138,29 @@ export function checkRiskyFeature(
     onOk: () => {
       onConfirm();
     },
-    footer: (_, { OkBtn, CancelBtn }) => (
-      <>
-        <CancelBtn />
-        <OkBtn />
-        <a
-          style={{ marginLeft: 8, fontSize: 12, color: "#999" }}
-          onClick={() => {
-            addDismissedFeature(featureId);
-            onConfirm();
-            Modal.destroyAll();
-          }}
-        >
-          不再提示
-        </a>
-      </>
-    ),
+    footer: riskInfo.noDismiss
+      ? (_, { OkBtn, CancelBtn }) => (
+          <>
+            <CancelBtn />
+            <OkBtn />
+          </>
+        )
+      : (_, { OkBtn, CancelBtn }) => (
+          <>
+            <CancelBtn />
+            <OkBtn />
+            <a
+              style={{ marginLeft: 8, fontSize: 12, color: "#999" }}
+              onClick={() => {
+                addDismissedFeature(featureId);
+                onConfirm();
+                Modal.destroyAll();
+              }}
+            >
+              不再提示
+            </a>
+          </>
+        ),
   });
 
   return false;

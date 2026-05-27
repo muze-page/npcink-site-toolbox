@@ -3,10 +3,12 @@ import BaiduPush from "@/components/domestic/baidu_push";
 import Wechat from "@/components/domestic/wechat";
 import CommentSecurity from "@/components/domestic/comment_security";
 import LoginSecurity from "@/components/domestic/login_security";
+import Environment from "@/components/domestic/environment";
 
 const App: React.FC = () => {
   return (
     <>
+      <Environment />
       <Compliance />
       <BaiduPush />
       <Wechat />

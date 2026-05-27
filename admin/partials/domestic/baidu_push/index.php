@@ -18,7 +18,6 @@ if (!class_exists('MaBox_Domestic_Baidu_Push')) {
             _deprecated_function('wp_ajax_mabox_baidu_batch_push', '2.1.0', 'REST API POST /mabox/v1/domestic/baidu/push');
             self::ajax_batch_push();
         }
-        }
         public static function active_push($post_id, $post) {
             if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
             if (wp_is_post_revision($post_id)) return;
@@ -39,6 +38,64 @@ if (!class_exists('MaBox_Domestic_Baidu_Push')) {
         }
         public static function auto_push_js() {
             echo '<script>(function(){var bp=document.createElement("script");var curProtocol=window.location.protocol.split(":")[0];if(curProtocol==="https"){bp.src="https://zz.bdstatic.com/linksubmit/push.js";}else{bp.src="http://push.zhanzhang.baidu.com/push.js";}var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s);})();</script>' . "\n";
+        }
+        public static function rest_batch_push(\WP_REST_Request $request)
+        {
+            if (empty(self::$config['site']) || empty(self::$config['token'])) {
+                return new \WP_Error('rest_missing_config', '百度推送未配置：缺少 site 或 token', array('status' => 400));
+            }
+
+            $urls = $request->get_param('urls');
+            $offset = $request->get_param('offset') ? intval($request->get_param('offset')) : 0;
+
+            if (is_array($urls) && !empty($urls)) {
+                $push_urls = array_map('esc_url_raw', $urls);
+                $count = count($push_urls);
+            } else {
+                $batch_size = 100;
+                $posts = get_posts(array(
+                    'posts_per_page' => $batch_size,
+                    'offset'         => $offset,
+                    'post_type'      => 'post',
+                    'post_status'    => 'publish',
+                    'fields'         => 'ids',
+                ));
+                if (empty($posts)) {
+                    return rest_ensure_response(array(
+                        'success' => true,
+                        'data'    => array('done' => true, 'message' => '批量推送完成'),
+                    ));
+                }
+                $push_urls = array();
+                foreach ($posts as $post_id) {
+                    $url = get_permalink($post_id);
+                    if ($url) $push_urls[] = $url;
+                }
+                $count = count($push_urls);
+            }
+
+            $api = 'http://data.zz.baidu.com/urls?site=' . urlencode(self::$config['site']) . '&token=' . urlencode(self::$config['token']);
+            $response = wp_remote_post($api, array(
+                'body'    => implode("\n", $push_urls),
+                'headers' => array('Content-Type' => 'text/plain'),
+                'timeout' => 60,
+            ));
+
+            if (is_wp_error($response)) {
+                return new \WP_Error('rest_baidu_push_failed', $response->get_error_message(), array('status' => 502));
+            }
+
+            $body = json_decode(wp_remote_retrieve_body($response), true);
+
+            return rest_ensure_response(array(
+                'success' => true,
+                'data'    => array(
+                    'done'   => false,
+                    'offset' => $offset + $count,
+                    'result' => $body,
+                    'count'  => $count,
+                ),
+            ));
         }
         public static function ajax_batch_push() {
             if (!current_user_can('manage_options')) {

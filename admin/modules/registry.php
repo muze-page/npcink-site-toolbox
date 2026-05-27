@@ -124,7 +124,7 @@ return array(
         'option_key'=> 'optimize.medium.medium_add_svg',
         'category'  => 'optimize',
         'scope'     => 'admin',
-        'risk_tags' => array('推荐'),
+        'risk_tags' => array('进阶', 'XSS 风险'),
     ),
     'optimize.image_rename' => array(
         'class'     => 'MaBox_Medium_Image_Rename',
@@ -808,6 +808,7 @@ return array(
         'category'  => 'function',
         'scope'     => 'admin',
         'always_load' => true,
+        'risk_tags' => array('高风险', '数据敏感'),
     ),
 
     // ========== 页面 jurisdiction interface ==========
@@ -926,7 +927,7 @@ return array(
         'category'  => 'performance',
         'scope'     => 'admin',
         'config_path' => 'performance.db_clean',
-        'risk_tags' => array('推荐', '性能'),
+        'risk_tags' => array('高风险', '不可逆'),
     ),
 
     // ========== AI 审核引擎 ==========

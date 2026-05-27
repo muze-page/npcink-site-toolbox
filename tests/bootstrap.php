@@ -181,6 +181,11 @@ if ( ! function_exists( 'sanitize_text_field' ) ) {
 		return strip_tags( trim( $str ) );
 	}
 }
+if ( ! function_exists( 'is_email' ) ) {
+	function is_email( $email ) {
+		return filter_var( $email, FILTER_VALIDATE_EMAIL ) !== false;
+	}
+}
 
 // 加载插件自动加载器
 if ( file_exists( dirname( __FILE__ ) . '/../includes/autoload.php' ) ) {

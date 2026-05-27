@@ -47,6 +47,10 @@ export const performanceApi = {
 export const domesticApi = {
   baiduPush: (urls?: string[], offset?: number) =>
     restInstance.post("/domestic/baidu/push", { urls, offset }),
+  checkEnvironment: (): Promise<ApiResponse<Record<string, { service: string; reachable: boolean; latency: number; suggestion: string }>>> =>
+    restInstance.get("/domestic/environment/check") as Promise<any>,
+  applyEnvironmentFix: (fixes: string[]): Promise<ApiResponse<{ applied: string[]; new_config: any }>> =>
+    restInstance.post("/domestic/environment/apply", { fixes }) as Promise<any>,
 };
 
 // ========== 工具 ==========

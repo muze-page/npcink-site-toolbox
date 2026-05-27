@@ -85,6 +85,16 @@ if (!class_exists('MaBox_Medium_Svg_Support')) {
                 $content = preg_replace('/\s*' . $attr . '\s*=\s*\S+/i', '', $content);
             }
 
+            $dangerous_values = array(
+                'javascript\s*:',
+                'vbscript\s*:',
+                'expression\s*\(',
+            );
+            foreach ($dangerous_values as $pattern) {
+                $content = preg_replace('/\s*[\w-]+\s*=\s*["\'][^"\']*' . $pattern . '[^"\']*["\']/i', '', $content);
+                $content = preg_replace('/\s*[\w-]+\s*=\s*\S*' . $pattern . '\S*/i', '', $content);
+            }
+
             // 移除 XML 外部实体 (XXE)
             $content = preg_replace('/<!DOCTYPE[^>]*>/i', '', $content);
             $content = preg_replace('/<!ENTITY[^>]*>/i', '', $content);

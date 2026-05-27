@@ -36,8 +36,8 @@ if (!class_exists('MaBox_Admin_Single_Show_ID')) {
             add_filter('manage_link_categories_custom_column', array(__CLASS__, 'ssid_return_value'), 10, 3);
 
             foreach (get_taxonomies() as $taxonomy) {
-                add_action("manage_edit-${taxonomy}_columns", array(__CLASS__, 'ssid_column'));
-                add_filter("manage_${taxonomy}_custom_column", array(__CLASS__, 'ssid_return_value'), 10, 3);
+                add_action("manage_edit-{$taxonomy}_columns", array(__CLASS__, 'ssid_column'));
+                add_filter("manage_{$taxonomy}_custom_column", array(__CLASS__, 'ssid_return_value'), 10, 3);
             }
 
             add_action('manage_users_columns', array(__CLASS__, 'ssid_column'));

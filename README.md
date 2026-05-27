@@ -1,7 +1,7 @@
 # WP Magick Toolbox
 
 > 面向中国 WordPress 站长的一站式实用工具箱插件  
-> 版本：**2.3.0** | 功能数：**90+** | 授权：**GPL-2.0**
+> 版本：**2.6.0** | 功能数：**90+** | 授权：**GPL-2.0**
 
 [![CI](https://github.com/npcink/wp-magick-toolbox/actions/workflows/ci.yml/badge.svg)](https://github.com/npcink/wp-magick-toolbox/actions/workflows/ci.yml)
 [![WordPress Plugin](https://img.shields.io/badge/WordPress-4.6%2B-blue)](https://wordpress.org)
@@ -103,6 +103,15 @@ cd vite/admin && npm run dev
 ---
 
 ## 更新记录
+
+### 2.6.0 — 2026-05-27
+
+- 修复百度推送 REST API（实现 `rest_batch_push`，替代缺失回调导致的致命错误）
+- 修复 SVG 安全清洗（移除属性值中的 `javascript:`/`vbscript:`/`expression(` 协议）
+- 修正首次配置向导（移除高风险功能默认开启：`cdn_replace`/`ban_copy`/`ban_open_weixing`）
+- 修正国内环境适配（一键修复返回建议变更 diff，不再直接落库；CDN 替换标记为高风险需确认）
+- 修正数据库清理执行链路（前端必须传 `dry_run: false` 才执行；按类型预览门控；显示真实影响数量）
+- 修正审计日志调用签名（`MaBox_Audit_Logger::log($level, $category, $message, $context)`）
 
 ### 2.3.0 — 2026-05-09
 

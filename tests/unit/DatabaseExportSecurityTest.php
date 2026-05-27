@@ -24,7 +24,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
     public function test_sensitive_fields_defined(): void {
         $reflection = new ReflectionClass('MaBox_Download_SQL_Table');
         $property = $reflection->getProperty('sensitive_fields');
-        $property->setAccessible(true);
         $fields = $property->getValue();
 
         $this->assertIsArray($fields);
@@ -38,7 +37,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
     public function test_allowed_prefixes_defined(): void {
         $reflection = new ReflectionClass('MaBox_Download_SQL_Table');
         $property = $reflection->getProperty('allowed_prefixes');
-        $property->setAccessible(true);
         $prefixes = $property->getValue();
 
         $this->assertIsArray($prefixes);
@@ -72,7 +70,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_detects_password_fields(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'is_field_sensitive');
-        $method->setAccessible(true);
 
         $this->assertTrue($method->invoke(null, 'user_pass'));
         $this->assertTrue($method->invoke(null, 'password'));
@@ -84,7 +81,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_detects_secret_fields(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'is_field_sensitive');
-        $method->setAccessible(true);
 
         $this->assertTrue($method->invoke(null, 'api_secret'));
         $this->assertTrue($method->invoke(null, 'secret_key'));
@@ -96,7 +92,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_detects_api_key_fields(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'is_field_sensitive');
-        $method->setAccessible(true);
 
         $this->assertTrue($method->invoke(null, 'api_key'));
         $this->assertTrue($method->invoke(null, 'api_secret'));
@@ -108,7 +103,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_non_sensitive_fields_return_false(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'is_field_sensitive');
-        $method->setAccessible(true);
 
         $this->assertFalse($method->invoke(null, 'post_title'));
         $this->assertFalse($method->invoke(null, 'post_content'));
@@ -121,7 +115,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_masks_password_values(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'mask_value');
-        $method->setAccessible(true);
 
         $this->assertEquals('***masked***', $method->invoke(null, 'user_pass', 'secret123'));
         $this->assertEquals('***masked***', $method->invoke(null, 'password', 'mypassword'));
@@ -132,7 +125,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_masks_email_values(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'mask_value');
-        $method->setAccessible(true);
 
         $result = $method->invoke(null, 'user_email', 'test@example.com');
         $this->assertStringContainsString('***@', $result);
@@ -144,7 +136,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_masks_ip_values(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'mask_value');
-        $method->setAccessible(true);
 
         $result = $method->invoke(null, 'comment_author_IP', '192.168.1.100');
         $this->assertStringContainsString('***.***.***.', $result);
@@ -155,7 +146,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_does_not_mask_non_sensitive_values(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'mask_value');
-        $method->setAccessible(true);
 
         $this->assertEquals('Hello World', $method->invoke(null, 'post_title', 'Hello World'));
         $this->assertEquals('Some content', $method->invoke(null, 'post_content', 'Some content'));
@@ -166,7 +156,6 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_handles_empty_values(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'mask_value');
-        $method->setAccessible(true);
 
         $this->assertEquals('', $method->invoke(null, 'user_email', ''));
         $this->assertEquals('', $method->invoke(null, 'user_pass', ''));
@@ -178,10 +167,8 @@ class MaBox_Database_Export_Security_Test extends TestCase {
      */
     public function test_truncates_long_sensitive_values(): void {
         $method = new ReflectionMethod('MaBox_Download_SQL_Table', 'mask_value');
-        $method->setAccessible(true);
 
-        // token 字段不是 email/ip/pass/secret/key 但仍在敏感模式中
-        $result = $method->invoke(null, 'meta_value', 'abcdefghijklmnopqrstuvwxyz');
+        $result = $method->invoke(null, 'token_value', 'abcdefghijklmnopqrstuvwxyz');
         $this->assertStringContainsString('***', $result);
     }
 

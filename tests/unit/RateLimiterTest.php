@@ -67,7 +67,6 @@ class MaBox_Rate_Limiter_Test extends TestCase {
     public function test_default_config_values(): void {
         $reflection = new ReflectionClass('MaBox_Rate_Limiter');
         $property = $reflection->getProperty('defaults');
-        $property->setAccessible(true);
         $defaults = $property->getValue();
 
         $this->assertEquals(60, $defaults['max_requests']);

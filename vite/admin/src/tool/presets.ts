@@ -2,6 +2,8 @@ export interface Preset {
   id: string;
   name: string;
   description: string;
+  wizard?: boolean;
+  icon?: string;
   config: Record<string, any>;
 }
 
@@ -258,6 +260,155 @@ export const presets: Preset[] = [
       },
     },
   },
+  {
+    id: 'wizard_blog',
+    name: '个人博客',
+    description: 'SEO 基础 + 评论防护 + 国内环境适配，适合个人写作者',
+    wizard: true,
+    icon: '📝',
+    config: {
+      optimize: {
+        site: {
+          no_escape: true,
+          hide_top_toolbar: true,
+          remove_RSS_version: true,
+        },
+        medium: {
+          img_add_tag: true,
+          upload_auto_name: 'md5',
+        },
+      },
+      page: {
+        comment: {
+          interval: true,
+          interval_time: 5,
+          words_number: true,
+          words_number_min: 5,
+          words_number_max: 500,
+          sensitive_words: true,
+        },
+        function: {
+          add_last_update: true,
+          search_limit: true,
+          search_limit_count: 10,
+        },
+        feature: {
+          page_scrolling: true,
+          go_top: 'cat',
+        },
+      },
+      function: {
+        seo: {
+          seo_home: true,
+          seo_single: true,
+        },
+      },
+      login: {
+        security: {
+          login_code: 'math',
+        },
+      },
+    },
+  },
+  {
+    id: 'wizard_company',
+    name: '企业官网',
+    description: '登录安全 + 禁复制 + SEO + 统计，适合正式商业站点',
+    wizard: true,
+    icon: '🏢',
+    config: {
+      optimize: {
+        site: {
+          no_escape: true,
+          hide_top_toolbar: true,
+          remove_RSS_version: true,
+          remove_sitemap_users: true,
+        },
+        medium: {
+          img_add_tag: true,
+        },
+      },
+      page: {
+        feature: {
+          top_loading: true,
+          page_scrolling: true,
+        },
+        function: {
+          share: true,
+          login_search: true,
+        },
+      },
+      function: {
+        seo: {
+          seo_home: true,
+          seo_single: true,
+          seo_category: true,
+        },
+      },
+      login: {
+        security: {
+          login_code: 'math',
+        },
+      },
+    },
+  },
+  {
+    id: 'wizard_content_seo',
+    name: '内容 SEO 站',
+    description: '全 SEO + 百度推送 + Alt 补全 + 搜索限制，适合内容营销站点',
+    wizard: true,
+    icon: '📊',
+    config: {
+      optimize: {
+        site: {
+          no_escape: true,
+          hide_top_toolbar: true,
+          remove_RSS_version: true,
+          hide_email_ip: true,
+        },
+        medium: {
+          img_add_tag: true,
+          upload_auto_name: 'md5',
+        },
+      },
+      page: {
+        comment: {
+          interval: true,
+          interval_time: 5,
+          words_number: true,
+          words_number_min: 5,
+          sensitive_words: true,
+          baidu_moderation: true,
+        },
+        function: {
+          add_last_update: true,
+          search_limit: true,
+          search_limit_count: 10,
+          anti_crawler: true,
+          anti_crawler_max_requests: 60,
+        },
+        feature: {
+          page_scrolling: true,
+          go_top: 'cat',
+          reading_progress: true,
+        },
+      },
+      function: {
+        seo: {
+          seo_home: true,
+          seo_single: true,
+          seo_category: true,
+          seo_tag: true,
+        },
+      },
+      domestic: {
+        baidu_push: {
+          active_push_enabled: true,
+          auto_push_enabled: true,
+        },
+      },
+    },
+  },
 ];
 
 const STORAGE_KEY = 'mabox_custom_presets';
@@ -305,4 +456,8 @@ export function deleteCustomPreset(presetId: string): boolean {
 
 export function getAllPresets(): Preset[] {
   return [...presets, ...getCustomPresets()];
+}
+
+export function getWizardPresets(): Preset[] {
+  return presets.filter((p) => p.wizard === true);
 }

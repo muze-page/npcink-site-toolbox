@@ -143,10 +143,25 @@ if (!class_exists('MaBox_Domestic_Login_Security')) {
             wp_die('您的 IP 不在允许访问后台的白名单中。', '访问被拒绝', array('response' => 403));
         }
         private static function get_client_ip() {
-            $keys = array('HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP', 'REMOTE_ADDR');
-            foreach ($keys as $key) {
-                if (!empty($_SERVER[$key])) return sanitize_text_field($_SERVER[$key]);
+            $trusted_proxies = !empty(self::$config['trusted_proxies']) ? array_map('trim', explode("\n", self::$config['trusted_proxies'])) : array();
+            $trusted_proxies = array_filter($trusted_proxies);
+
+            $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '';
+
+            if (!empty($trusted_proxies) && in_array($remote_addr, $trusted_proxies, true)) {
+                if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                    $ips = explode(',', sanitize_text_field($_SERVER['HTTP_X_FORWARDED_FOR']));
+                    $client_ip = trim($ips[0]);
+                    if (filter_var($client_ip, FILTER_VALIDATE_IP)) {
+                        return $client_ip;
+                    }
+                }
             }
+
+            if (!empty($remote_addr) && filter_var($remote_addr, FILTER_VALIDATE_IP)) {
+                return $remote_addr;
+            }
+
             return '0.0.0.0';
         }
     }

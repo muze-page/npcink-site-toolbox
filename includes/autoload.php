@@ -47,6 +47,7 @@ spl_autoload_register(function ($class) {
         'MaBox_Config_Manager' => 'includes/class-magick-config-manager.php',
         'MaBox_Config_Schema' => 'includes/class-mabox-config-schema.php',
         'MaBox_Diagnostics' => 'includes/class-mabox-diagnostics.php',
+        'MaBox_Domestic_Environment' => 'includes/class-mabox-domestic-environment.php',
         'MaBox_Diary_Post_Type' => 'admin/partials/page/diary/index.php',
         'MaBox_Domestic_Baidu_Push' => 'admin/partials/domestic/baidu_push/index.php',
         'MaBox_Domestic_Comment_Security' => 'admin/partials/domestic/comment_security/index.php',
