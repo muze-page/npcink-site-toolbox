@@ -1,4 +1,6 @@
 <?php
+// 如果直接访问此文件，请中止。
+defined('ABSPATH') || exit;
 /**
  * 配置 Schema 定义类
  *

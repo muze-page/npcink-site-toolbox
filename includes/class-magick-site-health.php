@@ -1,4 +1,6 @@
 <?php
+// 如果直接访问此文件，请中止。
+defined('ABSPATH') || exit;
 /**
  * WordPress 站点健康检测集成
  *

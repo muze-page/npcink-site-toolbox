@@ -4,25 +4,6 @@ defined('ABSPATH') || exit;
 
 use PHPUnit\Framework\TestCase;
 
-// 定义插件常量
-if (!defined('MAGICK_MIXTURE_OPTION_OPTIMIZE')) {
-    define('MAGICK_MIXTURE_OPTION_OPTIMIZE', 'Magick_ToolBox_Option_Optimize');
-    define('MAGICK_MIXTURE_OPTION_PAGE', 'Magick_ToolBox_Option_Page');
-    define('MAGICK_MIXTURE_OPTION_FUNCTION', 'Magick_ToolBox_Option_Function');
-    define('MAGICK_MIXTURE_OPTION_H5', 'Magick_ToolBox_Option_H5');
-    define('MAGICK_MIXTURE_OPTION_LOGIN', 'Magick_ToolBox_Option_Login');
-    define('MAGICK_MIXTURE_OPTION_SHORTCODE', 'Magick_ToolBox_Option_Shortcode');
-    define('MAGICK_MIXTURE_OPTION_TEMPLATE', 'Magick_ToolBox_Option_Template');
-    define('MAGICK_MIXTURE_OPTION_DOMESTIC', 'Magick_ToolBox_Option_Domestic');
-    define('MAGICK_MIXTURE_OPTION_PERFORMANCE', 'Magick_ToolBox_Option_Performance');
-    define('MAGICK_MIXTURE_OPTION_AI_REVIEW', 'Magick_ToolBox_Option_AiReview');
-    define('MAGICK_MIXTURE_OPTION_SERVICES', 'Magick_ToolBox_Option_Services');
-    define('MAGICK_MIXTURE_OPTION_FEEDBACK', 'Magick_ToolBox_Option_Feedback');
-    define('MAGICK_MIXTURE_CONFIG_VERSION', 'Magick_ToolBox_Config_Version');
-    define('MAGICK_MIXTURE_CONFIG_BACKUP', 'Magick_ToolBox_Option_Backup_v210');
-    define('MAGICK_TOOLBOX_ACTIVE_MODULES', 'Magick_ToolBox_Active_Modules');
-}
-
 require_once dirname(__FILE__) . '/../../includes/class-mabox-diagnostics.php';
 
 /**
@@ -73,7 +54,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_calculate_score_with_full_optimization(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'calculate_score');
-        $method->setAccessible(true);
 
         $config = array(
             'function' => array('seo' => array('seo_home' => true, 'seo_single' => true, 'seo_category' => true)),
@@ -103,7 +83,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_calculate_score_with_heavy_effects(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'calculate_score');
-        $method->setAccessible(true);
 
         $config = array(
             'page' => array(
@@ -130,7 +109,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_calculate_score_with_environment_risks(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'calculate_score');
-        $method->setAccessible(true);
 
         $config = array();
         $env = array(
@@ -151,7 +129,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_determine_status_critical(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'determine_status');
-        $method->setAccessible(true);
 
         $items = array(
             array('status' => 'good'),
@@ -167,7 +144,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_determine_status_warning_with_risk(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'determine_status');
-        $method->setAccessible(true);
 
         $risks = array(array('tier' => 'high_risk'));
         $items = array(array('status' => 'good'));
@@ -181,7 +157,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_determine_status_good(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'determine_status');
-        $method->setAccessible(true);
 
         $status = $method->invoke(null, 85, array(), array(array('status' => 'good')));
         $this->assertEquals('good', $status);
@@ -192,7 +167,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_recommendations_with_empty_config(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'get_recommendations');
-        $method->setAccessible(true);
 
         $recommendations = $method->invoke(null, array());
         $this->assertIsArray($recommendations);
@@ -204,7 +178,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_recommendations_with_full_config(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'get_recommendations');
-        $method->setAccessible(true);
 
         $config = array(
             'optimize' => array(
@@ -226,7 +199,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_risks_include_config_risks(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'get_risks');
-        $method->setAccessible(true);
 
         $config = array(
             'page' => array(
@@ -249,7 +221,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_risks_include_tier_risks(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'get_risks');
-        $method->setAccessible(true);
 
         $config = array();
         $active_modules = array('optimize.ban_update', 'page.click_effect');
@@ -270,7 +241,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_service_hints_for_critical_items(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'get_service_hints');
-        $method->setAccessible(true);
 
         $items = array(array('status' => 'critical'));
         $hints = $method->invoke(null, $items, array(), array('object_cache' => false));
@@ -287,7 +257,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_service_hints_empty_when_healthy(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'get_service_hints');
-        $method->setAccessible(true);
 
         $items = array(array('status' => 'good'));
         $hints = $method->invoke(null, $items, array(), array('object_cache' => true));
@@ -301,7 +270,6 @@ class DiagnosticsTest extends TestCase {
      */
     public function test_score_boundaries(): void {
         $method = new ReflectionMethod('MaBox_Diagnostics', 'calculate_score');
-        $method->setAccessible(true);
 
         // 全部正向配置 + 完美环境
         $max_config = array(
@@ -343,12 +311,8 @@ class DiagnosticsTest extends TestCase {
      * 辅助：Mock WordPress 全局函数
      */
     private function mockWordPressFunctions(array $options): void {
-        if (!function_exists('get_option')) {
-            function get_option($key, $default = false) {
-                global $_test_option_store;
-                return $_test_option_store[$key] ?? $default;
-            }
-        }
+        // 在纯单元测试环境中，这些函数已在 bootstrap.php 中 mock
+        // 只需设置全局数据存储
         if (!function_exists('get_bloginfo')) {
             function get_bloginfo($show = '') {
                 return '6.4';
@@ -388,9 +352,6 @@ class DiagnosticsTest extends TestCase {
             function __($text, $domain = 'default') {
                 return $text;
             }
-        }
-        if (!defined('MAGICK_TOOLBOX_ACTIVE_MODULES')) {
-            define('MAGICK_TOOLBOX_ACTIVE_MODULES', 'Magick_ToolBox_Active_Modules');
         }
 
         $GLOBALS['_test_option_store'] = array_merge(array(

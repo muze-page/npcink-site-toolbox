@@ -1,4 +1,6 @@
 <?php
+// 如果直接访问此文件，请中止。
+defined('ABSPATH') || exit;
 //核心插件类。
 
 class Magick_Mixture

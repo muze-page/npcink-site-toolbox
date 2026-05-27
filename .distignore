@@ -1,3 +1,7 @@
+# 系统文件
+.DS_Store
+*/.DS_Store
+
 # 版本控制
 .git
 .gitignore
@@ -21,11 +25,13 @@ vite/*/*.json
 vite/*/*.config.*
 vite/*/*.yaml
 vite/pnpm-workspace.yaml
+vite/*/README.md
 
 # 测试
 tests
 phpunit.xml.dist
 phpstan.neon
+.phpunit.result.cache
 
 # 文档（非用户面向）
 docs
@@ -38,6 +44,11 @@ ai
 composer.json
 composer.lock
 docker-compose.yml
+phpcs.xml
+.distignore
+phpunit.phar
+phpstan-baseline.neon
+wp-magick-toolbox-*.zip
 
 # 项目文档（readme.txt已包含）
 README.md
@@ -45,3 +56,4 @@ CHANGELOG.md
 SECURITY.md
 功能清单.md
 技术架构与功能文档.md
+项目现状与开发指南.md

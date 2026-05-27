@@ -1,4 +1,7 @@
 <?php
+// 如果直接访问此文件，请中止。
+defined('ABSPATH') || exit;
+
 /*
  * Plugin Name: WP Magick Toolbox
  * Description: 魔法工具箱，诸多实用且有趣的功能合集，简单易用；详情请见插件中的「关于」页内容
@@ -23,7 +26,7 @@ if (!defined('WPINC')) {
 //定义插件名
 define('MAGICK_MIXTURE_NAME', 'magick-optimize');
 //定义插件版本
-define('MAGICK_MIXTURE_VERSION', '2.4.0');
+define('MAGICK_MIXTURE_VERSION', '2.5.0');
 //定义保存选项字段
 define('MAGICK_MIXTURE_OPTION', "Magick_ToolBox_Option");
 define('MAGICK_TOOLBOX_ACTIVE_MODULES', 'Magick_ToolBox_Active_Modules');

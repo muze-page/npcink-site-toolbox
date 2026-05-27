@@ -21,8 +21,16 @@ define( 'DB_COLLATE', '' );
 
 $table_prefix = 'wptests_';
 
-define( 'WP_TESTS_DOMAIN', 'example.org' );
-define( 'WP_TESTS_EMAIL', 'admin@example.org' );
-define( 'WP_TESTS_TITLE', 'Test Blog' );
+if ( ! defined( 'WP_TESTS_DOMAIN' ) ) {
+	define( 'WP_TESTS_DOMAIN', 'example.org' );
+}
+if ( ! defined( 'WP_TESTS_EMAIL' ) ) {
+	define( 'WP_TESTS_EMAIL', 'admin@example.org' );
+}
+if ( ! defined( 'WP_TESTS_TITLE' ) ) {
+	define( 'WP_TESTS_TITLE', 'Test Blog' );
+}
 
-define( 'WP_PHPUNIT__TESTS_CONFIG', __FILE__ );
+if ( ! defined( 'WP_PHPUNIT__TESTS_CONFIG' ) ) {
+	define( 'WP_PHPUNIT__TESTS_CONFIG', __FILE__ );
+}

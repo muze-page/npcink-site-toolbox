@@ -30,6 +30,9 @@ npm-debug.log*
 # PHPStan
 phpstan-baseline.neon
 
+# Composer lock (dev-only, not distributed)
+composer.lock
+
 # Temporary files
 *.tmp
 *.temp
