@@ -23,10 +23,7 @@ export const searchIndex: SearchItem[] = [
   { id: "optimize-admin-thumbnail_switcher", label: "缩略图切换", tabKey: "2", tabLabel: "优化", section: "后台", keywords: ["thumbnail", "缩略图"] },
   { id: "page-feature-title", label: "动态标题", tabKey: "1", tabLabel: "页面", section: "外观", keywords: ["title", "标题", "标签页"] },
   { id: "page-feature-top_loading", label: "顶部加载进度条", tabKey: "1", tabLabel: "页面", section: "外观", keywords: ["loading", "进度条", "加载"] },
-  { id: "page-feature-particle", label: "点击特效", tabKey: "1", tabLabel: "页面", section: "外观", keywords: ["click", "点击", "烟花", "粒子"], tags: ["性能"] },
-  { id: "page-feature-background_effect", label: "背景特效", tabKey: "1", tabLabel: "页面", section: "外观", keywords: ["background", "背景", "星空", "樱花", "线条"], tags: ["性能"] },
-  { id: "page-feature-bottom_effect", label: "页底特效", tabKey: "1", tabLabel: "页面", section: "外观", keywords: ["footer", "页底", "鱼群", "樱花"], tags: ["性能"] },
-  { id: "page-feature-lantern", label: "灯笼效果", tabKey: "1", tabLabel: "页面", section: "外观", keywords: ["lantern", "灯笼", "春节"], tags: ["性能"] },
+
   { id: "page-jurisdiction-ban_copy", label: "禁止复制", tabKey: "1", tabLabel: "页面", section: "权限", keywords: ["copy", "复制"], tags: ["谨慎"] },
   { id: "page-jurisdiction-ban_open_weixing", label: "禁止微信打开", tabKey: "1", tabLabel: "页面", section: "权限", keywords: ["wechat", "微信"], tags: ["谨慎"] },
   { id: "page-function-top_ad", label: "顶部广告位", tabKey: "1", tabLabel: "页面", section: "功能", keywords: ["ad", "广告"], tags: ["安全"] },
@@ -42,8 +39,7 @@ export const searchIndex: SearchItem[] = [
   { id: "shortcode-compose-wx_unlock", label: "公众号解锁内容", tabKey: "7", tabLabel: "短代码", section: "板式", keywords: ["wechat", "微信", "公众号", "解锁"] },
   { id: "shortcode-compose-reward", label: "打赏模块", tabKey: "7", tabLabel: "短代码", section: "板式", keywords: ["reward", "打赏", "收款"] },
   { id: "shortcode-pendant-merc_map", label: "足迹地图", tabKey: "7", tabLabel: "短代码", section: "挂件", keywords: ["map", "地图", "足迹"] },
-  { id: "template-static-triangle", label: "立体三角模板", tabKey: "8", tabLabel: "页面模板", section: "静态模板", keywords: ["triangle", "立体三角"] },
-  { id: "template-trends-special", label: "专题列表模板", tabKey: "8", tabLabel: "页面模板", section: "动态模板", keywords: ["special", "专题"] },
+
   { id: "domestic-compliance-icp", label: "ICP 备案号", tabKey: "10", tabLabel: "国内生态", section: "合规", keywords: ["icp", "备案", "合规"], tags: ["推荐"] },
   { id: "domestic-compliance-police", label: "公安网备号", tabKey: "10", tabLabel: "国内生态", section: "合规", keywords: ["公安", "网备", "备案"], tags: ["推荐"] },
   { id: "domestic-compliance-cookie", label: "Cookie 同意弹窗", tabKey: "10", tabLabel: "国内生态", section: "合规", keywords: ["cookie", "隐私", "弹窗"] },

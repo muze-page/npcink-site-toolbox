@@ -26,12 +26,10 @@ if ( ! defined( 'MAGICK_MIXTURE_OPTION_OPTIMIZE' ) ) {
 	define( 'MAGICK_MIXTURE_OPTION_FUNCTION', 'Magick_ToolBox_Option_Function' );
 	define( 'MAGICK_MIXTURE_OPTION_LOGIN', 'Magick_ToolBox_Option_Login' );
 	define( 'MAGICK_MIXTURE_OPTION_SHORTCODE', 'Magick_ToolBox_Option_Shortcode' );
-	define( 'MAGICK_MIXTURE_OPTION_TEMPLATE', 'Magick_ToolBox_Option_Template' );
 	define( 'MAGICK_MIXTURE_OPTION_DOMESTIC', 'Magick_ToolBox_Option_Domestic' );
 	define( 'MAGICK_MIXTURE_OPTION_PERFORMANCE', 'Magick_ToolBox_Option_Performance' );
 	define( 'MAGICK_MIXTURE_OPTION_AI_REVIEW', 'Magick_ToolBox_Option_AiReview' );
-	define( 'MAGICK_MIXTURE_OPTION_SERVICES', 'Magick_ToolBox_Option_Services' );
-	define( 'MAGICK_MIXTURE_OPTION_FEEDBACK', 'Magick_ToolBox_Option_Feedback' );
+
 }
 if ( ! defined( 'MAGICK_TOOLBOX_ACTIVE_MODULES' ) ) {
 	define( 'MAGICK_TOOLBOX_ACTIVE_MODULES', 'Magick_ToolBox_Active_Modules' );

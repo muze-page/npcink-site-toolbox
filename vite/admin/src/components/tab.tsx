@@ -13,12 +13,11 @@ const Optimize = lazy(() => import("@/components/optimize/index"));
 const Login = lazy(() => import("@/components/login/index"));
 const Function = lazy(() => import("@/components/function/index"));
 const Shortcode = lazy(() => import("@/components/shortcode/index"));
-const Template = lazy(() => import("@/components/template/index"));
+
 const Domestic = lazy(() => import("@/components/domestic/index"));
 const Performance = lazy(() => import("@/components/performance/index"));
 const AiReview = lazy(() => import("@/components/ai_review/index"));
-const Services = lazy(() => import("@/components/services/index"));
-const Feedback = lazy(() => import("@/components/feedback/index"));
+
 const About = lazy(() => import("@/components/about/index"));
 
 const TabFallback = (
@@ -52,7 +51,7 @@ const navGroups: NavGroup[] = [
     items: [
       { key: "1", label: "页面", icon: "dashicons-admin-page", component: Page },
       { key: "7", label: "短代码", icon: "dashicons-editor-code", component: Shortcode },
-      { key: "8", label: "页面模板", icon: "dashicons-layout", component: Template },
+
     ],
   },
   {
@@ -74,8 +73,7 @@ const navGroups: NavGroup[] = [
 ];
 
 const helpItems = [
-  { key: "13", label: "技术支持", icon: "dashicons-sos", component: Services },
-  { key: "14", label: "用户反馈", icon: "dashicons-feedback", component: Feedback },
+
   { key: "9", label: "关于", icon: "dashicons-info", component: About },
 ];
 

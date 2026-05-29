@@ -109,22 +109,20 @@ const PageFeature = {
   title_front: "(/≧▽≦/)你又回来啦！", //回到当前标签
   title_after: "你别走吖 Σ(っ °Д °;)っ", //离开标签后
   top_loading: boo, //顶部加载进度条
-  particle: "false", //粒子特效
+
   scrol: "false", //美化滚动条
-  screen_hair: boo, //屏幕上的毛
+
   site_grey: boo, //网站变灰
-  lantern: boo, //灯笼效果
-  lantern_left: "春", //左边的字
-  lantern_right: "节", //右边的字
-  pixel_chicken: boo, //像素小鸡
-  past_books: boo, //已写完的书
+
+
+
   go_top: "false", //返回顶部
   page_back_top_cat_right: 60, //右边距
   copy_pop_up: "false", //鼠标点击复制弹窗
-  bottom_effect: "false", //页底特效
+
   page_scrolling: boo, //平滑滚动
 
-  background_effect: "false", //背景特效
+
   reading_progress: boo, //页顶阅读进度条
   reading_progress_color: "#1677ff", //进度条颜色
   reading_progress_height: 3, //进度条高度
@@ -170,7 +168,7 @@ const PageFunction = {
   batch_replace: boo, //文章批量替换
   batch_replace_pairs: [], //替换规则
   login_search: boo, //仅登录可搜索
-  article_rating: boo, //文章评分
+
   header_notice: boo, //页眉通知栏
   header_notice_text: "", //通知文本
   header_notice_color: "#1677ff", //通知颜色
@@ -183,8 +181,6 @@ const PageFunction = {
   anti_crawler_tecent_key: '', //腾讯防水墙AppKey
   link_source: boo, //文章链接添加来源
   source_key: 'npc', //来源标识
-  ticket: boo, //工单系统
-  diary: boo, //日记类型
 };
 
 // 页面 - 权限
@@ -196,7 +192,7 @@ const PageJurisdiction = {
   wechat_xcx_guide_text: '在小程序中打开', //小程序引导文字
   wechat_xcx_link: '', //小程序链接
   ban_open_qq: boo, //禁止在QQ中打开
-  front_debug: boo, //前端调试
+
   ban_copy: boo, //禁止复制
   category_id: [], //分类ID
   tag_id: [], //标签ID
@@ -216,15 +212,7 @@ const FunctionAuxiliary = {
   uniqueKey: 0,
 };
 
-//权限 微信小程序
-const FunctionWxXcx = {
-  active: boo, //开关状态
-  appid: str, //
-  secret: str, //
-  site: str, //网址
-  path: str, //路径
-  query: str, //参数
-};
+
 
 //简单SEO功能
 const FunctionSeo = {
@@ -299,15 +287,7 @@ const CodePendant = {
   ], //地点
 };
 
-//静态
-const TemplateStatic = {
-  triangle: boo, //立体三角
-};
 
-//动态
-const TemplateTrends = {
-  special: boo, //专题列表
-};
 
 //国内生态 - 备案与合规
 const DomesticCompliance = {
@@ -444,28 +424,9 @@ const AiReview = {
   log_max_entries: 500,
 };
 
-const Services = {
-  enabled: boo,
-  wechat_qr: '',
-  wechat_id: '',
-  email: '',
-  website: '',
-  service_custom_dev: boo,
-  service_deployment: boo,
-  service_theme_adapt: boo,
-  service_support: boo,
-  cases: [],
-};
 
-const Feedback = {
-  enabled: boo,
-  feedback_enabled: boo,
-  feedback_email: '',
-  feedback_auto_reply: '感谢您的反馈，我们会尽快处理。',
-  telemetry_enabled: boo,
-  telemetry_anonymous: boo,
-  show_insights: boo,
-};
+
+
 
 export const defaultVarOption = {
   //优化
@@ -477,7 +438,7 @@ export const defaultVarOption = {
   //权限控制
   function: {
     auxiliary: FunctionAuxiliary, //辅助功能
-    wx_xcx: FunctionWxXcx, //微信小程序链接生成
+
     seo: FunctionSeo, //简单 SEO 功能
     config: FunctionTips, //设置
   },
@@ -498,11 +459,7 @@ export const defaultVarOption = {
     compose: CodeCompose, //短代码
     pendant: CodePendant, //挂件
   },
-  //页面模版
-  template: {
-    static: TemplateStatic, //静态
-    trends: TemplateTrends, //动态
-  },
+
   //国内生态
   domestic: {
     compliance: DomesticCompliance,
@@ -521,10 +478,7 @@ export const defaultVarOption = {
   },
   // AI 审核
   ai_review: AiReview,
-  // 增值服务
-  services: Services,
-  // 用户反馈
-  feedback: Feedback,
+
 };
 export const defaultVarData = {
   option: defaultVarOption,

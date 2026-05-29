@@ -15,8 +15,6 @@ WP Magick Toolbox
 │   │   │   └── loader.php            # 统一加载器
 │   │   └── partials/                 # 各功能实现
 │   │       ├── ai_review/            # AI 审核
-│   │       ├── feedback/             # 用户反馈
-│   │       ├── services/             # 增值服务
 │   │       ├── domestic/             # 国内生态
 │   │       ├── performance/          # 性能优化
 │   │       └── ...                   # 其他功能模块

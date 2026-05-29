@@ -3,13 +3,13 @@
 defined('ABSPATH') || exit;
 /**
  * 配置存储拆分管理类
- * 
+ *
  * 负责：
  * 1. 旧配置到新配置的自动迁移
  * 2. 多键读取合并
  * 3. 按模块保存
  * 4. 向后兼容（老用户升级无数据丢失）
- * 
+ *
  * @since 2.1.0
  */
 
@@ -26,12 +26,10 @@ if (!class_exists('MaBox_Config_Manager')) {
             'function'    => MAGICK_MIXTURE_OPTION_FUNCTION,
             'login'       => MAGICK_MIXTURE_OPTION_LOGIN,
             'shortcode'   => MAGICK_MIXTURE_OPTION_SHORTCODE,
-            'template'    => MAGICK_MIXTURE_OPTION_TEMPLATE,
-            'domestic'    => MAGICK_MIXTURE_OPTION_DOMESTIC,
+                        'domestic'    => MAGICK_MIXTURE_OPTION_DOMESTIC,
             'performance' => MAGICK_MIXTURE_OPTION_PERFORMANCE,
             'ai_review'   => MAGICK_MIXTURE_OPTION_AI_REVIEW,
-            'services'    => MAGICK_MIXTURE_OPTION_SERVICES,
-            'feedback'    => MAGICK_MIXTURE_OPTION_FEEDBACK,
+
         );
 
         /**
@@ -41,7 +39,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 检查是否需要迁移
-         * 
+         *
          * @return bool
          */
         public static function needs_migration() {
@@ -64,7 +62,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 执行配置迁移
-         * 
+         *
          * @return bool 迁移是否成功
          */
         public static function migrate() {
@@ -103,7 +101,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 回滚迁移（从备份恢复旧配置）
-         * 
+         *
          * @return bool
          */
         public static function rollback() {
@@ -128,7 +126,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 获取合并后的完整配置（读取所有模块键并合并）
-         * 
+         *
          * @return array 完整配置
          */
         public static function get_merged_config() {
@@ -151,7 +149,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 获取单个模块的配置
-         * 
+         *
          * @param string $module 模块名 (optimize, page, function, etc.)
          * @return array
          */
@@ -164,7 +162,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 保存完整配置（按模块拆分保存到不同 Option）
-         * 
+         *
          * @param array $full_config 完整配置对象
          * @return array 保存结果 ['success' => bool, 'saved_modules' => array, 'failed_modules' => array]
          */
@@ -195,7 +193,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 保存单个模块配置
-         * 
+         *
          * @param string $module 模块名
          * @param array $data 模块数据
          * @return bool
@@ -215,7 +213,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 导出完整配置（合并所有模块为单一 JSON 结构，保持向后兼容）
-         * 
+         *
          * @return array
          */
         public static function export_config() {
@@ -224,7 +222,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 导入配置（解析后按模块拆分保存）
-         * 
+         *
          * @param array $config 导入的配置数据
          * @return array 导入结果
          */
@@ -261,7 +259,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         /**
          * 获取模块映射表（供外部使用）
-         * 
+         *
          * @return array
          */
         public static function get_module_map() {

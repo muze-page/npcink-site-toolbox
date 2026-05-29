@@ -36,30 +36,6 @@ export const presets: Preset[] = [
     },
   },
   {
-    id: 'fancy',
-    name: '花里胡哨版',
-    description: '开启所有视觉特效，适合个人博客',
-    config: {
-      page: {
-        feature: {
-          title: true,
-          top_loading: true,
-          particle: 'fireworks',
-          scrol: 'default',
-          screen_hair: true,
-          lantern: true,
-          pixel_chicken: true,
-          past_books: true,
-          copy_pop_up: 'sweetalert',
-          bottom_effect: 'fish',
-          page_scrolling: true,
-          background_effect: 'stars',
-          go_top: 'cat',
-        },
-      },
-    },
-  },
-  {
     id: 'blog',
     name: '个人博客推荐',
     description: 'SEO、评论限制、阅读时间，关闭花哨特效',
@@ -176,15 +152,9 @@ export const presets: Preset[] = [
         feature: {
           title: false,
           top_loading: false,
-          particle: 'false',
-          scrol: 'false',
-          screen_hair: false,
-          lantern: false,
-          pixel_chicken: false,
-          past_books: false,
+
           copy_pop_up: 'false',
-          bottom_effect: 'false',
-          background_effect: 'false',
+
           go_top: 'false',
         },
         comment: {

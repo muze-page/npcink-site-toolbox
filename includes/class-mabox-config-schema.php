@@ -79,21 +79,19 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'title_front'              => array('type' => 'string',  'default' => '(/≧▽≦/)你又回来啦！', 'sanitize' => 'sanitize_text_field'),
                         'title_after'              => array('type' => 'string',  'default' => '你别走吖 Σ(っ °Д °;)っ', 'sanitize' => 'sanitize_text_field'),
                         'top_loading'              => array('type' => 'boolean', 'default' => false),
-                        'particle'                 => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field', 'risk' => array('level' => 'low', 'title' => '点击特效', 'warning' => '此功能会加载额外的 JS/CSS 资源，可能影响页面性能。', 'suggestion' => '移动端体验可能下降。'), 'feature_id' => 'page-feature-particle', 'label' => '点击特效', 'group' => '外观'),
+
                         'scrol'                    => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field'),
-                        'screen_hair'              => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => '屏幕上的毛', 'warning' => '此功能会在页面上添加一根毛发装饰，可能分散用户注意力。', 'suggestion' => '正式商业站点建议关闭。'), 'feature_id' => 'page-feature-screen_hair', 'label' => '屏幕上的毛', 'group' => '外观'),
+
                         'site_grey'                => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => '全站变灰', 'warning' => '此功能会将整个网站变为灰色，仅适合特殊纪念日使用。', 'suggestion' => '非特殊时间建议关闭。'), 'feature_id' => 'page-feature-site_grey', 'label' => '全站变灰', 'group' => '外观'),
-                        'lantern'                  => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => '灯笼效果', 'warning' => '此功能会加载额外资源，影响页面性能。', 'suggestion' => '仅在特殊节日短期开启。'), 'feature_id' => 'page-feature-lantern', 'label' => '灯笼效果', 'group' => '外观'),
-                        'lantern_left'             => array('type' => 'string',  'default' => '春', 'sanitize' => 'sanitize_text_field'),
-                        'lantern_right'            => array('type' => 'string',  'default' => '节', 'sanitize' => 'sanitize_text_field'),
-                        'pixel_chicken'            => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => '像素小鸡', 'warning' => '此功能会在页脚添加动画元素，可能影响页面性能。', 'suggestion' => '移动端不显示，但性能敏感站点仍需谨慎。'), 'feature_id' => 'page-feature-pixel_chicken', 'label' => '像素小鸡', 'group' => '外观'),
-                        'past_books'               => array('type' => 'boolean', 'default' => false),
+
+
+
                         'go_top'                   => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field'),
                         'page_back_top_cat_right'  => array('type' => 'number',  'default' => 60, 'min' => 0, 'max' => 200),
                         'copy_pop_up'              => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field'),
-                        'bottom_effect'            => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field', 'label' => '页底特效', 'group' => '外观'),
+
                         'page_scrolling'           => array('type' => 'boolean', 'default' => false),
-                        'background_effect'        => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field', 'risk' => array('level' => 'low', 'title' => '背景特效', 'warning' => '此功能可能消耗较多系统资源，影响页面加载速度和用户体验。', 'suggestion' => '性能敏感站点建议关闭。'), 'feature_id' => 'page-feature-background_effect', 'label' => '背景特效', 'group' => '外观'),
+
                         'reading_progress'         => array('type' => 'boolean', 'default' => false),
                         'reading_progress_color'    => array('type' => 'string',  'default' => '#1677ff', 'sanitize' => 'sanitize_hex_color'),
                         'reading_progress_height'  => array('type' => 'number',  'default' => 3, 'min' => 1, 'max' => 20),
@@ -135,7 +133,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'batch_replace'           => array('type' => 'boolean', 'default' => false),
                         'batch_replace_pairs'     => array('type' => 'array',   'default' => array()),
                         'login_search'            => array('type' => 'boolean', 'default' => false),
-                        'article_rating'          => array('type' => 'boolean', 'default' => false),
+
                         'header_notice'           => array('type' => 'boolean', 'default' => false),
                         'header_notice_text'      => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'header_notice_color'     => array('type' => 'string',  'default' => '#1677ff', 'sanitize' => 'sanitize_hex_color'),
@@ -148,8 +146,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'anti_crawler_tecent_key'  => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'link_source'             => array('type' => 'boolean', 'default' => false),
                         'source_key'              => array('type' => 'string',  'default' => 'npc', 'sanitize' => 'sanitize_text_field'),
-                        'ticket'                  => array('type' => 'boolean', 'default' => false),
-                        'diary'                   => array('type' => 'boolean', 'default' => false),
+
                     ),
                     'jurisdiction' => array(
                         'ban_open_weixing'         => array('type' => 'boolean', 'default' => false),
@@ -159,7 +156,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'wechat_xcx_guide_text'   => array('type' => 'string',  'default' => '在小程序中打开', 'sanitize' => 'sanitize_text_field'),
                         'wechat_xcx_link'         => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
                         'ban_open_qq'             => array('type' => 'boolean', 'default' => false),
-                        'front_debug'             => array('type' => 'boolean', 'default' => false),
+
                         'ban_copy'                => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => '禁止复制', 'warning' => '此功能可能影响正常用户复制内容，导致用户无法复制文章中的代码或引用。', 'suggestion' => '内容站、教程站谨慎开启。'), 'feature_id' => 'page-jurisdiction-ban_copy', 'label' => '禁止复制', 'group' => '权限'),
                         'category_id'             => array('type' => 'array',   'default' => array()),
                         'tag_id'                  => array('type' => 'array',   'default' => array()),
@@ -179,14 +176,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'biying_tonji'       => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'uniqueKey'         => array('type' => 'number',  'default' => 0),
                     ),
-                    'wx_xcx' => array(
-                        'active' => array('type' => 'boolean', 'default' => false),
-                        'appid'  => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
-                        'secret' => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
-                        'site'   => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
-                        'path'   => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
-                        'query'  => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
-                    ),
+
                     'seo' => array(
                         'title'        => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'keywords'     => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
@@ -246,15 +236,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'merc_location' => array('type' => 'array',  'default' => array()),
                     ),
                 ),
-                'template' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_TEMPLATE,
-                    'static' => array(
-                        'triangle' => array('type' => 'boolean', 'default' => false),
-                    ),
-                    'trends' => array(
-                        'special' => array('type' => 'boolean', 'default' => false),
-                    ),
-                ),
+
                 'domestic' => array(
                     '_option_key' => MAGICK_MIXTURE_OPTION_DOMESTIC,
                     'compliance' => array(
@@ -376,31 +358,8 @@ if (!class_exists('MaBox_Config_Schema')) {
                     'log_enabled'         => array('type' => 'boolean', 'default' => false),
                     'log_max_entries'     => array('type' => 'number',  'default' => 500, 'min' => 10, 'max' => 10000),
                 ),
-                'services' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_SERVICES,
-                    '_flat' => true,
-                    'enabled'              => array('type' => 'boolean', 'default' => false),
-                    'wechat_qr'           => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
-                    'wechat_id'            => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
-                    'email'               => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_email'),
-                    'website'             => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
-                    'service_custom_dev'  => array('type' => 'boolean', 'default' => false),
-                    'service_deployment'  => array('type' => 'boolean', 'default' => false),
-                    'service_theme_adapt' => array('type' => 'boolean', 'default' => false),
-                    'service_support'     => array('type' => 'boolean', 'default' => false),
-                    'cases'               => array('type' => 'array',   'default' => array()),
-                ),
-                'feedback' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_FEEDBACK,
-                    '_flat' => true,
-                    'enabled'              => array('type' => 'boolean', 'default' => false),
-                    'feedback_enabled'     => array('type' => 'boolean', 'default' => false),
-                    'feedback_email'       => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_email'),
-                    'feedback_auto_reply'  => array('type' => 'string',  'default' => '感谢您的反馈，我们会尽快处理。', 'sanitize' => 'sanitize_textarea_field'),
-                    'telemetry_enabled'    => array('type' => 'boolean', 'default' => false),
-                    'telemetry_anonymous' => array('type' => 'boolean', 'default' => false),
-                    'show_insights'        => array('type' => 'boolean', 'default' => false),
-                ),
+
+
             );
         }
 

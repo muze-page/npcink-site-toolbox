@@ -6,14 +6,9 @@ import { ConfigDiffItem } from "@/tool/interface";
  */
 const RISKY_PATHS: Record<string, { label: string; title: string }> = {
   "page.jurisdiction.ban_copy": { label: "禁止复制", title: "禁止复制" },
-  "page.feature.background_effect": { label: "背景特效", title: "背景特效" },
-  "page.feature.particle": { label: "点击特效", title: "点击特效" },
   "page.feature.site_grey": { label: "全站变灰", title: "全站变灰" },
   "page.function.top_ad": { label: "顶部广告位", title: "顶部广告位" },
   "optimize.medium.no_auto_size": { label: "禁止缩略图", title: "禁止缩略图" },
-  "page.feature.lantern": { label: "灯笼效果", title: "灯笼效果" },
-  "page.feature.screen_hair": { label: "屏幕上的毛", title: "屏幕上的毛" },
-  "page.feature.pixel_chicken": { label: "像素小鸡", title: "像素小鸡" },
 };
 
 /**

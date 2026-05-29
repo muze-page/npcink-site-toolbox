@@ -8,7 +8,7 @@ const MODULE_TAB_MAP: Record<string, { tabKey: string; tabLabel: string }> = {
   login: { tabKey: "3", tabLabel: "登录页" },
   function: { tabKey: "5", tabLabel: "功能" },
   shortcode: { tabKey: "7", tabLabel: "短代码" },
-  template: { tabKey: "8", tabLabel: "页面模板" },
+
   domestic: { tabKey: "10", tabLabel: "国内生态" },
   performance: { tabKey: "11", tabLabel: "性能优化" },
 };

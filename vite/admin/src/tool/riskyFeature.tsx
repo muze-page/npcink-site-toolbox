@@ -9,16 +9,7 @@ const RISKY_FEATURES: Record<string, { title: string; warning: string; suggestio
     warning: "此功能可能影响正常用户复制内容，导致用户无法复制文章中的代码或引用。",
     suggestion: "内容站、教程站谨慎开启。",
   },
-  "page-feature-background_effect": {
-    title: "背景特效",
-    warning: "此功能可能消耗较多系统资源，影响页面加载速度和用户体验。",
-    suggestion: "性能敏感站点建议关闭。",
-  },
-  "page-feature-particle": {
-    title: "点击特效",
-    warning: "此功能会加载额外的 JS/CSS 资源，可能影响页面性能。",
-    suggestion: "移动端体验可能下降。",
-  },
+
   "page-feature-site_grey": {
     title: "全站变灰",
     warning: "此功能会将整个网站变为灰色，仅适合特殊纪念日使用。",
@@ -34,33 +25,14 @@ const RISKY_FEATURES: Record<string, { title: string; warning: string; suggestio
     warning: "此功能可能与部分主题不兼容，导致图片显示异常。",
     suggestion: "开启前请确认主题支持。",
   },
-  "page-feature-lantern": {
-    title: "灯笼效果",
-    warning: "此功能会加载额外资源，影响页面性能。",
-    suggestion: "仅在特殊节日短期开启。",
-  },
-  "page-feature-screen_hair": {
-    title: "屏幕上的毛",
-    warning: "此功能会在页面上添加一根毛发装饰，可能分散用户注意力。",
-    suggestion: "正式商业站点建议关闭。",
-  },
-  "page-feature-pixel_chicken": {
-    title: "像素小鸡",
-    warning: "此功能会在页脚添加动画元素，可能影响页面性能。",
-    suggestion: "移动端不显示，但性能敏感站点仍需谨慎。",
-  },
+
   "performance-db_clean-enabled": {
     title: "数据库清理",
     warning: "数据库清理操作不可逆，删除的数据无法恢复。",
     suggestion: "执行前务必先预览影响数量，并做好备份。",
     noDismiss: true,
   },
-  "function-download_sql_table": {
-    title: "数据库导出",
-    warning: "此功能允许导出数据库表内容，包含敏感数据。",
-    suggestion: "仅限管理员使用，导出后妥善保管。",
-    noDismiss: true,
-  },
+
   "optimize-medium-medium_add_svg": {
     title: "SVG 上传支持",
     warning: "SVG 文件可能包含恶意脚本，已做安全过滤但仍需注意。",

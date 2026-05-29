@@ -186,14 +186,7 @@ return array(
         'scope'     => 'frontend',
         'risk_tags' => array('仅前台'),
     ),
-    'page.click_effect' => array(
-        'class'     => 'MaBox_Page_Add_Click_Effect',
-        'file'      => 'page/exterior/click_effect/index.php',
-        'option_key'=> 'page.feature.particle',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'risk_tags' => array('性能', '仅前台'),
-    ),
+
     'page.add_scroll_bar' => array(
         'class'     => 'MaBox_Page_Add_Scroll_Bar',
         'file'      => 'page/exterior/add_scroll_bar.php',
@@ -202,14 +195,7 @@ return array(
         'scope'     => 'frontend',
         'risk_tags' => array('仅前台'),
     ),
-    'page.screen_hair' => array(
-        'class'     => 'MaBox_Page_Screen_Hair',
-        'file'      => 'page/exterior/screen_hair/index.php',
-        'option_key'=> 'page.feature.screen_hair',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'risk_tags' => array('仅前台'),
-    ),
+
     'page.all_grey' => array(
         'class'     => 'MaBox_Page_All_Grey',
         'file'      => 'page/exterior/all_grey.php',
@@ -218,31 +204,9 @@ return array(
         'scope'     => 'frontend',
         'risk_tags' => array('仅前台'),
     ),
-    'page.lantern' => array(
-        'class'     => 'MaBox_Page_Lantern',
-        'file'      => 'page/exterior/lantern/index.php',
-        'option_key'=> 'page.feature.lantern',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'config_path' => 'page.feature',
-        'risk_tags' => array('性能', '仅前台'),
-    ),
-    'page.pixel_chicken' => array(
-        'class'     => 'MaBox_Page_Pixel_Chicken',
-        'file'      => 'page/exterior/pixel_chicken/index.php',
-        'option_key'=> 'page.feature.pixel_chicken',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'risk_tags' => array('仅前台'),
-    ),
-    'page.completed_book' => array(
-        'class'     => 'MaBox_Page_Completed_Book',
-        'file'      => 'page/exterior/completed_book.php',
-        'option_key'=> 'page.feature.past_books',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'risk_tags' => array('仅前台'),
-    ),
+
+
+
     'page.copy_pop_up' => array(
         'class'     => 'MaBox_Page_Copy_Pop_Up',
         'file'      => 'page/exterior/copy_pop_up/index.php',
@@ -251,14 +215,7 @@ return array(
         'scope'     => 'frontend',
         'risk_tags' => array('仅前台'),
     ),
-    'page.bottom_effect' => array(
-        'class'     => 'MaBox_Page_Bottom_Effect',
-        'file'      => 'page/exterior/bottom_effect/index.php',
-        'option_key'=> 'page.feature.bottom_effect',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'risk_tags' => array('性能', '仅前台'),
-    ),
+
     'page.scrolling' => array(
         'class'     => 'MaBox_Page_Scrolling',
         'file'      => 'page/exterior/scrolling/index.php',
@@ -267,14 +224,7 @@ return array(
         'scope'     => 'frontend',
         'risk_tags' => array('仅前台'),
     ),
-    'page.background_effect' => array(
-        'class'     => 'MaBox_Page_Background_Effect',
-        'file'      => 'page/exterior/background_effect/index.php',
-        'option_key'=> 'page.feature.background_effect',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'risk_tags' => array('性能', '仅前台'),
-    ),
+
     'page.go_top' => array(
         'class'     => 'MaBox_Page_Go_Top',
         'file'      => 'page/exterior/go_top/index.php',
@@ -477,13 +427,7 @@ return array(
         'category'  => 'page',
         'scope'     => 'frontend',
     ),
-    'page.article_rating' => array(
-        'class'     => 'MaBox_Page_Article_Rating',
-        'file'      => 'page/function/article_rating.php',
-        'option_key'=> 'page.function.article_rating',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-    ),
+
     'page.header_notice' => array(
         'class'     => 'MaBox_Page_Header_Notice',
         'file'      => 'page/function/header_notice.php',
@@ -501,24 +445,8 @@ return array(
         'config_path' => 'page.function',
         'risk_tags' => array('SEO'),
     ),
-    'page.ticket' => array(
-        'class'     => 'MaBox_Ticket_System',
-        'file'      => 'page/ticket/index.php',
-        'option_key'=> 'page.function.ticket',
-        'category'  => 'page',
-        'scope'     => 'both',
-        'config_path' => 'page.function',
-        'risk_tags' => array('推荐'),
-    ),
-    'page.diary' => array(
-        'class'     => 'MaBox_Diary_Post_Type',
-        'file'      => 'page/diary/index.php',
-        'option_key'=> 'page.function.diary',
-        'category'  => 'page',
-        'scope'     => 'both',
-        'always_load' => true,
-        'risk_tags' => array('推荐'),
-    ),
+
+
     'page.anti_crawler' => array(
         'class'     => 'MaBox_Page_Anti_Crawler',
         'file'      => 'page/function/anti_crawler/index.php',
@@ -553,14 +481,7 @@ return array(
         'scope'     => 'frontend',
         'risk_tags' => array('谨慎', '仅前台'),
     ),
-    'page.front_debug' => array(
-        'class'     => 'MaBox_Page_Front_Debug',
-        'file'      => 'page/jurisdiction/front_debug.php',
-        'option_key'=> 'page.jurisdiction.front_debug',
-        'category'  => 'page',
-        'scope'     => 'frontend',
-        'risk_tags' => array('谨慎', '仅前台'),
-    ),
+
     'page.hide_category' => array(
         'class'     => 'MaBox_Page_Hide_Category',
         'file'      => 'page/jurisdiction/hide_category.php',
@@ -729,43 +650,9 @@ return array(
         'config_path' => 'shortcode.pendant',
     ),
 
-    // ========== 页面模板 ==========
-    'template.main' => array(
-        'class'     => 'MaBox_Template',
-        'file'      => 'template/index.php',
-        'option_key'=> 'template',
-        'category'  => 'template',
-        'scope'     => 'both',
-        'always_load' => true,
-    ),
-    'template.static' => array(
-        'class'     => 'MaBox_Template_Static',
-        'file'      => 'template/static/index.php',
-        'option_key'=> 'template.static.triangle',
-        'category'  => 'template',
-        'scope'     => 'both',
-        'always_load' => true,
-        'config_path' => 'template.static',
-    ),
-    'template.trends' => array(
-        'class'     => 'MaBox_Template_Trends',
-        'file'      => 'template/trends/index.php',
-        'option_key'=> 'template.trends.special',
-        'category'  => 'template',
-        'scope'     => 'both',
-        'always_load' => true,
-        'config_path' => 'template.trends',
-    ),
 
-    // ========== 微信小程序 ==========
-    'function.wx_xcx_link' => array(
-        'class'     => 'MaBox_Function_Wx_Xcx_Link',
-        'file'      => 'function/wx_xcx_link/index.php',
-        'option_key'=> 'function.wx_xcx.active',
-        'category'  => 'function',
-        'scope'     => 'both',
-        'config_path' => 'function.wx_xcx',
-    ),
+
+
 
     // ========== 导入导出 ==========
     'function.config' => array(
@@ -777,16 +664,7 @@ return array(
         'config_path' => 'function.config',
     ),
 
-    // ========== 下载 SQL 表 ==========
-    'function.download_sql_table' => array(
-        'class'     => 'MaBox_Download_SQL_Table',
-        'file'      => 'function/download-sql-table.php',
-        'option_key'=> 'function.download_sql_table',
-        'category'  => 'function',
-        'scope'     => 'admin',
-        'always_load' => true,
-        'risk_tags' => array('高风险', '数据敏感'),
-    ),
+
 
     // ========== 页面 jurisdiction interface ==========
     'page.interface_category_data' => array(
@@ -918,26 +796,6 @@ return array(
         'risk_tags' => array('推荐', '安全'),
     ),
 
-    // ========== 增值服务 ==========
-    'services.main' => array(
-        'class'     => 'MaBox_Services',
-        'file'      => 'services/index.php',
-        'option_key'=> 'services.enabled',
-        'category'  => 'services',
-        'scope'     => 'admin',
-        'config_path' => 'services',
-        'risk_tags' => array('仅后台'),
-    ),
 
-    // ========== 用户反馈 ==========
-    'feedback.main' => array(
-        'class'     => 'MaBox_Feedback',
-        'file'      => 'feedback/index.php',
-        'option_key'=> 'feedback.enabled',
-        'category'  => 'feedback',
-        'scope'     => 'both',
-        'config_path' => 'feedback',
-        'risk_tags' => array('推荐'),
-    ),
 
 );

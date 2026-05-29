@@ -157,16 +157,7 @@ function getRecommendations(optionData: any): Recommendation[] {
     });
   }
 
-  if (optionData.page?.feature?.background_effect && optionData.page?.feature?.background_effect !== "false") {
-    cautions.push({
-      id: "page-feature-background_effect",
-      label: "背景特效",
-      tabKey: "1",
-      section: "外观",
-      reason: "可能影响页面性能，移动端用户体验下降",
-      type: "caution",
-    });
-  }
+
 
   if (optionData.page?.jurisdiction?.ban_copy) {
     cautions.push({
@@ -946,8 +937,7 @@ const diagnosticScore = diagnosticSummary?.score ?? 60;
                     { key: "domestic", label: "国内生态" },
                     { key: "performance", label: "性能优化" },
                     { key: "ai_review", label: "AI 审核" },
-                    { key: "services", label: "增值服务" },
-                    { key: "feedback", label: "用户反馈" },
+
                   ],
                   onClick: ({ key }) => handleRestoreModuleDefault(key),
                 }}

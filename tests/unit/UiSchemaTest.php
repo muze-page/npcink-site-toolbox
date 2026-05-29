@@ -22,14 +22,9 @@ class UiSchemaTest extends TestCase {
 
         $risky_feature_ids = array(
             'page-jurisdiction-ban_copy',
-            'page-feature-background_effect',
-            'page-feature-particle',
             'page-feature-site_grey',
             'page-function-top_ad',
             'optimize-medium-no_auto_size',
-            'page-feature-lantern',
-            'page-feature-screen_hair',
-            'page-feature-pixel_chicken',
             'performance-db_clean-enabled',
             'optimize-medium-medium_add_svg',
             'domestic-login_security-custom_login_enabled',

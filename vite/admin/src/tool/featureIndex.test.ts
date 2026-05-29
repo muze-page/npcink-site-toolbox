@@ -35,22 +35,22 @@ describe("featureIndex", () => {
 
     it("returns merged index when schema is cached", async () => {
       mockGetUiSchemaSync.mockReturnValue({
-        "page-feature-particle": {
-          path: "page.feature.particle",
-          type: "string",
-          label: "点击特效",
-          group: "外观",
-          feature_id: "page-feature-particle",
-          risk_tags: ["谨慎"],
-          preset_tags: ["fancy"],
-        },
-      });
+    "page-feature-top_loading": {
+      path: "page.feature.top_loading",
+      type: "boolean",
+      label: "顶部加载进度条",
+      group: "外观",
+      feature_id: "page-feature-top_loading",
+      risk_tags: ["谨慎"],
+      preset_tags: ["performance"],
+    },
+  });
       const { getFeatureIndexSync } = await import("@/tool/featureIndex");
       const index = getFeatureIndexSync();
-      const particleItem = index.find((i) => i.id === "page-feature-particle");
-      expect(particleItem).toBeDefined();
-      expect(particleItem!.label).toBe("点击特效");
-    });
+  const topLoadingItem = index.find((i) => i.id === "page-feature-top_loading");
+  expect(topLoadingItem).toBeDefined();
+  expect(topLoadingItem!.label).toBe("顶部加载进度条");
+});
   });
 
   describe("fetchFeatureIndex", () => {

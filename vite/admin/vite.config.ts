@@ -34,7 +34,6 @@ export default defineConfig({
           'tab-login': ['./src/components/login/index'],
           'tab-function': ['./src/components/function/index'],
           'tab-shortcode': ['./src/components/shortcode/index'],
-          'tab-template': ['./src/components/template/index'],
           'tab-about': ['./src/components/about/index'],
           // 公共依赖
           'vendor': ['react', 'react-dom'],

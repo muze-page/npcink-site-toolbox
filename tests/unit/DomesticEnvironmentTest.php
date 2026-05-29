@@ -231,12 +231,11 @@ class DomesticEnvironmentTest extends TestCase
             MAGICK_MIXTURE_OPTION_FUNCTION => array(),
             MAGICK_MIXTURE_OPTION_LOGIN => array(),
             MAGICK_MIXTURE_OPTION_SHORTCODE => array(),
-            MAGICK_MIXTURE_OPTION_TEMPLATE => array(),
+
             MAGICK_MIXTURE_OPTION_DOMESTIC => array(),
             MAGICK_MIXTURE_OPTION_PERFORMANCE => array(),
             MAGICK_MIXTURE_OPTION_AI_REVIEW => array(),
-            MAGICK_MIXTURE_OPTION_SERVICES => array(),
-            MAGICK_MIXTURE_OPTION_FEEDBACK => array(),
+
         ), $options);
     }
 

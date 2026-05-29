@@ -320,15 +320,7 @@ const App: React.FC = () => {
           </Form.Item>
         </ModuleRow>
 
-        <ModuleRow
-          title="工单系统"
-          description="启用轻量级工单系统，支持前端提交和后台管理。使用短代码 [mabox_ticket_form] 在任意页面嵌入工单表单"
-          featureId="page-function-ticket"
-          enabled={formData.ticket as boolean}
-          onChange={(checked: boolean) => {
-            onValuesChange({ ticket: checked } as Partial<FieldType>, formData);
-          }}
-        />
+
       </Form>
     </SettingsSection>
   );

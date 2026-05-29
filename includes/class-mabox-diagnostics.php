@@ -136,12 +136,6 @@ if (!class_exists('MaBox_Diagnostics')) {
             }
 
             $page_feature = self::get_nested($config, 'page', 'feature');
-            if (!empty($page_feature['background_effect']) && $page_feature['background_effect'] !== 'false' && $page_feature['background_effect'] !== false) {
-                $score -= 5;
-            }
-            if (!empty($page_feature['particle']) && $page_feature['particle'] !== 'false' && $page_feature['particle'] !== false) {
-                $score -= 3;
-            }
             if (!empty($page_feature['site_grey'])) {
                 $score -= 2;
             }
@@ -510,22 +504,6 @@ if (!class_exists('MaBox_Diagnostics')) {
 
             // 配置层面的高风险功能
             $page_feature = self::get_nested($config, 'page', 'feature');
-            if (!empty($page_feature['background_effect']) && $page_feature['background_effect'] !== 'false' && $page_feature['background_effect'] !== false) {
-                $risks[] = array(
-                    'module_id' => 'page.background_effect',
-                    'tier'      => 'config',
-                    'title'     => __('背景特效', 'magick-toolbox'),
-                    'message'   => __('全站背景特效可能影响页面性能和移动端体验。', 'magick-toolbox'),
-                );
-            }
-            if (!empty($page_feature['particle']) && $page_feature['particle'] !== 'false' && $page_feature['particle'] !== false) {
-                $risks[] = array(
-                    'module_id' => 'page.particle',
-                    'tier'      => 'config',
-                    'title'     => __('点击粒子特效', 'magick-toolbox'),
-                    'message'   => __('粒子特效增加前端 JS 负担。', 'magick-toolbox'),
-                );
-            }
 
             $page_jurisdiction = self::get_nested($config, 'page', 'jurisdiction');
             if (!empty($page_jurisdiction['ban_copy'])) {

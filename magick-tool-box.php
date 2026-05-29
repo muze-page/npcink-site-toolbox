@@ -40,7 +40,7 @@ define('MAGICK_MIXTURE_OPTION_PAGE', 'Magick_ToolBox_Option_Page');
 define('MAGICK_MIXTURE_OPTION_FUNCTION', 'Magick_ToolBox_Option_Function');
 define('MAGICK_MIXTURE_OPTION_LOGIN', 'Magick_ToolBox_Option_Login');
 define('MAGICK_MIXTURE_OPTION_SHORTCODE', 'Magick_ToolBox_Option_Shortcode');
-define('MAGICK_MIXTURE_OPTION_TEMPLATE', 'Magick_ToolBox_Option_Template');
+
 
 /**
  * 配置迁移版本标记
@@ -54,18 +54,6 @@ define('MAGICK_MIXTURE_CONFIG_BACKUP', 'Magick_ToolBox_Option_Backup_v210');
  * @since 2.3.0
  */
 define('MAGICK_MIXTURE_OPTION_AI_REVIEW', 'Magick_ToolBox_Option_AiReview');
-
-/**
- * 第四阶段：增值服务基础设施 Option 键名
- * @since 2.3.0
- */
-define('MAGICK_MIXTURE_OPTION_SERVICES', 'Magick_ToolBox_Option_Services');
-
-/**
- * 第四阶段：用户反馈与数据洞察 Option 键名
- * @since 2.3.0
- */
-define('MAGICK_MIXTURE_OPTION_FEEDBACK', 'Magick_ToolBox_Option_Feedback');
 
 /**
  * 第三阶段：国内生态 & 性能优化模块 Option 键名

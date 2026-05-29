@@ -20,14 +20,6 @@ export const aiReviewApi = {
     restInstance.post("/ai-review/test", { provider, config }) as Promise<any>,
 };
 
-// ========== 反馈与洞察 ==========
-export const feedbackApi = {
-  submit: (data: any): Promise<ApiResponse> =>
-    restInstance.post("/feedback/submit", data) as Promise<any>,
-  getInsights: (): Promise<ApiResponse<any>> =>
-    restInstance.get("/feedback/insights") as Promise<any>,
-};
-
 // ========== 性能优化 ==========
 export const performanceApi = {
   getDbStats: () => restInstance.get("/performance/db/stats"),

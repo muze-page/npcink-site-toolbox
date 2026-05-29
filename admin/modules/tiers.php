@@ -28,16 +28,16 @@ return array(
         'auxiliary.census_single', 'auxiliary.ban_malice_search',
         'login.login_verify',
         'shortcode.main', 'shortcode.compose', 'shortcode.pendant',
-        'template.main', 'template.static', 'template.trends',
+
         'domestic.compliance', 'domestic.baidu_push', 'domestic.wechat',
         'domestic.comment_security', 'domestic.login_security',
         'performance.oss', 'performance.seo_checker', 'performance.media_health',
         'performance.search_enhance',
         'ai_review.main',
-        'page.diary', 'page.ticket',
+
         'function.config',
         'page.interface_category_data',
-        'services.main', 'feedback.main',
+
         'page.first_picture', 'page.add_article_update_time',
         'page.search_limit', 'page.default_thumbnail',
         'page.comment_emoji', 'page.comment_interval', 'page.limit_word_count',
@@ -48,14 +48,13 @@ return array(
         'page.go_top', 'page.scrolling', 'page.unlisted_vague_img',
         'page.jump_middle_page', 'page.share',
         'page.header_notice', 'page.color_tags',
-        'page.login_search', 'page.article_rating',
+        'page.login_search',
         'page.anti_crawler',
-        'function.wx_xcx_link',
+
     ),
 
     // ===== advanced: 进阶功能 =====
     'advanced' => array(
-        'page.bottom_effect',
         'page.maintenance_tips',
         'page.top_ad',
         'optimize.svg_support',
@@ -66,18 +65,17 @@ return array(
         'optimize.ban_update', 'optimize.ban_auto_size',
         'optimize.cdn_replace',
         'page.ban_open_weixing', 'page.ban_open_qq', 'page.ban_copy',
-        'page.front_debug',
+
         'page.batch_replace',
         'page.single_keyword_add_link', 'page.single_remove_link',
         'performance.db_clean',
-        'function.download_sql_table',
+
     ),
 
     // ===== experimental: 实验性功能 =====
     'experimental' => array(
-        'page.click_effect', 'page.screen_hair', 'page.pixel_chicken',
-        'page.lantern', 'page.top_loading', 'page.all_grey',
-        'page.completed_book', 'page.copy_pop_up', 'page.dynamic_title',
+        'page.top_loading', 'page.all_grey',
+        'page.copy_pop_up', 'page.dynamic_title',
         'page.add_scroll_bar', 'page.lang_jf',
         'page.hide_category', 'page.hide_tag', 'page.hide_page',
         'login.change_login_logo_link', 'login.remove_login_lang_select',

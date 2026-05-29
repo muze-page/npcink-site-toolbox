@@ -126,15 +126,6 @@ const App: React.FC = () => {
             onValuesChange({ ban_copy: checked } as Partial<FieldType>, formData);
           }}
         />
-        <ModuleRow
-          title="禁用F12前端调试"
-          description="打开浏览器控制台显示空白内容"
-          featureId="page-jurisdiction-front_debug"
-          enabled={formData.front_debug as boolean}
-          onChange={(checked: boolean) => {
-            onValuesChange({ front_debug: checked } as Partial<FieldType>, formData);
-          }}
-        />
         <h3 className="menu-header">未登录权限</h3>
 
         <Form.Item<FieldType>

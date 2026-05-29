@@ -8,12 +8,9 @@ describe('defaultVar', () => {
     expect(defaultVarOption).toHaveProperty('function');
     expect(defaultVarOption).toHaveProperty('login');
     expect(defaultVarOption).toHaveProperty('shortcode');
-    expect(defaultVarOption).toHaveProperty('template');
     expect(defaultVarOption).toHaveProperty('domestic');
     expect(defaultVarOption).toHaveProperty('performance');
     expect(defaultVarOption).toHaveProperty('ai_review');
-    expect(defaultVarOption).toHaveProperty('services');
-    expect(defaultVarOption).toHaveProperty('feedback');
   });
 
   it('should have correct optimize sub-modules', () => {

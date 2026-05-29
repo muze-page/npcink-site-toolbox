@@ -29,7 +29,7 @@ export type Option = {
   //功能
   function: {
     auxiliary: FunctionAuxiliary; //辅助功能
-    wx_xcx: FunctionWxXcx; //微信小程序链接生成
+
     seo: FunctionSeo; //简单 SEO 功能
     config: FunctionTips; //简单提示
   };
@@ -42,11 +42,6 @@ export type Option = {
   shortcode: {
     compose: CodeCompose; //板式
     pendant: CodePendant; //挂件
-  };
-  //页面模版
-  template: {
-    static: TemplateStatic; //静态
-    trends: TemplateTrends; //动态
   };
   //国内生态
   domestic: {
@@ -66,10 +61,7 @@ export type Option = {
   };
   // AI 审核
   ai_review: AiReview; //AI 审核助手
-  // 增值服务
-  services: Services; //技术支持与服务
-  // 用户反馈
-  feedback: Feedback; //反馈与数据洞察
+
 };
 
 /**
@@ -226,22 +218,20 @@ export type PageFeature = {
   title_front: string; //回到当前标签
   title_after: string; //离开标签后
   top_loading: boolean; //顶部加载进度条
-  particle: string; //粒子特效
+
   scrol: string; //美化滚动条
-  screen_hair: boolean; //屏幕上的毛
+
   site_grey: boolean; //网站变灰
-  lantern: boolean; //灯笼效果
-  lantern_left: string; //左边的字
-  lantern_right: string; //右边的字
-  pixel_chicken: boolean; //像素小鸡
-  past_books: boolean; //已写完的书
+
+
+
   go_top: string; //返回顶部
   page_back_top_cat_right: number; //右边距
   copy_pop_up: string; //鼠标点击复制弹窗
-  bottom_effect: string; //页底特效
+
   page_scrolling: boolean; //平滑滚动
 
-  background_effect: string; //背景特效
+
   reading_progress: boolean; //页顶阅读进度条
   reading_progress_color: string; //进度条颜色
   reading_progress_height: number; //进度条高度
@@ -286,7 +276,7 @@ export type PageFunction = {
   batch_replace: boolean; //文章批量替换
   batch_replace_pairs: Array<{find: string; replace: string}>; //替换规则
   login_search: boolean; //仅登录可搜索
-  article_rating: boolean; //文章评分
+
   header_notice: boolean; //页眉通知栏
   header_notice_text: string; //通知文本
   header_notice_color: string; //通知颜色
@@ -299,8 +289,7 @@ export type PageFunction = {
   anti_crawler_tecent_key: string; //腾讯防水墙AppKey
   link_source: boolean; //文章链接添加来源
   source_key: string; //来源标识
-  ticket: boolean; //工单系统
-  diary: boolean; //日记类型
+
 };
 
 // 页面 - 权限
@@ -312,7 +301,7 @@ export type PageJurisdiction = {
   wechat_xcx_guide_text: string; //小程序引导文字
   wechat_xcx_link: string; //小程序链接
   ban_open_qq: boolean; //禁止在QQ中打开
-  front_debug: boolean; //前端调试
+
   ban_copy: boolean; //禁止复制
   category_id: number[]; //分类ID
   tag_id: number[]; //标签ID
@@ -341,15 +330,7 @@ export type FunctionTips = {
   tips_link: string; //按钮链接
 };
 
-//功能 微信小程序
-export type FunctionWxXcx = {
-  active: boolean; //开关状态
-  appid: string; //
-  secret: string; //
-  site: string; //小程序中打开的网址
-  path: string; //路径
-  query: string; //参数
-};
+
 
 export type FunctionSeo = {
   title: string; //网站标题
@@ -416,15 +397,7 @@ type mapData = {
   name: string;
 };
 
-//静态
-export type TemplateStatic = {
-  triangle: boolean; //立体三角
-};
 
-//动态
-export type TemplateTrends = {
-  special: boolean; //专题列表
-};
 
 // ===== 国内生态 =====
 export type DomesticCompliance = {
@@ -553,28 +526,7 @@ export type AiReview = {
   log_max_entries: number;
 };
 
-export type Services = {
-  enabled: boolean;
-  wechat_qr: string;
-  wechat_id: string;
-  email: string;
-  website: string;
-  service_custom_dev: boolean;
-  service_deployment: boolean;
-  service_theme_adapt: boolean;
-  service_support: boolean;
-  cases: Array<{title: string; description: string; logo: string}>;
-};
 
-export type Feedback = {
-  enabled: boolean;
-  feedback_enabled: boolean;
-  feedback_email: string;
-  feedback_auto_reply: string;
-  telemetry_enabled: boolean;
-  telemetry_anonymous: boolean;
-  show_insights: boolean;
-};
 
 export interface RiskInfo {
   level: string;

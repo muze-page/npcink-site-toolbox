@@ -316,57 +316,7 @@
   font-weight: bold;
 }
 
-.mabox-template-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 16px;
-  border: 1px solid #f0f0f0;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  transition: box-shadow 0.2s;
-}
-
-.mabox-template-row:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-
-.mabox-template-row-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.mabox-template-row-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1d2327;
-}
-
-.mabox-template-row-desc {
-  font-size: 12px;
-  color: #999;
-  margin-top: 2px;
-}
-
-.mabox-template-row-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
 @media (max-width: 768px) {
-  .mabox-template-row {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .mabox-template-row-actions {
-    width: 100%;
-    justify-content: flex-end;
-  }
-
   .mabox-module-row {
     flex-wrap: wrap;
   }
