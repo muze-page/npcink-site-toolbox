@@ -17,7 +17,7 @@ if (!class_exists('MaBox_Medium_Ban_Auto_Size')) {
         {
 
             // 禁用自动生成的图片尺寸
-            add_action('intermediate_image_sizes_advanced', array(__CLASS__, 'shapeSpace_disable_image_sizes'));
+            add_filter('intermediate_image_sizes_advanced', array(__CLASS__, 'shapeSpace_disable_image_sizes'));
             // 禁用缩放尺寸
             add_filter('big_image_size_threshold', '__return_false');
             // 禁用其他图片尺寸
@@ -32,7 +32,9 @@ if (!class_exists('MaBox_Medium_Ban_Auto_Size')) {
             unset($sizes['large']); // disable large size
             unset($sizes['medium_large']); // disable medium-large size
             unset($sizes['1536x1536']); // disable 2x medium-large size
-            unset($sizes['2048x2048']); // disable 2x large size return $sizes;
+            unset($sizes['2048x2048']); // disable 2x large size
+
+            return $sizes;
         }
 
         // 禁用其他图片尺寸

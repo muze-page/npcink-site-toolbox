@@ -1,6 +1,6 @@
 # ADR: Pre-GA 管理后台清场式重构
 
-- 状态：已接受；工作包 1-7 已验收，工作包 8A 已完成自动化与 Local 验收
+- 状态：已接受；工作包 1-7 已验收，工作包 8A-8B 已完成自动化与 Local 验收
 - 日期：2026-07-15
 - 决策范围：WP Magick Toolbox 管理后台应用外壳
 
@@ -125,7 +125,7 @@
 ## 后续工作包
 
 1. 完成工作包 7 的自动化门禁、紧急恢复和真实 Local 登录烟测。
-2. 完成 `category_link_simplify` 生命周期修复后，继续狭窄修复 `ban_auto_size` 缺少过滤返回值的已确认行为债务。
+2. 工作包 8A-8B 狭窄收口 `category_link_simplify` 生命周期和 `ban_auto_size` 过滤器返回契约，不在其上扩大功能范围。
 3. 建立单一模块 manifest/config schema，并生成或校验前端类型与搜索索引，继续减少手写重复真相。
 4. 逐步缩减 Ant Design、Tailwind 和大体积共享 chunk，稳定到更轻的 WordPress 管理界面组件边界。
 5. 完成发布前人工验收、风险功能恢复路径验证和打包检查。
@@ -346,6 +346,29 @@
 5. 新增 6 项聚焦回归测试、28 个断言，覆盖主入口注册、激活开关、精确停用清理、Core 恢复、双向设置转换和无转换不刷新。聚焦测试通过；全量 PHPUnit 336 项测试/3351 个断言通过，PHPStan 0 error，3 个变更 PHP 文件语法检查通过。
 6. Local WordPress 7.0.1 四阶段烟测通过：设置开启后分类链接由 `/category/uncategorized/` 变为 `/uncategorized/` 且直接规则存在；停用插件后恢复 Core 链接并删除直接规则；保留开启配置重新激活后再次应用简化规则；设置关闭后再次恢复 Core。烟测清理脚本末尾因 zsh 保留的只读变量名 `status` 中止自动恢复，随后已显式重建激活模块表并刷新缓存；最终确认插件启用、该设置为 `false`、激活模块仅 `optimize.widgets`，PHP、PHP-FPM 与 Nginx 错误日志均无增量。
 
+## 工作包 8B：自动图片尺寸过滤器返回契约修复
+
+| 项目 | 决定 |
+| --- | --- |
+| 目标仓库 | `/Users/muze/gitee/wp-magick-toolbox` |
+| 聚焦模块 | `optimize.medium.ban_auto_size` 的 `intermediate_image_sizes_advanced` 过滤器契约 |
+| 失败证据 | 旧实现把 filter hook 以 action 注册，回调删除六个尺寸后没有返回 `$sizes`，使调用方得到 `null`，并可能破坏其他主题或插件注册的自定义尺寸 |
+| 预期变更 | 以 filter 注册现有回调；删除六个既定 Core 尺寸后返回剩余数组，保留未知和自定义尺寸 |
+| 明确非目标 | 不修改模块 scope、设置 Schema、风险文案、其他 `remove_image_size()` 行为、前端或其他媒体模块，也不扩大为删除全部图片尺寸 |
+| 公共契约 | `shapeSpace_disable_image_sizes($sizes)` 接受并返回尺寸关联数组，只移除 `thumbnail`、`medium`、`large`、`medium_large`、`1536x1536`、`2048x2048` |
+| 预期文件 | `admin/partials/optimize/medium/ban_auto_size.php`、聚焦 PHPUnit 回归测试与本 ADR |
+| 不得改变 | WP8A、其他媒体行为、前端构建产物、用户未跟踪排障文档和兄弟仓库 |
+| 必需门禁 | 聚焦 PHPUnit、`composer test`、PHPStan、变更 PHP 语法检查、`git diff --check` |
+| 跨仓矩阵 | 不需要；过滤器实现和测试均由本插件拥有 |
+| 回滚计划 | 回滚本工作包局部变更即可恢复旧行为，不新增兼容入口或并行实现 |
+
+### 工作包 8B 结果复核
+
+1. `intermediate_image_sizes_advanced` 改为通过 `add_filter()` 注册；`big_image_size_threshold` 和 `init` 上的既有行为保持不变。
+2. `shapeSpace_disable_image_sizes()` 只 unset 六个既定 Core 键并明确返回剩余 `$sizes`；主题或插件添加的未知、自定义尺寸及其原始配置保持不变。
+3. 新增 2 项行为回归测试、3 个断言，旧实现会分别因错误 hook 类型和 `null` 返回失败。聚焦测试通过；全量 PHPUnit 338 项测试/3354 个断言通过，PHPStan 0 error，2 个变更 PHP 文件语法检查通过。
+4. Local WordPress 7.0.1 真实过滤链验收通过：临时开启模块后，以预加载 `WP_ADMIN=true` 的普通 WordPress 引导确认目标回调已注册，过滤结果仍为数组，六个 Core 尺寸被删除，`theme-hero` 自定义尺寸及配置原样保留，既有大图阈值过滤仍返回 `false`。WP-CLI 2.12.0 的 `--context=admin` 会在加载 Core 后台菜单时因缺少全局菜单数组触发 `uksort(null)`，故未将该工具基线错误误判为插件故障。最终已恢复 `no_auto_size=false`、激活模块仅 `optimize.widgets` 且插件保持启用，PHP、PHP-FPM 与 Nginx 错误日志无增量。
+
 ## 结果复核
 
 首个垂直切片已完成独立代码审查和浏览器烟测，改进假说成立：
@@ -362,4 +385,4 @@
 
 浏览器烟测先使用 Vite 默认数据验证桌面/移动结构、语义路由、浏览器返回、未知路由、搜索定位和接口失败状态；工作包 4 又在真实 Local WordPress 管理员登录态中验证了 WordPress 管理栏、服务端成功响应和敏感设置闭环。
 
-整个 Pre-GA Reset 尚未完成；AI Provider Runtime 清退已由工作包 2 收口，pnpm/CI 可重复基线已由工作包 3 收口，敏感设置契约已由工作包 4 收口，注册模块与 Loader 的运行时契约已由工作包 5 收口，不可信登录验证码已由工作包 6 清退。工作包 7 已冻结登录安全的最小最终契约，工作包 8A 已修复分类链接简化的生命周期债务。其余主要问题是 `ban_auto_size` 已确认行为债务、重复 manifest/schema，以及 Ant Design/Tailwind 和大 chunk 带来的前端维护与性能成本。
+整个 Pre-GA Reset 尚未完成；AI Provider Runtime 清退已由工作包 2 收口，pnpm/CI 可重复基线已由工作包 3 收口，敏感设置契约已由工作包 4 收口，注册模块与 Loader 的运行时契约已由工作包 5 收口，不可信登录验证码已由工作包 6 清退。工作包 7 已冻结登录安全的最小最终契约，工作包 8A-8B 已修复分类链接简化生命周期和自动图片尺寸过滤器两项行为债务。其余主要问题是重复 manifest/schema，以及 Ant Design/Tailwind 和大 chunk 带来的前端维护与性能成本。
