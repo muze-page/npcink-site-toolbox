@@ -1,6 +1,6 @@
 # ADR: Pre-GA 管理后台清场式重构
 
-- 状态：已接受；工作包 1-7 已验收，工作包 8A-8B 已完成自动化与 Local 验收，工作包 9A-9C 已完成自动化与 Local 验收，工作包 10A 已完成自动化与 Local 验收
+- 状态：已接受；工作包 1-7 已验收，工作包 8A-8B、9A-9C、10A-12 已完成自动化与 Local 验收
 - 日期：2026-07-15
 - 决策范围：WP Magick Toolbox 管理后台应用外壳
 
@@ -504,6 +504,33 @@
 6. README、当前构建指南和 VitePress 已统一为“一套前端工程、两个独立产物”；早期开发手册和按需加载规范只增加权威边界提示，历史 release wrap-up 与阶段总结保持原文。
 7. 自动化门禁通过：frozen install、根 typecheck、ESLint 0 error（Admin 133/Count 4 个既有 warning）、Admin Vitest 与 coverage 23 个文件/136 项测试；Admin CSS 319 个选择器隔离和构建图扫描通过，首次 JS 774,809 B / gzip 252,139 B，tiny bootstrap 41 B；Count 构建扫描通过，`index.js` 621,299 B / gzip 206,360 B，`index.css` 826 B / gzip 370 B。PHP 语法、3 项聚焦 PHPUnit/21 个断言、全量 PHPUnit 343 项/3386 个断言、PHPStan、VitePress build、CI YAML 解析、ZIP 内容模拟和 `git diff --check` 均通过。
 
+## 工作包 12：REST 与产品表面收口
+
+| 项目 | 决定 |
+| --- | --- |
+| 目标仓库 | `/Users/muze/gitee/wp-magick-toolbox` |
+| 聚焦模块 | REST Registry、分类数据接口，以及文章批量替换、数据库表导出、文章评分和微信解锁的失配残留 |
+| 失败证据 | Registry 中 4 条路由指向不存在的类；文章批量替换保留 3 条手动路由、模块、Schema 和客户端 API，却没有配置或操作界面消费者；唯一真实使用的 `/tools/categories` 又混用了 AJAX nonce、`wp_send_json_*` 与不匹配的响应包络 |
+| 预期变更 | 删除无实现或无消费者的路由、模块、配置和客户端代码；保留 `/tools/categories` 路径并改成管理员权限、标准 REST 响应和受检前端数据形状；建立精确路由表及 callback 可调用性门禁 |
+| 明确非目标 | 不新增替代功能、不保留自动批量替换子集、不建立迁移器或兼容端点、不改后台视觉、Count、其他前台模块、AI 参考快照或兄弟仓库 |
+| 公共契约 | 删除 `/page/batch-replace*`、`/tools/tables`、`/tools/table-data`、`/public/rating`、`/public/wx-unlock/verify`；`/tools/categories` 从公开权限改为 `manage_options`，成功响应固定为 `{success:true,data:{categorys,tags,pages}}` |
+| 预期文件 | REST 注册、模块 Registry/Tier/Autoload、批量替换模块、Config Schema/生成物、Admin API/类型/消费者、回归测试、当前功能清单/文档站/变更日志及本 ADR |
+| 不得改变 | 历史架构快照、早期实施报告与规划原文、数据库结构、用户未跟踪排障文档、无关功能和兄弟仓库 |
+| 必需门禁 | callback 失败复现、精确路由表、聚焦与全量 PHPUnit、PHPStan/PHP lint、设置契约生成检查、Admin coverage/typecheck/lint/build、Count build、VitePress build、ZIP 边界、Local 登录态分类数据烟测和 `git diff --check` |
+| 跨仓矩阵 | 不需要；路由、消费者和发布边界均在本仓库 |
+| 回滚计划 | 回滚本工作包即可恢复旧表面；不保留 feature flag、双路由或历史配置兼容层 |
+
+### 工作包 12 实施事实
+
+1. 先新增 callback 可调用性门禁并在旧基线稳定复现 4 个失败：`MaBox_Download_SQL_Table` 两条、`MaBox_Page_Article_Rating` 一条、`MaBox_ShortCode_Wx_Unlock` 一条。删除残留后，15 条当前路由路径、16 个 endpoint callback 全部可调用；测试从模糊的“至少 19 条”改成精确产品表面。
+2. 删除 4 条无实现路由、3 条无消费者的批量替换手动路由，以及对应前端包装。文章批量替换本身没有配置或操作界面，继续保留保存时 Hook 只会形成不可管理的隐藏行为，因此模块文件、Registry/Tier/Autoload、Schema 两字段、前端类型/校验、生成契约和当前功能文档整体清退，不建立自动替换子集。
+3. 读取端 Schema 会忽略旧开发 Option 中的 `batch_replace` 与 `batch_replace_pairs`，严格写入契约拒绝未知字段，下一次正常保存自然覆盖旧键；项目没有用户或兼容承诺，因此不增加一次性迁移器、数据库扫描或双轨字段。
+4. `/tools/categories` 继续服务“隐藏指定内容”设置，但 permission 改为 `manage_options`；callback 接受 WordPress REST 请求，不再读取 AJAX nonce 或调用 `wp_send_json_*`。分类、标签或页面读取失败统一返回不泄露内部细节且带 `status:500` 的 `WP_Error`，空站点则合法返回三个空列表；选项 ID 固定为整数。
+5. Admin 客户端只保留 `getCategoryData()`，对成功包络和三个 option 数组做运行时形状验证；权限设置组件直接消费共享 `CategoryData`，畸形响应不会进入 Ant Design Select。数据库表导出和 batch API、CSV 浏览器下载函数及无消费者类型全部删除。
+6. 当前事实文档、文档站导航和功能计数同步删除批量替换；2.3/2.4 历史架构、稳定性计划、实施报告与 AI 建议保留原文，并继续由顶部权威警告与当前 ADR 隔离，避免把历史改写成当前事实。
+7. 自动化门禁通过：PHPUnit 343 项/3348 个断言、PHPStan 0 error、全仓 PHP lint、设置契约生成检查；Admin coverage 24 个文件/141 项测试，语句覆盖率 46.85%，TypeScript 和 ESLint 0 error（Admin 129/Count 3 个既有 warning）；Admin 构建首次 JS 774,457 B / gzip 252,024 B，Count JS 621,637 B / gzip 206,439 B，CSS/构建契约、VitePress build、189 项 ZIP 边界模拟和 `git diff --check` 均通过。首次并发运行 coverage 时，既有登录安全组件测试在多门禁争用资源下超过 5 秒；单测隔离、隔离 coverage 及前端独占全量 coverage 均稳定通过，未修改生产实现或放宽超时。
+8. Local WordPress 7.0.1 管理员登录态验收通过且未保存设置：“内容与页面 → 权限”能加载分类 `Uncategorized` 和页面 `Sample Page`，空标签合法显示“暂无数据”；浏览器 console error/warn 均为 0。匿名 `/tools/categories` 返回 401，已删除 `/page/batch-replace` 返回 404，REST namespace 索引只暴露当前 15 条产品路由。
+
 ## 结果复核
 
 首个垂直切片已完成独立代码审查和浏览器烟测，改进假说成立：
@@ -520,4 +547,4 @@
 
 浏览器烟测先使用 Vite 默认数据验证桌面/移动结构、语义路由、浏览器返回、未知路由、搜索定位和接口失败状态；工作包 4 又在真实 Local WordPress 管理员登录态中验证了 WordPress 管理栏、服务端成功响应和敏感设置闭环。
 
-整个 Pre-GA Reset 尚未完成；AI Provider Runtime 清退已由工作包 2 收口，pnpm/CI 可重复基线已由工作包 3 收口，敏感设置契约已由工作包 4 收口，注册模块与 Loader 的运行时契约已由工作包 5 收口，不可信登录验证码已由工作包 6 清退。工作包 7 已冻结登录安全的最小最终契约，工作包 8A-8B 已修复分类链接简化生命周期和自动图片尺寸过滤器两项行为债务，工作包 9A-9C 已建立宿主隔离、保存信任反馈及可审计构建/缓存契约。其余主要问题是重复 manifest/schema，以及 Ant Design 仍带来的前端维护与首屏体积成本。
+整个 Pre-GA Reset 尚未完成；AI Provider Runtime 清退已由工作包 2 收口，pnpm/CI 可重复基线已由工作包 3 收口，敏感设置契约已由工作包 4 收口，注册模块与 Loader 的运行时契约已由工作包 5 收口，不可信登录验证码已由工作包 6 清退。工作包 7 已冻结登录安全的最小最终契约，工作包 8A-8B 已修复分类链接简化生命周期和自动图片尺寸过滤器两项行为债务，工作包 9A-9C 已建立宿主隔离、保存信任反馈及可审计构建/缓存契约，工作包 10A-11 已收口生成式设置契约和前端工程/发布边界，工作包 12 又删除 7 条死或无消费者路由并修复分类数据 REST 闭环。其余主要问题是重复 manifest/schema，以及 Ant Design 仍带来的前端维护与首屏体积成本。

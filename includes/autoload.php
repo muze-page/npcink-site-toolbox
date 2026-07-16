@@ -56,7 +56,6 @@ spl_autoload_register(function ($class) {
         'MaBox_Module_Interface' => 'includes/interface-mabox-module.php',
         'MaBox_Module_Loader' => 'admin/modules/loader.php',
         'MaBox_Module_Metadata' => 'admin/modules/metadata.php',
-        'MaBox_Page_Batch_Replace' => 'admin/partials/page/function/batch_replace.php',
         'MaBox_Page_Comment_Interval' => 'admin/partials/page/comment/comment_interval.php',
         'MaBox_Page_Default_Thumbnail' => 'admin/partials/page/function/default_thumbnail.php',
         'MaBox_Page_Hide_Category' => 'admin/partials/page/jurisdiction/hide_category.php',

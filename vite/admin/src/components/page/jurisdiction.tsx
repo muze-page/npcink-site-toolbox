@@ -4,10 +4,10 @@
 import { useState, useContext, useEffect } from "react";
 import { Form, Select } from "antd";
 import { DataContext } from "@/tool/dataContext";
-import { PageJurisdiction, ListData } from "@/tool/interface";
+import { PageJurisdiction } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
-import { getCategoryData } from "@/axios/axios";
+import { CategoryData, getCategoryData } from "@/axios/axios";
 import TextAreaHtml from "@/basic/htmlInput";
 import { SettingsSection } from "@/components/settings-ui";
 
@@ -34,18 +34,13 @@ const App: React.FC = () => {
     updateOption("page", "jurisdiction", formData);
   }, [formData]);
 
-  interface TagData {
-    categorys: ListData[];
-    tags: ListData[];
-    pages: ListData[];
-  }
-  const [tagArray, setTagArray] = useState<TagData>();
+  const [tagArray, setTagArray] = useState<CategoryData>();
   const getData = async () => {
     try {
       const list = await getCategoryData();
       setTagArray(list);
     } catch (error) {
-      console.error("Error fetching table data:", error);
+      console.error("Error fetching category data:", error);
     }
   };
   useEffect(() => {

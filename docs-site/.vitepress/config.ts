@@ -117,7 +117,6 @@ export default defineConfig({
             { text: '隐藏指定内容', link: '/features/page-function/hide-content' },
             { text: '默认文章缩略图', link: '/features/page-function/default-thumbnail' },
             { text: '限制搜索频次', link: '/features/page-function/search-limit' },
-            { text: '文章批量替换', link: '/features/page-function/batch-replace' },
             { text: '仅登录可搜索', link: '/features/page-function/login-only-search' },
           ],
         },

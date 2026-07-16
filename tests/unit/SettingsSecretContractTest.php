@@ -75,13 +75,7 @@ class SettingsSecretContractTest extends TestCase
         $this->assertSame(array('type' => 'string'), $schema['page']['function']['countdown']['items']);
         $this->assertSame('number', $schema['page']['jurisdiction']['category_id']['items']['type']);
         $this->assertTrue($schema['page']['jurisdiction']['category_id']['items']['finite']);
-        $this->assertSame(
-            array('find', 'replace'),
-            $schema['page']['function']['batch_replace_pairs']['items']['required']
-        );
-        $this->assertFalse($schema['page']['function']['batch_replace_pairs']['items']['additionalProperties']);
         $this->assertSame(array(), $defaults['page']['function']['countdown']);
-        $this->assertSame(array(), $defaults['page']['function']['batch_replace_pairs']);
         $this->assertSame(array(), $defaults['page']['jurisdiction']['category_id']);
         $this->assertStringNotContainsString('items', serialize($ui_schema));
     }
@@ -99,6 +93,21 @@ class SettingsSecretContractTest extends TestCase
         $this->assertTrue($browser['secretStatus']['performance.oss.access_key']['configured']);
         $this->assertTrue($browser['secretStatus']['performance.oss.secret_key']['configured']);
         $this->assertStringNotContainsString(self::CANARY, serialize($browser));
+    }
+
+    public function test_browser_config_drops_retired_batch_replacement_fields(): void
+    {
+        $config = MaBox_Config_Schema::get_defaults();
+        $config['page']['function']['batch_replace'] = true;
+        $config['page']['function']['batch_replace_pairs'] = array(
+            array('find' => 'old', 'replace' => 'new'),
+        );
+
+        $browser = MaBox_Config_Manager::get_browser_config($config);
+
+        $this->assertArrayNotHasKey('batch_replace', $browser['data']['page']['function']);
+        $this->assertArrayNotHasKey('batch_replace_pairs', $browser['data']['page']['function']);
+        $this->assertFalse(MaBox_Config_Schema::validate_browser_settings($config)['valid']);
     }
 
     public function test_rest_get_settings_never_returns_canary_values(): void
@@ -342,9 +351,6 @@ class SettingsSecretContractTest extends TestCase
 
         $settings = $this->browserSettings();
         $settings['page']['function']['countdown'] = array('2026-07-15 12:00:00');
-        $settings['page']['function']['batch_replace_pairs'] = array(
-            array('find' => 'old', 'replace' => 'new'),
-        );
         $settings['page']['jurisdiction']['category_id'] = array(1, 2.5);
         $settings['page']['jurisdiction']['tag_id'] = array(3);
         $settings['page']['jurisdiction']['page_id'] = array(4);
@@ -375,10 +381,6 @@ class SettingsSecretContractTest extends TestCase
         $this->assertSame(
             array('2026-07-15 12:00:00'),
             $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Page']['function']['countdown']
-        );
-        $this->assertSame(
-            array(array('find' => 'old', 'replace' => 'new')),
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Page']['function']['batch_replace_pairs']
         );
         $this->assertSame(
             array(1, 2.5),
@@ -435,21 +437,6 @@ class SettingsSecretContractTest extends TestCase
         $non_finite_number = $valid;
         $non_finite_number['page']['jurisdiction']['category_id'] = array(INF, NAN);
 
-        $wrong_batch_item = $valid;
-        $wrong_batch_item['page']['function']['batch_replace_pairs'] = array(
-            array('unexpected' => 'value'),
-        );
-
-        $batch_item_with_extra_key = $valid;
-        $batch_item_with_extra_key['page']['function']['batch_replace_pairs'] = array(
-            array('find' => 'old', 'replace' => 'new', 'extra' => 'value'),
-        );
-
-        $batch_item_with_wrong_type = $valid;
-        $batch_item_with_wrong_type['page']['function']['batch_replace_pairs'] = array(
-            array('find' => 123, 'replace' => 'new'),
-        );
-
         return array(
             'empty settings' => array(),
             'missing module' => $missing_module,
@@ -461,9 +448,6 @@ class SettingsSecretContractTest extends TestCase
             'wrong countdown item' => $wrong_countdown_item,
             'wrong number item' => $wrong_number_item,
             'non-finite number item' => $non_finite_number,
-            'wrong batch item' => $wrong_batch_item,
-            'batch item extra key' => $batch_item_with_extra_key,
-            'batch item wrong type' => $batch_item_with_wrong_type,
         );
     }
 

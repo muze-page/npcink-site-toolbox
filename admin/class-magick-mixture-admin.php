@@ -376,7 +376,6 @@ class MaBox_Admin
 
         self::register_settings_routes();
         self::register_performance_routes();
-        self::register_page_routes();
         self::register_tools_routes();
         self::register_public_routes();
         self::register_domestic_routes();
@@ -538,121 +537,12 @@ class MaBox_Admin
         ), 'performance');
     }
 
-    private static function register_page_routes()
-    {
-        MaBox_Rest_Route_Registry::add('/page/batch-replace', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Page_Batch_Replace', 'manual_replace'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
-            'args'                => array(
-                'pairs' => array(
-                    'required'          => true,
-                    'type'              => 'array',
-                    'description'       => '替换规则数组，每项含 search 和 replace',
-                    'items'             => array(
-                        'type'       => 'object',
-                        'properties' => array(
-                            'search'  => array('type' => 'string', 'required' => true),
-                            'replace' => array('type' => 'string', 'required' => true),
-                        ),
-                    ),
-                    'sanitize_callback' => function ($value) {
-                        if (!is_array($value)) return array();
-                        return array_map(function ($pair) {
-                            return array(
-                                'search'  => isset($pair['search']) ? wp_kses_post($pair['search']) : '',
-                                'replace' => isset($pair['replace']) ? wp_kses_post($pair['replace']) : '',
-                            );
-                        }, $value);
-                    },
-                    'validate_callback' => function ($value) {
-                        if (!is_array($value) || empty($value)) return false;
-                        foreach ($value as $pair) {
-                            if (!is_array($pair) || !isset($pair['search']) || !isset($pair['replace'])) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    },
-                ),
-                'dry_run' => array(
-                    'default'           => true,
-                    'sanitize_callback' => 'rest_sanitize_boolean',
-                ),
-            ),
-        ), 'page');
-
-        MaBox_Rest_Route_Registry::add('/page/batch-replace/rollback', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Page_Batch_Replace', 'rollback_all'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
-            'args'                => array(
-                'confirm' => array(
-                    'required'          => true,
-                    'validate_callback' => function ($value) {
-                        return $value === true || $value === 'true' || $value === 1;
-                    },
-                    'sanitize_callback' => 'rest_sanitize_boolean',
-                ),
-            ),
-        ), 'page');
-
-        MaBox_Rest_Route_Registry::add('/page/batch-replace/rollback/(?P<post_id>\d+)', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Page_Batch_Replace', 'rollback'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
-            'args'                => array(
-                'post_id' => array(
-                    'required'          => true,
-                    'validate_callback' => function ($value) {
-                        return is_numeric($value) && $value > 0;
-                    },
-                ),
-            ),
-        ), 'page');
-    }
-
     private static function register_tools_routes()
     {
-        MaBox_Rest_Route_Registry::add('/tools/tables', array(
-            'methods'             => \WP_REST_Server::READABLE,
-            'callback'            => array('MaBox_Download_SQL_Table', 'get_all_table_names'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
-        ), 'tools');
-
-        MaBox_Rest_Route_Registry::add('/tools/table-data', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Download_SQL_Table', 'get_table_data'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
-            'args'                => array(
-                'databaseName' => array(
-                    'required'          => true,
-                    'validate_callback' => function ($value) {
-                        return is_string($value) && preg_match('/^[a-zA-Z0-9_]+$/', $value);
-                    },
-                    'sanitize_callback' => 'sanitize_text_field',
-                ),
-                'limit' => array(
-                    'default'           => 1000,
-                    'validate_callback' => function ($value) {
-                        return is_numeric($value) && $value > 0 && $value <= 1000;
-                    },
-                    'sanitize_callback' => array(__CLASS__, 'sanitize_int_arg'),
-                ),
-                'offset' => array(
-                    'default'           => 0,
-                    'validate_callback' => function ($value) {
-                        return is_numeric($value) && $value >= 0;
-                    },
-                    'sanitize_callback' => array(__CLASS__, 'sanitize_int_arg'),
-                ),
-            ),
-        ), 'tools');
-
         MaBox_Rest_Route_Registry::add('/tools/categories', array(
             'methods'             => \WP_REST_Server::READABLE,
             'callback'            => array('MaBox_Interface_Category_Data', 'get_all_category_names'),
-            'permission_callback' => '__return_true',
+            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
         ), 'tools');
     }
 
@@ -673,49 +563,6 @@ class MaBox_Admin
             ),
         ), 'public');
 
-        MaBox_Rest_Route_Registry::add('/public/rating', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Page_Article_Rating', 'handle_rating'),
-            'permission_callback' => MaBox_Rest_Route_Registry::public_nonce_rate_limited('rating', 'mabox_public_api', array('max_requests' => 30, 'time_window' => 60)),
-            'args'                => array(
-                'post_id' => array(
-                    'required'          => true,
-                    'validate_callback' => function ($value) {
-                        return is_numeric($value) && $value > 0;
-                    },
-                    'sanitize_callback' => array(__CLASS__, 'sanitize_int_arg'),
-                ),
-                'score' => array(
-                    'required'          => true,
-                    'validate_callback' => function ($value) {
-                        return is_numeric($value) && $value >= 1 && $value <= 5;
-                    },
-                    'sanitize_callback' => array(__CLASS__, 'sanitize_int_arg'),
-                ),
-            ),
-        ), 'public');
-
-        MaBox_Rest_Route_Registry::add('/public/wx-unlock/verify', array(
-            'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_ShortCode_Wx_Unlock', 'ajax_verify'),
-            'permission_callback' => MaBox_Rest_Route_Registry::public_nonce_rate_limited('wx-unlock', 'mabox_public_api', array('max_requests' => 20, 'time_window' => 60)),
-            'args'                => array(
-                'ticket' => array(
-                    'required'          => true,
-                    'validate_callback' => function ($value) {
-                        return is_string($value) && !empty($value);
-                    },
-                    'sanitize_callback' => 'sanitize_text_field',
-                ),
-                'randstr' => array(
-                    'required'          => true,
-                    'validate_callback' => function ($value) {
-                        return is_string($value) && !empty($value);
-                    },
-                    'sanitize_callback' => 'sanitize_text_field',
-                ),
-            ),
-        ), 'public');
     }
 
     private static function register_domestic_routes()

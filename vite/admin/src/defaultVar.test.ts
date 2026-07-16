@@ -58,8 +58,9 @@ describe('defaultVar', () => {
     expect(countdown).toEqual([]);
   });
 
-  it('should have valid batch_replace_pairs array', () => {
-    expect(Array.isArray(defaultVarOption.page.function.batch_replace_pairs)).toBe(true);
+  it('does not expose the retired batch replacement fields', () => {
+    expect(defaultVarOption.page.function).not.toHaveProperty('batch_replace');
+    expect(defaultVarOption.page.function).not.toHaveProperty('batch_replace_pairs');
   });
 
   it('does not expose sensitive schema fields', () => {

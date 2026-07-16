@@ -26,18 +26,6 @@ if (!class_exists('MaBox_Config_Schema')) {
             return array('type' => 'number', 'finite' => true);
         }
 
-        private static function batch_replace_items() {
-            return array(
-                'type' => 'object',
-                'required' => array('find', 'replace'),
-                'additionalProperties' => false,
-                'properties' => array(
-                    'find' => array('type' => 'string'),
-                    'replace' => array('type' => 'string'),
-                ),
-            );
-        }
-
         private static function build_schema() {
             return array(
                 'optimize' => array(
@@ -106,8 +94,6 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'default_thumbnail'       => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
                         'search_limit'            => array('type' => 'boolean', 'default' => false),
                         'search_limit_count'      => array('type' => 'number',  'default' => 10, 'min' => 1, 'max' => 100),
-                        'batch_replace'           => array('type' => 'boolean', 'default' => false),
-                        'batch_replace_pairs'     => array('type' => 'array',   'default' => array(), 'items' => self::batch_replace_items()),
                         'login_search'            => array('type' => 'boolean', 'default' => false),
                     ),
                     'jurisdiction' => array(

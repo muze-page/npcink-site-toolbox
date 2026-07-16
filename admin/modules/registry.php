@@ -272,14 +272,6 @@ return array(
         'scope'     => 'frontend',
         'config_path' => 'page.function',
     ),
-    'page.batch_replace' => array(
-        'class'     => 'MaBox_Page_Batch_Replace',
-        'file'      => 'page/function/batch_replace.php',
-        'option_key'=> 'page.function.batch_replace',
-        'category'  => 'page',
-        'scope'     => 'admin',
-        'config_path' => 'page.function',
-    ),
     'page.login_search' => array(
         'class'     => 'MaBox_Page_Login_Search',
         'file'      => 'page/function/login_search.php',

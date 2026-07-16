@@ -149,12 +149,12 @@ describe("diffConfig", () => {
   });
 
   it("数组变化视为变化", () => {
-    const before = { page: { function: { batch_replace: true } } };
-    const after = { page: { function: { batch_replace: false } } };
+    const before = { page: { jurisdiction: { category_id: [1] } } };
+    const after = { page: { jurisdiction: { category_id: [2] } } };
     const diffs = diffConfig(before, after);
     expect(diffs).toHaveLength(1);
-    expect(diffs[0].before).toBe(true);
-    expect(diffs[0].after).toBe(false);
+    expect(diffs[0].before).toEqual([1]);
+    expect(diffs[0].after).toEqual([2]);
   });
 
   it("高风险项排序在前", () => {

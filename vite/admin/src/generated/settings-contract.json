@@ -128,8 +128,6 @@
             "function": {
                 "add_inks": false,
                 "add_last_update": false,
-                "batch_replace": false,
-                "batch_replace_pairs": [],
                 "countdown": [],
                 "countdown_content": "",
                 "countdown_image": "",

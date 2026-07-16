@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Removed
+- 删除没有可用管理界面或真实消费者的文章批量替换模块及 3 条手动 REST 路由
+- 删除数据库表导出、文章评分和微信解锁遗留的 4 条不可调用 REST 路由
+
+### Fixed
+- 分类、标签和页面选项接口改用受管理员权限保护的标准 WordPress REST 响应
+- REST Registry 增加 callback 可调用性与精确产品表面回归门禁
+
 ## [2.6.1] - 2026-05-28
 
 ### Added

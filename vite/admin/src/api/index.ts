@@ -89,14 +89,6 @@ export const domesticApi = {
     restInstance.post("/domestic/environment/apply", { fixes }) as Promise<any>,
 };
 
-// ========== 工具 ==========
-export const toolsApi = {
-  getTables: () => restInstance.get("/tools/tables"),
-  getTableData: (databaseName: string, limit = 1000, offset = 0) =>
-    restInstance.post("/tools/table-data", { databaseName, limit, offset }),
-  getCategories: () => restInstance.get("/tools/categories"),
-};
-
 // ========== 设置 ==========
 export const settingsApi = {
   getSchema: () => restInstance.get("/settings/schema"),
@@ -112,14 +104,4 @@ export const diagnosticsApi = {
 export const searchHealthApi = {
   getSummary: (days = 30): Promise<ApiResponse<SearchHealthSummary>> =>
     restInstance.get(`/search-health/summary?days=${days}`) as Promise<any>,
-};
-
-// ========== 批量替换 ==========
-export const batchReplaceApi = {
-  execute: (pairs: any[], dryRun = true) =>
-    restInstance.post("/page/batch-replace", { pairs, dry_run: dryRun }),
-  rollbackAll: () =>
-    restInstance.post("/page/batch-replace/rollback", { confirm: true }),
-  rollbackPost: (postId: number) =>
-    restInstance.post(`/page/batch-replace/rollback/${postId}`),
 };

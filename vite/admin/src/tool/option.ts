@@ -33,19 +33,6 @@ function assertExactKeys(
   }
 }
 
-function assertBatchReplacePairs(value: unknown[], path: string): void {
-  value.forEach((item, index) => {
-    if (!isRecord(item)) {
-      throw new Error(`设置字段类型错误：${path}.${index}`);
-    }
-    const expected = { find: "", replace: "" };
-    assertExactKeys(item, expected, `${path}.${index}`);
-    if (typeof item.find !== "string" || typeof item.replace !== "string") {
-      throw new Error(`设置字段类型错误：${path}.${index}`);
-    }
-  });
-}
-
 function assertArrayValue(value: unknown, path: string): void {
   if (!Array.isArray(value)) {
     throw new Error(`设置字段类型错误：${path}`);
@@ -63,11 +50,6 @@ function assertArrayValue(value: unknown, path: string): void {
     }
     return;
   }
-  if (path === "page.function.batch_replace_pairs") {
-    assertBatchReplacePairs(value, path);
-    return;
-  }
-
   throw new Error(`未定义的设置数组契约：${path}`);
 }
 

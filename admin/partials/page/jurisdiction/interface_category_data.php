@@ -11,68 +11,81 @@ if (!class_exists('MaBox_Interface_Category_Data')) {
         {
         }
 
-        //获取所有的数据库表名
-        //名称，ID
-        public static function get_all_category_names()
+        /**
+         * Return category, tag, and page options for the admin settings UI.
+         *
+         * @param WP_REST_Request|null $_request REST request, unused.
+         * @return WP_REST_Response|WP_Error
+         */
+        public static function get_all_category_names(?\WP_REST_Request $_request = null)
         {
-            // Nonce 验证
-            check_ajax_referer('mabox_save_nonce', 'nonce');
-
-            //获取所有分类
             $categories = get_terms(array(
-                'taxonomy' => 'category', // 分类法的名称，默认是'category'
-                'hide_empty' => false, // 是否隐藏没有文章的分类
+                'taxonomy'   => 'category',
+                'hide_empty' => false,
             ));
+
+            if (is_wp_error($categories)) {
+                return self::unavailable_response();
+            }
 
             $category_array = array();
 
             foreach ($categories as $category) {
                 $category_array[] = array(
-                    'label' => $category->name,
-                    'value' => $category->term_id,
+                    'label' => (string) $category->name,
+                    'value' => (int) $category->term_id,
                 );
             }
 
-            //获取所有标签
             $tags = get_terms(array(
-                'taxonomy' => 'post_tag', // 标签法的名称，默认是'post_tag'
-                'hide_empty' => false, // 是否隐藏没有文章的标签
+                'taxonomy'   => 'post_tag',
+                'hide_empty' => false,
             ));
+
+            if (is_wp_error($tags)) {
+                return self::unavailable_response();
+            }
 
             $tag_array = array();
 
             foreach ($tags as $tag) {
                 $tag_array[] = array(
-                    'label' => $tag->name,
-                    'value' => $tag->term_id,
+                    'label' => (string) $tag->name,
+                    'value' => (int) $tag->term_id,
                 );
             }
 
-            // 获取所有页面
             $pages = get_pages();
+            if (!is_array($pages)) {
+                return self::unavailable_response();
+            }
+
             $page_array = array();
 
             foreach ($pages as $page) {
                 $page_array[] = array(
-                    'label' => $page->post_title,
-                    'value' => $page->ID
+                    'label' => (string) $page->post_title,
+                    'value' => (int) $page->ID,
                 );
             }
 
-            // 现在 $tag_array 就包含了所有标签的ID和名称
-            $data_array = array(
-                'categorys' => $category_array,
-                'tags' => $tag_array,
-                'pages' => $page_array,
-            );
+            return rest_ensure_response(array(
+                'success' => true,
+                'data'    => array(
+                    'categorys' => $category_array,
+                    'tags'      => $tag_array,
+                    'pages'     => $page_array,
+                ),
+            ));
+        }
 
-            // 现在 $category_array 就包含了所有分类的ID和名称
-            if (empty($category_array)) {
-                wp_send_json_error(['error' => '获取分类和标签失败', 'data' => []], 404);
-            } else {
-                // 返回响应数据
-                wp_send_json_success(['data' => $data_array, 'msg' => '成功获取分类和标签数据']);
-            }
+        private static function unavailable_response()
+        {
+            return new WP_Error(
+                'mabox_category_data_unavailable',
+                __('无法获取分类、标签和页面数据。', 'magick-toolbox'),
+                array('status' => 500)
+            );
         }
     }
 }

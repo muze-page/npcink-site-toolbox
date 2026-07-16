@@ -130,33 +130,4 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
         }
     }
 
-    /**
-     * 测试 batch replace 代码包含 dry_run 和 rollback
-     */
-    public function test_batch_replace_has_dry_run_and_rollback(): void {
-        $batch_replace_file = dirname(__FILE__) . '/../../admin/partials/page/function/batch_replace.php';
-        $this->assertFileExists($batch_replace_file);
-
-        $content = file_get_contents($batch_replace_file);
-
-        // 验证 dry_run 支持
-        $this->assertStringContainsString("dry_run", $content);
-
-        // 验证 rollback 支持
-        $this->assertStringContainsString("rollback", $content);
-
-        // 验证备份机制
-        $this->assertStringContainsString("_mabox_batch_replace_backup", $content);
-    }
-
-    /**
-     * 测试 batch replace REST API dry_run 默认为 true
-     */
-    public function test_batch_replace_rest_dry_run_default(): void {
-        $admin_file = dirname(__FILE__) . '/../../admin/class-magick-mixture-admin.php';
-        $content = file_get_contents($admin_file);
-
-        // 在 /page/batch-replace 路由附近查找 dry_run 默认值
-        $this->assertStringContainsString("/page/batch-replace", $content);
-    }
 }

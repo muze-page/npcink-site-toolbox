@@ -56,7 +56,6 @@ return array(
     'high_risk' => array(
         'optimize.ban_update', 'optimize.ban_auto_size',
         'optimize.cdn_replace',
-        'page.batch_replace',
         'page.single_keyword_add_link',
         'performance.db_clean',
 

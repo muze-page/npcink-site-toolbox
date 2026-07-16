@@ -273,8 +273,6 @@ export type PageFunction = {
   default_thumbnail: string; //默认文章缩略图
   search_limit: boolean; //限制搜索频次
   search_limit_count: number; //每分钟最大搜索次数
-  batch_replace: boolean; //文章批量替换
-  batch_replace_pairs: Array<{find: string; replace: string}>; //替换规则
   login_search: boolean; //仅登录可搜索
 };
 
@@ -316,14 +314,6 @@ export type FunctionSeo = {
   seo_single: boolean; //文章SEO
   seo_category: boolean; //分类和标签SEO
 };
-
-//下拉列表类型
-export type ListData = {
-  label: string;
-  value: string;
-};
-
-
 
 // ===== 国内生态 =====
 export type DomesticCompliance = {

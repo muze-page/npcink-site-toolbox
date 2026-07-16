@@ -22,6 +22,34 @@ class RestApiSecurityTest extends TestCase {
         $this->assertEmpty($missing, 'Routes missing permission_callback: ' . implode(', ', $missing));
     }
 
+    public function test_all_registered_route_callbacks_are_callable(): void {
+        self::trigger_registration();
+        $invalid = array();
+
+        foreach (MaBox_Rest_Route_Registry::get_registered() as $route) {
+            $args = $route['args'];
+            $endpoints = isset($args[0]) ? $args : array($args);
+
+            foreach ($endpoints as $endpoint) {
+                if (!isset($endpoint['callback'])) {
+                    $invalid[] = $route['path'] . ' => missing callback';
+                    continue;
+                }
+
+                if (is_callable($endpoint['callback'])) {
+                    continue;
+                }
+
+                $callback = is_array($endpoint['callback'])
+                    ? implode('::', $endpoint['callback'])
+                    : (string) $endpoint['callback'];
+                $invalid[] = $route['path'] . ' => ' . $callback;
+            }
+        }
+
+        $this->assertEmpty($invalid, 'Routes with non-callable callbacks: ' . implode(', ', $invalid));
+    }
+
     public function test_sensitive_endpoints_require_manage_options(): void {
         self::trigger_registration();
         $routes = MaBox_Rest_Route_Registry::get_registered();
@@ -29,8 +57,7 @@ class RestApiSecurityTest extends TestCase {
         $sensitive_paths = array(
             '/settings',
             '/performance/db/clean',
-            '/page/batch-replace',
-            '/tools/table-data',
+            '/tools/categories',
         );
 
         $found_paths = array();
@@ -76,7 +103,7 @@ class RestApiSecurityTest extends TestCase {
         self::trigger_registration();
         $routes = MaBox_Rest_Route_Registry::get_registered();
 
-        $public_paths = array('/public/search-log', '/public/rating', '/public/wx-unlock/verify');
+        $public_paths = array('/public/search-log');
 
         $found_paths = array();
         foreach ($routes as $route) {
@@ -123,11 +150,15 @@ class RestApiSecurityTest extends TestCase {
         $this->assertStringNotContainsString("'sanitize_callback' => 'intval'", $content, 'REST 参数不应直接使用 intval，WordPress 会传多个参数并在 PHP 8 下触发 ArgumentCountError');
     }
 
-    public function test_batch_replace_has_dangerous_content_filter(): void {
-        $admin_file = dirname(__DIR__, 2) . '/admin/class-magick-mixture-admin.php';
-        $content = file_get_contents($admin_file);
+    public function test_categories_callback_uses_the_rest_response_contract(): void {
+        $callback_file = dirname(__DIR__, 2) . '/admin/partials/page/jurisdiction/interface_category_data.php';
+        $content = file_get_contents($callback_file);
 
-        $this->assertStringContainsString('wp_kses_post', $content, 'Batch Replace 应该使用 wp_kses_post 消毒输入内容');
+        $this->assertStringContainsString('rest_ensure_response', $content);
+        $this->assertStringContainsString('is_wp_error', $content);
+        $this->assertStringContainsString("array('status' => 500)", $content);
+        $this->assertStringNotContainsString('check_ajax_referer', $content);
+        $this->assertStringNotContainsString('wp_send_json_', $content);
     }
 
     public function test_removed_settings_and_external_service_routes_are_absent(): void {
@@ -140,6 +171,13 @@ class RestApiSecurityTest extends TestCase {
         $this->assertNotContains('/settings/wizard-complete', $paths);
         $this->assertNotContains('/public/anti-crawler/verify', $paths);
         $this->assertNotContains('/domestic/baidu/push', $paths);
+        $this->assertNotContains('/page/batch-replace', $paths);
+        $this->assertNotContains('/page/batch-replace/rollback', $paths);
+        $this->assertNotContains('/page/batch-replace/rollback/(?P<post_id>\d+)', $paths);
+        $this->assertNotContains('/tools/tables', $paths);
+        $this->assertNotContains('/tools/table-data', $paths);
+        $this->assertNotContains('/public/rating', $paths);
+        $this->assertNotContains('/public/wx-unlock/verify', $paths);
     }
 
     public function test_settings_post_contract_uses_only_settings_and_secret_changes(): void {
@@ -167,11 +205,27 @@ class RestApiSecurityTest extends TestCase {
         $this->assertEquals(0, $direct_count, 'Admin 文件不应有直接的 register_rest_route 调用，应全部通过 Registry 注册');
     }
 
-    public function test_registry_route_count_matches_expected(): void {
+    public function test_registry_paths_match_current_product_surface(): void {
         self::trigger_registration();
-        $count = MaBox_Rest_Route_Registry::get_route_count();
+        $paths = array_column(MaBox_Rest_Route_Registry::get_registered(), 'path');
 
-        $this->assertGreaterThanOrEqual(19, $count, '应该至少注册 19 个路由');
+        $this->assertSame(array(
+            '/settings',
+            '/settings/schema',
+            '/performance/media/check',
+            '/performance/media/fix-alt',
+            '/performance/seo/check',
+            '/performance/seo/fix-alt',
+            '/performance/db/stats',
+            '/performance/db/preview',
+            '/performance/db/clean',
+            '/tools/categories',
+            '/public/search-log',
+            '/domestic/environment/check',
+            '/domestic/environment/apply',
+            '/diagnostics/summary',
+            '/search-health/summary',
+        ), $paths);
     }
 
     private static function is_admin_permission($callback) {

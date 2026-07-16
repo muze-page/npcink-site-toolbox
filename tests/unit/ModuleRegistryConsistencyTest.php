@@ -337,7 +337,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
         return [
             'page.ticket', 'page.diary', 'services.main', 'feedback.main',
             'function.wx_xcx_link', 'function.download_sql_table',
-            'page.front_debug', 'page.article_rating',
+            'page.front_debug', 'page.article_rating', 'page.batch_replace',
         ];
     }
 
@@ -520,6 +520,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
             'page/jurisdiction/front_debug.php',
             'page/function/article_rating.php',
             'page/function/article_rating.js',
+            'page/function/batch_replace.php',
         ];
         foreach ($deleted_paths as $path) {
             $full = $partials . $path;
@@ -594,7 +595,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
         $uninstall = file_get_contents(self::$plugin_dir . '/uninstall.php');
         $phpstan = file_get_contents(self::$plugin_dir . '/phpstan.neon');
 
-        $this->assertCount(58, $registry, 'The registry should contain 58 modules after retiring login verification');
+        $this->assertCount(57, $registry, 'The registry should contain 57 modules after retiring batch replacement');
         $this->assertArrayNotHasKey('login.login_verify', $registry);
         foreach ($tiers as $modules) {
             $this->assertNotContains('login.login_verify', $modules);
@@ -622,6 +623,8 @@ class ModuleRegistryConsistency_Test extends TestCase {
         $schema = MaBox_Config_Schema::get_schema();
         $func = $schema['page']['function'];
         $this->assertArrayNotHasKey('article_rating', $func);
+        $this->assertArrayNotHasKey('batch_replace', $func);
+        $this->assertArrayNotHasKey('batch_replace_pairs', $func);
         $this->assertArrayNotHasKey('ticket', $func);
         $this->assertArrayNotHasKey('diary', $func);
         $this->assertArrayNotHasKey('go_middle', $func);
