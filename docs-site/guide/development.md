@@ -63,31 +63,40 @@ if (!class_exists('MaBox_Page_New_Feature')) {
 | `theme_requirement` | 依赖的主题名称 | - |
 | `mobile_only` | 仅移动端加载 | - |
 
-### 3. 添加前端类型定义
+### 3. 定义设置契约
 
-在 `vite/admin/src/tool/interface.tsx` 中添加：
+在 `includes/class-mabox-config-schema.php` 的对应字段中定义类型、默认值、校验和搜索元数据：
 
-```typescript
-export type PageFunction = {
-    // ... existing fields
-    new_feature_enabled: boolean;
-    new_feature_text?: string;
-};
+```php
+'new_feature_enabled' => array(
+    'type'    => 'boolean',
+    'default' => false,
+    'search'  => self::search_metadata(
+        'page-function-new_feature_enabled',
+        '新功能',
+        'content',
+        '内容与页面',
+        '功能',
+        array('new feature', '新功能')
+    ),
+),
+'new_feature_text' => array(
+    'type'     => 'string',
+    'default'  => 'Hello World',
+    'sanitize' => 'sanitize_text_field',
+),
 ```
 
-### 4. 添加默认值
+然后在仓库根目录更新并检查生成契约：
 
-在 `vite/admin/src/tool/defaultVar.tsx` 中添加：
-
-```typescript
-const PageFunction = {
-    // ... existing fields
-    new_feature_enabled: false,
-    new_feature_text: 'Hello World',
-};
+```bash
+composer settings-contract:generate
+composer settings-contract:check
 ```
 
-### 5. 添加 UI 控件
+该命令同时生成浏览器默认值、UI 风险元数据、33 条功能搜索索引，以及 `Option`、设置子类型和敏感字段路径类型。不要手工编辑 `vite/admin/src/generated/`、`interface.tsx` 中的设置类型或另建静态搜索索引。
+
+### 4. 添加 UI 控件
 
 在对应 Tab 组件中添加表单控件：
 

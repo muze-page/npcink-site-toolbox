@@ -74,7 +74,7 @@
 - 前端类型、搜索索引和配置默认值应由上述事实源生成或验证。
 - 删除运行时 `.meta.php` 扫描、手写静态索引和并行 registry 所形成的重复真相。
 
-该目标将在后续工作包完成。本里程碑不得再新增新的手写事实源。
+该目标已由工作包 13 完成；后续不得再新增新的手写事实源。
 
 ### 5. REST 契约
 
@@ -109,7 +109,7 @@
 | 首次向导与预设方案 | 删除 | 已删除向导组件和预设实现 |
 | Dashboard 内备份中心 | 迁移为独立维护任务 | 本轮不实现 |
 | AI 审核 Provider Runtime | 移出产品边界 | 工作包 2 已删除正式运行代码并保存只读参考快照 |
-| 多份 manifest/schema/index | 合并 | 后续工作包 |
+| 多份 manifest/schema/index | 合并 | 工作包 13 已完成 |
 | 旧配置迁移器与兼容回调 | 删除 | 后续在契约重建时完成 |
 
 ## 首个垂直切片验收条件
@@ -126,7 +126,7 @@
 
 1. 完成工作包 7 的自动化门禁、紧急恢复和真实 Local 登录烟测。
 2. 工作包 8A-8B 狭窄收口 `category_link_simplify` 生命周期和 `ban_auto_size` 过滤器返回契约，不在其上扩大功能范围。
-3. 建立单一模块 manifest/config schema，并生成或校验前端类型与搜索索引，继续减少手写重复真相。
+3. 工作包 13 建立单一模块 manifest/config schema，并生成前端类型与搜索索引，已完成。
 4. 逐步缩减 Ant Design、Tailwind 和大体积共享 chunk，稳定到更轻的 WordPress 管理界面组件边界。
 5. 完成发布前人工验收、风险功能恢复路径验证和打包检查。
 
@@ -531,6 +531,33 @@
 7. 自动化门禁通过：PHPUnit 343 项/3348 个断言、PHPStan 0 error、全仓 PHP lint、设置契约生成检查；Admin coverage 24 个文件/141 项测试，语句覆盖率 46.85%，TypeScript 和 ESLint 0 error（Admin 129/Count 3 个既有 warning）；Admin 构建首次 JS 774,457 B / gzip 252,024 B，Count JS 621,637 B / gzip 206,439 B，CSS/构建契约、VitePress build、189 项 ZIP 边界模拟和 `git diff --check` 均通过。首次并发运行 coverage 时，既有登录安全组件测试在多门禁争用资源下超过 5 秒；单测隔离、隔离 coverage 及前端独占全量 coverage 均稳定通过，未修改生产实现或放宽超时。
 8. Local WordPress 7.0.1 管理员登录态验收通过且未保存设置：“内容与页面 → 权限”能加载分类 `Uncategorized` 和页面 `Sample Page`，空标签合法显示“暂无数据”；浏览器 console error/warn 均为 0。匿名 `/tools/categories` 返回 401，已删除 `/page/batch-replace` 返回 404，REST namespace 索引只暴露当前 15 条产品路由。
 
+## 工作包 13：单一 Manifest 与生成式前端契约
+
+| 项目 | 决定 |
+| --- | --- |
+| 目标仓库 | `/Users/muze/gitee/wp-magick-toolbox` |
+| 聚焦模块 | 模块 Registry/Metadata，以及 `MaBox_Config_Schema` 到 Admin 设置类型、敏感路径和功能搜索的构建期契约 |
+| 失败证据 | 57 个模块之外仍有 4 份 `.meta.php` 在每次加载时递归扫描并覆盖 Registry；33 条搜索记录、`Option` 设置树和 3 条敏感字段路径继续由 TypeScript 手写，新增设置需同步 Registry、Schema、类型和搜索多处事实源 |
+| 预期变更 | 将 sidecar 元数据折叠进唯一 Registry；删除运行时扫描/merge；由 PHP Schema 确定性生成 JSON defaults/UI/search 与 TypeScript 设置类型/敏感路径；前端删除手写镜像并只消费生成契约 |
+| 明确非目标 | 不改 REST 路由或响应结构、设置 GET/POST 与存储、业务表单、Admin 视觉、Count、Ant Design、Vite bootstrap、数据库、版本号、AI 参考快照或兄弟仓库 |
+| 公共契约 | 57 个模块 ID/顺序/Loader 激活行为不变；33 条搜索项的 ID、标签、关键词、tags、aliases、顺序和语义 view 不变；`Option`、19 个设置子类型与 3 条 `SecretPath` 不变；公开 Schema 不暴露构建期 `search` |
+| 预期文件 | Registry/Metadata 与 sidecar、Config Schema、dev-only exporter、两个 tracked 生成物、Admin 类型/搜索消费者及测试、README、当前开发指南与本 ADR |
+| 不得改变 | REST 注册与成功/错误包络、敏感值边界、设置保存 payload、业务组件、Count、发布 `dist` 合同、历史阶段文档、用户未跟踪排障文档和兄弟仓库 |
+| 必需门禁 | 旧合同一次性全对象 parity、生成器成功/漂移/中途失败回滚、聚焦与全量 PHPUnit、PHPStan/PHP lint、Admin coverage/typecheck/lint/build、Count build、VitePress build、ZIP 边界、Local 七视图/搜索/风险烟测和 `git diff --check` |
+| 跨仓矩阵 | 不需要；Manifest、Schema、生成器和全部消费者均在本仓库 |
+| 回滚计划 | 回滚本工作包即可整体恢复旧 sidecar、手写类型和静态搜索；不保留运行时双轨、兼容扫描或 feature flag |
+
+### 工作包 13 实施事实
+
+1. `admin/modules/registry.php` 继续保持 57 个模块及原顺序，完整吸收 4 份 sidecar 的 label/group/feature/risk/dependency/preset/config 元数据；`MaBox_Module_Metadata` 从 132 行缩为直接缓存 Registry 的 56 行实现，递归目录扫描、文件名猜测、merge 和四份 `.meta.php` 全部删除。Loader 全量 Registry parity 与登录安全 ANY-OF 激活路径由测试锁定。
+2. 搜索展示元数据与对应设置字段共同定义在私有 Schema definition 中；公开 `get_schema()` 在返回前递归剥离 build-only `search`，因此 REST、defaults、validation 和 UI Schema 结构不变。`get_admin_search_index()` 验证必填文本、字符串列表、唯一 ID 与 5 个合法语义 view，排除敏感字段并拒绝畸形元数据。
+3. 原 33 条 TypeScript 静态索引已逐对象、逐顺序迁入 Schema，一次性对比为 33/33、0 个语义差异；`featureIndexData.ts` 与前端模块/view、preset 映射、运行时 Schema 搜索 merge 一并删除。搜索组件直接消费生成索引，标签仍可优先使用已缓存 UI Schema，风险等级解析保持原合同。
+4. dev-only PHP exporter 同时生成 `settings-contract.json` 和 `settings-types.ts`；类型映射只接受 boolean/string/number/带 items 的 array，未知类型 fail closed。双目标先准备同目录临时文件并备份旧目标，任一可捕获的后续替换失败会删除本轮新文件、恢复全部旧文件并清理 temp/backup；回归测试已复现并阻止“第一文件半更新、第二文件失败”。该开发期生成器不宣称在 `SIGKILL` 或断电场景下具备 crash-safe 事务语义，生成物缺失或漂移仍由 `--check` fail closed。
+5. 生成 TypeScript 保留原 `Option` 索引签名、19 个设置子类型、`FunctionTips` 命名以及 `SECRET_PATHS`/`SecretPath`；三个敏感字段只以路径常量出现在生成 TS 中，不进入 JSON defaults/UI/search 或 `Option` 子类型。`interface.tsx` 从 424 行缩为 226 行的生成类型出口与手写运行时/诊断合同。
+6. 根 README 与 VitePress 当前开发指南改为“Registry + Schema + 生成命令 + UI”流程；2.3/早期阶段的历史手册和实施总结继续由顶部权威警告隔离，未改写原文。独立交叉审查发现并修复旧搜索副本、无意义 Promise 更新和双生成物失败回滚三个问题，修复均有聚焦回归。
+7. 自动化门禁通过：设置契约 `--check`、Composer validate、129 个 PHP 文件语法检查、PHPUnit 345 项测试/3711 个断言、PHPStan 0 error；Admin coverage 24 个文件/133 项测试，语句覆盖率 46.19%，Admin/Count TypeScript 和 ESLint 0 error（Admin 129/Count 3 个既有 warning）；Admin 构建首次 JS 773,205 B / gzip 251,972 B，Count JS 621,637 B / gzip 206,439 B，CSS/构建契约、VitePress build、185 项 ZIP 边界模拟、生成器确定性与 `git diff --check` 均通过。
+8. Local WordPress 7.0.1 登录态烟测覆盖 overview/site/content/seo/china/maintenance/about 七个语义视图；“数据库清理”搜索只返回生成索引中的匹配项并正确定位 maintenance，风险开关弹窗取消后仍为关闭且保存按钮未激活；320 px 视口无横向溢出，控制台无 warning/error，最终返回 overview 且未保存任何设置。
+
 ## 结果复核
 
 首个垂直切片已完成独立代码审查和浏览器烟测，改进假说成立：
@@ -547,4 +574,4 @@
 
 浏览器烟测先使用 Vite 默认数据验证桌面/移动结构、语义路由、浏览器返回、未知路由、搜索定位和接口失败状态；工作包 4 又在真实 Local WordPress 管理员登录态中验证了 WordPress 管理栏、服务端成功响应和敏感设置闭环。
 
-整个 Pre-GA Reset 尚未完成；AI Provider Runtime 清退已由工作包 2 收口，pnpm/CI 可重复基线已由工作包 3 收口，敏感设置契约已由工作包 4 收口，注册模块与 Loader 的运行时契约已由工作包 5 收口，不可信登录验证码已由工作包 6 清退。工作包 7 已冻结登录安全的最小最终契约，工作包 8A-8B 已修复分类链接简化生命周期和自动图片尺寸过滤器两项行为债务，工作包 9A-9C 已建立宿主隔离、保存信任反馈及可审计构建/缓存契约，工作包 10A-11 已收口生成式设置契约和前端工程/发布边界，工作包 12 又删除 7 条死或无消费者路由并修复分类数据 REST 闭环。其余主要问题是重复 manifest/schema，以及 Ant Design 仍带来的前端维护与首屏体积成本。
+整个 Pre-GA Reset 尚未完成；AI Provider Runtime 清退已由工作包 2 收口，pnpm/CI 可重复基线已由工作包 3 收口，敏感设置契约已由工作包 4 收口，注册模块与 Loader 的运行时契约已由工作包 5 收口，不可信登录验证码已由工作包 6 清退。工作包 7 已冻结登录安全的最小最终契约，工作包 8A-8B 已修复分类链接简化生命周期和自动图片尺寸过滤器两项行为债务，工作包 9A-9C 已建立宿主隔离、保存信任反馈及可审计构建/缓存契约，工作包 10A-11 已收口生成式设置契约和前端工程/发布边界，工作包 12 删除 7 条死或无消费者路由并修复分类数据 REST 闭环，工作包 13 又完成单一 Manifest/Schema 与生成式前端合同。当前主要剩余问题是 Ant Design 仍带来的前端维护与首屏体积成本，以及正式发布前的人工验收与版本收口。

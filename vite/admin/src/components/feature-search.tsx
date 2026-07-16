@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Input, List, Typography, Tag, Button } from "antd";
 import { SearchOutlined, StarOutlined, StarFilled } from "@ant-design/icons";
 import { isFavorite, toggleFavorite } from "@/tool/favorites";
-import { fetchFeatureIndex } from "@/tool/featureIndex";
-import { SearchItem, searchIndex } from "@/tool/featureIndexData";
+import { searchIndex } from "@/tool/featureIndex";
+import type { SearchItem } from "@/tool/featureIndex";
 
 const { Text } = Typography;
 
@@ -16,14 +16,7 @@ interface FeatureSearchProps {
 const FeatureSearch: React.FC<FeatureSearchProps> = ({ onNavigate, className, style }) => {
   const [keyword, setKeyword] = useState("");
   const [open, setOpen] = useState(false);
-  const [favRefresh, setFavRefresh] = useState(0);
-  const [mergedIndex, setMergedIndex] = useState<SearchItem[]>(searchIndex);
-
-  useEffect(() => {
-    fetchFeatureIndex().then((merged) => {
-      setMergedIndex(merged);
-    });
-  }, []);
+  const [, setFavRefresh] = useState(0);
 
   const handleToggleFavorite = (e: React.MouseEvent, itemId: string) => {
     e.stopPropagation();
@@ -31,21 +24,17 @@ const FeatureSearch: React.FC<FeatureSearchProps> = ({ onNavigate, className, st
     setFavRefresh((k) => k + 1);
   };
 
-  useMemo(() => {
-    return favRefresh;
-  }, [favRefresh]);
-
   const results = useMemo(() => {
     if (!keyword.trim()) return [];
     const kw = keyword.toLowerCase().trim();
-    return mergedIndex.filter(
+    return searchIndex.filter(
       (item) =>
         item.label.toLowerCase().includes(kw) ||
         (item.keywords && item.keywords.some((k) => k.toLowerCase().includes(kw))) ||
         (item.section && item.section.toLowerCase().includes(kw)) ||
         (item.aliases && item.aliases.some((a) => a.toLowerCase().includes(kw)))
     );
-  }, [keyword, mergedIndex]);
+  }, [keyword]);
 
   const handleSelect = useCallback(
     (item: SearchItem) => {

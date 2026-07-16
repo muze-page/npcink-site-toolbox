@@ -4,15 +4,13 @@ defined('ABSPATH') || exit;
 if (!class_exists('MaBox_Module_Metadata')) {
     class MaBox_Module_Metadata {
 
-        private static $merged = null;
-
-        private static $required_keys = array('class', 'file', 'option_key', 'category', 'scope');
+        private static $registry = null;
 
         public static function get_registry() {
-            if (self::$merged === null) {
-                self::$merged = self::build_merged_registry();
+            if (self::$registry === null) {
+                self::$registry = require plugin_dir_path(__FILE__) . 'registry.php';
             }
-            return self::$merged;
+            return self::$registry;
         }
 
         public static function get_module($id) {
@@ -52,82 +50,7 @@ if (!class_exists('MaBox_Module_Metadata')) {
         }
 
         public static function reset_cache() {
-            self::$merged = null;
-        }
-
-        private static function build_merged_registry() {
-            $legacy = self::load_legacy();
-            $manifests = self::scan_meta_files();
-
-            if (empty($manifests)) {
-                return $legacy;
-            }
-
-            return self::merge($legacy, $manifests);
-        }
-
-        private static function load_legacy() {
-            return require plugin_dir_path(__FILE__) . 'registry.php';
-        }
-
-        private static function scan_meta_files() {
-            $partials_dir = dirname(dirname(__FILE__)) . '/partials/';
-            $manifests = array();
-
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($partials_dir, RecursiveDirectoryIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::SELF_FIRST
-            );
-
-            foreach ($iterator as $fileInfo) {
-                if ($fileInfo->isFile() && $fileInfo->getExtension() === 'php') {
-                    $basename = $fileInfo->getBasename('.php');
-                    if (substr($basename, -5) === '.meta') {
-                        $module_slug = substr($basename, 0, -5);
-                        $meta = require $fileInfo->getPathname();
-
-                        if (!is_array($meta)) {
-                            error_log("[MaBox] module.meta.php at {$fileInfo->getPathname()} did not return an array");
-                            continue;
-                        }
-
-                        $missing = array_diff(self::$required_keys, array_keys($meta));
-                        if (!empty($missing)) {
-                            error_log("[MaBox] module.meta.php for '{$module_slug}' missing required keys: " . implode(', ', $missing));
-                            continue;
-                        }
-
-                        $manifests[$module_slug] = $meta;
-                    }
-                }
-            }
-
-            return $manifests;
-        }
-
-        private static function merge($legacy, $manifests) {
-            $result = $legacy;
-
-            foreach ($manifests as $module_slug => $meta) {
-                $module_id = self::find_module_id_by_file($legacy, $meta['file']);
-
-                if ($module_id !== null) {
-                    $result[$module_id] = array_merge($legacy[$module_id], $meta);
-                } else {
-                    $result[$module_slug] = $meta;
-                }
-            }
-
-            return $result;
-        }
-
-        private static function find_module_id_by_file($legacy, $file) {
-            foreach ($legacy as $module_id => $meta) {
-                if (isset($meta['file']) && $meta['file'] === $file) {
-                    return $module_id;
-                }
-            }
-            return null;
+            self::$registry = null;
         }
     }
 }

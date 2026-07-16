@@ -179,6 +179,507 @@
             }
         }
     },
+    "searchIndex": [
+        {
+            "id": "optimize-site-hide_top_toolbar",
+            "keywords": [
+                "toolbar",
+                "顶部",
+                "工具栏"
+            ],
+            "label": "隐藏顶部工具条",
+            "section": "站点",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "推荐",
+                "仅后台"
+            ]
+        },
+        {
+            "id": "optimize-site-no_escape",
+            "keywords": [
+                "title",
+                "转义"
+            ],
+            "label": "禁止 Title 转义",
+            "section": "站点",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "推荐"
+            ]
+        },
+        {
+            "id": "optimize-site-remove_RSS_version",
+            "keywords": [
+                "version",
+                "版本",
+                "rss"
+            ],
+            "label": "移除 WP 版本号",
+            "section": "站点",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "推荐",
+                "安全"
+            ]
+        },
+        {
+            "id": "optimize-site-renew",
+            "keywords": [
+                "update",
+                "更新"
+            ],
+            "label": "禁用自动更新",
+            "section": "站点",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "谨慎"
+            ]
+        },
+        {
+            "id": "optimize-site-cdn_replace",
+            "keywords": [
+                "cdn",
+                "加速"
+            ],
+            "label": "国内 CDN 替换",
+            "section": "站点",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "性能"
+            ]
+        },
+        {
+            "id": "optimize-medium-img_add_tag",
+            "keywords": [
+                "alt",
+                "图片",
+                "seo"
+            ],
+            "label": "图片自动添加 Alt",
+            "section": "媒体",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "推荐",
+                "SEO"
+            ]
+        },
+        {
+            "id": "optimize-medium-no_auto_size",
+            "keywords": [
+                "thumbnail",
+                "缩略图"
+            ],
+            "label": "禁止缩略图",
+            "section": "媒体",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "谨慎",
+                "需主题兼容"
+            ]
+        },
+        {
+            "id": "optimize-medium-upload_auto_name",
+            "keywords": [
+                "rename",
+                "重命名",
+                "上传"
+            ],
+            "label": "上传文件重命名",
+            "section": "媒体",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体",
+            "tags": [
+                "推荐"
+            ]
+        },
+        {
+            "id": "optimize-admin-add_user",
+            "keywords": [
+                "author",
+                "作者",
+                "筛选"
+            ],
+            "label": "文章作者筛选",
+            "section": "后台",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体"
+        },
+        {
+            "id": "optimize-admin-add_time",
+            "keywords": [
+                "date",
+                "日期",
+                "筛选"
+            ],
+            "label": "文章日期筛选",
+            "section": "后台",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体"
+        },
+        {
+            "id": "optimize-admin-show_id",
+            "keywords": [
+                "id",
+                "列表"
+            ],
+            "label": "列表显示 ID 列",
+            "section": "后台",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体"
+        },
+        {
+            "id": "optimize-admin-thumbnail_switcher",
+            "keywords": [
+                "thumbnail",
+                "缩略图"
+            ],
+            "label": "缩略图切换",
+            "section": "后台",
+            "tabKey": "site",
+            "tabLabel": "站点与媒体"
+        },
+        {
+            "aliases": [
+                "page-feature-maintenance_tips"
+            ],
+            "id": "page-function-maintenance_tips",
+            "keywords": [
+                "maintenance",
+                "维护",
+                "闭站"
+            ],
+            "label": "维护提示页",
+            "section": "功能",
+            "tabKey": "content",
+            "tabLabel": "内容与页面",
+            "tags": [
+                "谨慎"
+            ]
+        },
+        {
+            "id": "function-seo-seo_home",
+            "keywords": [
+                "tdk",
+                "首页",
+                "seo",
+                "标题",
+                "描述"
+            ],
+            "label": "首页 TDK",
+            "section": "SEO",
+            "tabKey": "seo",
+            "tabLabel": "SEO 与增强",
+            "tags": [
+                "推荐",
+                "SEO"
+            ]
+        },
+        {
+            "id": "function-seo-seo_single",
+            "keywords": [
+                "seo",
+                "文章",
+                "关键词"
+            ],
+            "label": "文章 SEO",
+            "section": "SEO",
+            "tabKey": "seo",
+            "tabLabel": "SEO 与增强",
+            "tags": [
+                "推荐",
+                "SEO"
+            ]
+        },
+        {
+            "id": "domestic-compliance-icp",
+            "keywords": [
+                "icp",
+                "备案",
+                "合规"
+            ],
+            "label": "ICP 备案号",
+            "section": "合规",
+            "tabKey": "china",
+            "tabLabel": "国内生态",
+            "tags": [
+                "推荐"
+            ]
+        },
+        {
+            "aliases": [
+                "domestic-compliance-police"
+            ],
+            "id": "domestic-compliance-police_enabled",
+            "keywords": [
+                "公安",
+                "网备",
+                "备案"
+            ],
+            "label": "公安网备号",
+            "section": "合规",
+            "tabKey": "china",
+            "tabLabel": "国内生态",
+            "tags": [
+                "推荐"
+            ]
+        },
+        {
+            "aliases": [
+                "domestic-compliance-cookie"
+            ],
+            "id": "domestic-compliance-cookie_enabled",
+            "keywords": [
+                "cookie",
+                "隐私",
+                "弹窗"
+            ],
+            "label": "Cookie 同意弹窗",
+            "section": "合规",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "aliases": [
+                "domestic-compliance-copyright"
+            ],
+            "id": "domestic-compliance-copyright_enabled",
+            "keywords": [
+                "copyright",
+                "版权"
+            ],
+            "label": "版权信息",
+            "section": "合规",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "id": "domestic-wechat-jssdk",
+            "keywords": [
+                "wechat",
+                "微信",
+                "分享",
+                "jssdk"
+            ],
+            "label": "微信 JSSDK 分享",
+            "section": "微信生态",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "id": "domestic-wechat-guide",
+            "keywords": [
+                "wechat",
+                "微信",
+                "引导",
+                "遮层"
+            ],
+            "label": "微信打开引导",
+            "section": "微信生态",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "aliases": [
+                "domestic-comment_security-blacklist_enabled"
+            ],
+            "id": "domestic-comment-blacklist",
+            "keywords": [
+                "comment",
+                "评论",
+                "敏感词",
+                "黑名单"
+            ],
+            "label": "评论敏感词过滤",
+            "section": "评论安全",
+            "tabKey": "china",
+            "tabLabel": "国内生态",
+            "tags": [
+                "推荐",
+                "安全"
+            ]
+        },
+        {
+            "aliases": [
+                "domestic-comment_security-link_limit"
+            ],
+            "id": "domestic-comment-link-limit",
+            "keywords": [
+                "comment",
+                "评论",
+                "链接",
+                "垃圾"
+            ],
+            "label": "评论链接限制",
+            "section": "评论安全",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "id": "domestic-comment_security-duplicate_enabled",
+            "keywords": [
+                "comment",
+                "评论",
+                "重复",
+                "拦截"
+            ],
+            "label": "重复评论拦截",
+            "section": "评论安全",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "aliases": [
+                "domestic-comment_security-ip_rate_limit"
+            ],
+            "id": "domestic-comment-ip-rate",
+            "keywords": [
+                "comment",
+                "评论",
+                "ip",
+                "频率"
+            ],
+            "label": "评论 IP 频率限制",
+            "section": "评论安全",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "id": "domestic-comment_security-log_enabled",
+            "keywords": [
+                "comment",
+                "评论",
+                "日志",
+                "拦截"
+            ],
+            "label": "记录拦截日志",
+            "section": "评论安全",
+            "tabKey": "china",
+            "tabLabel": "国内生态"
+        },
+        {
+            "id": "domestic-login_security-attempt_limit_enabled",
+            "keywords": [
+                "login",
+                "登录",
+                "失败",
+                "限制",
+                "锁定",
+                "代理"
+            ],
+            "label": "登录尝试保护",
+            "section": "登录安全",
+            "tabKey": "china",
+            "tabLabel": "国内生态",
+            "tags": [
+                "推荐",
+                "安全"
+            ]
+        },
+        {
+            "id": "domestic-login_security-anonymous_author_guard_enabled",
+            "keywords": [
+                "login",
+                "登录",
+                "枚举",
+                "作者",
+                "用户名",
+                "REST"
+            ],
+            "label": "限制匿名作者枚举",
+            "section": "登录安全",
+            "tabKey": "china",
+            "tabLabel": "国内生态",
+            "tags": [
+                "安全"
+            ]
+        },
+        {
+            "id": "performance-oss-enabled",
+            "keywords": [
+                "oss",
+                "cos",
+                "云存储",
+                "阿里云",
+                "腾讯云"
+            ],
+            "label": "对象存储 / OSS",
+            "section": "云存储",
+            "tabKey": "maintenance",
+            "tabLabel": "维护工具",
+            "tags": [
+                "性能"
+            ]
+        },
+        {
+            "id": "performance-seo_checker-enabled",
+            "keywords": [
+                "seo",
+                "检查",
+                "alt",
+                "健康度"
+            ],
+            "label": "SEO 检查助手",
+            "section": "SEO",
+            "tabKey": "maintenance",
+            "tabLabel": "维护工具",
+            "tags": [
+                "SEO"
+            ]
+        },
+        {
+            "id": "performance-media_health-enabled",
+            "keywords": [
+                "media",
+                "媒体",
+                "图片",
+                "alt",
+                "体检"
+            ],
+            "label": "媒体库体检",
+            "section": "媒体",
+            "tabKey": "maintenance",
+            "tabLabel": "维护工具"
+        },
+        {
+            "id": "performance-search_enhance-highlight_enabled",
+            "keywords": [
+                "search",
+                "搜索",
+                "高亮",
+                "关键词"
+            ],
+            "label": "搜索关键词高亮",
+            "section": "搜索",
+            "tabKey": "maintenance",
+            "tabLabel": "维护工具"
+        },
+        {
+            "id": "performance-db_clean-enabled",
+            "keywords": [
+                "db",
+                "数据库",
+                "清理",
+                "优化",
+                "修订版本"
+            ],
+            "label": "数据库清理优化",
+            "section": "数据库",
+            "tabKey": "maintenance",
+            "tabLabel": "维护工具",
+            "tags": [
+                "推荐",
+                "性能"
+            ]
+        }
+    ],
     "uiSchema": {
         "domestic-login_security-anonymous_author_guard_enabled": {
             "feature_id": "domestic-login_security-anonymous_author_guard_enabled",

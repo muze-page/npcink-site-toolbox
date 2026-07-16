@@ -26,20 +26,46 @@ if (!class_exists('MaBox_Config_Schema')) {
             return array('type' => 'number', 'finite' => true);
         }
 
+        /**
+         * Build the narrow metadata used by the generated admin search index.
+         *
+         * The semantic view is the source of truth; the established tabKey
+         * contract name is derived only in the generated artifact.
+         */
+        private static function search_metadata($id, $label, $view, $tab_label, $section, $keywords, $tags = array(), $aliases = array()) {
+            $metadata = array(
+                'id'       => $id,
+                'label'    => $label,
+                'view'     => $view,
+                'tabLabel' => $tab_label,
+                'section'  => $section,
+                'keywords' => $keywords,
+            );
+
+            if (!empty($tags)) {
+                $metadata['tags'] = $tags;
+            }
+            if (!empty($aliases)) {
+                $metadata['aliases'] = $aliases;
+            }
+
+            return $metadata;
+        }
+
         private static function build_schema() {
             return array(
                 'optimize' => array(
                     '_option_key' => MAGICK_MIXTURE_OPTION_OPTIMIZE,
                     'site' => array(
-                        'hide_top_toolbar'       => array('type' => 'boolean', 'default' => false),
-                        'no_escape'              => array('type' => 'boolean', 'default' => false),
-                        'remove_RSS_version'     => array('type' => 'boolean', 'default' => false),
-                        'renew'                 => array('type' => 'boolean', 'default' => false),
+                        'hide_top_toolbar'       => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-site-hide_top_toolbar', '隐藏顶部工具条', 'site', '站点与媒体', '站点', array('toolbar', '顶部', '工具栏'), array('推荐', '仅后台'))),
+                        'no_escape'              => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-site-no_escape', '禁止 Title 转义', 'site', '站点与媒体', '站点', array('title', '转义'), array('推荐'))),
+                        'remove_RSS_version'     => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-site-remove_RSS_version', '移除 WP 版本号', 'site', '站点与媒体', '站点', array('version', '版本', 'rss'), array('推荐', '安全'))),
+                        'renew'                 => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-site-renew', '禁用自动更新', 'site', '站点与媒体', '站点', array('update', '更新'), array('谨慎'))),
                         'category_link_simplify' => array('type' => 'boolean', 'default' => false),
                         'search_link_simplify'   => array('type' => 'boolean', 'default' => false),
                         'remove_sitemap_users'   => array('type' => 'boolean', 'default' => false),
                         'user_list_show_nickname' => array('type' => 'boolean', 'default' => false),
-                        'cdn_replace'            => array('type' => 'boolean', 'default' => false),
+                        'cdn_replace'            => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-site-cdn_replace', '国内 CDN 替换', 'site', '站点与媒体', '站点', array('cdn', '加速'), array('性能'))),
                         'cdn_gravatar'           => array('type' => 'boolean', 'default' => false),
                         'cdn_gravatar_mirror'    => array('type' => 'string',  'default' => 'gravatar.loli.net/avatar/', 'sanitize' => 'esc_url_raw'),
                         'cdn_google_fonts'       => array('type' => 'boolean', 'default' => false),
@@ -49,16 +75,16 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'hide_email_ip'          => array('type' => 'boolean', 'default' => false),
                     ),
                     'medium' => array(
-                        'img_add_tag'     => array('type' => 'boolean', 'default' => false),
-                        'no_auto_size'    => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => '禁止缩略图', 'warning' => '此功能可能与部分主题不兼容，导致图片显示异常。', 'suggestion' => '开启前请确认主题支持。'), 'feature_id' => 'optimize-medium-no_auto_size', 'label' => '禁止缩略图', 'group' => '媒体'),
+                        'img_add_tag'     => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-medium-img_add_tag', '图片自动添加 Alt', 'site', '站点与媒体', '媒体', array('alt', '图片', 'seo'), array('推荐', 'SEO'))),
+                        'no_auto_size'    => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => '禁止缩略图', 'warning' => '此功能可能与部分主题不兼容，导致图片显示异常。', 'suggestion' => '开启前请确认主题支持。'), 'feature_id' => 'optimize-medium-no_auto_size', 'label' => '禁止缩略图', 'group' => '媒体', 'search' => self::search_metadata('optimize-medium-no_auto_size', '禁止缩略图', 'site', '站点与媒体', '媒体', array('thumbnail', '缩略图'), array('谨慎', '需主题兼容'))),
                         'medium_add_svg'  => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'low', 'title' => 'SVG 上传支持', 'warning' => 'SVG 文件可能包含恶意脚本，已做安全过滤但仍需注意。', 'suggestion' => '仅允许可信用户上传 SVG 文件。'), 'feature_id' => 'optimize-medium-medium_add_svg', 'label' => 'SVG 上传支持', 'group' => '媒体'),
-                        'upload_auto_name' => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field'),
+                        'upload_auto_name' => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field', 'search' => self::search_metadata('optimize-medium-upload_auto_name', '上传文件重命名', 'site', '站点与媒体', '媒体', array('rename', '重命名', '上传'), array('推荐'))),
                     ),
                     'admin' => array(
-                        'add_user'            => array('type' => 'boolean', 'default' => false),
-                        'add_time'            => array('type' => 'boolean', 'default' => false),
-                        'show_id'             => array('type' => 'boolean', 'default' => false),
-                        'thumbnail_switcher'  => array('type' => 'boolean', 'default' => false),
+                        'add_user'            => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-admin-add_user', '文章作者筛选', 'site', '站点与媒体', '后台', array('author', '作者', '筛选'))),
+                        'add_time'            => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-admin-add_time', '文章日期筛选', 'site', '站点与媒体', '后台', array('date', '日期', '筛选'))),
+                        'show_id'             => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-admin-show_id', '列表显示 ID 列', 'site', '站点与媒体', '后台', array('id', '列表'))),
+                        'thumbnail_switcher'  => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-admin-thumbnail_switcher', '缩略图切换', 'site', '站点与媒体', '后台', array('thumbnail', '缩略图'))),
                     ),
                 ),
                 'page' => array(
@@ -86,7 +112,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'add_inks'                => array('type' => 'boolean', 'default' => false),
                         'add_last_update'         => array('type' => 'boolean', 'default' => false),
                         'no_login_img'            => array('type' => 'boolean', 'default' => false),
-                        'maintenance_tips'        => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field'),
+                        'maintenance_tips'        => array('type' => 'string',  'default' => 'false', 'sanitize' => 'sanitize_text_field', 'search' => self::search_metadata('page-function-maintenance_tips', '维护提示页', 'content', '内容与页面', '功能', array('maintenance', '维护', '闭站'), array('谨慎'), array('page-feature-maintenance_tips'))),
                         'countdown'               => array('type' => 'array',   'default' => array(), 'items' => self::string_list_items()),
                         'countdown_title'         => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'countdown_image'         => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
@@ -117,10 +143,10 @@ if (!class_exists('MaBox_Config_Schema')) {
                     ),
 
                     'seo' => array(
-                        'title'        => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
+                        'title'        => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field', 'search' => self::search_metadata('function-seo-seo_home', '首页 TDK', 'seo', 'SEO 与增强', 'SEO', array('tdk', '首页', 'seo', '标题', '描述'), array('推荐', 'SEO'))),
                         'keywords'     => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'description'  => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_textarea_field'),
-                        'seo_single'   => array('type' => 'boolean', 'default' => false),
+                        'seo_single'   => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('function-seo-seo_single', '文章 SEO', 'seo', 'SEO 与增强', 'SEO', array('seo', '文章', '关键词'), array('推荐', 'SEO'))),
                         'seo_category' => array('type' => 'boolean', 'default' => false),
                     ),
                     'config' => array(
@@ -134,44 +160,44 @@ if (!class_exists('MaBox_Config_Schema')) {
                 'domestic' => array(
                     '_option_key' => MAGICK_MIXTURE_OPTION_DOMESTIC,
                     'compliance' => array(
-                        'icp_enabled'    => array('type' => 'boolean', 'default' => false),
+                        'icp_enabled'    => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-compliance-icp', 'ICP 备案号', 'china', '国内生态', '合规', array('icp', '备案', '合规'), array('推荐'))),
                         'icp_number'     => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'icp_link'       => array('type' => 'string',  'default' => 'https://beian.miit.gov.cn/', 'sanitize' => 'esc_url_raw'),
-                        'police_enabled' => array('type' => 'boolean', 'default' => false),
+                        'police_enabled' => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-compliance-police_enabled', '公安网备号', 'china', '国内生态', '合规', array('公安', '网备', '备案'), array('推荐'), array('domestic-compliance-police'))),
                         'police_number'  => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'police_link'    => array('type' => 'string',  'default' => 'https://www.beian.gov.cn/portal/registerSystemInfo', 'sanitize' => 'esc_url_raw'),
-                        'cookie_enabled' => array('type' => 'boolean', 'default' => false),
+                        'cookie_enabled' => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-compliance-cookie_enabled', 'Cookie 同意弹窗', 'china', '国内生态', '合规', array('cookie', '隐私', '弹窗'), array(), array('domestic-compliance-cookie'))),
                         'cookie_style'   => array('type' => 'string',  'default' => 'bottom', 'enum' => array('bottom', 'top', 'center'), 'sanitize' => 'sanitize_text_field'),
                         'cookie_title'   => array('type' => 'string',  'default' => 'Cookie 同意', 'sanitize' => 'sanitize_text_field'),
                         'cookie_content' => array('type' => 'string',  'default' => '本网站使用 Cookie 来改善您的体验。继续浏览即表示您同意我们的 Cookie 政策。', 'sanitize' => 'sanitize_textarea_field'),
                         'cookie_button'  => array('type' => 'string',  'default' => '我知道了', 'sanitize' => 'sanitize_text_field'),
-                        'copyright_enabled' => array('type' => 'boolean', 'default' => false),
+                        'copyright_enabled' => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-compliance-copyright_enabled', '版权信息', 'china', '国内生态', '合规', array('copyright', '版权'), array(), array('domestic-compliance-copyright'))),
                         'copyright_html' => array('type' => 'string',  'default' => '', 'sanitize' => 'wp_kses_post'),
                     ),
                     'wechat' => array(
-                        'jssdk_enabled'          => array('type' => 'boolean', 'default' => false),
+                        'jssdk_enabled'          => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-wechat-jssdk', '微信 JSSDK 分享', 'china', '国内生态', '微信生态', array('wechat', '微信', '分享', 'jssdk'))),
                         'appid'                  => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
                         'appsecret'              => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field', 'sensitive' => true),
-                        'guide_overlay_enabled'  => array('type' => 'boolean', 'default' => false),
+                        'guide_overlay_enabled'  => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-wechat-guide', '微信打开引导', 'china', '国内生态', '微信生态', array('wechat', '微信', '引导', '遮层'))),
                         'guide_mode'             => array('type' => 'string',  'default' => 'guide', 'sanitize' => 'sanitize_text_field'),
                         'guide_text'             => array('type' => 'string',  'default' => '点击右上角 ··· 在浏览器中打开', 'sanitize' => 'sanitize_text_field'),
                         'guide_qrcode'           => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
                     ),
                     'comment_security' => array(
-                        'blacklist_enabled'         => array('type' => 'boolean', 'default' => false),
+                        'blacklist_enabled'         => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-comment-blacklist', '评论敏感词过滤', 'china', '国内生态', '评论安全', array('comment', '评论', '敏感词', '黑名单'), array('推荐', '安全'), array('domestic-comment_security-blacklist_enabled'))),
                         'blacklist_words'           => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_textarea_field'),
                         'blacklist_action'          => array('type' => 'string',  'default' => 'block', 'enum' => array('block', 'mark'), 'sanitize' => 'sanitize_text_field'),
-                        'link_limit_enabled'        => array('type' => 'boolean', 'default' => false),
+                        'link_limit_enabled'        => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-comment-link-limit', '评论链接限制', 'china', '国内生态', '评论安全', array('comment', '评论', '链接', '垃圾'), array(), array('domestic-comment_security-link_limit'))),
                         'link_limit_count'          => array('type' => 'number',  'default' => 2, 'min' => 0),
                         'nickname_filter_enabled'   => array('type' => 'boolean', 'default' => false),
                         'nickname_filter_words'     => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_textarea_field'),
                         'email_domain_enabled'      => array('type' => 'boolean', 'default' => false),
                         'email_domain_blacklist'   => array('type' => 'string',  'default' => '10minutemail.com,guerrillamail.com,temp-mail.org', 'sanitize' => 'sanitize_textarea_field'),
-                        'duplicate_enabled'         => array('type' => 'boolean', 'default' => false),
-                        'ip_rate_enabled'           => array('type' => 'boolean', 'default' => false),
+                        'duplicate_enabled'         => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-comment_security-duplicate_enabled', '重复评论拦截', 'china', '国内生态', '评论安全', array('comment', '评论', '重复', '拦截'))),
+                        'ip_rate_enabled'           => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-comment-ip-rate', '评论 IP 频率限制', 'china', '国内生态', '评论安全', array('comment', '评论', 'ip', '频率'), array(), array('domestic-comment_security-ip_rate_limit'))),
                         'ip_rate_limit'             => array('type' => 'number',  'default' => 5, 'min' => 1),
                         'ip_rate_window'            => array('type' => 'number',  'default' => 60, 'min' => 1),
-                        'log_enabled'               => array('type' => 'boolean', 'default' => false),
+                        'log_enabled'               => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-comment_security-log_enabled', '记录拦截日志', 'china', '国内生态', '评论安全', array('comment', '评论', '日志', '拦截'))),
                     ),
                     'login_security' => array(
                         'attempt_limit_enabled' => array(
@@ -186,6 +212,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                                 'warning'    => '可信代理配置错误可能让多个访客共享同一来源 IP，造成账号误锁。',
                                 'suggestion' => '确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 MABOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。',
                             ),
+                            'search'     => self::search_metadata('domestic-login_security-attempt_limit_enabled', '登录尝试保护', 'china', '国内生态', '登录安全', array('login', '登录', '失败', '限制', '锁定', '代理'), array('推荐', '安全')),
                         ),
                         'attempt_limit_count' => array('type' => 'number', 'default' => 5, 'min' => 2, 'max' => 20, 'integer' => true),
                         'attempt_window_minutes' => array('type' => 'number', 'default' => 15, 'min' => 1, 'max' => 1440, 'integer' => true),
@@ -198,13 +225,14 @@ if (!class_exists('MaBox_Config_Schema')) {
                             'label'      => '限制匿名作者枚举',
                             'group'      => '登录安全',
                             'risk'       => array('level' => 'none'),
+                            'search'     => self::search_metadata('domestic-login_security-anonymous_author_guard_enabled', '限制匿名作者枚举', 'china', '国内生态', '登录安全', array('login', '登录', '枚举', '作者', '用户名', 'REST'), array('安全')),
                         ),
                     ),
                 ),
                 'performance' => array(
                     '_option_key' => MAGICK_MIXTURE_OPTION_PERFORMANCE,
                     'oss' => array(
-                        'enabled'      => array('type' => 'boolean', 'default' => false),
+                        'enabled'      => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('performance-oss-enabled', '对象存储 / OSS', 'maintenance', '维护工具', '云存储', array('oss', 'cos', '云存储', '阿里云', '腾讯云'), array('性能'))),
                         'provider'     => array('type' => 'string',  'default' => 'aliyun', 'sanitize' => 'sanitize_text_field'),
                         'access_key'   => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field', 'sensitive' => true),
                         'secret_key'   => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field', 'sensitive' => true),
@@ -214,18 +242,18 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'delete_local' => array('type' => 'boolean', 'default' => false),
                     ),
                     'seo_checker' => array(
-                        'enabled' => array('type' => 'boolean', 'default' => false),
+                        'enabled' => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('performance-seo_checker-enabled', 'SEO 检查助手', 'maintenance', '维护工具', 'SEO', array('seo', '检查', 'alt', '健康度'), array('SEO'))),
                     ),
                     'media_health' => array(
-                        'enabled' => array('type' => 'boolean', 'default' => false),
+                        'enabled' => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('performance-media_health-enabled', '媒体库体检', 'maintenance', '维护工具', '媒体', array('media', '媒体', '图片', 'alt', '体检'))),
                     ),
                     'search_enhance' => array(
-                        'highlight_enabled' => array('type' => 'boolean', 'default' => false),
+                        'highlight_enabled' => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('performance-search_enhance-highlight_enabled', '搜索关键词高亮', 'maintenance', '维护工具', '搜索', array('search', '搜索', '高亮', '关键词'))),
                         'recommend_enabled' => array('type' => 'boolean', 'default' => false),
                         'hotwords_enabled'  => array('type' => 'boolean', 'default' => false),
                     ),
                     'db_clean' => array(
-                        'enabled'             => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'high', 'title' => '数据库清理', 'warning' => '数据库清理操作不可逆，删除的数据无法恢复。', 'suggestion' => '执行前务必先预览影响数量，并做好备份。', 'noDismiss' => true), 'feature_id' => 'performance-db_clean-enabled', 'label' => '数据库清理优化', 'group' => '数据库'),
+                        'enabled'             => array('type' => 'boolean', 'default' => false, 'risk' => array('level' => 'high', 'title' => '数据库清理', 'warning' => '数据库清理操作不可逆，删除的数据无法恢复。', 'suggestion' => '执行前务必先预览影响数量，并做好备份。', 'noDismiss' => true), 'feature_id' => 'performance-db_clean-enabled', 'label' => '数据库清理优化', 'group' => '数据库', 'search' => self::search_metadata('performance-db_clean-enabled', '数据库清理优化', 'maintenance', '维护工具', '数据库', array('db', '数据库', '清理', '优化', '修订版本'), array('推荐', '性能'))),
                         'clean_revisions'    => array('type' => 'boolean', 'default' => false),
                         'clean_drafts'       => array('type' => 'boolean', 'default' => false),
                         'clean_spam_comments' => array('type' => 'boolean', 'default' => false),
@@ -238,13 +266,173 @@ if (!class_exists('MaBox_Config_Schema')) {
         }
 
         /**
-         * 获取完整 schema
+         * Get the private Schema definition, including build-only metadata.
          */
-        public static function get_schema() {
+        private static function get_schema_definition() {
             if (self::$schema === null) {
                 self::$schema = self::build_schema();
             }
             return self::$schema;
+        }
+
+        /**
+         * 获取运行时公开 schema。
+         *
+         * 构建期搜索元数据不属于 REST、默认值或校验契约，因此必须在
+         * 公开前剥离；敏感标记及其余既有 Schema 结构保持不变。
+         */
+        public static function get_schema() {
+            $schema = self::get_schema_definition();
+
+            foreach ($schema as $module_key => &$module_def) {
+                if ($module_key === '_option_key' || $module_key === '_flat' || !is_array($module_def)) {
+                    continue;
+                }
+
+                if (!empty($module_def['_flat'])) {
+                    foreach ($module_def as $field_key => &$field_def) {
+                        if ($field_key === '_option_key' || $field_key === '_flat' || !is_array($field_def)) {
+                            continue;
+                        }
+                        unset($field_def['search']);
+                    }
+                    unset($field_def);
+                    continue;
+                }
+
+                foreach ($module_def as $sub_key => &$sub_def) {
+                    if ($sub_key === '_option_key' || $sub_key === '_flat' || !is_array($sub_def)) {
+                        continue;
+                    }
+                    foreach ($sub_def as $field_key => &$field_def) {
+                        if ($field_key === '_option_key' || $field_key === '_flat' || !is_array($field_def)) {
+                            continue;
+                        }
+                        unset($field_def['search']);
+                    }
+                    unset($field_def);
+                }
+                unset($sub_def);
+            }
+            unset($module_def);
+
+            return $schema;
+        }
+
+        /**
+         * Get the deterministic search index defined by field-level Schema metadata.
+         *
+         * Sensitive fields are excluded before their metadata is inspected. Search
+         * IDs and semantic views are validated here so malformed generated routes
+         * fail closed during export rather than becoming unreachable UI entries.
+         *
+         * @return array<int, array<string, mixed>>
+         */
+        public static function get_admin_search_index() {
+            $schema = self::get_schema_definition();
+            $search_index = array();
+            $seen_ids = array();
+
+            foreach ($schema as $module_key => $module_def) {
+                if ($module_key === '_option_key' || $module_key === '_flat' || !is_array($module_def)) {
+                    continue;
+                }
+
+                if (!empty($module_def['_flat'])) {
+                    foreach ($module_def as $field_key => $field_def) {
+                        if ($field_key === '_option_key' || $field_key === '_flat' || !is_array($field_def)) {
+                            continue;
+                        }
+                        self::append_search_item(
+                            $search_index,
+                            $seen_ids,
+                            $field_def,
+                            $module_key . '.' . $field_key
+                        );
+                    }
+                    continue;
+                }
+
+                foreach ($module_def as $sub_key => $sub_def) {
+                    if ($sub_key === '_option_key' || $sub_key === '_flat' || !is_array($sub_def)) {
+                        continue;
+                    }
+                    foreach ($sub_def as $field_key => $field_def) {
+                        if ($field_key === '_option_key' || $field_key === '_flat' || !is_array($field_def)) {
+                            continue;
+                        }
+                        self::append_search_item(
+                            $search_index,
+                            $seen_ids,
+                            $field_def,
+                            $module_key . '.' . $sub_key . '.' . $field_key
+                        );
+                    }
+                }
+            }
+
+            return $search_index;
+        }
+
+        private static function append_search_item(&$search_index, &$seen_ids, $field_def, $path) {
+            if (!empty($field_def['sensitive']) || !isset($field_def['search'])) {
+                return;
+            }
+            if (!is_array($field_def['search'])) {
+                throw new UnexpectedValueException("Search metadata for {$path} must be an array");
+            }
+
+            $search = $field_def['search'];
+            foreach (array('id', 'label', 'view', 'tabLabel', 'section') as $required_key) {
+                if (!isset($search[$required_key]) || !is_string($search[$required_key]) || $search[$required_key] === '') {
+                    throw new UnexpectedValueException("Search metadata for {$path} has an invalid {$required_key}");
+                }
+            }
+            if (!in_array($search['view'], array('site', 'content', 'seo', 'china', 'maintenance'), true)) {
+                throw new UnexpectedValueException("Search metadata for {$path} has an invalid view");
+            }
+            if (isset($seen_ids[$search['id']])) {
+                throw new UnexpectedValueException("Duplicate search ID: {$search['id']}");
+            }
+
+            self::assert_search_string_list($search, 'keywords', $path, false);
+            self::assert_search_string_list($search, 'tags', $path, true);
+            self::assert_search_string_list($search, 'aliases', $path, true);
+
+            $item = array(
+                'id'       => $search['id'],
+                'label'    => $search['label'],
+                'tabKey'   => $search['view'],
+                'tabLabel' => $search['tabLabel'],
+                'section'  => $search['section'],
+                'keywords' => $search['keywords'],
+            );
+            if (isset($search['tags'])) {
+                $item['tags'] = $search['tags'];
+            }
+            if (isset($search['aliases'])) {
+                $item['aliases'] = $search['aliases'];
+            }
+
+            $seen_ids[$search['id']] = true;
+            $search_index[] = $item;
+        }
+
+        private static function assert_search_string_list($search, $key, $path, $optional) {
+            if (!array_key_exists($key, $search)) {
+                if ($optional) {
+                    return;
+                }
+                throw new UnexpectedValueException("Search metadata for {$path} is missing {$key}");
+            }
+            if (!is_array($search[$key]) || !self::is_list_array($search[$key])) {
+                throw new UnexpectedValueException("Search metadata for {$path} has an invalid {$key} list");
+            }
+            foreach ($search[$key] as $value) {
+                if (!is_string($value) || $value === '') {
+                    throw new UnexpectedValueException("Search metadata for {$path} has an invalid {$key} value");
+                }
+            }
         }
 
         /**
@@ -477,6 +665,7 @@ if (!class_exists('MaBox_Config_Schema')) {
 
             return array(
                 'defaults' => $defaults,
+                'searchIndex' => self::get_admin_search_index(),
                 'uiSchema' => $ui_schema,
             );
         }
