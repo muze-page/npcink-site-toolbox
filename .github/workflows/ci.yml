@@ -118,7 +118,7 @@ jobs:
           test ! -e vite/public
 
       - name: Upload frontend build outputs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-dist
           path: |
@@ -152,7 +152,7 @@ jobs:
         run: composer release:verify -- wp-magick-toolbox.zip
 
       - name: Upload ZIP artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wp-magick-toolbox
           path: |
