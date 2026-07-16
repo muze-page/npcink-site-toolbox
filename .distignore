@@ -14,12 +14,16 @@
 .editorconfig
 .nvmrc
 AGENTS.md
+bin
+stubs
+.env
+.env.*
 
 # 开发依赖
 node_modules
 vendor
 
-# 构建源码（构建产物已包含在仓库中或CI中生成）
+# 构建源码（构建产物由本地或 CI 生成）
 vite/public
 vite/node_modules
 vite/package.json
@@ -39,6 +43,7 @@ vite/count/index.html
 vite/*/*.json
 vite/*/*.config.*
 vite/*/*.yaml
+vite/*/dist/.vite
 
 # 测试
 tests
@@ -63,6 +68,9 @@ phpcs.xml
 phpunit.phar
 phpstan-baseline.neon
 wp-magick-toolbox-*.zip
+wp-magick-toolbox.zip
+*.zip
+*.sha256
 
 # 项目文档（readme.txt已包含）
 README.md

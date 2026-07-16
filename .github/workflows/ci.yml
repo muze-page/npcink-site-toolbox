@@ -41,8 +41,14 @@ jobs:
           extensions: curl, json, mbstring
           tools: composer
 
+      - name: Validate Composer configuration
+        run: composer validate --strict
+
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
+
+      - name: Verify generated settings contract
+        run: composer settings-contract:check
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit --configuration phpunit.xml.dist --no-coverage
@@ -127,116 +133,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
       - name: Download frontend build outputs
         uses: actions/download-artifact@v4
         with:
           name: frontend-dist
           path: vite
 
-      - name: Verify release frontend assets
-        run: |
-          test -s vite/admin/dist/index.js
-          test -s vite/admin/dist/index.css
-          test -s vite/count/dist/index.js
-          test -s vite/count/dist/index.css
-          test ! -e vite/public
+      - name: Build release ZIP
+        run: composer release:build
 
-      - name: Create ZIP archive
-        run: |
-          EXCLUDE=(
-            ".DS_Store"
-            "*/.DS_Store"
-            ".git/*"
-            ".github/*"
-            ".opencode/*"
-            ".sisyphus/*"
-            ".vscode/*"
-            "ai/*"
-            "docs/*"
-            "docs-site/*"
-            "vite/.eslintrc.*"
-            "vite/eslint.config.*"
-            "vite/node_modules/*"
-            "vite/*/src/*"
-            "vite/*/node_modules/*"
-            "vite/*/coverage/"
-            "vite/*/coverage/*"
-            "vite/*/public/"
-            "vite/*/public/*"
-            "vite/*/scripts/"
-            "vite/*/scripts/*"
-            "vite/*/.env*"
-            "vite/*/.gitignore"
-            "vite/*/README.md"
-            "vite/admin/index.html"
-            "vite/count/index.html"
-            "vite/*/*.json"
-            "vite/*/*.config.*"
-            "vite/*/*.yaml"
-            "vite/package.json"
-            "vite/pnpm-lock.yaml"
-            "vite/public/*"
-            "tests/*"
-            "node_modules/*"
-            "vendor/*"
-            ".distignore"
-            ".gitignore"
-            ".editorconfig"
-            ".nvmrc"
-            ".phpunit.result.cache"
-            "AGENTS.md"
-            "composer.json"
-            "composer.lock"
-            "phpcs.xml"
-            "phpstan-bootstrap.php"
-            "phpstan-baseline.neon"
-            "phpstan.neon"
-            "phpunit.xml.dist"
-            "phpunit.phar"
-            "CHANGELOG.md"
-            "README.md"
-            "SECURITY.md"
-            "功能清单.md"
-            "技术架构与功能文档.md"
-            "项目现状与开发指南.md"
-            "docker-compose.yml"
-            "wp-magick-toolbox-*.zip"
-          )
-          zip -r wp-magick-toolbox.zip . -x "${EXCLUDE[@]}"
-
-      - name: Verify ZIP frontend boundary
-        run: |
-          archive_entries="$(unzip -Z1 wp-magick-toolbox.zip)"
-          for asset in \
-            vite/admin/dist/index.js \
-            vite/admin/dist/index.css \
-            vite/count/dist/index.js \
-            vite/count/dist/index.css; do
-            if ! grep -Fqx "$asset" <<< "$archive_entries"; then
-              echo "Missing required frontend asset: $asset" >&2
-              exit 1
-            fi
-          done
-
-          if grep -Eq '^vite/public(/|$)' <<< "$archive_entries"; then
-            echo "Retired vite/public files must not enter the release ZIP." >&2
-            exit 1
-          fi
-
-          unexpected_vite_entries="$(
-            grep -E '^vite(/|$)' <<< "$archive_entries" \
-              | grep -Ev '^vite/?$|^vite/(admin|count)/?$|^vite/(admin|count)/dist(/|$)' \
-              || true
-          )"
-          if [[ -n "$unexpected_vite_entries" ]]; then
-            echo "Unexpected frontend source/config files in release ZIP:" >&2
-            echo "$unexpected_vite_entries" >&2
-            exit 1
-          fi
+      - name: Verify release ZIP
+        run: composer release:verify -- wp-magick-toolbox.zip
 
       - name: Upload ZIP artifact
         uses: actions/upload-artifact@v4
         with:
           name: wp-magick-toolbox
-          path: wp-magick-toolbox.zip
+          path: |
+            wp-magick-toolbox.zip
+            wp-magick-toolbox.zip.sha256
+          if-no-files-found: error
           retention-days: 30

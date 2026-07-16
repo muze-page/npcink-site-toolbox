@@ -40,3 +40,5 @@ composer.lock
 *.temp
 phpunit.phar
 wp-magick-toolbox-*.zip
+wp-magick-toolbox.zip
+wp-magick-toolbox.zip.sha256
