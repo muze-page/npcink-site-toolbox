@@ -60,6 +60,18 @@ class DomesticEnvironmentTest extends TestCase
         $this->assertStringContainsString("HOUR_IN_SECONDS", $content);
     }
 
+    public function test_external_connectivity_checks_do_not_disable_tls_verification(): void
+    {
+        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $content = file_get_contents($file);
+
+        $this->assertDoesNotMatchRegularExpression(
+            "/['\"]sslverify['\"]\\s*=>\\s*false\\b/",
+            $content,
+            'External connectivity checks must keep WordPress TLS certificate verification enabled.'
+        );
+    }
+
     public function test_apply_validates_fixes_param(): void
     {
         $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
@@ -86,7 +98,8 @@ class DomesticEnvironmentTest extends TestCase
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("cdn_gravatar_mirror", $content);
-        $this->assertStringContainsString("cravatar.cn", $content);
+        $this->assertStringContainsString("gravatar.loli.net/avatar/", $content);
+        $this->assertStringNotContainsString("cravatar.cn", $content);
     }
 
     public function test_apply_sets_google_fonts_mirror_default(): void
@@ -95,7 +108,8 @@ class DomesticEnvironmentTest extends TestCase
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("cdn_google_fonts_mirror", $content);
-        $this->assertStringContainsString("fonts.font.im", $content);
+        $this->assertStringContainsString("fonts.loli.net", $content);
+        $this->assertStringNotContainsString("fonts.font.im", $content);
     }
 
     public function test_apply_returns_diffs_instead_of_saving(): void

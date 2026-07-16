@@ -41,9 +41,8 @@ if (!class_exists('MaBox_Domestic_Environment')) {
             foreach (self::$checks as $key => $check) {
                 $start = microtime(true);
                 $response = wp_remote_get($check['url'], array(
-                    'timeout'   => $check['timeout'],
-                    'sslverify' => false,
-                    'headers'   => array('Accept' => '*/*'),
+                    'timeout' => $check['timeout'],
+                    'headers' => array('Accept' => '*/*'),
                 ));
                 $latency = round((microtime(true) - $start) * 1000);
 
@@ -109,7 +108,7 @@ if (!class_exists('MaBox_Domestic_Environment')) {
                         'key'        => 'cdn_gravatar_mirror',
                         'label'      => 'Gravatar 镜像地址',
                         'before'     => '',
-                        'after'      => 'cravatar.cn/avatar/',
+                        'after'      => 'gravatar.loli.net/avatar/',
                         'risk_level' => 'none',
                     );
                 }
@@ -135,7 +134,7 @@ if (!class_exists('MaBox_Domestic_Environment')) {
                         'key'        => 'cdn_google_fonts_mirror',
                         'label'      => 'Google Fonts 镜像地址',
                         'before'     => '',
-                        'after'      => 'fonts.font.im',
+                        'after'      => 'fonts.loli.net',
                         'risk_level' => 'none',
                     );
                 }
