@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
-import { Form, Input, InputNumber, Select, Button, Card, Row, Col, Tag, Space, Typography, message } from "antd";
+import { Form, Input, InputNumber, Select, Button, Card, Row, Col, Tag, Space, Typography } from "antd";
 import { ReloadOutlined, ThunderboltOutlined, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { DataContext } from "@/tool/dataContext";
 import { AntConfig } from "@/tool/tool";
@@ -8,6 +8,7 @@ import DiffModal from "@/components/diff-modal";
 import { mergeEnvironmentProposal } from "@/components/domestic/environment-plan";
 import { ModuleCard, DetailDrawer, ModuleRow, SecretField } from "@/components/settings-ui";
 import type { DomesticLoginSecurity } from "@/tool/interface";
+import { notice } from "@/tool/notice";
 
 const fromConfig = AntConfig.from;
 const { TextArea } = Input;
@@ -38,10 +39,10 @@ const EnvironmentCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (op
       if (res?.success && res?.data) {
         setResults(res.data);
       } else {
-        message.error("检测失败，请重试");
+        notice.error("检测失败，请重试");
       }
     } catch (err) {
-      message.error("检测请求失败");
+      notice.error("检测请求失败");
     } finally {
       setLoading(false);
     }
@@ -59,7 +60,7 @@ const EnvironmentCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (op
       .map(([key]) => key)
       .filter((key) => ["gravatar", "google_fonts", "google_ajax"].includes(key));
     if (unreachable.length === 0) {
-      message.info("所有服务可达，无需修复");
+      notice.info("所有服务可达，无需修复");
       return;
     }
     try {
@@ -78,10 +79,10 @@ const EnvironmentCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (op
         if (res.data.proposed) setPendingProposed(res.data.proposed);
         setDiffVisible(true);
       } else {
-        message.error("获取修复建议失败");
+        notice.error("获取修复建议失败");
       }
     } catch (err) {
-      message.error("修复请求失败");
+      notice.error("修复请求失败");
     }
   }, [results]);
 
@@ -90,12 +91,12 @@ const EnvironmentCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (op
     try {
       const nextSite = mergeEnvironmentProposal(optionData.optimize.site, pendingProposed);
       updateOption("optimize", "site", nextSite);
-      message.success("修复建议已加入待保存更改，请使用全局保存按钮确认");
+      notice.success("修复建议已加入待保存更改，请使用全局保存按钮确认");
       setDiffVisible(false);
       setPendingDiffs([]);
       setPendingProposed(null);
     } catch (err) {
-      message.error(err instanceof Error ? err.message : "修复建议格式无效");
+      notice.error(err instanceof Error ? err.message : "修复建议格式无效");
     }
   }, [pendingProposed, optionData.optimize.site, updateOption]);
 

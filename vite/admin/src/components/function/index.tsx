@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Form, Input, Button, Space, message } from "antd";
+import { Form, Input, Button, Space } from "antd";
 import { DataContext } from "@/tool/dataContext";
 import { FunctionTips, FunctionSeo, FunctionAuxiliary } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
@@ -7,6 +7,7 @@ import { AntConfig } from "@/tool/tool";
 import TimePeriod from "@/basic/timeInput";
 import TextAreaHtml from "@/basic/htmlInput";
 import { ModuleCard, DetailDrawer, ModuleRow } from "@/components/settings-ui";
+import { notice } from "@/tool/notice";
 
 const fromConfig = AntConfig.from;
 
@@ -174,7 +175,7 @@ const AuxiliaryCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (open
     const regex = /hm\.js\?([A-Za-z0-9]+)/;
     const match = value.match(regex);
     if (match) return match[1];
-    message.error("处理失败，请输入百度统计平台的完整统计代码");
+    notice.error("处理失败，请输入百度统计平台的完整统计代码");
     return "";
   };
 
@@ -184,7 +185,7 @@ const AuxiliaryCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (open
     const regex = /<meta\s+.*?name="google-site-verification".*?content="([A-Za-z0-9_-]+)".*?>/i;
     const match = value.match(regex);
     if (match) return match[1];
-    message.error("处理失败，请输入谷歌平台完整 HTML 标记");
+    notice.error("处理失败，请输入谷歌平台完整 HTML 标记");
     return "";
   };
 
@@ -194,7 +195,7 @@ const AuxiliaryCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (open
     const regex = /<meta\s+.*?name="msvalidate\.01".*?content="([A-Za-z0-9]+)".*?>/i;
     const match = value.match(regex);
     if (match) return match[1];
-    message.error("处理失败，请输入必应平台完整 HTML Meta 标记");
+    notice.error("处理失败，请输入必应平台完整 HTML Meta 标记");
     return "";
   };
 

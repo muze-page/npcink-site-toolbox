@@ -1,10 +1,12 @@
-import { useContext, useMemo, useState } from "react";
-import { Button, message } from "antd";
+import { useContext, useMemo, useRef, useState } from "react";
 import { DataContext } from "@/tool/dataContext";
 import { saveOption } from "@/axios/save";
 import { diffConfig, diffSecretChanges } from "@/tool/diff";
-import DiffModal from "@/components/diff-modal";
+import { loadDiffModal } from "@/tool/diffModalLoader";
 import { ConfigDiffItem } from "@/tool/interface";
+import { notice } from "@/tool/notice";
+
+type DiffModalComponent = Awaited<ReturnType<typeof loadDiffModal>>["default"];
 
 const App: React.FC = () => {
   const {
@@ -17,8 +19,11 @@ const App: React.FC = () => {
     settingsState,
   } = useContext(DataContext);
   const [saving, setSaving] = useState(false);
+  const [preparingConfirmation, setPreparingConfirmation] = useState(false);
   const [diffVisible, setDiffVisible] = useState(false);
   const [diffs, setDiffs] = useState<ConfigDiffItem[]>([]);
+  const [LoadedDiffModal, setLoadedDiffModal] = useState<DiffModalComponent | null>(null);
+  const statusRef = useRef<HTMLSpanElement>(null);
   const changes = useMemo(
     () => [
       ...diffConfig(lastSavedOption, optionData),
@@ -36,28 +41,45 @@ const App: React.FC = () => {
       saved = true;
       clearSecretChanges();
       await refreshOption();
-      message.success("保存成功");
+      notice.success("保存成功");
     } catch (error) {
       if (saved) {
-        message.warning("设置已保存，但重新读取失败；保存功能已禁用，请重新读取后继续");
+        notice.warning("设置已保存，但重新读取失败；保存功能已禁用，请重新读取后继续");
       } else {
-        message.error("保存失败，请重试");
+        notice.error("保存失败，请重试");
       }
     } finally {
       setSaving(false);
     }
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     if (changes.length === 0) return;
 
     setDiffs(changes);
-    setDiffVisible(true);
+    if (LoadedDiffModal) {
+      setDiffVisible(true);
+      return;
+    }
+
+    setPreparingConfirmation(true);
+    try {
+      const module = await loadDiffModal();
+      setLoadedDiffModal(() => module.default);
+      setDiffVisible(true);
+    } catch {
+      notice.error("保存确认界面加载失败，请重试");
+    } finally {
+      setPreparingConfirmation(false);
+    }
   };
 
   const handleConfirmSave = () => {
     setDiffVisible(false);
-    doSave();
+    void doSave();
+    window.requestAnimationFrame(() => {
+      statusRef.current?.focus({ preventScroll: true });
+    });
   };
 
   let statusText = "已保存";
@@ -68,6 +90,10 @@ const App: React.FC = () => {
     statusText = "正在保存…";
     buttonText = "正在保存…";
     statusKind = "saving";
+  } else if (preparingConfirmation) {
+    statusText = "正在准备确认…";
+    buttonText = "正在准备…";
+    statusKind = "loading";
   } else if (settingsState === "loading") {
     statusText = "正在读取设置…";
     statusKind = "loading";
@@ -80,28 +106,40 @@ const App: React.FC = () => {
     statusKind = "pending";
   }
 
-  const saveDisabled = saving || settingsState !== "ready" || changeCount === 0;
+  const saveDisabled = saving || preparingConfirmation || settingsState !== "ready" || changeCount === 0;
 
   return (
     <div className={`mabox-save-trust mabox-save-trust--${statusKind}`}>
-      <span className="mabox-save-status" role="status" aria-live="polite" aria-atomic="true">
+      <span
+        ref={statusRef}
+        className="mabox-save-status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        tabIndex={-1}
+      >
         {statusText}
       </span>
-      <Button
+      <button
+        type="button"
         className="mabox-save-action"
-        type="primary"
         onClick={handleSaveClick}
-        loading={saving}
         disabled={saveDisabled}
+        aria-busy={saving || preparingConfirmation || undefined}
       >
-        {buttonText}
-      </Button>
-      <DiffModal
-        visible={diffVisible}
-        diffs={diffs}
-        onConfirm={handleConfirmSave}
-        onCancel={() => setDiffVisible(false)}
-      />
+        {(saving || preparingConfirmation) && (
+          <span className="mabox-save-action-spinner" aria-hidden="true" />
+        )}
+        <span>{buttonText}</span>
+      </button>
+      {LoadedDiffModal && (
+        <LoadedDiffModal
+          visible={diffVisible}
+          diffs={diffs}
+          onConfirm={handleConfirmSave}
+          onCancel={() => setDiffVisible(false)}
+        />
+      )}
     </div>
   );
 };

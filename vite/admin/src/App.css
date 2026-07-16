@@ -177,7 +177,9 @@
 .mabox-help-btn:focus-visible,
 .mabox-mobile-toggle:focus-visible,
 .mabox-nav-item:focus-visible,
-.mabox-mobile-nav-overlay:focus-visible {
+.mabox-mobile-nav-overlay:focus-visible,
+.mabox-save-action:focus-visible,
+.mabox-view-state-action:focus-visible {
   outline: 2px solid var(--mabox-accent);
   outline-offset: 2px;
 }
@@ -346,6 +348,12 @@
   white-space: nowrap;
 }
 
+.mabox-save-status:focus-visible {
+  outline: 2px solid var(--mabox-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 .mabox-save-trust--pending .mabox-save-status {
   color: var(--mabox-accent);
 }
@@ -355,8 +363,50 @@
 }
 
 .mabox-save-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
   min-width: 88px;
+  min-height: 34px;
+  padding: 5px 12px;
+  border: 1px solid var(--mabox-accent);
+  border-radius: 4px;
+  background: var(--mabox-accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  gap: 7px;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.mabox-save-action:hover:not(:disabled) {
+  border-color: #1e3fc5;
+  background: #1e3fc5;
+  color: #fff;
+}
+
+.mabox-save-action:disabled {
+  border-color: #dcdcde;
+  background: #f0f0f1;
+  color: #8c8f94;
+  cursor: default;
+}
+
+.mabox-save-action-spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: mabox-spin 800ms linear infinite;
+}
+
+.mabox-save-action:disabled .mabox-save-action-spinner {
+  border-color: rgba(100, 105, 112, 0.25);
+  border-top-color: #646970;
 }
 
 .mabox-diff-item {
@@ -453,22 +503,83 @@
   z-index: 99;
 }
 
-.mabox-view-loading {
+.mabox-view-state {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   min-height: 240px;
+  padding: 24px;
   color: var(--mabox-muted);
 }
 
-.mabox-view-loading-spinner {
+.mabox-view-state-spinner {
+  flex: 0 0 auto;
   width: 18px;
   height: 18px;
   border: 2px solid var(--mabox-border);
   border-top-color: var(--mabox-accent);
   border-radius: 50%;
   animation: mabox-spin 800ms linear infinite;
+}
+
+.mabox-view-state-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.5;
+  gap: 2px;
+}
+
+.mabox-view-state-copy strong {
+  color: var(--mabox-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mabox-view-state-copy span {
+  font-size: 13px;
+}
+
+.mabox-view-state--error {
+  justify-content: flex-start;
+  min-height: 0;
+  padding: 14px 16px;
+  border: 1px solid #d63638;
+  border-radius: 4px;
+  background: #fcf0f1;
+  color: #8a2424;
+}
+
+.mabox-view-state--error .mabox-view-state-icon {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  color: #b32d2e;
+  font-size: 20px;
+}
+
+.mabox-view-state--error .mabox-view-state-copy strong {
+  color: #8a2424;
+}
+
+.mabox-view-state-action {
+  flex: 0 0 auto;
+  min-height: 32px;
+  margin-left: auto;
+  padding: 4px 10px;
+  border: 1px solid #b32d2e;
+  border-radius: 4px;
+  background: #fff;
+  color: #8a2424;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mabox-view-state-action:hover {
+  background: #fff5f5;
+  color: #681b1c;
 }
 
 .mabox-search-target {
@@ -483,8 +594,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mabox-view-loading-spinner {
-    animation-duration: 1600ms;
+  .mabox-view-state-spinner,
+  .mabox-save-action-spinner {
+    animation: none;
   }
 }
 
@@ -525,6 +637,19 @@
 
   .mabox-save-action {
     min-width: 96px;
+  }
+
+  .mabox-view-state--error {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .mabox-view-state--error .mabox-view-state-copy {
+    flex: 1 1 calc(100% - 32px);
+  }
+
+  .mabox-view-state-action {
+    margin-left: 32px;
   }
 
   .mabox-diff-item {

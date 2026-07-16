@@ -1,0 +1,98 @@
+.mabox-notice-stack {
+  position: fixed;
+  top: 50px;
+  right: 24px;
+  z-index: 100100;
+  display: grid;
+  width: min(360px, calc(100vw - 32px));
+  gap: 8px;
+  pointer-events: none;
+}
+
+.mabox-notice-announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mabox-notice {
+  position: relative;
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 11px 14px;
+  color: #1d2327;
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  animation: mabox-notice-enter 160ms ease-out;
+}
+
+.mabox-notice::before {
+  width: 8px;
+  height: 8px;
+  margin-top: 5px;
+  content: "";
+  background: #2271b1;
+  border-radius: 50%;
+}
+
+.mabox-notice--info::before {
+  background: #2271b1;
+}
+
+.mabox-notice--success::before {
+  background: #00a32a;
+}
+
+.mabox-notice--warning::before {
+  background: #dba617;
+}
+
+.mabox-notice--error::before {
+  background: #d63638;
+}
+
+.mabox-notice__content {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+@keyframes mabox-notice-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 782px) {
+  .mabox-notice-stack {
+    top: 58px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mabox-notice {
+    animation: none;
+  }
+}

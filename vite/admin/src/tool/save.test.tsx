@@ -1,5 +1,4 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { message } from "antd";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -7,6 +6,7 @@ import {
   emptySecretStatus,
   OptionContextType,
 } from "@/tool/dataContext";
+import DiffModal from "@/components/diff-modal";
 import { defaultVarOption } from "@/tool/defaultVar";
 import { Option } from "@/tool/interface";
 import Save from "@/tool/save";
@@ -14,9 +14,19 @@ import Save from "@/tool/save";
 const saveMocks = vi.hoisted(() => ({
   saveOption: vi.fn(),
 }));
+const noticeMocks = vi.hoisted(() => ({
+  success: vi.fn(),
+  warning: vi.fn(),
+  error: vi.fn(),
+}));
+const diffModalLoaderMocks = vi.hoisted(() => ({
+  loadDiffModal: vi.fn(),
+}));
 const getComputedStyle = window.getComputedStyle.bind(window);
 
 vi.mock("@/axios/save", () => saveMocks);
+vi.mock("@/tool/diffModalLoader", () => diffModalLoaderMocks);
+vi.mock("@/tool/notice", () => ({ notice: noticeMocks }));
 
 function cloneOption(): Option {
   return JSON.parse(JSON.stringify(defaultVarOption)) as Option;
@@ -51,6 +61,11 @@ beforeEach(() => {
   vi.spyOn(window, "getComputedStyle").mockImplementation((element) => getComputedStyle(element));
   saveMocks.saveOption.mockReset();
   saveMocks.saveOption.mockResolvedValue({ success: true });
+  noticeMocks.success.mockReset();
+  noticeMocks.warning.mockReset();
+  noticeMocks.error.mockReset();
+  diffModalLoaderMocks.loadDiffModal.mockReset();
+  diffModalLoaderMocks.loadDiffModal.mockResolvedValue({ default: DiffModal });
 });
 
 describe("Save", () => {
@@ -69,14 +84,15 @@ describe("Save", () => {
   });
 
   it("无改动时显示已保存、禁用按钮且不弹 toast", () => {
-    const infoSpy = vi.spyOn(message, "info");
     renderSave();
 
     expect(screen.getByRole("status")).toHaveTextContent("已保存");
     const saveButton = screen.getByRole("button", { name: /保\s*存/ });
     expect(saveButton).toBeDisabled();
     fireEvent.click(saveButton);
-    expect(infoSpy).not.toHaveBeenCalled();
+    expect(noticeMocks.success).not.toHaveBeenCalled();
+    expect(noticeMocks.warning).not.toHaveBeenCalled();
+    expect(noticeMocks.error).not.toHaveBeenCalled();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
@@ -95,10 +111,74 @@ describe("Save", () => {
     expect(screen.getByRole("status")).toHaveTextContent("2 项待保存");
     const saveButton = screen.getByRole("button", { name: "查看并保存" });
     expect(saveButton).toBeEnabled();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     fireEvent.click(saveButton);
 
     expect(await screen.findByText("失败尝试上限")).toBeInTheDocument();
     expect(screen.getByText("微信 AppSecret")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("确认界面慢加载时显示可见准备状态", async () => {
+    let resolveLoader: ((module: { default: typeof DiffModal }) => void) | undefined;
+    diffModalLoaderMocks.loadDiffModal.mockReturnValue(new Promise((resolve) => {
+      resolveLoader = resolve;
+    }));
+    const secretChanges = {
+      "domestic.wechat.appsecret": { operation: "clear" as const },
+    };
+
+    renderSave({ secretChanges });
+    fireEvent.click(screen.getByRole("button", { name: "查看并保存" }));
+
+    expect(screen.getByRole("status")).toHaveTextContent("正在准备确认…");
+    expect(screen.getByRole("button", { name: "正在准备…" })).toBeDisabled();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await act(async () => {
+      resolveLoader?.({ default: DiffModal });
+    });
+    expect(await screen.findByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("确认界面加载失败时保留待保存状态并允许重试", async () => {
+    diffModalLoaderMocks.loadDiffModal
+      .mockRejectedValueOnce(new Error("chunk unavailable"))
+      .mockResolvedValueOnce({ default: DiffModal });
+    const secretChanges = {
+      "domestic.wechat.appsecret": { operation: "clear" as const },
+    };
+
+    renderSave({ secretChanges });
+    fireEvent.click(screen.getByRole("button", { name: "查看并保存" }));
+
+    await waitFor(() => {
+      expect(noticeMocks.error).toHaveBeenCalledWith("保存确认界面加载失败，请重试");
+    });
+    expect(screen.getByRole("status")).toHaveTextContent("1 项待保存");
+    expect(screen.getByRole("button", { name: "查看并保存" })).toBeEnabled();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(saveMocks.saveOption).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("button", { name: "查看并保存" }));
+    expect(await screen.findByRole("dialog")).toBeInTheDocument();
+    expect(diffModalLoaderMocks.loadDiffModal).toHaveBeenCalledTimes(2);
+  });
+
+  it("取消确认后恢复保存按钮焦点且复用已加载弹窗", async () => {
+    const secretChanges = {
+      "domestic.wechat.appsecret": { operation: "clear" as const },
+    };
+    renderSave({ secretChanges });
+    const saveButton = screen.getByRole("button", { name: "查看并保存" });
+    saveButton.focus();
+    fireEvent.click(saveButton);
+    fireEvent.click(await screen.findByRole("button", { name: /取\s*消/ }));
+
+    await waitFor(() => expect(saveButton).toHaveFocus());
+    fireEvent.click(saveButton);
+    expect(await screen.findByRole("dialog")).toBeInTheDocument();
+    expect(diffModalLoaderMocks.loadDiffModal).toHaveBeenCalledTimes(1);
   });
 
   it("确认后立即进入保存中状态，成功后清空凭据 draft 并回读", async () => {
@@ -122,6 +202,7 @@ describe("Save", () => {
 
     expect(screen.getByRole("status")).toHaveTextContent("正在保存…");
     expect(screen.getByRole("button", { name: /正在保存/ })).toBeDisabled();
+    await waitFor(() => expect(screen.getByRole("status")).toHaveFocus());
 
     await act(async () => {
       resolveSave?.({ success: true });
@@ -131,13 +212,11 @@ describe("Save", () => {
       expect(saveMocks.saveOption).toHaveBeenCalledWith(expect.any(Object), secretChanges);
       expect(clearSecretChanges).toHaveBeenCalledTimes(1);
       expect(refreshOption).toHaveBeenCalledTimes(1);
+      expect(noticeMocks.success).toHaveBeenCalledWith("保存成功");
     });
   });
 
   it("设置已保存但回读失败时保留诚实警告", async () => {
-    const warningSpy = vi.spyOn(message, "warning").mockImplementation(() => {
-      return (() => {}) as ReturnType<typeof message.warning>;
-    });
     const refreshOption = vi.fn().mockRejectedValue(new Error("read failed"));
     const secretChanges = {
       "domestic.wechat.appsecret": { operation: "clear" as const },
@@ -148,7 +227,7 @@ describe("Save", () => {
     fireEvent.click(await screen.findByRole("button", { name: "确认保存" }));
 
     await waitFor(() => {
-      expect(warningSpy).toHaveBeenCalledWith(
+      expect(noticeMocks.warning).toHaveBeenCalledWith(
         "设置已保存，但重新读取失败；保存功能已禁用，请重新读取后继续",
       );
     });
@@ -156,9 +235,6 @@ describe("Save", () => {
 
   it("写入失败时保留待保存内容并显示失败反馈", async () => {
     saveMocks.saveOption.mockRejectedValue(new Error("write failed"));
-    const errorSpy = vi.spyOn(message, "error").mockImplementation(() => {
-      return (() => {}) as ReturnType<typeof message.error>;
-    });
     const clearSecretChanges = vi.fn();
     const refreshOption = vi.fn();
     const secretChanges = {
@@ -170,7 +246,7 @@ describe("Save", () => {
     fireEvent.click(await screen.findByRole("button", { name: "确认保存" }));
 
     await waitFor(() => {
-      expect(errorSpy).toHaveBeenCalledWith("保存失败，请重试");
+      expect(noticeMocks.error).toHaveBeenCalledWith("保存失败，请重试");
     });
     expect(clearSecretChanges).not.toHaveBeenCalled();
     expect(refreshOption).not.toHaveBeenCalled();

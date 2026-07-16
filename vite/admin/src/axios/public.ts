@@ -1,5 +1,5 @@
 import axios from "axios";
-import { message } from "antd";
+import { notice } from "@/tool/notice";
 
 function getApiBase(): string {
   const dl = (window as any).dataLocal;
@@ -37,11 +37,11 @@ instance.interceptors.response.use(
     const responseData = response.data;
     if (responseData.success) {
       if (responseData.data?.message) {
-        message.success(responseData.data.message);
+        notice.success(responseData.data.message);
       }
     } else {
       const errMsg = responseData.data?.error || responseData.data?.message || '未知错误';
-      message.error(errMsg);
+      notice.error(errMsg);
     }
     return responseData;
   },
@@ -50,7 +50,7 @@ instance.interceptors.response.use(
       error.response && error.response.status
         ? `出错： ${error.response.data?.data?.error || error.response.data?.data?.message || error.message}`
         : `出错：${error.message}`;
-    message.error(errorMessage);
+    notice.error(errorMessage);
     console.error(errorMessage);
     return Promise.reject(error);
   }
@@ -61,13 +61,13 @@ restInstance.interceptors.response.use(
     const responseData = response.data;
     if (responseData.success) {
       if (responseData.message) {
-        message.success(responseData.message);
+        notice.success(responseData.message);
       }
     } else {
       // 适配标准化错误格式：{ code: 'xxx', message: '...' }
       const errData = responseData.data || responseData;
       const errMsg = errData?.message || errData?.error || responseData.message || '未知错误';
-      message.error(errMsg);
+      notice.error(errMsg);
     }
     return responseData;
   },
@@ -76,7 +76,7 @@ restInstance.interceptors.response.use(
     // 适配标准化错误格式
     const errBody = errorData?.data || errorData;
     const errMsg = errBody?.message || errBody?.error || errorData?.message || error.message;
-    message.error(`出错：${errMsg}`);
+    notice.error(`出错：${errMsg}`);
     console.error(errMsg);
     return Promise.reject(error);
   }

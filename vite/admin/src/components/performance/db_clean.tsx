@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Form, Button, Select, message, Modal, Typography, Alert } from "antd";
+import { Form, Button, Select, Modal, Typography, Alert } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { DataContext } from "@/tool/dataContext";
 import { AntConfig } from "@/tool/tool";
 import { SettingsSection, ModuleRow, RiskNotice, CheckTable, StatusTag } from "@/components/settings-ui";
 import FeatureSwitch from "@/basic/feature-switch";
 import { DbCleanType, DbPreview, DbStats, performanceApi } from "@/api";
+import { notice } from "@/tool/notice";
 
 const { Text } = Typography;
 const fromConfig = AntConfig.from;
@@ -41,7 +42,7 @@ const App: React.FC = () => {
       const res = await performanceApi.getDbStats();
       if (res.success && res.data) setStats(res.data);
     } catch {
-      message.error("统计请求失败");
+      notice.error("统计请求失败");
     }
   };
 
@@ -52,10 +53,10 @@ const App: React.FC = () => {
       if (res.success && res.data) {
         setPreviewData((prev) => ({ ...prev, [type]: res.data }));
       } else {
-        message.error("预览失败");
+        notice.error("预览失败");
       }
     } catch {
-      message.error("预览请求失败");
+      notice.error("预览请求失败");
     } finally {
       setPreviewLoading(false);
     }
@@ -99,7 +100,7 @@ const App: React.FC = () => {
             .then((res) => {
               setCleanLoadingType(null);
               if (res.success) {
-                message.success("清理完成" + (res?.data?.deleted ? "，删除 " + res.data.deleted + " 条" : ""));
+                notice.success("清理完成" + (res?.data?.deleted ? "，删除 " + res.data.deleted + " 条" : ""));
                 setPreviewData((prev) => {
                   const next = { ...prev };
                   delete next[type];
@@ -111,7 +112,7 @@ const App: React.FC = () => {
             })
             .catch(() => {
               setCleanLoadingType(null);
-              message.error("清理失败");
+              notice.error("清理失败");
               resolve();
             });
         });

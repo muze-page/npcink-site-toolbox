@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { Form, Input, Button, Space, message } from "antd";
+import { Form, Input, Button, Space } from "antd";
 import { DataContext } from "@/tool/dataContext";
 import { FunctionAuxiliary } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
 import { SettingsSection, ModuleRow } from "@/components/settings-ui";
+import { notice } from "@/tool/notice";
 
 type FieldType = FunctionAuxiliary;
 
@@ -43,7 +44,7 @@ const App: React.FC = () => {
     if (match) {
       return match[1];
     } else {
-      message.error("处理失败，请输入百度统计平台的完整统计代码");
+      notice.error("处理失败，请输入百度统计平台的完整统计代码");
       return "";
     }
   };
@@ -60,7 +61,7 @@ const App: React.FC = () => {
     if (match) {
       return match[1];
     } else {
-      message.error("处理失败，请输入谷歌平台完整 HTML 标记");
+      notice.error("处理失败，请输入谷歌平台完整 HTML 标记");
       return "";
     }
   };
@@ -77,7 +78,7 @@ const App: React.FC = () => {
     if (match) {
       return match[1];
     } else {
-      message.error("处理失败，请输入必应平台完整 HTML Meta 标记");
+      notice.error("处理失败，请输入必应平台完整 HTML Meta 标记");
       return "";
     }
   };

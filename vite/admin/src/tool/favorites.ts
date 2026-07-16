@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { notice } from "@/tool/notice";
 
 const FAVORITES_KEY = "mabox_favorites";
 
@@ -20,7 +20,7 @@ export function addFavorite(featureId: string): boolean {
     if (!favorites.includes(featureId)) {
       favorites.push(featureId);
       localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
-      message.success("已添加到常用功能");
+      notice.success("已添加到常用功能");
       return true;
     }
     return false;
@@ -34,7 +34,7 @@ export function removeFavorite(featureId: string): boolean {
   try {
     const favorites = getFavorites().filter((id) => id !== featureId);
     localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
-    message.success("已从常用功能移除");
+    notice.success("已从常用功能移除");
     return true;
   } catch (e) {
     console.error("移除收藏失败", e);

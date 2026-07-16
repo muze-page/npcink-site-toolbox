@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Form, Button, message } from "antd";
+import { Form, Button } from "antd";
 import { DataContext } from "@/tool/dataContext";
 import { AntConfig } from "@/tool/tool";
 import { SettingsSection, ModuleRow, CheckTable } from "@/components/settings-ui";
 import StatusTag from "@/components/settings-ui/StatusTag";
 import { MediaHealthIssue, performanceApi } from "@/api";
+import { notice } from "@/tool/notice";
 
 const fromConfig = AntConfig.from;
 
@@ -29,7 +30,7 @@ const App: React.FC = () => {
       const res = await performanceApi.checkMedia();
       if (res.success) setIssues(res.data?.issues || []);
     } catch {
-      message.error("检查失败");
+      notice.error("检查失败");
     } finally {
       setChecking(false);
     }
@@ -38,9 +39,9 @@ const App: React.FC = () => {
   const handleFixAlt = async () => {
     try {
       const res = await performanceApi.fixMediaAlt();
-      if (res.success) message.success("已补全 " + (res.data?.fixed || 0) + " 张图片的 Alt");
+      if (res.success) notice.success("已补全 " + (res.data?.fixed || 0) + " 张图片的 Alt");
     } catch {
-      message.error("修复失败");
+      notice.error("修复失败");
     }
   };
 
