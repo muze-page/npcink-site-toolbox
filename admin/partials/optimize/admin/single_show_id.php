@@ -59,7 +59,7 @@ if (!class_exists('MaBox_Admin_Single_Show_ID')) {
         public static function ssid_value($column_name, $id)
         {
             if ($column_name == 'ssid') {
-                echo $id;
+                echo esc_html($id);
             }
         }
 

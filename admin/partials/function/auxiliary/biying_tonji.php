@@ -19,8 +19,7 @@ if (!class_exists('MaBox_Biying_Tonji')) {
         public static function meta_tag()
         {
             if (!empty(self::$option)) {
-                $option = esc_attr(self::$option);
-                echo '<meta name="msvalidate.01" content="' . $option . '" />' . "\n";
+                echo '<meta name="msvalidate.01" content="' . esc_attr(self::$option) . '" />' . "\n";
             }
         }
     }

@@ -29,7 +29,7 @@ if (!class_exists('MaBox_Domestic_Compliance')) {
                 }
             }
             if ($output) {
-                echo '<div class="mabox-compliance-footer" style="text-align:center;padding:15px 0;font-size:13px;color:#666;">' . $output . '</div>';
+                echo '<div class="mabox-compliance-footer" style="text-align:center;padding:15px 0;font-size:13px;color:#666;">' . wp_kses_post($output) . '</div>';
             }
         }
         public static function enqueue_cookie_assets() {

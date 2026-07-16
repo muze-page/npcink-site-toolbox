@@ -223,9 +223,45 @@ if (!class_exists('MaBox_Census_Single')) {
             //注册这个设置
             register_setting(
                 'sandbox_theme_display_options', //选项组
-                'magick_plugin_config' //选项名称
+                'magick_plugin_config', //选项名称
+                array(
+                    'type'              => 'array',
+                    'sanitize_callback' => array(__CLASS__, 'sanitize_options'),
+                    'default'           => array('option_id' => array()),
+                )
             );
         } //结束magick_plugin_options
+
+        /**
+         * 仅保留唯一的正整数用户 ID。
+         */
+        public static function sanitize_options($input)
+        {
+            $candidates = is_array($input) && isset($input['option_id'])
+                ? (array) $input['option_id']
+                : array();
+            $ids = array();
+
+            foreach ($candidates as $candidate) {
+                if (is_int($candidate)) {
+                    $id = $candidate;
+                } elseif (is_string($candidate)) {
+                    $candidate = trim($candidate);
+                    if ($candidate === '' || !ctype_digit($candidate)) {
+                        continue;
+                    }
+                    $id = (int) $candidate;
+                } else {
+                    continue;
+                }
+
+                if ($id > 0 && !isset($ids[$id])) {
+                    $ids[$id] = $id;
+                }
+            }
+
+            return array('option_id' => array_values($ids));
+        }
 
         /**
          * 选择结果
@@ -235,7 +271,7 @@ if (!class_exists('MaBox_Census_Single')) {
             //拿到选项的值
             $options = get_option('magick_plugin_config');
             if ($options) {
-                echo "您选择的是人员ID是：" . implode(',', $options['option_id']);
+                echo "您选择的是人员ID是：" . esc_html(implode(',', $options['option_id']));
                 return;
             } else {
                 echo "您没有选择值";
@@ -276,7 +312,7 @@ if (!class_exists('MaBox_Census_Single')) {
             } //end foreach
             ?>
             <!--描述-->
-            <hr /><label for="option_id"> <?php echo $args[0]; ?></label>
+            <hr /><label for="option_id"> <?php echo esc_html($args[0]); ?></label>
 
 <?php
 

@@ -26,7 +26,17 @@ if (!class_exists('MaBox_Page_Comment_Interval')) {
                 $message = '评论过快！请' . $time . '秒后再来评论';
 
                 $message = $message . MaBox_Admin::back_button();
-                wp_die($message);
+                $allowed_html = array(
+                    'br'     => array(),
+                    'a'      => array(
+                        'href'    => true,
+                        'onclick' => true,
+                        'class'   => true,
+                    ),
+                    'button' => array('class' => true),
+                    'style'  => array(),
+                );
+                wp_die(wp_kses($message, $allowed_html));
             } else {
                 return false;
             }

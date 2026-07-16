@@ -31,7 +31,7 @@ if (!class_exists('MaBox_Seo_Single')) {
                          $keywords = rtrim($keywords, ', '); // 去除最后一个逗号和空格
                      }
                      if ($keywords !== '' && $keywords !== false) {
-                        echo '<meta name="keywords" content="' . $keywords . '" />';
+                        echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />';
                         echo "\n";
                     }
 
@@ -39,7 +39,7 @@ if (!class_exists('MaBox_Seo_Single')) {
                     $description_data = get_the_excerpt();
                     if ($description_data !== '' &&  $description_data !== false) {
                         $description = mb_substr($description_data, 0, 55, 'utf-8'); //只取前40个字
-                        echo '<meta name="description" content="' . $description . '" />';
+                        echo '<meta name="description" content="' . esc_attr($description) . '" />';
                         echo "\n";
                     }
                    

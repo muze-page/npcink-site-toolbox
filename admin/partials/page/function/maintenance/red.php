@@ -7,6 +7,25 @@ defined('ABSPATH') || exit;
  */
 
 include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
+
+wp_enqueue_style(
+    'mabox-maintenance-countdown',
+    $file_url . 'countdown/style.css',
+    array(),
+    MAGICK_MIXTURE_VERSION
+);
+wp_enqueue_script(
+    'mabox-maintenance-countdown-script',
+    $file_url . 'countdown/main.js',
+    array(),
+    MAGICK_MIXTURE_VERSION,
+    false
+);
+wp_add_inline_script(
+    'mabox-maintenance-countdown-script',
+    'var targetDate = new Date(' . wp_json_encode((string) $countdown) . ');',
+    'before'
+);
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -14,9 +33,9 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 <head>
     <meta charset="<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><?php echo $page_title; ?></title>
-    <?php //wp_head(); 
-    ?>
+    <title><?php echo esc_html($page_title); ?></title>
+    <?php wp_print_styles(array('mabox-maintenance-responsive', 'mabox-maintenance-countdown')); ?>
+    <?php wp_print_scripts('mabox-maintenance-countdown-script'); ?>
 </head>
 
 <body <?php body_class(); ?>>
@@ -36,13 +55,13 @@ include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 
 
         <h2 class="n-title main">
-            <?php echo $countdown_title;
+            <?php echo esc_html($countdown_title);
             ?>
         </h2>
 
         <div class="box">
             <p class="n-meat main">
-                <?php echo $countdown_content; ?>
+                <?php echo wp_kses_post($countdown_content); ?>
             </p>
             <!--
             <p class="n-description main"> </p>-->

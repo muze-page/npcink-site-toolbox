@@ -379,20 +379,32 @@ if (!class_exists('MaBox_Config_Schema')) {
                 return;
             }
             if (!is_array($field_def['search'])) {
-                throw new UnexpectedValueException("Search metadata for {$path} must be an array");
+                throw new UnexpectedValueException(
+                    // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Developer-facing diagnostic; escape only if an HTML renderer displays it.
+                    sprintf('Search metadata for %s must be an array', $path)
+                );
             }
 
             $search = $field_def['search'];
             foreach (array('id', 'label', 'view', 'tabLabel', 'section') as $required_key) {
                 if (!isset($search[$required_key]) || !is_string($search[$required_key]) || $search[$required_key] === '') {
-                    throw new UnexpectedValueException("Search metadata for {$path} has an invalid {$required_key}");
+                    throw new UnexpectedValueException(
+                        // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Developer-facing diagnostic; escape only if an HTML renderer displays it.
+                        sprintf('Search metadata for %1$s has an invalid %2$s', $path, $required_key)
+                    );
                 }
             }
             if (!in_array($search['view'], array('site', 'content', 'seo', 'china', 'maintenance'), true)) {
-                throw new UnexpectedValueException("Search metadata for {$path} has an invalid view");
+                throw new UnexpectedValueException(
+                    // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Developer-facing diagnostic; escape only if an HTML renderer displays it.
+                    sprintf('Search metadata for %s has an invalid view', $path)
+                );
             }
             if (isset($seen_ids[$search['id']])) {
-                throw new UnexpectedValueException("Duplicate search ID: {$search['id']}");
+                throw new UnexpectedValueException(
+                    // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Developer-facing diagnostic; escape only if an HTML renderer displays it.
+                    sprintf('Duplicate search ID: %s', $search['id'])
+                );
             }
 
             self::assert_search_string_list($search, 'keywords', $path, false);
@@ -423,14 +435,23 @@ if (!class_exists('MaBox_Config_Schema')) {
                 if ($optional) {
                     return;
                 }
-                throw new UnexpectedValueException("Search metadata for {$path} is missing {$key}");
+                throw new UnexpectedValueException(
+                    // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Developer-facing diagnostic; escape only if an HTML renderer displays it.
+                    sprintf('Search metadata for %1$s is missing %2$s', $path, $key)
+                );
             }
             if (!is_array($search[$key]) || !self::is_list_array($search[$key])) {
-                throw new UnexpectedValueException("Search metadata for {$path} has an invalid {$key} list");
+                throw new UnexpectedValueException(
+                    // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Developer-facing diagnostic; escape only if an HTML renderer displays it.
+                    sprintf('Search metadata for %1$s has an invalid %2$s list', $path, $key)
+                );
             }
             foreach ($search[$key] as $value) {
                 if (!is_string($value) || $value === '') {
-                    throw new UnexpectedValueException("Search metadata for {$path} has an invalid {$key} value");
+                    throw new UnexpectedValueException(
+                        // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Developer-facing diagnostic; escape only if an HTML renderer displays it.
+                        sprintf('Search metadata for %1$s has an invalid %2$s value', $path, $key)
+                    );
                 }
             }
         }

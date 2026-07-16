@@ -17,8 +17,7 @@ if (!class_exists('MaBox_Baidu_Tonji')) {
         public static function render()
         {
             if (!empty(self::$option)) {
-                $option = esc_js(self::$option);
-                echo '<script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?' . $option . '";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s)})()</script>' . "\n";
+                echo '<script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?' . esc_js(self::$option) . '";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s)})()</script>' . "\n";
             }
         }
     }

@@ -18,7 +18,7 @@ if (!class_exists('MaBox_Performance_Oss')) {
             if ($result && !is_wp_error($result)) {
                 $upload['url'] = $result;
                 if (!empty(self::$config['delete_local'])) {
-                    @unlink($file);
+                    wp_delete_file($file);
                 }
             }
             return $upload;

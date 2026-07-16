@@ -42,8 +42,8 @@ if (!class_exists('MaBox_Seo_Category_Add_Meat')) {
             <th scope="row"><label for="cat-title">分类标题</label></th>
             <td>
                 <input name="cat-title" id="cat-title" type="text" value="';
-            echo get_option('cat-title-' . $tag->term_id) . '" size="40"/><br>
-                <span class="cat-title">用于' . $tag->name . '分类SEO自定义标题</span>
+            echo esc_attr(get_option('cat-title-' . $tag->term_id)) . '" size="40"/><br>
+                <span class="cat-title">用于' . esc_html($tag->name) . '分类SEO自定义标题</span>
             </td>
         </tr>';
 
@@ -51,8 +51,8 @@ if (!class_exists('MaBox_Seo_Category_Add_Meat')) {
             <th scope="row"><label for="cat-words">分类关键字</label></th>
             <td>
                 <input name="cat-words" id="cat-words" type="text" value="';
-            echo get_option('cat-words-' . $tag->term_id) . '" size="40"/><br>
-                <span class="cat-words">用于' . $tag->name . '分类SEO自定义关键字，用英文逗号分隔，如：keyword1,keyword2,keyword3</span>
+            echo esc_attr(get_option('cat-words-' . $tag->term_id)) . '" size="40"/><br>
+                <span class="cat-words">用于' . esc_html($tag->name) . '分类SEO自定义关键字，用英文逗号分隔，如：keyword1,keyword2,keyword3</span>
             </td>
         </tr>';
         }

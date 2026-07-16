@@ -20,8 +20,7 @@ if (!class_exists('MaBox_Google_Tonji')) {
         public static function meta_tag()
         {
             if (!empty(self::$option)) {
-                $option = esc_attr(self::$option);
-                echo '<meta name="google-site-verification" content="' . $option . '" />' . "\n";
+                echo '<meta name="google-site-verification" content="' . esc_attr(self::$option) . '" />' . "\n";
             }
         }
     }

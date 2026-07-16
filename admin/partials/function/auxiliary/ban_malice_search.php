@@ -40,7 +40,17 @@ if (!class_exists('MaBox_Ban_Malice_Search')) {
                         if (stristr($S_Key['s'], $Key) != false) {
                             $message = '搜索内容包含敏感词，请换个关键词搜索';
                             $message = $message . MaBox_Admin::back_button();
-                            wp_die($message);
+                            $allowed_html = array(
+                                'br'     => array(),
+                                'a'      => array(
+                                    'href'    => true,
+                                    'onclick' => true,
+                                    'class'   => true,
+                                ),
+                                'button' => array('class' => true),
+                                'style'  => array(),
+                            );
+                            wp_die(wp_kses($message, $allowed_html));
                         }
                     }
                 }

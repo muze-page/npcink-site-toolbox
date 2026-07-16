@@ -131,10 +131,10 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
                 if( has_post_thumbnail() ) {
                     the_post_thumbnail( 'ts-ets-thumb' );
                     echo '<br>';
-                    echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), $this->change_str );
-                    echo sprintf( ' <button type="button" class="button-secondary ts-ets-remove" data-id="%s">%s</button>', esc_attr( $id ), $this->remove_str );
+                    echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), esc_html( $this->change_str ) );
+                    echo sprintf( ' <button type="button" class="button-secondary ts-ets-remove" data-id="%s">%s</button>', esc_attr( $id ), esc_html( $this->remove_str ) );
                 } else {
-                    echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), $this->add_new_str );
+                    echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), esc_html( $this->add_new_str ) );
                 }
 
                 break;
@@ -171,8 +171,8 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
 
         echo wp_get_attachment_image( $thumb_id, 'ts-ets-thumb' );
         echo '<br>';
-        echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), $this->change_str );
-        echo sprintf( ' <button type="button" class="button-secondary ts-ets-remove" data-id="%s">%s</button>', esc_attr( $id ), $this->remove_str );
+        echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), esc_html( $this->change_str ) );
+        echo sprintf( ' <button type="button" class="button-secondary ts-ets-remove" data-id="%s">%s</button>', esc_attr( $id ), esc_html( $this->remove_str ) );
 
         wp_die();
 
@@ -204,7 +204,7 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
 
         delete_post_thumbnail( $id );
 
-        echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), $this->add_new_str );
+        echo sprintf( '<button type="button" class="button-primary ts-ets-add" data-id="%s">%s</button>', esc_attr( $id ), esc_html( $this->add_new_str ) );
 
         wp_die();
 

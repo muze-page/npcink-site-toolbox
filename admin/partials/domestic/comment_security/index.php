@@ -97,7 +97,7 @@ if (!class_exists('MaBox_Domestic_Comment_Security')) {
             if ($count === false) $count = 0;
             $count++;
             if ($count > $limit) {
-                wp_die('评论过于频繁，请 ' . $window . ' 秒后再试。', '频率限制', array('response' => 429));
+                wp_die('评论过于频繁，请 ' . esc_html($window) . ' 秒后再试。', '频率限制', array('response' => 429));
             }
             set_transient($key, $count, $window);
             return $commentdata;

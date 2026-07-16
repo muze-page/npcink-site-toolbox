@@ -34,8 +34,10 @@ if (!class_exists('MaBox_Widgets')) {
         }
 
         public function widget($args, $instance) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted wrapper HTML supplied by the active theme via the Widgets API.
             echo $args['before_widget'];
             if (!empty($instance['title'])) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted title wrappers supplied by the active theme; the widget title itself is escaped.
                 echo $args['before_title'] . esc_html($instance['title']) . $args['after_title'];
             }
 
@@ -52,6 +54,7 @@ if (!class_exists('MaBox_Widgets')) {
             echo '<li><span class="stat-label">用户</span><span class="stat-value">' . esc_html($user_total) . '</span></li>';
             echo '</ul>';
 
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted wrapper HTML supplied by the active theme via the Widgets API.
             echo $args['after_widget'];
         }
 
@@ -86,8 +89,10 @@ if (!class_exists('MaBox_Widgets')) {
         }
 
         public function widget($args, $instance) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted wrapper HTML supplied by the active theme via the Widgets API.
             echo $args['before_widget'];
             if (!empty($instance['title'])) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted title wrappers supplied by the active theme; the widget title itself is escaped.
                 echo $args['before_title'] . esc_html($instance['title']) . $args['after_title'];
             }
 
@@ -112,6 +117,7 @@ if (!class_exists('MaBox_Widgets')) {
                 echo '</ul>';
             }
 
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted wrapper HTML supplied by the active theme via the Widgets API.
             echo $args['after_widget'];
         }
 

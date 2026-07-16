@@ -374,11 +374,12 @@ if (!class_exists('MaBox_Tool')) {
             //获取今天的注册数量
             global $wpdb;
             $todate = $today->format('Y-m-d');
-            $sql = $wpdb->prepare(
-                "SELECT COUNT(*) AS num FROM `{$wpdb->prefix}users` WHERE SUBSTRING(`user_registered`,1,10) = %s",
-                $todate
+            $results = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT COUNT(*) AS num FROM `{$wpdb->prefix}users` WHERE SUBSTRING(`user_registered`,1,10) = %s",
+                    $todate
+                )
             );
-            $results = $wpdb->get_results($sql);
             $totay_register = $results[0]->num;
             $arr['today']['register'] = $totay_register;
 
@@ -392,7 +393,7 @@ if (!class_exists('MaBox_Tool')) {
 
             //总用户
             //网站注册用户总数
-            $total_users = $wpdb->get_var($wpdb->prepare("SELECT COUNT(ID) FROM {$wpdb->users}"));
+            $total_users = get_user_count();
             $arr['total']['register'] = $total_users;
 
             return $arr;

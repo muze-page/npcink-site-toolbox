@@ -40,7 +40,16 @@ if (!class_exists('MaBox_Performance_Media_Health')) {
             if ($chinese_count > 0) {
                 $issues[] = array('type' => '中文文件名', 'count' => $chinese_count);
             }
-            $unused = $wpdb->get_results($wpdb->prepare("SELECT p.ID FROM {$wpdb->posts} p WHERE p.post_type = %s AND NOT EXISTS (SELECT 1 FROM {$wpdb->posts} parent WHERE parent.post_content LIKE CONCAT('%%', p.guid, '%%') OR parent.post_excerpt LIKE CONCAT('%%', p.guid, '%%')) LIMIT 100", 'attachment'));
+            $unused = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT p.ID FROM {$wpdb->posts} p WHERE p.post_type = %s AND NOT EXISTS (SELECT 1 FROM {$wpdb->posts} parent WHERE parent.post_content LIKE CONCAT(%s, p.guid, %s) OR parent.post_excerpt LIKE CONCAT(%s, p.guid, %s)) LIMIT 100",
+                    'attachment',
+                    '%',
+                    '%',
+                    '%',
+                    '%'
+                )
+            );
             if (count($unused) > 0) {
                 $issues[] = array('type' => '可能未使用', 'count' => count($unused));
             }

@@ -38,14 +38,14 @@ if (!class_exists('MaBox_Seo_Category')) {
             //分类标题
             $title = get_option('cat-title-' . $term_id);
             if ($title !== '' && $title !== false) {
-                echo '<title>' . $title . '</title>';
+                echo '<title>' . esc_html($title) . '</title>';
                 echo "\n";
             }
 
             //分类关键词
             $keywords = get_option('cat-words-' . $term_id);
             if ($keywords !== '' && $keywords !== false) {
-                echo '<meta name="keywords" content="' . $keywords . '" />';
+                echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />';
                 echo "\n";
             }
 
@@ -57,7 +57,7 @@ if (!class_exists('MaBox_Seo_Category')) {
            
             if ($description_data !== '' &&  $description_data !== false) {
                 $description = mb_substr($description_data, 0, 55, 'utf-8'); //只取前40个字
-                echo '<meta name="description" content="' . $description . '" />';
+                echo '<meta name="description" content="' . esc_attr($description) . '" />';
                 echo "\n";
             }
         }

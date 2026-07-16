@@ -32,10 +32,10 @@ if (!class_exists('MaBox_Seo_Tag')) {
 
 
                     //拿到标签的描述，关键词
-                    $description_data = trim(strip_tags(tag_description()));
+                    $description_data = trim(wp_strip_all_tags(tag_description()));
                     if ($description_data !== '' && $description_data !== false) {
                         $description = mb_substr($description_data, 0, 55, 'utf-8'); //只取前40个字
-                        echo '<meta name="description" content="' . $description . '" />';
+                        echo '<meta name="description" content="' . esc_attr($description) . '" />';
                         echo "\n";
                     }
                 }

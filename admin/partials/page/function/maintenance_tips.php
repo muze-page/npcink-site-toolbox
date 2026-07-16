@@ -34,8 +34,7 @@ if (!class_exists('MaBox_Maintenance_Tips')) {
             //不是管理员
             // if (!current_user_can('edit_themes') || !is_user_logged_in()) {
             if (!current_user_can('manage_options')) {
-                // 添加响应式 CSS
-                add_action('wp_head', array(__CLASS__, 'add_responsive_css'));
+                self::add_responsive_css();
 
                 switch (self::$configs) {
                     case "default":
@@ -55,8 +54,14 @@ if (!class_exists('MaBox_Maintenance_Tips')) {
             }
         }
 
-        public static function add_responsive_css() {
-            echo '<link rel="stylesheet" href="' . esc_url(self::$url . 'responsive.css') . '">';
+        public static function add_responsive_css()
+        {
+            wp_enqueue_style(
+                'mabox-maintenance-responsive',
+                self::$url . 'responsive.css',
+                array(),
+                MAGICK_MIXTURE_VERSION
+            );
         }
 
     }

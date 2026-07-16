@@ -43,21 +43,21 @@ if (!class_exists('MaBox_Seo_Home')) {
             //站点标题
             $title = MaBox_Admin::get_config($option, 'title');
             if ($title !== '' && $title !== false) {
-                echo '<title>' . $title . '</title>';
+                echo '<title>' . esc_html($title) . '</title>';
                 echo "\n";
             }
 
             //站点关键词
             $keywords = MaBox_Admin::get_config($option, 'keywords');
             if ($keywords !== '' && $keywords !== false) {
-                echo '<meta name="keywords" content="' . $keywords . '" />';
+                echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />';
                 echo "\n";
             }
 
             //站点描述
             $description = MaBox_Admin::get_config($option, 'description');
             if ($description !== '' && $description !== false) {
-                echo '<meta name="description" content="' . $description . '" />';
+                echo '<meta name="description" content="' . esc_attr($description) . '" />';
                 echo "\n";
             }
         }
