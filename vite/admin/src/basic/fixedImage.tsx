@@ -1,114 +1,153 @@
-//基础组件 - 图片选项
-import { useState } from "react";
-import { Space, Button, Modal, List, Radio, Image, Popover } from "antd";
+import React, { useEffect, useId, useState } from "react";
+import { Button, Form, Image, List, Modal, Popover, Radio, Space } from "antd";
 import type { RadioChangeEvent } from "antd";
 
 import Disabled from "@/assets/basic/禁用.svg";
 
-interface FixedImageProps {
-  alists: { value: string; label: string }[];
+interface FixedImageOption {
+  value: string;
+  label: string;
+  title: string;
 }
 
-const FixedImage: React.FC<FixedImageProps> = (props: any) => {
-  //弹窗
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  //默认媒体图片
-  const defaultList = [{ value: "false", label: Disabled, title: "禁用" }];
-  const mediaImage = [...defaultList, ...props.alists];
-
-  //默认图片
-  const result = mediaImage.find((item) => item.value === props.value);
-
-  //打开弹窗
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  //确定按钮
-  const handleOk = () => {
-    setIsModalOpen(false);
-    //传递选中的图片
-    props.onChange(imageValue);
-  };
-
-  //取消按钮
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    // console.log("取消");
-  };
-  //接收传来的值
-
-  //选中
-  const [imageValue, setImageValue] = useState(props.value);
-
-  //选中方法
-  const onChange = (e: RadioChangeEvent) => {
-    //console.log("radio checked", e.target.value);
-    setImageValue(e.target.value);
-  };
-
-  return (
-    <>
-      <Space style={{ width: "100%" }} size={"middle"}>
-        {props.value === "false" ? (
-          "禁用"
-        ) : (
-          <>
-            {result && result.label ? (
-              <Image
-                src={result.label}
-                width={120}
-                preview={{ rootClassName: "mabox-admin-modal" }}
-              />
-            ) : (
-              <Image
-                src={Disabled}
-                width={120}
-                preview={{ rootClassName: "mabox-admin-modal" }}
-              />
-            )}
-          </>
-        )}
-        <Button onClick={showModal}>更换</Button>
-      </Space>
-
-      <Modal
-        rootClassName="mabox-admin-modal"
-        title="选择您需要的样式"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <List
-          dataSource={mediaImage}
-          renderItem={(item: any) => (
-            <List.Item>
-              <Radio.Group onChange={onChange} value={imageValue}>
-                <Radio value={item.value}>
-                  <Popover
-                    rootClassName="mabox-admin-modal"
-                    placement="rightTop"
-                    content={
-                      <Image
-                        src={item.label}
-                        width={200}
-                        alt={item.title}
-                        preview={{ rootClassName: "mabox-admin-modal" }}
-                      />
-                    }
-                    title={"预览样式：" + item.title}
-                  >
-                    {item.title}
-                  </Popover>
-                </Radio>
-              </Radio.Group>
-            </List.Item>
-          )}
-        />
-      </Modal>
-    </>
-  );
+type FixedImageProps = Omit<
+  React.ComponentProps<typeof Button>,
+  "children" | "onChange" | "onClick" | "value"
+> & {
+  alists: FixedImageOption[];
+  value?: string;
+  onChange?: (value: string) => void;
 };
+
+const disabledOption: FixedImageOption = {
+  value: "false",
+  label: Disabled,
+  title: "禁用",
+};
+
+const FixedImage = React.forwardRef<
+  React.ElementRef<typeof Button>,
+  FixedImageProps
+>(
+  (
+    {
+      alists,
+      value = "false",
+      onChange,
+      "aria-label": ariaLabel,
+      "aria-invalid": ariaInvalid,
+      ...buttonProps
+    },
+    ref,
+  ) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [draftValue, setDraftValue] = useState(value);
+    const { status } = Form.Item.useStatus();
+    const generatedName = useId();
+    const mediaImages = [disabledOption, ...alists];
+    const currentImage =
+      mediaImages.find((item) => item.value === value) ?? disabledOption;
+    const radioName = buttonProps.id
+      ? `${buttonProps.id}-options`
+      : `fixed-image-${generatedName}`;
+
+    useEffect(() => {
+      setDraftValue(value);
+    }, [value]);
+
+    const showModal = () => {
+      setDraftValue(value);
+      setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+      setIsModalOpen(false);
+      onChange?.(draftValue);
+    };
+
+    const handleCancel = () => {
+      setDraftValue(value);
+      setIsModalOpen(false);
+    };
+
+    const handleSelectionChange = (event: RadioChangeEvent) => {
+      setDraftValue(event.target.value as string);
+    };
+
+    return (
+      <>
+        <Space style={{ width: "100%" }} size="middle">
+          {value === "false" ? (
+            "禁用"
+          ) : (
+            <Image
+              src={currentImage.label}
+              width={120}
+              alt={`当前维护提示样式：${currentImage.title}`}
+              preview={{ rootClassName: "mabox-admin-modal" }}
+            />
+          )}
+          <Button
+            {...buttonProps}
+            ref={ref}
+            htmlType="button"
+            aria-label={
+              ariaLabel ?? `更换维护提示样式，当前：${currentImage.title}`
+            }
+            aria-invalid={
+              ariaInvalid ?? (status === "error" ? true : undefined)
+            }
+            onClick={showModal}
+          >
+            更换
+          </Button>
+        </Space>
+
+        <Modal
+          rootClassName="mabox-admin-modal"
+          title="选择您需要的样式"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <div role="radiogroup" aria-label="维护提示样式">
+            <Radio.Group
+              name={radioName}
+              value={draftValue}
+              onChange={handleSelectionChange}
+            >
+              <List
+                dataSource={mediaImages}
+                renderItem={(item) => (
+                  <List.Item>
+                    <Radio value={item.value}>
+                      <Popover
+                        rootClassName="mabox-admin-modal"
+                        placement="rightTop"
+                        content={
+                          <Image
+                            src={item.label}
+                            width={200}
+                            alt={`维护提示样式预览：${item.title}`}
+                            preview={{ rootClassName: "mabox-admin-modal" }}
+                          />
+                        }
+                        title={`预览样式：${item.title}`}
+                      >
+                        <span>{item.title}</span>
+                      </Popover>
+                    </Radio>
+                  </List.Item>
+                )}
+              />
+            </Radio.Group>
+          </div>
+        </Modal>
+      </>
+    );
+  },
+);
+
+FixedImage.displayName = "FixedImage";
 
 export default FixedImage;
