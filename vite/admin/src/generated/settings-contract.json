@@ -59,13 +59,6 @@
                 "single_count": false,
                 "uniqueKey": 0
             },
-            "config": {
-                "pop_tips": false,
-                "tips_button": "",
-                "tips_content": "",
-                "tips_link": "",
-                "tips_time": 0
-            },
             "seo": {
                 "description": "",
                 "keywords": "",

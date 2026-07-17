@@ -76,14 +76,9 @@ function mabox_typescript_identifier($value) {
 }
 
 /**
- * Preserve the established public type names while deriving all other names.
+ * Derive a stable exported TypeScript name from the Schema path.
  */
 function mabox_setting_type_name($module_key, $sub_key = '') {
-    $path = $sub_key === '' ? $module_key : $module_key . '.' . $sub_key;
-    if ($path === 'function.config') {
-        return 'FunctionTips';
-    }
-
     $type_name = mabox_typescript_identifier($module_key);
     if ($sub_key !== '') {
         $type_name .= mabox_typescript_identifier($sub_key);

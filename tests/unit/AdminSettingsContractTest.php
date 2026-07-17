@@ -146,7 +146,6 @@ class AdminSettingsContractTest extends TestCase
             'PageJurisdiction',
             'FunctionAuxiliary',
             'FunctionSeo',
-            'FunctionTips',
             'DomesticCompliance',
             'DomesticWechat',
             'DomesticCommentSecurity',
@@ -166,7 +165,8 @@ class AdminSettingsContractTest extends TestCase
         $this->assertStringContainsString('  countdown: string[];', $types);
         $this->assertStringContainsString('  category_id: number[];', $types);
         $this->assertStringContainsString('  [key: string]: any;', $types);
-        $this->assertStringContainsString('    config: FunctionTips;', $types);
+        $this->assertStringNotContainsString('export type FunctionTips = {', $types);
+        $this->assertStringNotContainsString('    config: FunctionTips;', $types);
 
         $types_without_secret_paths = preg_replace('/export const SECRET_PATHS = \[.*?\n\] as const;\n/s', '', $types);
         $this->assertIsString($types_without_secret_paths);
@@ -184,6 +184,20 @@ class AdminSettingsContractTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported Schema type object at optimize.site.hide_top_toolbar');
         mabox_render_admin_settings_types($schema);
+    }
+
+    public function test_retired_function_config_is_absent_from_live_contracts(): void
+    {
+        $this->requireExporter();
+
+        $schema = MaBox_Config_Schema::get_schema();
+        $defaults = MaBox_Config_Schema::get_defaults();
+        $types = mabox_render_admin_settings_types($schema);
+
+        $this->assertArrayNotHasKey('config', $schema['function']);
+        $this->assertArrayNotHasKey('config', $defaults['function']);
+        $this->assertStringNotContainsString('export type FunctionTips = {', $types);
+        $this->assertStringNotContainsString('    config: FunctionTips;', $types);
     }
 
     public function test_atomic_replace_restores_all_targets_when_a_later_install_fails(): void

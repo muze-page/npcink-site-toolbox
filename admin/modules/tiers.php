@@ -32,7 +32,6 @@ return array(
         'performance.oss', 'performance.seo_checker', 'performance.media_health',
         'performance.search_enhance',
 
-        'function.config',
         'page.interface_category_data',
 
         'page.first_picture', 'page.add_article_update_time',

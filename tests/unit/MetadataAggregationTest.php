@@ -15,7 +15,7 @@ class MetadataAggregationTest extends TestCase {
         $registry = require dirname(__DIR__, 2) . '/admin/modules/registry.php';
         $metadata = MaBox_Module_Metadata::get_registry();
 
-        $this->assertCount(56, $registry);
+        $this->assertCount(55, $registry);
         $this->assertSame(self::expected_module_ids(), array_keys($registry));
         $this->assertSame($registry, $metadata);
     }
@@ -63,7 +63,7 @@ class MetadataAggregationTest extends TestCase {
         $ui = MaBox_Module_Metadata::get_ui_metadata();
 
         $this->assertIsArray($ui);
-        $this->assertCount(56, $ui);
+        $this->assertCount(55, $ui);
 
         foreach ($ui as $module_id => $entry) {
             $this->assertArrayNotHasKey('_option_key', $entry, "UI metadata should not contain _option_key for '{$module_id}'");
@@ -176,7 +176,6 @@ class MetadataAggregationTest extends TestCase {
             'auxiliary.baidu_tonji',
             'auxiliary.google_tonji',
             'auxiliary.biying_tonji',
-            'function.config',
             'page.interface_category_data',
             'domestic.compliance',
             'domestic.wechat',

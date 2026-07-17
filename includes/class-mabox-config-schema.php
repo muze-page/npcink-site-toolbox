@@ -148,13 +148,6 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'seo_single'   => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('function-seo-seo_single', '文章 SEO', 'seo', 'SEO 与增强', 'SEO', array('seo', '文章', '关键词'), array('推荐', 'SEO'))),
                         'seo_category' => array('type' => 'boolean', 'default' => false),
                     ),
-                    'config' => array(
-                        'pop_tips'      => array('type' => 'boolean', 'default' => false),
-                        'tips_time'     => array('type' => 'number',  'default' => 0, 'min' => 0),
-                        'tips_content'  => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_textarea_field'),
-                        'tips_button'   => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
-                        'tips_link'     => array('type' => 'string',  'default' => '', 'sanitize' => 'esc_url_raw'),
-                    ),
                 ),
                 'domestic' => array(
                     '_option_key' => MAGICK_MIXTURE_OPTION_DOMESTIC,

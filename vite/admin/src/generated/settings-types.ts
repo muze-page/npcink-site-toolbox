@@ -103,14 +103,6 @@ export type FunctionSeo = {
   seo_category: boolean;
 };
 
-export type FunctionTips = {
-  pop_tips: boolean;
-  tips_time: number;
-  tips_content: string;
-  tips_button: string;
-  tips_link: string;
-};
-
 export type DomesticCompliance = {
   icp_enabled: boolean;
   icp_number: string;
@@ -211,7 +203,6 @@ export type Option = {
   function: {
     auxiliary: FunctionAuxiliary;
     seo: FunctionSeo;
-    config: FunctionTips;
   };
   domestic: {
     compliance: DomesticCompliance;

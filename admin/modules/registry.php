@@ -411,16 +411,6 @@ return array(
         'label'     => '必应统计',
     ),
 
-    // ========== 导入导出 ==========
-    'function.config' => array(
-        'class'     => 'MaBox_Config',
-        'file'      => 'function/config/index.php',
-        'option_key'=> 'function.config.pop_tips',
-        'category'  => 'function',
-        'scope'     => 'both',
-        'config_path' => 'function.config',
-    ),
-
     // ========== 页面 jurisdiction interface ==========
     'page.interface_category_data' => array(
         'class'     => 'MaBox_Interface_Category_Data',

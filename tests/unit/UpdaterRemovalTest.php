@@ -27,7 +27,6 @@ final class UpdaterRemovalTest extends TestCase
         $registry = require $this->root() . '/admin/modules/registry.php';
         $tiers = require $this->root() . '/admin/modules/tiers.php';
 
-        $this->assertCount(56, $registry);
         $this->assertArrayNotHasKey(self::MODULE_ID, $registry);
 
         foreach ($tiers as $tier => $module_ids) {

@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Form, Input, Button, Space } from "antd";
 import { DataContext } from "@/tool/dataContext";
-import { FunctionTips, FunctionSeo, FunctionAuxiliary } from "@/tool/interface";
+import { FunctionSeo, FunctionAuxiliary } from "@/tool/interface";
 import { defaultVarOption } from "@/tool/defaultVar";
 import { AntConfig } from "@/tool/tool";
-import TimePeriod from "@/basic/timeInput";
-import TextAreaHtml from "@/basic/htmlInput";
 import { ModuleCard, DetailDrawer, ModuleRow } from "@/components/settings-ui";
 import { notice } from "@/tool/notice";
 
@@ -22,69 +20,6 @@ const SiteInput = (props: any) => {
         <Button onClick={handleReset}>清空</Button>
       </Space.Compact>
     </div>
-  );
-};
-
-const TipsCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (open: boolean) => void }> = ({ drawerOpen: extDrawerOpen, onDrawerOpenChange }) => {
-  const { optionData, updateOption } = useContext(DataContext);
-  const publicData = optionData.function?.config || defaultVarOption.function.config;
-  const [formData, setFormData] = useState(publicData);
-  const [intDrawerOpen, setIntDrawerOpen] = useState(false);
-  const drawerOpen = extDrawerOpen ?? intDrawerOpen;
-  const setDrawerOpen = onDrawerOpenChange ?? setIntDrawerOpen;
-
-  const onValuesChange = (changedValues: Partial<FunctionTips>) => {
-    setFormData((prev: any) => ({ ...prev, ...changedValues }));
-  };
-
-  useEffect(() => { updateOption("function", "config", formData); }, [formData]);
-
-  return (
-    <>
-      <ModuleCard
-        title="提示条"
-        description="在页面顶部或底部显示提示信息"
-        featureId="function-tips-pop_tips"
-        tags={["推荐"]}
-        switchable={false}
-        actionLabel="配置"
-        onAction={() => setDrawerOpen(true)}
-        aliases={["function-tips-tips_content", "function-tips-tips_button", "function-tips-tips_link", "function-tips-tips_time"]}
-      />
-      <DetailDrawer
-        title="提示条配置"
-        visible={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        description="配置弹窗提示的显示内容和时间"
-      >
-        <Form
-          labelCol={fromConfig.labelCol}
-          wrapperCol={fromConfig.wrapperCol}
-          style={{ maxWidth: fromConfig.maxWidth }}
-          initialValues={publicData}
-          onValuesChange={onValuesChange}
-        >
-          <ModuleRow
-            title="启用提示条"
-            featureId="function-tips-pop_tips"
-            enabled={!!formData.pop_tips}
-            onChange={(checked: boolean) => onValuesChange({ pop_tips: checked })}
-          />
-          <Form.Item label="提示内容" name="tips_content" extra="支持HTML">
-            <TextAreaHtml />
-          </Form.Item>
-          <Form.Item label="按钮文字" name="tips_button">
-            <Input />
-          </Form.Item>
-          <Form.Item label="按钮链接" name="tips_link">
-            <Input />
-          </Form.Item>
-          <Form.Item label="显示时间" name="tips_time">
-            <TimePeriod />
-          </Form.Item>
-        </Form>
-      </DetailDrawer>
-    </>
   );
 };
 
@@ -253,20 +188,17 @@ const AuxiliaryCard: React.FC<{ drawerOpen?: boolean; onDrawerOpenChange?: (open
 };
 
 const App: React.FC<{ targetItemId?: string }> = ({ targetItemId }) => {
-  const [tipsDrawerOpen, setTipsDrawerOpen] = useState(false);
   const [seoDrawerOpen, setSeoDrawerOpen] = useState(false);
   const [auxiliaryDrawerOpen, setAuxiliaryDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (!targetItemId) return;
-    if (targetItemId.startsWith("function-tips-")) setTipsDrawerOpen(true);
-    else if (targetItemId.startsWith("function-seo-")) setSeoDrawerOpen(true);
+    if (targetItemId.startsWith("function-seo-")) setSeoDrawerOpen(true);
     else if (targetItemId.startsWith("function-auxiliary-")) setAuxiliaryDrawerOpen(true);
   }, [targetItemId]);
 
   return (
     <div className="mabox-module-grid">
-      <TipsCard drawerOpen={tipsDrawerOpen} onDrawerOpenChange={setTipsDrawerOpen} />
       <SeoCard drawerOpen={seoDrawerOpen} onDrawerOpenChange={setSeoDrawerOpen} />
       <AuxiliaryCard drawerOpen={auxiliaryDrawerOpen} onDrawerOpenChange={setAuxiliaryDrawerOpen} />
     </div>

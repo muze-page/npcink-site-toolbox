@@ -213,6 +213,28 @@ class ModuleRegistryConsistency_Test extends TestCase {
         $this->assertDirectoryDoesNotExist(self::$plugin_dir . '/admin/partials/ai_review');
     }
 
+    public function test_noop_function_config_module_is_removed_from_backend_contracts(): void {
+        $schema = MaBox_Config_Schema::get_schema();
+        $defaults = MaBox_Config_Schema::get_defaults();
+        $registry = MaBox_Module_Loader::get_registry();
+        $tiers = MaBox_Module_Loader::get_tiers();
+        $autoload = file_get_contents(self::$plugin_dir . '/includes/autoload.php');
+
+        $this->assertCount(55, $registry);
+        $this->assertArrayNotHasKey('config', $schema['function']);
+        $this->assertArrayNotHasKey('config', $defaults['function']);
+        $this->assertArrayNotHasKey('function.config', $registry);
+        foreach ($tiers as $tier => $modules) {
+            $this->assertNotContains('function.config', $modules, $tier);
+        }
+        $this->assertIsString($autoload);
+        $this->assertStringNotContainsString("'MaBox_Config' =>", $autoload);
+        $this->assertStringNotContainsString('function/config/index.php', $autoload);
+        $this->assertFileDoesNotExist(
+            self::$plugin_dir . '/admin/partials/function/config/index.php'
+        );
+    }
+
     public function test_retired_credential_integrations_are_removed_from_backend_contracts(): void {
         $schema = MaBox_Config_Schema::get_schema();
         $registry = MaBox_Module_Loader::get_registry();
@@ -595,7 +617,6 @@ class ModuleRegistryConsistency_Test extends TestCase {
         $uninstall = file_get_contents(self::$plugin_dir . '/uninstall.php');
         $phpstan = file_get_contents(self::$plugin_dir . '/phpstan.neon');
 
-        $this->assertCount(56, $registry, 'The registry should contain 56 modules after removing the update blocker');
         $this->assertArrayNotHasKey('login.login_verify', $registry);
         foreach ($tiers as $modules) {
             $this->assertNotContains('login.login_verify', $modules);
