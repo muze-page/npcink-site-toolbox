@@ -510,7 +510,7 @@ class MaBox_Admin
                 'type' => array(
                     'required'          => true,
                     'validate_callback' => function ($value) {
-                        $allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'all', 'pending', 'trash');
+                        $allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'pending', 'trash');
                         return is_string($value) && in_array($value, $allowed, true);
                     },
                 ),
@@ -525,7 +525,7 @@ class MaBox_Admin
                 'type' => array(
                     'required'          => true,
                     'validate_callback' => function ($value) {
-                        $allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'all', 'pending', 'trash');
+                        $allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'pending', 'trash');
                         return is_string($value) && in_array($value, $allowed, true);
                     },
                 ),

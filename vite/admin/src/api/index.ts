@@ -14,7 +14,6 @@ export type DbCleanType =
   | "spam"
   | "transients"
   | "optimize"
-  | "all"
   | "pending"
   | "trash";
 
@@ -34,7 +33,6 @@ export interface DbPreview {
   pending?: number;
   trash?: number;
   affected?: number;
-  total?: number;
   message?: string;
   dry_run?: boolean;
 }

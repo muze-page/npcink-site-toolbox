@@ -51,13 +51,22 @@ if (!class_exists('MaBox_Performance_Db_Clean')) {
         /**
          * 预览清理影响（dry-run）。
          */
-        public static function ajax_preview()
+        public static function ajax_preview(\WP_REST_Request $request)
         {
             if (!current_user_can('manage_options')) {
                 wp_send_json_error('权限不足', 403);
             }
 
-            wp_send_json_success(self::build_preview('all'));
+            $params = $request->get_json_params();
+            $params = is_array($params) ? $params : array();
+            $type_value = isset($params['type']) ? $params['type'] : '';
+            $type = is_string($type_value) ? sanitize_key($type_value) : '';
+            $allowed_types = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'pending', 'trash');
+            if (!in_array($type, $allowed_types, true)) {
+                wp_send_json_error('无效的清理类型', 400);
+            }
+
+            wp_send_json_success(self::build_preview($type));
         }
 
         public static function ajax_clean(\WP_REST_Request $request)
@@ -73,7 +82,7 @@ if (!class_exists('MaBox_Performance_Db_Clean')) {
             $dry_run_value = array_key_exists('dry_run', $params) ? $params['dry_run'] : true;
             $dry_run = is_scalar($dry_run_value) ? rest_sanitize_boolean($dry_run_value) : true;
 
-            $allowed_types = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'all', 'pending', 'trash');
+            $allowed_types = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'pending', 'trash');
             if (!in_array($type, $allowed_types, true)) {
                 wp_send_json_error('无效的清理类型', 400);
             }
@@ -94,10 +103,6 @@ if (!class_exists('MaBox_Performance_Db_Clean')) {
             if ('optimize' === $type) {
                 $result['optimized'] = self::optimize_tables();
                 $result['message'] = '数据库表优化完成';
-            } elseif ('all' === $type) {
-                foreach (array('revisions', 'drafts', 'spam', 'transients', 'pending', 'trash') as $cleanup_type) {
-                    $result['deleted'] += self::clean_type($cleanup_type);
-                }
             } else {
                 $result['deleted'] = self::clean_type($type);
             }
@@ -138,15 +143,6 @@ if (!class_exists('MaBox_Performance_Db_Clean')) {
             }
 
             $counts = self::get_cleanup_counts();
-            if ('all' === $type) {
-                $preview = $counts;
-                $preview['total'] = array_sum($counts);
-                $preview['message'] = '将删除总计 ' . $preview['total'] . ' 条数据';
-                $preview['dry_run'] = true;
-
-                return $preview;
-            }
-
             $messages = array(
                 'revisions' => '个文章修订版本',
                 'drafts' => '个自动草稿',

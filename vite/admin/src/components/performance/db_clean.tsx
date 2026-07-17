@@ -16,7 +16,7 @@ interface StatsRow {
   name: string;
   statusLabel: "正常" | "待处理";
   valueLabel: string;
-  type: DbCleanType;
+  type?: DbCleanType;
   noAction?: boolean;
 }
 
@@ -26,7 +26,7 @@ const App: React.FC = () => {
   const [formData, setFormData] = useState(publicData || {});
   const [stats, setStats] = useState<DbStats | null>(null);
   const [previewData, setPreviewData] = useState<Partial<Record<DbCleanType, DbPreview>>>({});
-  const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewLoadingType, setPreviewLoadingType] = useState<DbCleanType | null>(null);
   const [cleanLoadingType, setCleanLoadingType] = useState<DbCleanType | null>(null);
 
   const onValuesChange = (changedValues: any, _allValues: any) => {
@@ -47,7 +47,7 @@ const App: React.FC = () => {
   };
 
   const handlePreview = async (type: DbCleanType) => {
-    setPreviewLoading(true);
+    setPreviewLoadingType(type);
     try {
       const res = await performanceApi.previewDb(type);
       if (res.success && res.data) {
@@ -58,13 +58,12 @@ const App: React.FC = () => {
     } catch {
       notice.error("预览请求失败");
     } finally {
-      setPreviewLoading(false);
+      setPreviewLoadingType(null);
     }
   };
 
   const getAffectedCount = (type: DbCleanType, data?: DbPreview): number => {
     if (!data) return 0;
-    if (type === "all") return data.total || 0;
     const typeCount = data[type as keyof DbPreview];
     return data.affected ?? (typeof typeCount === "number" ? typeCount : 0);
   };
@@ -139,11 +138,19 @@ const App: React.FC = () => {
       key: "action",
       width: 160,
       render: (_: unknown, record: StatsRow) => {
-        if (record.noAction) return null;
+        if (record.noAction || !record.type) return null;
+        const type = record.type;
         return (
           <span>
-            <Button size="small" onClick={() => handlePreview(record.type)} loading={previewLoading}>预览</Button>
-            <Button size="small" style={{ marginLeft: 4 }} onClick={() => handleClean(record.type)} loading={cleanLoadingType === record.type} disabled={!previewData[record.type]}>清理</Button>
+            <Button
+              size="small"
+              onClick={() => handlePreview(type)}
+              loading={previewLoadingType === type}
+              disabled={previewLoadingType !== null && previewLoadingType !== type}
+            >
+              预览
+            </Button>
+            <Button size="small" style={{ marginLeft: 4 }} onClick={() => handleClean(type)} loading={cleanLoadingType === type} disabled={!previewData[type]}>清理</Button>
           </span>
         );
       },
@@ -159,7 +166,7 @@ const App: React.FC = () => {
 
   const statsDataSource: StatsRow[] = stats?.db_size
     ? [
-        { key: "db", name: "数据库大小", statusLabel: "正常" as const, valueLabel: formatSize(stats.db_size), type: "all", noAction: true },
+        { key: "db", name: "数据库大小", statusLabel: "正常" as const, valueLabel: formatSize(stats.db_size), noAction: true },
         { key: "revisions", name: "修订版本", statusLabel: stats.revisions > 0 ? "待处理" as const : "正常" as const, valueLabel: `${stats.revisions} 条`, type: "revisions" },
         { key: "drafts", name: "自动草稿", statusLabel: stats.drafts > 0 ? "待处理" as const : "正常" as const, valueLabel: `${stats.drafts} 条`, type: "drafts" },
         { key: "spam", name: "垃圾评论", statusLabel: stats.spam > 0 ? "待处理" as const : "正常" as const, valueLabel: `${stats.spam} 条`, type: "spam" },
@@ -218,38 +225,7 @@ const App: React.FC = () => {
 
         <Form.Item wrapperCol={fromConfig.wrapperCol}>
           <Button onClick={fetchStats}>查看统计</Button>
-          <Button
-            type="primary"
-            danger
-            style={{ marginLeft: 8 }}
-            onClick={() => handlePreview("all")}
-            loading={previewLoading}
-          >
-            预览清理
-          </Button>
-          <Button
-            danger
-            style={{ marginLeft: 8 }}
-            onClick={() => handleClean("all")}
-            loading={cleanLoadingType === "all"}
-            disabled={!previewData["all"]}
-          >
-            执行清理
-          </Button>
         </Form.Item>
-
-        {previewData["all"] && (
-          <Form.Item wrapperCol={fromConfig.wrapperCol}>
-            <Alert
-              message="预览结果"
-              description={`将清理 ${getAffectedCount("all", previewData["all"])} 条数据`}
-              type="warning"
-              showIcon
-              closable
-              onClose={() => setPreviewData((prev) => { const next = { ...prev }; delete next.all; return next; })}
-            />
-          </Form.Item>
-        )}
 
         {statsDataSource.length > 0 && (
           <CheckTable columns={statsColumns} dataSource={statsDataSource} />

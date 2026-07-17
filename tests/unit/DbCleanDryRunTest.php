@@ -93,6 +93,7 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
         $db_clean_file = dirname(__FILE__) . '/../../admin/partials/performance/db_clean/index.php';
         $content = file_get_contents($db_clean_file);
 
+        $this->assertStringContainsString('ajax_preview(\\WP_REST_Request $request)', $content);
         $this->assertStringContainsString('ajax_clean(\\WP_REST_Request $request)', $content);
         $this->assertStringContainsString('$request->get_json_params()', $content);
         $this->assertStringNotContainsString('rest_get_request()', $content);
@@ -104,6 +105,9 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
 
         $this->assertStringContainsString('previewData[', $content);
         $this->assertStringContainsString('!previewData[', $content);
+        $this->assertStringNotContainsString('handlePreview("all")', $content);
+        $this->assertStringNotContainsString('handleClean("all")', $content);
+        $this->assertStringNotContainsString('previewData["all"]', $content);
     }
 
     /**
@@ -124,10 +128,18 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
         $db_clean_file = dirname(__FILE__) . '/../../admin/partials/performance/db_clean/index.php';
         $content = file_get_contents($db_clean_file);
 
-        $expected_types = array('revisions', 'drafts', 'spam', 'transients', 'trash', 'pending', 'all');
-        foreach ($expected_types as $type) {
-            $this->assertStringContainsString($type, $content, "Missing cleanup type: $type");
-        }
+        $allowed_types = "\$allowed_types = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'pending', 'trash');";
+        $this->assertStringContainsString($allowed_types, $content);
+        $this->assertStringNotContainsString("'optimize', 'all', 'pending'", $content);
+    }
+
+    public function test_rest_routes_reject_bulk_all_type(): void {
+        $admin_file = dirname(__FILE__) . '/../../admin/class-magick-mixture-admin.php';
+        $content = file_get_contents($admin_file);
+
+        $allowed_types = "\$allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'pending', 'trash');";
+        $this->assertSame(2, substr_count($content, $allowed_types));
+        $this->assertStringNotContainsString("'optimize', 'all', 'pending'", $content);
     }
 
 }
