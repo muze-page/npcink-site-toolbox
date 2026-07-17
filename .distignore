@@ -9,6 +9,9 @@
 # GitHub
 .github
 
+# WordPress.org listing assets（提交到 SVN 顶层 assets，不进入插件安装包）
+.wordpress-org
+
 # 开发工具
 .vscode
 .editorconfig

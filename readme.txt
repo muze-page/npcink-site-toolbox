@@ -1,5 +1,5 @@
 === Npcink Site Toolbox ===
-Contributors: npcink
+Contributors: muze233
 Donate link: https://www.npc.ink/
 Tags: toolbox, optimization, security, performance
 Requires at least: 6.0
@@ -34,6 +34,12 @@ All modules that contact a third party are disabled by default. An administrator
 1. Install the ZIP through Plugins > Add Plugin > Upload Plugin, or copy the plugin directory to `/wp-content/plugins/`.
 2. Activate Npcink Site Toolbox from the Plugins screen.
 3. Open Plugins > Npcink Site Toolbox and enable only the features you need.
+
+== Screenshots ==
+
+1. Overview with live diagnostics, search health, and task-oriented navigation.
+2. Site and Media settings with clear labels and opt-in controls.
+3. Maintenance tools with preview-first safeguards for irreversible database cleanup.
 
 == Frequently Asked Questions ==
 
