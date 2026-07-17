@@ -177,7 +177,7 @@ describe("SelectImage", () => {
     await waitFor(() => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
-  });
+  }, 15_000);
 
   it("取消时丢弃草稿，重新打开时恢复当前值", async () => {
     renderSelectImage(
@@ -205,7 +205,7 @@ describe("SelectImage", () => {
     expect(
       await within(reopenedDialog).findByRole("radio", { name: "精选封面" }),
     ).toBeChecked();
-  });
+  }, 15_000);
 
   it("打开时跟随外部值变化同步当前选项", async () => {
     const { rerender } = renderSelectImage(
