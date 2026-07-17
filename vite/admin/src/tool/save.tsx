@@ -37,16 +37,16 @@ const App: React.FC = () => {
     setSaving(true);
     let saved = false;
     try {
-      await saveOption(optionData, secretChanges);
+      const response = await saveOption(optionData, secretChanges);
       saved = true;
       clearSecretChanges();
       await refreshOption();
-      notice.success("保存成功");
+      notice.success(response.message || "保存成功");
     } catch (error) {
       if (saved) {
         notice.warning("设置已保存，但重新读取失败；保存功能已禁用，请重新读取后继续");
       } else {
-        notice.error("保存失败，请重试");
+        notice.error(error instanceof Error && error.message ? error.message : "保存失败，请重试");
       }
     } finally {
       setSaving(false);

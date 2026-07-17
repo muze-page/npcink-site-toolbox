@@ -19,6 +19,7 @@ class ConfigManagerBehaviorTest extends TestCase {
         // 清理全局 option store
         $GLOBALS['_test_option_store'] = array();
         $GLOBALS['_test_update_option_failures'] = array();
+        $GLOBALS['_test_delete_option_failures'] = array();
     }
 
     /**
@@ -109,6 +110,9 @@ class ConfigManagerBehaviorTest extends TestCase {
 
         $this->assertFalse($result['success']);
         $this->assertSame(array('page'), $result['failed_modules']);
+        $this->assertTrue($result['rollback_complete']);
+        $this->assertSame(array(), $result['rollback_failed_modules']);
+        $this->assertSame('保存失败，已恢复为之前的设置', $result['error']);
         $this->assertSame(array('enabled' => false), $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Optimize']);
         $this->assertSame(
             array('feature' => array('reading_progress' => false)),
@@ -129,5 +133,77 @@ class ConfigManagerBehaviorTest extends TestCase {
 
         $this->assertFalse($result['success']);
         $this->assertArrayNotHasKey('Magick_ToolBox_Option_Optimize', $GLOBALS['_test_option_store']);
+        $this->assertTrue($result['rollback_complete']);
+    }
+
+    public function test_new_option_delete_failure_is_reported_as_unconfirmed_rollback(): void {
+        $GLOBALS['_test_option_store'] = array(
+            'Magick_ToolBox_Option_Page' => array('feature' => array('reading_progress' => false)),
+        );
+        $GLOBALS['_test_update_option_failures']['Magick_ToolBox_Option_Page'] = true;
+        $GLOBALS['_test_delete_option_failures']['Magick_ToolBox_Option_Optimize'] = true;
+
+        $result = MaBox_Config_Manager::save_full_config(array(
+            'optimize' => array('enabled' => true),
+            'page' => array('feature' => array('reading_progress' => true)),
+        ));
+
+        $this->assertFalse($result['success']);
+        $this->assertSame(array('page'), $result['failed_modules']);
+        $this->assertFalse($result['rollback_complete']);
+        $this->assertSame(array('optimize'), $result['rollback_failed_modules']);
+        $this->assertStringContainsString('optimize', $result['error']);
+        $this->assertStringContainsString('请重新读取并核对设置后再保存', $result['error']);
+        $this->assertStringNotContainsString('已恢复为之前的设置', $result['error']);
+        $this->assertSame(
+            array('enabled' => true),
+            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Optimize']
+        );
+    }
+
+    public function test_rollback_treats_update_option_false_as_success_when_readback_matches(): void {
+        $previous = array('enabled' => false);
+        $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Optimize'] = $previous;
+        $GLOBALS['_test_update_option_failures']['Magick_ToolBox_Option_Optimize'] = true;
+
+        $result = $this->invokeRollbackFailedSave(array(
+            'Magick_ToolBox_Option_Optimize' => array(
+                'module' => 'optimize',
+                'previous' => $previous,
+            ),
+        ));
+
+        $this->assertTrue($result['rollback_complete']);
+        $this->assertSame(array(), $result['rollback_failed_modules']);
+        $this->assertSame('保存失败，已恢复为之前的设置', $result['error']);
+    }
+
+    public function test_rollback_reports_actionable_error_when_readback_does_not_match(): void {
+        $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Optimize'] = array('enabled' => true);
+        $GLOBALS['_test_update_option_failures']['Magick_ToolBox_Option_Optimize'] = true;
+
+        $result = $this->invokeRollbackFailedSave(array(
+            'Magick_ToolBox_Option_Optimize' => array(
+                'module' => 'optimize',
+                'previous' => array('enabled' => false),
+            ),
+        ));
+
+        $this->assertFalse($result['rollback_complete']);
+        $this->assertSame(array('optimize'), $result['rollback_failed_modules']);
+        $this->assertStringContainsString('optimize', $result['error']);
+        $this->assertStringContainsString('请重新读取并核对设置后再保存', $result['error']);
+        $this->assertStringNotContainsString('已恢复为之前的设置', $result['error']);
+        $this->assertSame(
+            array('enabled' => true),
+            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Optimize']
+        );
+    }
+
+    private function invokeRollbackFailedSave(array $changed): array {
+        $method = new ReflectionMethod('MaBox_Config_Manager', 'rollback_failed_save');
+        $method->setAccessible(true);
+
+        return $method->invoke(null, 'page', $changed, new stdClass());
     }
 }

@@ -182,12 +182,15 @@ describe("Save", () => {
   });
 
   it("确认后立即进入保存中状态，成功后清空凭据 draft 并回读", async () => {
-    let resolveSave: ((value: { success: boolean }) => void) | undefined;
+    let resolveSave: ((value: { success: boolean; message: string }) => void) | undefined;
+    let resolveRefresh: (() => void) | undefined;
     saveMocks.saveOption.mockReturnValue(new Promise((resolve) => {
       resolveSave = resolve;
     }));
     const clearSecretChanges = vi.fn();
-    const refreshOption = vi.fn().mockResolvedValue(undefined);
+    const refreshOption = vi.fn().mockReturnValue(new Promise<void>((resolve) => {
+      resolveRefresh = resolve;
+    }));
     const secretChanges = {
       "domestic.wechat.appsecret": {
         operation: "replace" as const,
@@ -205,14 +208,22 @@ describe("Save", () => {
     await waitFor(() => expect(screen.getByRole("status")).toHaveFocus());
 
     await act(async () => {
-      resolveSave?.({ success: true });
+      resolveSave?.({ success: true, message: "设置保存并校验成功" });
     });
 
     await waitFor(() => {
       expect(saveMocks.saveOption).toHaveBeenCalledWith(expect.any(Object), secretChanges);
       expect(clearSecretChanges).toHaveBeenCalledTimes(1);
       expect(refreshOption).toHaveBeenCalledTimes(1);
-      expect(noticeMocks.success).toHaveBeenCalledWith("保存成功");
+    });
+    expect(noticeMocks.success).not.toHaveBeenCalled();
+
+    await act(async () => {
+      resolveRefresh?.();
+    });
+    await waitFor(() => {
+      expect(noticeMocks.success).toHaveBeenCalledTimes(1);
+      expect(noticeMocks.success).toHaveBeenCalledWith("设置保存并校验成功");
     });
   });
 
@@ -234,7 +245,7 @@ describe("Save", () => {
   });
 
   it("写入失败时保留待保存内容并显示失败反馈", async () => {
-    saveMocks.saveOption.mockRejectedValue(new Error("write failed"));
+    saveMocks.saveOption.mockRejectedValue(new Error("保存失败，已恢复为之前的设置"));
     const clearSecretChanges = vi.fn();
     const refreshOption = vi.fn();
     const secretChanges = {
@@ -246,7 +257,8 @@ describe("Save", () => {
     fireEvent.click(await screen.findByRole("button", { name: "确认保存" }));
 
     await waitFor(() => {
-      expect(noticeMocks.error).toHaveBeenCalledWith("保存失败，请重试");
+      expect(noticeMocks.error).toHaveBeenCalledTimes(1);
+      expect(noticeMocks.error).toHaveBeenCalledWith("保存失败，已恢复为之前的设置");
     });
     expect(clearSecretChanges).not.toHaveBeenCalled();
     expect(refreshOption).not.toHaveBeenCalled();

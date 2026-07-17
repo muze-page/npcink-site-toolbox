@@ -49,6 +49,10 @@ if ( ! function_exists( 'update_option' ) ) {
 if ( ! function_exists( 'delete_option' ) ) {
 	function delete_option( $option ) {
 		global $_test_option_store;
+		global $_test_delete_option_failures;
+		if ( ! empty( $_test_delete_option_failures[ $option ] ) ) {
+			return false;
+		}
 		unset( $_test_option_store[ $option ] );
 		return true;
 	}

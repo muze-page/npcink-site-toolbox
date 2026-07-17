@@ -1,6 +1,12 @@
 import axios from "axios";
 import { notice } from "@/tool/notice";
 
+declare module "axios" {
+  interface AxiosRequestConfig {
+    maboxNotify?: boolean;
+  }
+}
+
 function getApiBase(): string {
   const dl = (window as any).dataLocal;
   return dl?.apiBase || "/wp-json/mabox/v1";
@@ -60,10 +66,10 @@ restInstance.interceptors.response.use(
   (response) => {
     const responseData = response.data;
     if (responseData.success) {
-      if (responseData.message) {
+      if (responseData.message && response.config.maboxNotify !== false) {
         notice.success(responseData.message);
       }
-    } else {
+    } else if (response.config.maboxNotify !== false) {
       // 适配标准化错误格式：{ code: 'xxx', message: '...' }
       const errData = responseData.data || responseData;
       const errMsg = errData?.message || errData?.error || responseData.message || '未知错误';
@@ -76,8 +82,10 @@ restInstance.interceptors.response.use(
     // 适配标准化错误格式
     const errBody = errorData?.data || errorData;
     const errMsg = errBody?.message || errBody?.error || errorData?.message || error.message;
-    notice.error(`出错：${errMsg}`);
-    console.error(errMsg);
+    if (error.config?.maboxNotify !== false) {
+      notice.error(`出错：${errMsg}`);
+      console.error(errMsg);
+    }
     return Promise.reject(error);
   }
 );

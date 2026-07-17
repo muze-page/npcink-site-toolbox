@@ -165,10 +165,28 @@ if (!class_exists('MaBox_Config_Manager')) {
          *
          * WordPress 在新旧值相同时会让 update_option() 返回 false，这不是失败。
          * 只有在值确实变化且 update_option() 返回 false 时才回滚本次已写模块。
+         * 回滚结果以 get_option() 回读为准，避免把 update_option() 的同值 false
+         * 误判为失败，也避免在数据库写入失败时错误宣称已经完整恢复。
+         *
+         * @return array{
+         *     success: bool,
+         *     saved_modules: array,
+         *     failed_modules: array,
+         *     rollback_complete?: bool,
+         *     rollback_failed_modules?: array,
+         *     error?: string
+         * }
          */
         public static function save_full_config($full_config) {
             if (!is_array($full_config)) {
-                return array('success' => false, 'saved_modules' => array(), 'failed_modules' => array());
+                return array(
+                    'success' => false,
+                    'saved_modules' => array(),
+                    'failed_modules' => array(),
+                    'rollback_complete' => true,
+                    'rollback_failed_modules' => array(),
+                    'error' => '配置格式无效，未写入任何设置',
+                );
             }
 
             $saved = array();
@@ -189,22 +207,13 @@ if (!class_exists('MaBox_Config_Manager')) {
                 }
 
                 if (update_option($option_name, $next) === false) {
-                    foreach (array_reverse($changed, true) as $changed_option => $old_value) {
-                        if ($old_value === $missing) {
-                            delete_option($changed_option);
-                        } else {
-                            update_option($changed_option, $old_value);
-                        }
-                    }
-                    self::$merged_cache = null;
-                    return array(
-                        'success' => false,
-                        'saved_modules' => array(),
-                        'failed_modules' => array($top_key),
-                    );
+                    return self::rollback_failed_save($top_key, $changed, $missing);
                 }
 
-                $changed[$option_name] = $previous;
+                $changed[$option_name] = array(
+                    'module' => $top_key,
+                    'previous' => $previous,
+                );
                 $saved[] = $top_key;
             }
 
@@ -213,6 +222,52 @@ if (!class_exists('MaBox_Config_Manager')) {
                 'success' => true,
                 'saved_modules' => $saved,
                 'failed_modules' => array(),
+            );
+        }
+
+        /**
+         * 回滚本次保存已经改动的模块，并回读确认每个旧值。
+         *
+         * @param string    $failed_module 写入失败的模块。
+         * @param array     $changed       已写入 Option 及其旧值。
+         * @param \stdClass $missing       Option 原本不存在时使用的哨兵对象。
+         * @return array
+         */
+        private static function rollback_failed_save($failed_module, $changed, $missing) {
+            $rollback_failed_modules = array();
+
+            foreach (array_reverse($changed, true) as $changed_option => $state) {
+                $previous = $state['previous'];
+
+                if ($previous === $missing) {
+                    delete_option($changed_option);
+                    $restored = get_option($changed_option, $missing) === $missing;
+                } else {
+                    update_option($changed_option, $previous);
+                    $restored = get_option($changed_option, $missing) === $previous;
+                }
+
+                if (!$restored) {
+                    $rollback_failed_modules[] = $state['module'];
+                }
+            }
+
+            self::$merged_cache = null;
+            $rollback_complete = empty($rollback_failed_modules);
+            $error = $rollback_complete
+                ? '保存失败，已恢复为之前的设置'
+                : sprintf(
+                    '保存失败，以下模块未能确认恢复：%s。请重新读取并核对设置后再保存',
+                    implode('、', $rollback_failed_modules)
+                );
+
+            return array(
+                'success' => false,
+                'saved_modules' => array(),
+                'failed_modules' => array($failed_module),
+                'rollback_complete' => $rollback_complete,
+                'rollback_failed_modules' => $rollback_failed_modules,
+                'error' => $error,
             );
         }
 

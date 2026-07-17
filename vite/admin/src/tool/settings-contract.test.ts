@@ -148,12 +148,36 @@ describe("设置 REST 契约", () => {
 
     await saveOption(defaultVarOption, secretChanges);
 
-    expect(restMocks.post).toHaveBeenCalledWith("/settings", {
-      settings: defaultVarOption,
-      secretChanges,
-    });
+    expect(restMocks.post).toHaveBeenCalledWith(
+      "/settings",
+      {
+        settings: defaultVarOption,
+        secretChanges,
+      },
+      { maboxNotify: false },
+    );
     expect(storageSpy).not.toHaveBeenCalled();
     storageSpy.mockRestore();
+  });
+
+  it("将 WP REST 保存错误规范化为不回显凭据的具体消息", async () => {
+    const canary = "canary-secret-must-not-leak";
+    restMocks.post.mockRejectedValue({
+      response: {
+        data: {
+          code: "rest_save_failed",
+          message: `保存 ${canary} 失败，已恢复为之前的设置`,
+          data: { status: 500 },
+        },
+      },
+    });
+
+    await expect(saveOption(defaultVarOption, {
+      "domestic.wechat.appsecret": {
+        operation: "replace",
+        value: canary,
+      },
+    })).rejects.toThrow("保存 [已隐藏] 失败，已恢复为之前的设置");
   });
 
   it("客户端拒绝未知凭据路径、未知操作和空替换", () => {

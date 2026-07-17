@@ -388,6 +388,36 @@ class SettingsSecretContractTest extends TestCase
         );
     }
 
+    public function test_rest_reports_unconfirmed_rollback_without_claiming_settings_were_restored(): void
+    {
+        $current = $this->configWithSecrets(self::CANARY);
+        foreach (MaBox_Config_Manager::get_module_map() as $module => $option_name) {
+            $GLOBALS['_test_option_store'][$option_name] = $current[$module];
+        }
+        MaBox_Config_Manager::clear_cache();
+
+        $settings = $this->browserSettings();
+        $settings['optimize']['site']['hide_top_toolbar'] = !$settings['optimize']['site']['hide_top_toolbar'];
+        $settings['page']['feature']['reading_progress'] = !$settings['page']['feature']['reading_progress'];
+        $GLOBALS['_test_update_option_failures'] = new SettingsRollbackFailureSequence();
+
+        $response = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+            'settings' => $settings,
+            'secretChanges' => array(),
+        )));
+
+        $this->assertInstanceOf(WP_Error::class, $response);
+        $this->assertSame('rest_save_failed', $response->get_error_code());
+        $this->assertSame(500, $response->get_error_data()['status']);
+        $this->assertStringContainsString('optimize', $response->get_error_message());
+        $this->assertStringContainsString('请重新读取并核对设置后再保存', $response->get_error_message());
+        $this->assertStringNotContainsString('已恢复为之前的设置', $response->get_error_message());
+        $this->assertSame(
+            $settings['optimize']['site']['hide_top_toolbar'],
+            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Optimize']['site']['hide_top_toolbar']
+        );
+    }
+
     public function test_admin_localization_does_not_embed_settings_or_defaults(): void
     {
         $source = file_get_contents(dirname(__DIR__, 2) . '/admin/class-magick-mixture-admin.php');
@@ -473,5 +503,35 @@ class SettingsContractRequest
     public function get_json_params()
     {
         return $this->body;
+    }
+}
+
+class SettingsRollbackFailureSequence implements ArrayAccess
+{
+    private $calls = array();
+
+    public function offsetExists($offset): bool
+    {
+        return true;
+    }
+
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
+    {
+        $this->calls[$offset] = isset($this->calls[$offset]) ? $this->calls[$offset] + 1 : 1;
+
+        if ($offset === 'Magick_ToolBox_Option_Page') {
+            return true;
+        }
+
+        return $offset === 'Magick_ToolBox_Option_Optimize' && $this->calls[$offset] >= 2;
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+    }
+
+    public function offsetUnset($offset): void
+    {
     }
 }

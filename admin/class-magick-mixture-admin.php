@@ -244,10 +244,31 @@ class MaBox_Admin
         $result = MaBox_Config_Manager::save_full_config($config);
 
         if (!$result['success']) {
-            if (class_exists('MaBox_Audit_Logger')) {
-                MaBox_Audit_Logger::config('保存配置失败，已回滚');
+            $rollback_complete = isset($result['rollback_complete']) && $result['rollback_complete'] === true;
+            $fallback_message = $rollback_complete
+                ? '保存失败，已恢复为之前的设置'
+                : '保存失败，无法确认所有设置已恢复。请重新读取并核对设置后再保存';
+            $message = isset($result['error']) && is_string($result['error']) && trim($result['error']) !== ''
+                ? $result['error']
+                : $fallback_message;
+
+            // 回滚未确认时，即使底层意外返回了过度乐观的旧文案，也不能对外宣称已经恢复。
+            if (!$rollback_complete && strpos($message, '已恢复') !== false) {
+                $message = $fallback_message;
             }
-            return array('success' => false, 'message' => '保存失败，已恢复为之前的设置', 'status' => 500);
+
+            if (class_exists('MaBox_Audit_Logger')) {
+                MaBox_Audit_Logger::config(
+                    $rollback_complete ? '保存配置失败，已确认回滚' : '保存配置失败，回滚未能完整确认',
+                    array(
+                        'failed_modules' => isset($result['failed_modules']) ? $result['failed_modules'] : array(),
+                        'rollback_failed_modules' => isset($result['rollback_failed_modules'])
+                            ? $result['rollback_failed_modules']
+                            : array(),
+                    )
+                );
+            }
+            return array('success' => false, 'message' => $message, 'status' => 500);
         }
 
         $active_modules = MaBox_Module_Loader::get_active_modules($config);
