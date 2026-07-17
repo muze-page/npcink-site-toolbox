@@ -71,6 +71,14 @@ class ModuleLoaderRuntimeContractTest extends TestCase {
         $this->assertFalse(MaBox_Loader_Non_Interface_Test_Module::$did_run);
     }
 
+    public function test_loader_keeps_structured_audit_without_error_log_fallback(): void {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/admin/modules/loader.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('MaBox_Audit_Logger::log(', $source);
+        $this->assertStringNotContainsString('error_log(', $source);
+    }
+
     public function test_loader_keeps_single_option_key_activation_semantics(): void {
         $this->set_test_registry('MaBox_Loader_Contract_Test_Module');
 

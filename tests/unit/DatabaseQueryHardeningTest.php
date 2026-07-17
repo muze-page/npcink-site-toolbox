@@ -111,8 +111,8 @@ final class DatabaseQueryHardeningTest extends TestCase
         $source = $this->source('uninstall.php');
 
         $this->assertSame(4, substr_count($source, '$wpdb->esc_like('));
-        $this->assertStringContainsString("preg_match('/\\A[A-Za-z0-9_]+\\z/', \$table_name)", $source);
-        $this->assertStringContainsString('DROP TABLE IF EXISTS `{$table_name}`', $source);
+        $this->assertStringContainsString("preg_match('/\\A[A-Za-z0-9_]+\\z/', \$mabox_table_name)", $source);
+        $this->assertStringContainsString('DROP TABLE IF EXISTS `{$mabox_table_name}`', $source);
         $this->assertStringContainsString('PluginCheck.Security.DirectDB.UnescapedDBParameter', $source);
         $this->assertStringNotContainsString('%i', $source, 'WordPress 6.0 does not support identifier placeholders.');
         $this->assertSame(5, substr_count($source, '// phpcs:ignore WordPress.DB.'));

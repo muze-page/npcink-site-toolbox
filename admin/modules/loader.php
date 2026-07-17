@@ -104,8 +104,6 @@ if (!class_exists('MaBox_Module_Loader')) {
             if (!is_subclass_of($class, 'MaBox_Module_Interface')) {
                 if (class_exists('MaBox_Audit_Logger')) {
                     MaBox_Audit_Logger::log('error', 'config', "Module {$class} does not implement MaBox_Module_Interface");
-                } else {
-                    error_log("[MaBox] Module {$class} does not implement MaBox_Module_Interface");
                 }
                 return;
             }
@@ -113,8 +111,6 @@ if (!class_exists('MaBox_Module_Loader')) {
             if (!is_callable(array($class, 'run'))) {
                 if (class_exists('MaBox_Audit_Logger')) {
                     MaBox_Audit_Logger::log('error', 'config', "Module {$class} has no callable run() method");
-                } else {
-                    error_log("[MaBox] Module {$class} has no callable run() method");
                 }
                 return;
             }

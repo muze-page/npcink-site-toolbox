@@ -150,7 +150,6 @@ if (!class_exists('MaBox_Medium_Svg_Support')) {
                     'user_id' => get_current_user_id(),
                 ));
             }
-            error_log('[MaBox] SVG 上传已清洗: ' . $file['name'] . ' by user ' . get_current_user_id());
 
             return $file;
         }

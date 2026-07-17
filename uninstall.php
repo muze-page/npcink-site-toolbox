@@ -59,8 +59,8 @@ delete_option('mabox_telemetry_user_count');
 delete_option('mabox_search_log');
 
 // 删除链接统计自定义表（如果存在）
-$table_name = $wpdb->prefix . 'link_counter';
-if (1 === preg_match('/\A[A-Za-z0-9_]+\z/', $table_name)) {
+$mabox_table_name = $wpdb->prefix . 'link_counter';
+if (1 === preg_match('/\A[A-Za-z0-9_]+\z/', $mabox_table_name)) {
 	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- One-time uninstall schema cleanup; identifier is fixed-suffix and allowlist validated for WordPress 6.0 compatibility.
-	$wpdb->query("DROP TABLE IF EXISTS `{$table_name}`");
+	$wpdb->query("DROP TABLE IF EXISTS `{$mabox_table_name}`");
 }

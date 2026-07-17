@@ -8,24 +8,26 @@ defined('ABSPATH') || exit;
 
 include plugin_dir_path((__FILE__)) . 'index.php'; // 获取数据
 
-wp_enqueue_style(
-    'mabox-maintenance-countdown',
-    $file_url . 'countdown/style.css',
-    array(),
-    MAGICK_MIXTURE_VERSION
-);
-wp_enqueue_script(
-    'mabox-maintenance-countdown-script',
-    $file_url . 'countdown/main.js',
-    array(),
-    MAGICK_MIXTURE_VERSION,
-    false
-);
-wp_add_inline_script(
-    'mabox-maintenance-countdown-script',
-    'var targetDate = new Date(' . wp_json_encode((string) $countdown) . ');',
-    'before'
-);
+if ('' !== $mabox_countdown) {
+    wp_enqueue_style(
+        'mabox-maintenance-countdown',
+        $mabox_file_url . 'countdown/style.css',
+        array(),
+        MAGICK_MIXTURE_VERSION
+    );
+    wp_enqueue_script(
+        'mabox-maintenance-countdown-script',
+        $mabox_file_url . 'countdown/main.js',
+        array(),
+        MAGICK_MIXTURE_VERSION,
+        false
+    );
+    wp_add_inline_script(
+        'mabox-maintenance-countdown-script',
+        'var targetDate = new Date(' . wp_json_encode($mabox_countdown) . ');',
+        'before'
+    );
+}
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -33,7 +35,7 @@ wp_add_inline_script(
 <head>
     <meta charset="<?php bloginfo('charset'); ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><?php echo esc_html($page_title); ?></title>
+    <title><?php echo esc_html($mabox_page_title); ?></title>
     <?php wp_print_styles(array('mabox-maintenance-responsive', 'mabox-maintenance-countdown')); ?>
     <?php wp_print_scripts('mabox-maintenance-countdown-script'); ?>
 </head>
@@ -55,22 +57,24 @@ wp_add_inline_script(
 
 
         <h2 class="n-title main">
-            <?php echo esc_html($countdown_title);
+            <?php echo esc_html($mabox_countdown_title);
             ?>
         </h2>
 
         <div class="box">
             <p class="n-meat main">
-                <?php echo wp_kses_post($countdown_content); ?>
+                <?php echo wp_kses_post($mabox_countdown_content); ?>
             </p>
             <!--
             <p class="n-description main"> </p>-->
 
 
             <!--倒计时开始-->
-            <div class="boxs">
-                <?php include 'countdown/index.php'; ?>
-            </div>
+            <?php if ('' !== $mabox_countdown) : ?>
+                <div class="boxs">
+                    <?php include 'countdown/index.php'; ?>
+                </div>
+            <?php endif; ?>
             <style>
                 .box {
                     color: #fff;

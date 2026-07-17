@@ -75,12 +75,12 @@ add_action(
  *不影响页面生命周期。
  *
  */
-function run_magick_mixture()
+function magick_toolbox_run()
 {
     $plugin = new Magick_Mixture();
     $plugin->run();
 }
-run_magick_mixture();
+magick_toolbox_run();
 
 // 插件激活时初始化路由表
 register_activation_hook(__FILE__, function() {

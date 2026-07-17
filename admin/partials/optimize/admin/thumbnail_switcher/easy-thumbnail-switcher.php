@@ -2,7 +2,7 @@
 
 defined('ABSPATH') || exit;
 
-class TS_Easy_Thumbnail_Switcher {
+class MaBox_Easy_Thumbnail_Switcher {
 
     public $add_new_str;
     public $change_str;
@@ -12,7 +12,7 @@ class TS_Easy_Thumbnail_Switcher {
     public $confirm_str;
 
     /**
-     * TS_Easy_Thumbnail_Switcher::__construct()
+     * MaBox_Easy_Thumbnail_Switcher::__construct()
      *
      * The main constructor function
      * @since 1.0
@@ -36,27 +36,10 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
 
         add_image_size( 'ts-ets-thumb', 75, 75, array( 'center', 'center' ) );
 
-        //require_once( dirname(__FILE__) . '/class-ts-admin-notice.php' );
-
-        $href = admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=super-blog-pack&amp;TB_iframe=true&amp' );
-
-        if( !function_exists('wp_get_current_user') ) {
-            require_once( ABSPATH . 'wp-includes/pluggable.php' );
-        }
-
-       // if( current_user_can( 'install_plugins' ) || current_user_can( 'activate_plugins' ) ) {
-       //     new TS_Admin_Notice( array(
-       //         'id' => 'super-blog-pack',
-       //         'notice' => '<strong>Power up your website</strong>! You can now show Post likes, Post views counter, Related posts, Post reviews with 5 star rating system and much more with a few clicks.<br><a href="' . esc_url( $href ) . '" class="thickbox open-plugin-details-modal" target="_blank">Try now for free!</a> or <a href="https://goo.gl/Ywr7L9" target="_blank">Get more details about this plugin.</a>',
-       //         'type' => 'success',
-       //         'dissmiss' => 'cookie',
-       //     ) );
-       // }
-
     }
 
     /**
-     * TS_Easy_Thumbnail_Switcher::add_nonce()
+     * MaBox_Easy_Thumbnail_Switcher::add_nonce()
      *
      * Used to add a nonce for security checks
      * @since 1.0
@@ -74,7 +57,7 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
     }
 
     /**
-     * TS_Easy_Thumbnail_Switcher::scripts()
+     * MaBox_Easy_Thumbnail_Switcher::scripts()
      *
      * Enqueue scripts
      * @since 1.0
@@ -100,7 +83,7 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
     }
 
     /**
-     * TS_Easy_Thumbnail_Switcher::thumb_column()
+     * MaBox_Easy_Thumbnail_Switcher::add_column()
      *
      * @param array $columns
      *
@@ -115,7 +98,7 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
     }
 
     /**
-     * TS_Easy_Thumbnail_Switcher::thumb_column()
+     * MaBox_Easy_Thumbnail_Switcher::thumb_column()
      *
      * @param string $column
      * @param int $id Post ID
@@ -143,7 +126,7 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
     }
 
     /**
-     * TS_Easy_Thumbnail_Switcher::update()
+     * MaBox_Easy_Thumbnail_Switcher::update()
      *
      * AJAX Callback for updating post thumbnail
      * @since 1.0
@@ -201,7 +184,7 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
     }
 
     /**
-     * TS_Easy_Thumbnail_Switcher::remove()
+     * MaBox_Easy_Thumbnail_Switcher::remove()
      *
      * AJAX Callback for removing post thumbnail
      * @since 1.0
@@ -254,4 +237,4 @@ $this->add_new_str = __( '添加', 'magick-toolbox' );
 
 }
 
-new TS_Easy_Thumbnail_Switcher();
+new MaBox_Easy_Thumbnail_Switcher();

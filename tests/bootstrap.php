@@ -154,7 +154,8 @@ if ( ! function_exists( 'wp_get_current_user' ) ) {
 }
 if ( ! function_exists( 'do_action' ) ) {
 	function do_action( $tag, ...$args ) {
-		// no-op for unit tests
+		global $_test_action_store;
+		$_test_action_store[ $tag ][] = $args;
 	}
 }
 if ( ! class_exists( 'WP_REST_Server' ) ) {

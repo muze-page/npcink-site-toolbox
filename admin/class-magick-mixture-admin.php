@@ -246,8 +246,6 @@ class MaBox_Admin
         if (!$result['success']) {
             if (class_exists('MaBox_Audit_Logger')) {
                 MaBox_Audit_Logger::config('保存配置失败，已回滚');
-            } else {
-                error_log('[MaBox] Failed to update option, rolled back to previous state');
             }
             return array('success' => false, 'message' => '保存失败，已恢复为之前的设置', 'status' => 500);
         }

@@ -92,14 +92,52 @@ class AuditLoggerBehaviorTest extends TestCase {
         $this->assertNull($params[2]->getDefaultValue());
     }
 
-    /**
-     * 测试日志条目结构包含必要字段
-     */
-    public function test_log_entry_structure(): void {
-        // 触发一条日志（存储到 error_log，不依赖数据库）
-        MaBox_Audit_Logger::log('info', 'security', '结构测试', array('test' => true));
-        
-        // 验证方法不抛异常即视为成功
-        $this->assertTrue(true);
+    public function test_log_publishes_a_structured_event_without_default_storage(): void {
+        $had_action_store = array_key_exists('_test_action_store', $GLOBALS);
+        $previous_action_store = $had_action_store ? $GLOBALS['_test_action_store'] : null;
+        $had_option_store = array_key_exists('_test_option_store', $GLOBALS);
+        $previous_option_store = $had_option_store ? $GLOBALS['_test_option_store'] : null;
+
+        try {
+            $GLOBALS['_test_action_store'] = array();
+            $GLOBALS['_test_option_store'] = array();
+
+            $this->assertTrue(
+                MaBox_Audit_Logger::log('info', 'security', '结构测试', array('test' => true))
+            );
+
+            $this->assertArrayHasKey('mabox_audit_log', $GLOBALS['_test_action_store']);
+            $this->assertCount(1, $GLOBALS['_test_action_store']['mabox_audit_log']);
+            $entry = $GLOBALS['_test_action_store']['mabox_audit_log'][0][0];
+            $this->assertSame('info', $entry['level']);
+            $this->assertSame('security', $entry['category']);
+            $this->assertSame('结构测试', $entry['message']);
+            $this->assertSame(array('test' => true), $entry['context']);
+            $this->assertArrayHasKey('timestamp', $entry);
+            $this->assertArrayNotHasKey(
+                MaBox_Audit_Logger::OPTION_NAME,
+                $GLOBALS['_test_option_store']
+            );
+        } finally {
+            if ($had_action_store) {
+                $GLOBALS['_test_action_store'] = $previous_action_store;
+            } else {
+                unset($GLOBALS['_test_action_store']);
+            }
+            if ($had_option_store) {
+                $GLOBALS['_test_option_store'] = $previous_option_store;
+            } else {
+                unset($GLOBALS['_test_option_store']);
+            }
+        }
+    }
+
+    public function test_audit_logger_keeps_structured_extension_points_without_server_debug_log(): void {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/includes/class-magick-audit-logger.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('self::store_entry($entry);', $source);
+        $this->assertStringContainsString("do_action('mabox_audit_log', \$entry);", $source);
+        $this->assertStringNotContainsString('error_log(', $source);
     }
 }

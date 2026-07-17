@@ -78,27 +78,6 @@ final class AdminFilterThumbnailSecurityTest extends TestCase
         $this->assertStringContainsString("'name' => 'author'", $source);
     }
 
-    public function test_notice_dismissal_requires_nonce_capability_and_a_sanitized_id(): void
-    {
-        $source = $this->source('thumbnail_switcher/class-ts-admin-notice.php');
-
-        $this->assertStringContainsString("check_ajax_referer( 'ts_notice_dismiss', 'security' )", $source);
-        $this->assertStringContainsString("current_user_can( 'read' )", $source);
-        $this->assertStringContainsString(
-            "\$notice_id_value = wp_unslash( \$_POST['notice_id'] )",
-            $source
-        );
-        $this->assertStringContainsString(
-            "! is_string( \$notice_id_value )",
-            $source
-        );
-        $this->assertStringContainsString(
-            "sanitize_key( \$notice_id_value )",
-            $source
-        );
-        $this->assertStringNotContainsString("'ts_notice_' . \$_POST['notice_id']", $source);
-    }
-
     public function test_thumbnail_mutations_require_sanitized_input_and_object_capability(): void
     {
         $source = $this->source('thumbnail_switcher/easy-thumbnail-switcher.php');
@@ -124,6 +103,30 @@ final class AdminFilterThumbnailSecurityTest extends TestCase
 
         $this->assertGuardPrecedesMutation($source, "public function update()", 'set_post_thumbnail( $id, $thumb_id )');
         $this->assertGuardPrecedesMutation($source, "public function remove()", 'delete_post_thumbnail( $id )');
+    }
+
+    public function test_thumbnail_helpers_use_project_prefixes_without_promotional_shortlinks(): void
+    {
+        $switcher = $this->source('thumbnail_switcher/easy-thumbnail-switcher.php');
+        $autoload = file_get_contents(dirname(__DIR__, 2) . '/includes/autoload.php');
+        $this->assertIsString($autoload);
+
+        $this->assertStringContainsString('class MaBox_Easy_Thumbnail_Switcher', $switcher);
+        $this->assertStringContainsString('new MaBox_Easy_Thumbnail_Switcher();', $switcher);
+        $this->assertFileDoesNotExist(
+            dirname(__DIR__, 2) . '/admin/partials/optimize/admin/thumbnail_switcher/class-ts-admin-notice.php'
+        );
+        $this->assertStringNotContainsString('MaBox_Admin_Notice', $autoload);
+        $this->assertStringNotContainsString('MaBox_Easy_Thumbnail_Switcher', $autoload);
+
+        $combined = $switcher . $autoload;
+        $this->assertStringNotContainsString('TS_Easy_Thumbnail_Switcher', $combined);
+        $this->assertStringNotContainsString('TS_Admin_Notice', $combined);
+        $this->assertStringNotContainsString('$ts_admin_notices', $combined);
+        $this->assertStringNotContainsString('$ts_admin_notices_js', $combined);
+        $this->assertStringNotContainsString('goo.gl', $switcher);
+        $this->assertStringNotContainsString('super-blog-pack', $switcher);
+        $this->assertStringNotContainsString('$href', $switcher);
     }
 
     private function assertGuardPrecedesMutation(string $source, string $method, string $mutation): void

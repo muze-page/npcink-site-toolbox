@@ -90,8 +90,6 @@ spl_autoload_register(function ($class) {
         'MaBox_User_List_Show_Nickname' => 'admin/partials/optimize/site/user_list_show_nickname.php',
         'MaBox_Widgets' => 'admin/partials/optimize/widget/index.php',
         'Magick_Mixture' => 'includes/class-magick-mixture.php',
-        'TS_Admin_Notice' => 'admin/partials/optimize/admin/thumbnail_switcher/class-ts-admin-notice.php',
-        'TS_Easy_Thumbnail_Switcher' => 'admin/partials/optimize/admin/thumbnail_switcher/easy-thumbnail-switcher.php',
     );
 
     if (isset($map[$class])) {

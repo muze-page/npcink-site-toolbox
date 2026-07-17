@@ -4,8 +4,8 @@ defined('ABSPATH') || exit;
 /**
  * 统一审计日志中心
  *
- * 记录高风险操作、接口错误、API 调用失败等审计事件。
- * 替代散落在各处的 error_log() 调用，提供结构化日志。
+ * 发布高风险操作、接口错误、API 调用失败等结构化审计事件。
+ * 默认通过动作钩子交给调用方处理；数据库存储需显式启用。
  *
  * @since 2.4.0
  */
@@ -66,20 +66,11 @@ if (!class_exists('MaBox_Audit_Logger')) {
                     : '',
             );
 
-            // 写入 error_log（兼容现有日志系统）
-            error_log(sprintf(
-                '[MaBox][%s][%s] %s %s',
-                strtoupper($level),
-                $category,
-                $message,
-                empty($context) ? '' : json_encode($context, JSON_UNESCAPED_UNICODE)
-            ));
-
-            // 存储到数据库（可选，避免过度增长）
+            // 数据库存储保持显式启用，避免高频事件造成默认写放大。
             self::store_entry($entry);
 
             /**
-             * 触发审计日志动作，允许第三方监听
+             * 发布默认可用的审计事件，允许第三方监听并选择落点。
              *
              * @since 2.4.0
              */

@@ -218,4 +218,12 @@ class MaBox_Svg_Sanitization_Test extends TestCase {
 
         $this->assertStringNotContainsString('javascript:', $output);
     }
+
+    public function test_upload_audit_is_not_duplicated_to_server_log(): void {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/admin/partials/optimize/medium/svg_support.php');
+        $this->assertIsString($source);
+
+        $this->assertStringContainsString('MaBox_Audit_Logger::file(', $source);
+        $this->assertStringNotContainsString('error_log(', $source);
+    }
 }

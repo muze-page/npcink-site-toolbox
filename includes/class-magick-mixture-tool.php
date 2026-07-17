@@ -71,42 +71,6 @@ if (!class_exists('MaBox_Tool')) {
         }
 
         /**
-         * 调试用，打印各种数据
-         *
-         */
-        public static function p($data)
-        {
-            echo '<pre>';
-            print_r($data);
-            echo '</pre>';
-        }
-
-        /**
-         * 调试用，打印当前页面的$hook参数
-         */
-        public static function run_page_hook()
-        {
-            add_action('admin_enqueue_scripts', array(__CLASS__, 'display_page_hook'));
-        }
-        public static function display_page_hook($hook)
-        {
-
-            echo '<h1 style="color: crimson;text-align: center;">' . esc_html($hook) . '</h1>';
-        }
-
-        /**
-         * 创建一个方法，在后台顶部显示一个通知
-         */
-        public static function magick_admin_notice_acfs($content)
-        {
-?>
-            <div class='notice notice-error '>
-                <p><?php echo esc_html($content); ?></p>
-            </div>
-<?php
-        }
-
-        /**
          * 时间很重要
          */
         public static function get_time()
