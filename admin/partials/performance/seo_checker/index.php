@@ -18,22 +18,31 @@ if (!class_exists('MaBox_Performance_Seo_Checker')) {
                 $issues[] = array('type' => '首页描述', 'message' => '首页 SEO 描述为空');
             }
             global $wpdb;
+
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Administrator-triggered live aggregate; cached diagnostic counts would be stale.
             $missing_seo = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = %s AND post_type = %s AND (post_title = '' OR post_excerpt = '')", 'publish', 'post'));
             if ($missing_seo > 0) {
                 $issues[] = array('type' => '文章SEO', 'message' => $missing_seo . ' 篇文章缺少标题或摘要');
             }
+
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Administrator-triggered live aggregate; cached diagnostic counts would be stale.
             $missing_alt = $wpdb->get_var($wpdb->prepare(
-                "SELECT COUNT(*) FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = %s WHERE p.post_type = %s AND (pm.meta_value IS NULL OR pm.meta_value = '')",
+                "SELECT COUNT(*) FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = %s WHERE p.post_type = %s AND p.post_mime_type LIKE %s AND (pm.meta_value IS NULL OR pm.meta_value = '')",
                 '_wp_attachment_image_alt',
-                'attachment'
+                'attachment',
+                'image/%'
             ));
             if ($missing_alt > 0) {
                 $issues[] = array('type' => '图片Alt', 'message' => $missing_alt . ' 张图片缺少 Alt 文本');
             }
+
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Administrator-triggered live aggregate; cached diagnostic counts would be stale.
             $missing_featured = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = %s WHERE p.post_status = %s AND p.post_type = %s AND pm.meta_id IS NULL", '_thumbnail_id', 'publish', 'post'));
             if ($missing_featured > 0) {
                 $issues[] = array('type' => '特色图', 'message' => $missing_featured . ' 篇文章没有特色图');
             }
+
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Administrator-triggered live aggregate; cached diagnostic counts would be stale.
             $short_posts = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = %s AND post_type = %s AND LENGTH(post_content) < %d", 'publish', 'post', 300));
             if ($short_posts > 0) {
                 $issues[] = array('type' => '内容过短', 'message' => $short_posts . ' 篇文章内容过短（少于300字）');
@@ -42,14 +51,26 @@ if (!class_exists('MaBox_Performance_Seo_Checker')) {
         }
         public static function ajax_fix_alt() {
             if (!current_user_can('manage_options')) wp_send_json_error('权限不足', 403);
-            global $wpdb;
-            $images = $wpdb->get_results($wpdb->prepare(
-                "SELECT p.ID, p.post_title FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = %s WHERE p.post_type = %s AND (pm.meta_value IS NULL OR pm.meta_value = '') LIMIT 50",
-                '_wp_attachment_image_alt',
-                'attachment'
+            $query = new WP_Query(array(
+                'post_type'              => 'attachment',
+                'post_status'            => 'inherit',
+                'post_mime_type'         => 'image',
+                'posts_per_page'         => 50,
+                'orderby'                => 'ID',
+                'order'                  => 'ASC',
+                'no_found_rows'          => true,
+                'update_post_meta_cache' => false,
+                'update_post_term_cache' => false,
+                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Administrator-triggered repair is bounded to 50 image attachments.
+                'meta_query'             => array(
+                    'relation' => 'OR',
+                    array('key' => '_wp_attachment_image_alt', 'compare' => 'NOT EXISTS'),
+                    array('key' => '_wp_attachment_image_alt', 'value' => '', 'compare' => '='),
+                ),
             ));
             $fixed = 0;
-            foreach ($images as $img) {
+            foreach ($query->posts as $img) {
+                if (!is_object($img) || !isset($img->ID)) continue;
                 $alt = !empty($img->post_title) ? $img->post_title : '图片';
                 update_post_meta($img->ID, '_wp_attachment_image_alt', sanitize_text_field($alt));
                 $fixed++;

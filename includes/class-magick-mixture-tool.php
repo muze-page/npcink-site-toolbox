@@ -372,16 +372,19 @@ if (!class_exists('MaBox_Tool')) {
             $arr['today']['comments'] = $today_comments;
 
             //获取今天的注册数量
-            global $wpdb;
-            $todate = $today->format('Y-m-d');
-            $results = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT COUNT(*) AS num FROM `{$wpdb->prefix}users` WHERE SUBSTRING(`user_registered`,1,10) = %s",
-                    $todate
-                )
-            );
-            $totay_register = $results[0]->num;
-            $arr['today']['register'] = $totay_register;
+            $today_users = new WP_User_Query(array(
+                'fields'      => 'ID',
+                'number'      => 1,
+                'count_total' => true,
+                'date_query'  => array(
+                    array(
+                        'year'  => (int) $today->format('Y'),
+                        'month' => (int) $today->format('n'),
+                        'day'   => (int) $today->format('j'),
+                    ),
+                ),
+            ));
+            $arr['today']['register'] = (int) $today_users->get_total();
 
             /**
              * 总计

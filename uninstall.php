@@ -35,12 +35,16 @@ delete_option('Magick_ToolBox_Option_Feedback');
 delete_option('Magick_ToolBox_Active_Modules');
 
 // 删除 SEO 相关选项（可能由 seo_category_add_meat.php 创建）
-$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 'cat-title-%'));
-$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 'cat-words-%'));
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time uninstall cleanup; caching rows being deleted would be incorrect.
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like('cat-title-') . '%'));
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time uninstall cleanup; caching rows being deleted would be incorrect.
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like('cat-words-') . '%'));
 
 // 删除缩略图切换器相关 transient
-$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", '_transient_ts_%'));
-$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", '_transient_timeout_ts_%'));
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time uninstall cleanup; caching rows being deleted would be incorrect.
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like('_transient_ts_') . '%'));
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time uninstall cleanup; caching rows being deleted would be incorrect.
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like('_transient_timeout_ts_') . '%'));
 
 // 删除字数统计缓存
 delete_transient('mabox_total_chars');
@@ -56,4 +60,7 @@ delete_option('mabox_search_log');
 
 // 删除链接统计自定义表（如果存在）
 $table_name = $wpdb->prefix . 'link_counter';
-$wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+if (1 === preg_match('/\A[A-Za-z0-9_]+\z/', $table_name)) {
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- One-time uninstall schema cleanup; identifier is fixed-suffix and allowlist validated for WordPress 6.0 compatibility.
+	$wpdb->query("DROP TABLE IF EXISTS `{$table_name}`");
+}

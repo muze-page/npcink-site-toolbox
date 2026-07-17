@@ -336,18 +336,31 @@ if (!class_exists('MaBox_Census_Single')) {
             $start_date = min($data);
             $end_date = max($data);
 
-            // 单次 SQL 查询，按日期和作者分组
-            $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT DATE(post_date) as post_date, post_author, COUNT(*) as cnt
-                FROM {$wpdb->posts}
-                WHERE post_status = 'publish'
-                AND post_type = 'post'
-                AND DATE(post_date) >= %s
-                AND DATE(post_date) <= %s
-                GROUP BY DATE(post_date), post_author",
-                $start_date,
-                $end_date
-            ));
+            $posts_last_changed = function_exists('wp_cache_get_last_changed')
+                ? wp_cache_get_last_changed('posts')
+                : wp_cache_get('last_changed', 'posts');
+            $cache_key = 'article_counts_' . md5(
+                $start_date . '|' . $end_date . '|' . (string) $posts_last_changed
+            );
+            $results = wp_cache_get($cache_key, 'mabox');
+
+            if (false === $results) {
+                // 单次 SQL 查询，按日期和作者分组
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Aggregate query avoids an N+1 WP_Query loop; cache invalidates via posts last_changed.
+                $results = $wpdb->get_results($wpdb->prepare(
+                    "SELECT DATE(post_date) as post_date, post_author, COUNT(*) as cnt
+                    FROM {$wpdb->posts}
+                    WHERE post_status = 'publish'
+                    AND post_type = 'post'
+                    AND DATE(post_date) >= %s
+                    AND DATE(post_date) <= %s
+                    GROUP BY DATE(post_date), post_author",
+                    $start_date,
+                    $end_date
+                ));
+                $results = is_array($results) ? $results : array();
+                wp_cache_set($cache_key, $results, 'mabox', HOUR_IN_SECONDS);
+            }
 
             // 构建查找表：[date => [author_id => count]]
             $lookup = array();

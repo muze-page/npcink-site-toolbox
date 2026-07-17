@@ -78,7 +78,10 @@ if (!class_exists('MaBox_Domestic_Comment_Security')) {
         }
         public static function check_duplicate($commentdata) {
             global $wpdb;
-            $content = $commentdata['comment_content'];
+            $content = isset($commentdata['comment_content']) && is_string($commentdata['comment_content'])
+                ? $commentdata['comment_content']
+                : '';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Pre-insert duplicate check must read current comment rows; persistent cache could be stale.
             $existing = $wpdb->get_var($wpdb->prepare(
                 "SELECT comment_ID FROM $wpdb->comments WHERE comment_content = %s AND comment_approved != 'spam' LIMIT 1",
                 $content

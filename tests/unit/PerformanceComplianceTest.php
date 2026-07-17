@@ -6,30 +6,32 @@ use PHPUnit\Framework\TestCase;
 
 final class PerformanceComplianceTest extends TestCase
 {
-    public function test_user_counts_use_traceable_preparation_and_wordpress_api(): void
+    public function test_today_user_count_uses_wordpress_user_query_date_contract(): void
     {
         $source = $this->source('includes/class-magick-mixture-tool.php');
 
-        $this->assertMatchesRegularExpression(
-            '/\$wpdb->get_results\(\s*\$wpdb->prepare\(/',
-            $source
-        );
-        $this->assertStringNotContainsString('$wpdb->get_results($sql)', $source);
+        $this->assertStringContainsString('$today_users = new WP_User_Query(array(', $source);
+        $this->assertStringContainsString("'date_query'  => array(", $source);
+        $this->assertStringContainsString("'count_total' => true", $source);
+        $this->assertStringContainsString('$today_users->get_total()', $source);
+        $this->assertStringNotContainsString('$wpdb', $source);
         $this->assertStringContainsString('$total_users = get_user_count();', $source);
         $this->assertStringNotContainsString('count_users()', $source);
         $this->assertStringNotContainsString('SELECT COUNT(ID) FROM', $source);
     }
 
-    public function test_media_health_like_wildcards_are_prepare_parameters(): void
+    public function test_media_health_scans_attachments_in_bounded_batches(): void
     {
         $source = $this->source('admin/partials/performance/media_health/index.php');
 
-        $this->assertSame(2, substr_count($source, 'LIKE CONCAT(%s, p.guid, %s)'));
-        $this->assertStringNotContainsString("CONCAT('%%', p.guid, '%%')", $source);
-        $this->assertMatchesRegularExpression(
-            "/'attachment',\s*'%',\s*'%',\s*'%',\s*'%'/",
-            $source
-        );
+        $this->assertStringContainsString('const ATTACHMENT_SCAN_BATCH_SIZE = 100;', $source);
+        $this->assertStringContainsString('const ATTACHMENT_SCAN_LIMIT = 500;', $source);
+        $this->assertStringContainsString('private static function scan_recent_attachments()', $source);
+        $this->assertStringContainsString('while ($checked < self::ATTACHMENT_SCAN_LIMIT)', $source);
+        $this->assertStringContainsString("update_meta_cache('post', \$image_ids);", $source);
+        $this->assertStringContainsString("'attachment_scan' => array(", $source);
+        $this->assertStringNotContainsString('SELECT ID, guid', $source);
+        $this->assertStringNotContainsString('SELECT ID, post_name', $source);
     }
 
     public function test_oss_uses_wordpress_file_deletion_api(): void
