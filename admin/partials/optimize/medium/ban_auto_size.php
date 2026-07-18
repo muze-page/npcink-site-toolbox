@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 功能：禁止自动生成缩略图
  * 来源：
  */
-if (!class_exists('MaBox_Medium_Ban_Auto_Size')) {
-    class MaBox_Medium_Ban_Auto_Size implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Medium_Ban_Auto_Size')) {
+    class Npcink_Toolbox_Medium_Ban_Auto_Size implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())

@@ -14,8 +14,8 @@ defined('ARRAY_N') || define('ARRAY_N', 'ARRAY_N');
 defined('COOKIEPATH') || define('COOKIEPATH', '/');
 defined('COOKIE_DOMAIN') || define('COOKIE_DOMAIN', false);
 
-if (!class_exists('MaBox_Public')) {
-    class MaBox_Public
+if (!class_exists('Npcink_Toolbox_Public')) {
+    class Npcink_Toolbox_Public
     {
         public function __construct(string $plugin_name, string $version)
         {

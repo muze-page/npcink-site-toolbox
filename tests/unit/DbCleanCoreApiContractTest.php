@@ -44,7 +44,7 @@ final class DbCleanCoreApiContractTest extends TestCase
         $this->assertStringContainsString('delete_option($timeout_prefix . $key)', $source);
         $this->assertStringContainsString('COUNT(DISTINCT CASE', $source);
 
-        $method = new ReflectionMethod(MaBox_Performance_Db_Clean::class, 'parse_transient_option_name');
+        $method = new ReflectionMethod(Npcink_Toolbox_Performance_Db_Clean::class, 'parse_transient_option_name');
         $method->setAccessible(true);
         $this->assertSame(
             array('key' => 'feed_cache', 'site' => false),
@@ -65,7 +65,7 @@ final class DbCleanCoreApiContractTest extends TestCase
         $this->assertStringContainsString("preg_match('/\\A[A-Za-z0-9_]+\\z/'", $source);
         $this->assertStringContainsString("\$wpdb->query('OPTIMIZE TABLE `' . \$table_name . '`')", $source);
 
-        $method = new ReflectionMethod(MaBox_Performance_Db_Clean::class, 'is_safe_table_name');
+        $method = new ReflectionMethod(Npcink_Toolbox_Performance_Db_Clean::class, 'is_safe_table_name');
         $method->setAccessible(true);
         $this->assertTrue($method->invoke(null, 'wp_posts', 'wp_'));
         $this->assertFalse($method->invoke(null, 'other_posts', 'wp_'));

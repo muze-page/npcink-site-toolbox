@@ -34,7 +34,7 @@ class DomesticRequestInputSecurityTest extends TestCase
 
         $this->assertSame(
             '203.0.113.10',
-            $this->invokePrivate('MaBox_Domestic_Comment_Security', 'get_client_ip')
+            $this->invokePrivate('Npcink_Toolbox_Domestic_Comment_Security', 'get_client_ip')
         );
     }
 
@@ -44,7 +44,7 @@ class DomesticRequestInputSecurityTest extends TestCase
 
         $this->assertSame(
             '0.0.0.0',
-            $this->invokePrivate('MaBox_Domestic_Comment_Security', 'get_client_ip')
+            $this->invokePrivate('Npcink_Toolbox_Domestic_Comment_Security', 'get_client_ip')
         );
     }
 
@@ -53,7 +53,7 @@ class DomesticRequestInputSecurityTest extends TestCase
         $_SERVER['HTTP_USER_AGENT'] = 'Example Micro\\Messenger Client';
 
         $this->assertTrue(
-            $this->invokePrivate('MaBox_Domestic_Wechat', 'is_wechat_qq')
+            $this->invokePrivate('Npcink_Toolbox_Domestic_Wechat', 'is_wechat_qq')
         );
     }
 
@@ -62,7 +62,7 @@ class DomesticRequestInputSecurityTest extends TestCase
         $_SERVER['HTTP_USER_AGENT'] = array('MicroMessenger');
 
         $this->assertFalse(
-            $this->invokePrivate('MaBox_Domestic_Wechat', 'is_wechat_qq')
+            $this->invokePrivate('Npcink_Toolbox_Domestic_Wechat', 'is_wechat_qq')
         );
     }
 

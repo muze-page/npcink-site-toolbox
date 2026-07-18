@@ -94,13 +94,13 @@ final class InputSecurityHardeningTest extends TestCase
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '198.51.100.20';
         $_SERVER['HTTP_CLIENT_IP'] = '192.0.2.30';
 
-        $this->assertSame('203.0.113.10', MaBox_Helpers::get_real_ip());
+        $this->assertSame('203.0.113.10', Npcink_Toolbox_Helpers::get_real_ip());
 
         $_SERVER['REMOTE_ADDR'] = 'not-an-ip';
-        $this->assertSame('', MaBox_Helpers::get_real_ip());
+        $this->assertSame('', Npcink_Toolbox_Helpers::get_real_ip());
 
         $_SERVER['REMOTE_ADDR'] = array('203.0.113.10');
-        $this->assertSame('', MaBox_Helpers::get_real_ip());
+        $this->assertSame('', Npcink_Toolbox_Helpers::get_real_ip());
     }
 
     public function test_category_seo_values_require_core_nonce_and_are_sanitized(): void
@@ -111,17 +111,17 @@ final class InputSecurityHardeningTest extends TestCase
             'cat-words' => 'one,two',
         );
 
-        MaBox_Seo_Category_Add_Meat::taxonomy_metadate(7);
-        $this->assertArrayNotHasKey('cat-title-7', $GLOBALS['_test_option_store']);
-        $this->assertArrayNotHasKey('cat-words-7', $GLOBALS['_test_option_store']);
+        Npcink_Toolbox_Seo_Category_Add_Meat::taxonomy_metadate(7);
+        $this->assertArrayNotHasKey('npcink_site_toolbox_category_title_7', $GLOBALS['_test_option_store']);
+        $this->assertArrayNotHasKey('npcink_site_toolbox_category_keywords_7', $GLOBALS['_test_option_store']);
 
         $_POST['_wpnonce_add-tag'] = 'valid-core-nonce';
         $_POST['cat-title'] = '<b>Category Title</b>';
         $_POST['cat-words'] = 'one\\,two';
 
-        MaBox_Seo_Category_Add_Meat::taxonomy_metadate(7);
-        $this->assertSame('Category Title', $GLOBALS['_test_option_store']['cat-title-7']);
-        $this->assertSame('one,two', $GLOBALS['_test_option_store']['cat-words-7']);
+        Npcink_Toolbox_Seo_Category_Add_Meat::taxonomy_metadate(7);
+        $this->assertSame('Category Title', $GLOBALS['_test_option_store']['npcink_site_toolbox_category_title_7']);
+        $this->assertSame('one,two', $GLOBALS['_test_option_store']['npcink_site_toolbox_category_keywords_7']);
 
         $_POST = array(
             'action'    => 'editedtag',
@@ -130,9 +130,9 @@ final class InputSecurityHardeningTest extends TestCase
             'cat-words' => 'alpha,beta',
         );
 
-        MaBox_Seo_Category_Add_Meat::taxonomy_metadate(8);
-        $this->assertSame('Edited Title', $GLOBALS['_test_option_store']['cat-title-8']);
-        $this->assertSame('alpha,beta', $GLOBALS['_test_option_store']['cat-words-8']);
+        Npcink_Toolbox_Seo_Category_Add_Meat::taxonomy_metadate(8);
+        $this->assertSame('Edited Title', $GLOBALS['_test_option_store']['npcink_site_toolbox_category_title_8']);
+        $this->assertSame('alpha,beta', $GLOBALS['_test_option_store']['npcink_site_toolbox_category_keywords_8']);
     }
 
     public function test_public_rate_limit_nonce_comes_from_the_rest_request(): void
@@ -152,7 +152,7 @@ final class InputSecurityHardeningTest extends TestCase
             }
         };
 
-        $callback = MaBox_Rate_Limiter::permission_callback_with_nonce(
+        $callback = Npcink_Toolbox_Rate_Limiter::permission_callback_with_nonce(
             'search-log',
             'npcink_site_toolbox_public_api',
             array('max_requests' => 30, 'time_window' => 60)
@@ -177,7 +177,7 @@ final class InputSecurityHardeningTest extends TestCase
         $this->assertInstanceOf(WP_Error::class, $missing_request_result);
         $this->assertSame('invalid_nonce', $missing_request_result->get_error_code());
 
-        $source = file_get_contents(dirname(__DIR__, 2) . '/includes/class-magick-rate-limiter.php');
+        $source = file_get_contents(dirname(__DIR__, 2) . '/includes/class-npcink-toolbox-rate-limiter.php');
         $this->assertIsString($source);
         $this->assertStringNotContainsString('$_REQUEST', $source);
         $this->assertStringNotContainsString("HTTP_X_MABOX_NONCE", $source);
@@ -188,7 +188,7 @@ final class InputSecurityHardeningTest extends TestCase
     public function test_nonce_suppressions_are_limited_to_read_only_get_requests(): void
     {
         $files = array(
-            'admin/class-magick-mixture-admin.php',
+            'admin/class-npcink-toolbox-admin.php',
             'admin/partials/optimize/site/search_link_simplify.php',
         );
         $combined = '';

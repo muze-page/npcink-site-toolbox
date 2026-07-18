@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
-if (!class_exists('MaBox_Performance_Search_Enhance')) {
-    class MaBox_Performance_Search_Enhance implements MaBox_Module_Interface {
+if (!class_exists('Npcink_Toolbox_Performance_Search_Enhance')) {
+    class Npcink_Toolbox_Performance_Search_Enhance implements Npcink_Toolbox_Module_Interface {
         private static $config;
         public static function run($config = array()) {
             self::$config = $config;
@@ -40,32 +40,32 @@ if (!class_exists('MaBox_Performance_Search_Enhance')) {
             if (!is_admin() && $query->is_main_query() && $query->is_search()) {
                 $search_term = $query->get('s');
                 if (!empty($search_term)) {
-                    MaBox_Search_Health::log_search_term($search_term, true);
+                    Npcink_Toolbox_Search_Health::log_search_term($search_term, true);
                 }
             }
             return $query;
         }
         public static function ajax_log_search() {
-            check_ajax_referer('mabox_public_nonce', 'nonce');
+            check_ajax_referer('npcink_site_toolbox_public_nonce', 'nonce');
             $term = isset($_POST['term']) && is_string($_POST['term'])
                 ? sanitize_text_field(wp_unslash($_POST['term']))
                 : '';
             if (!empty($term)) {
-                MaBox_Search_Health::log_search_term($term, true);
+                Npcink_Toolbox_Search_Health::log_search_term($term, true);
             }
             wp_send_json_success();
         }
         public static function rest_log_search($request) {
             $keyword = $request->get_param('keyword');
             if (!empty($keyword)) {
-                MaBox_Search_Health::log_search_term($keyword, true);
+                Npcink_Toolbox_Search_Health::log_search_term($keyword, true);
             }
             return rest_ensure_response(array('success' => true));
         }
         public static function mark_no_result() {
             $query = get_search_query();
             if (!empty($query)) {
-                MaBox_Search_Health::increment_no_result_count($query);
+                Npcink_Toolbox_Search_Health::increment_no_result_count($query);
             }
         }
     }

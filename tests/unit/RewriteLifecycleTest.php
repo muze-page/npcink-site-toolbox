@@ -69,7 +69,7 @@ if (!function_exists('get_taxonomy')) {
     }
 }
 
-class MaBox_Test_Category_Rewrite
+class Npcink_Toolbox_Test_Category_Rewrite
 {
     public $extra_permastructs = array(
         'category' => array('struct' => 'category/%category%'),
@@ -83,7 +83,7 @@ class MaBox_Test_Category_Rewrite
     }
 }
 
-class MaBox_Test_Category_Taxonomy
+class Npcink_Toolbox_Test_Category_Taxonomy
 {
     public $restore_count = 0;
 
@@ -95,7 +95,7 @@ class MaBox_Test_Category_Taxonomy
     }
 }
 
-require_once dirname(__DIR__, 2) . '/includes/interface-mabox-module.php';
+require_once dirname(__DIR__, 2) . '/includes/interface-npcink-toolbox-module.php';
 require_once dirname(__DIR__, 2) . '/admin/partials/optimize/site/category_link_simplify.php';
 
 class RewriteLifecycleTest extends TestCase
@@ -109,9 +109,9 @@ class RewriteLifecycleTest extends TestCase
         $GLOBALS['_test_mabox_filters'] = array();
         $GLOBALS['_test_mabox_removed_actions'] = array();
         $GLOBALS['_test_mabox_removed_filters'] = array();
-        $GLOBALS['_test_category_taxonomy'] = new MaBox_Test_Category_Taxonomy();
+        $GLOBALS['_test_category_taxonomy'] = new Npcink_Toolbox_Test_Category_Taxonomy();
         $GLOBALS['wp_version'] = '7.0.1';
-        $wp_rewrite = new MaBox_Test_Category_Rewrite();
+        $wp_rewrite = new Npcink_Toolbox_Test_Category_Rewrite();
     }
 
     public function test_main_file_registers_lifecycle_hooks_at_top_level(): void
@@ -120,14 +120,14 @@ class RewriteLifecycleTest extends TestCase
         $module = file_get_contents(dirname(__DIR__, 2) . '/admin/partials/optimize/site/category_link_simplify.php');
 
         $this->assertStringContainsString(
-            "register_activation_hook(__FILE__, array('MaBox_Category_Link_Simplify', 'activate'))",
+            "register_activation_hook(__FILE__, array('Npcink_Toolbox_Category_Link_Simplify', 'activate'))",
             $main
         );
         $this->assertStringContainsString(
-            "register_deactivation_hook(__FILE__, array('MaBox_Category_Link_Simplify', 'deactivate'))",
+            "register_deactivation_hook(__FILE__, array('Npcink_Toolbox_Category_Link_Simplify', 'deactivate'))",
             $main
         );
-        $this->assertStringContainsString("'update_option_' . MAGICK_MIXTURE_OPTION_OPTIMIZE", $main);
+        $this->assertStringContainsString("'update_option_' . NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE", $main);
         $this->assertStringNotContainsString('register_activation_hook', $module);
         $this->assertStringNotContainsString('register_deactivation_hook', $module);
     }
@@ -136,23 +136,23 @@ class RewriteLifecycleTest extends TestCase
     {
         global $wp_rewrite;
 
-        $GLOBALS['_test_option_store'][MAGICK_MIXTURE_OPTION_OPTIMIZE] = array(
+        $GLOBALS['_test_option_store'][NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE] = array(
             'site' => array('category_link_simplify' => false),
         );
-        MaBox_Category_Link_Simplify::activate();
+        Npcink_Toolbox_Category_Link_Simplify::activate();
 
         $this->assertSame('category/%category%', $wp_rewrite->extra_permastructs['category']['struct']);
         $this->assertSame(0, $wp_rewrite->flush_count);
 
-        $GLOBALS['_test_option_store'][MAGICK_MIXTURE_OPTION_OPTIMIZE]['site']['category_link_simplify'] = true;
-        MaBox_Category_Link_Simplify::activate();
+        $GLOBALS['_test_option_store'][NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE]['site']['category_link_simplify'] = true;
+        Npcink_Toolbox_Category_Link_Simplify::activate();
 
         $this->assertSame('%category%', $wp_rewrite->extra_permastructs['category']['struct']);
         $this->assertSame(1, $wp_rewrite->flush_count);
         $this->assertHookRegistered(
             $GLOBALS['_test_mabox_filters'],
             'category_rewrite_rules',
-            array('MaBox_Category_Link_Simplify', 'no_category_base_rewrite_rules')
+            array('Npcink_Toolbox_Category_Link_Simplify', 'no_category_base_rewrite_rules')
         );
     }
 
@@ -160,10 +160,10 @@ class RewriteLifecycleTest extends TestCase
     {
         global $wp_rewrite;
 
-        MaBox_Category_Link_Simplify::run();
+        Npcink_Toolbox_Category_Link_Simplify::run();
         $wp_rewrite->extra_permastructs['category']['struct'] = '%category%';
 
-        MaBox_Category_Link_Simplify::deactivate();
+        Npcink_Toolbox_Category_Link_Simplify::deactivate();
 
         $this->assertSame('category/%category%', $wp_rewrite->extra_permastructs['category']['struct']);
         $this->assertSame(1, $GLOBALS['_test_category_taxonomy']->restore_count);
@@ -173,7 +173,7 @@ class RewriteLifecycleTest extends TestCase
         $this->assertContains(
             array(
                 'category_rewrite_rules',
-                array('MaBox_Category_Link_Simplify', 'no_category_base_rewrite_rules'),
+                array('Npcink_Toolbox_Category_Link_Simplify', 'no_category_base_rewrite_rules'),
                 10,
             ),
             $GLOBALS['_test_mabox_removed_filters']
@@ -184,7 +184,7 @@ class RewriteLifecycleTest extends TestCase
     {
         global $wp_rewrite;
 
-        MaBox_Category_Link_Simplify::handle_optimize_option_update(
+        Npcink_Toolbox_Category_Link_Simplify::handle_optimize_option_update(
             array('site' => array('category_link_simplify' => false)),
             array('site' => array('category_link_simplify' => true))
         );
@@ -194,7 +194,7 @@ class RewriteLifecycleTest extends TestCase
         $this->assertHookRegistered(
             $GLOBALS['_test_mabox_filters'],
             'category_rewrite_rules',
-            array('MaBox_Category_Link_Simplify', 'no_category_base_rewrite_rules')
+            array('Npcink_Toolbox_Category_Link_Simplify', 'no_category_base_rewrite_rules')
         );
     }
 
@@ -202,10 +202,10 @@ class RewriteLifecycleTest extends TestCase
     {
         global $wp_rewrite;
 
-        MaBox_Category_Link_Simplify::run();
+        Npcink_Toolbox_Category_Link_Simplify::run();
         $wp_rewrite->extra_permastructs['category']['struct'] = '%category%';
 
-        MaBox_Category_Link_Simplify::handle_optimize_option_update(
+        Npcink_Toolbox_Category_Link_Simplify::handle_optimize_option_update(
             array('site' => array('category_link_simplify' => true)),
             array('site' => array('category_link_simplify' => false))
         );
@@ -221,23 +221,23 @@ class RewriteLifecycleTest extends TestCase
     {
         global $wp_rewrite;
 
-        MaBox_Category_Link_Simplify::handle_optimize_option_update(
+        Npcink_Toolbox_Category_Link_Simplify::handle_optimize_option_update(
             array('site' => array('category_link_simplify' => false, 'other' => 'old')),
             array('site' => array('category_link_simplify' => false, 'other' => 'new'))
         );
-        MaBox_Category_Link_Simplify::handle_optimize_option_update(
+        Npcink_Toolbox_Category_Link_Simplify::handle_optimize_option_update(
             array('site' => array('category_link_simplify' => true, 'other' => 'old')),
             array('site' => array('category_link_simplify' => true, 'other' => 'new'))
         );
-        MaBox_Category_Link_Simplify::handle_optimize_option_update(
+        Npcink_Toolbox_Category_Link_Simplify::handle_optimize_option_update(
             array('site' => array('category_link_simplify' => 'true')),
             array('site' => array('category_link_simplify' => 1))
         );
-        MaBox_Category_Link_Simplify::handle_optimize_option_update(
+        Npcink_Toolbox_Category_Link_Simplify::handle_optimize_option_update(
             array('site' => array('category_link_simplify' => 'true')),
             array('site' => array('category_link_simplify' => true))
         );
-        MaBox_Category_Link_Simplify::handle_optimize_option_update(
+        Npcink_Toolbox_Category_Link_Simplify::handle_optimize_option_update(
             array('site' => array('category_link_simplify' => false)),
             array('site' => array('category_link_simplify' => 1))
         );

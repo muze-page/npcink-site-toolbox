@@ -73,13 +73,13 @@ if (!function_exists('get_block_wrapper_attributes')) {
     }
 }
 
-require_once dirname(__DIR__, 2) . '/includes/class-mabox-site-stats.php';
+require_once dirname(__DIR__, 2) . '/includes/class-npcink-toolbox-site-stats.php';
 
 final class SiteStatsBlockTest extends TestCase
 {
     public function test_block_uses_metadata_registration_without_a_new_build_target(): void
     {
-        $source = $this->source('includes/class-mabox-site-stats.php');
+        $source = $this->source('includes/class-npcink-toolbox-site-stats.php');
         $editor = $this->source('blocks/site-stats/index.js');
         $main = $this->source('npcink-site-toolbox.php');
         $metadata = json_decode(
@@ -111,7 +111,7 @@ final class SiteStatsBlockTest extends TestCase
         $GLOBALS['_test_site_stats_categories'] = 9;
         $GLOBALS['_test_site_stats_users'] = 7;
 
-        $output = MaBox_Site_Stats::render_block(array(
+        $output = Npcink_Toolbox_Site_Stats::render_block(array(
             'title' => '<script>站点概览</script>',
             'showComments' => false,
         ));
@@ -127,7 +127,7 @@ final class SiteStatsBlockTest extends TestCase
 
     public function test_empty_selection_has_an_actionable_message(): void
     {
-        $output = MaBox_Site_Stats::render_block(array(
+        $output = Npcink_Toolbox_Site_Stats::render_block(array(
             'showPosts' => false,
             'showComments' => false,
             'showCategories' => false,

@@ -3,7 +3,7 @@
 defined('ABSPATH') || exit;
 //核心插件类。
 
-class Magick_Mixture
+class Npcink_Site_Toolbox
 {
     /**
      * 此插件的唯一标识符。
@@ -28,14 +28,16 @@ class Magick_Mixture
      */
     public function __construct()
     {
-        if (defined('MAGICK_MIXTURE_VERSION')) {
+        if (defined('NPCINK_SITE_TOOLBOX_VERSION')) {
             //有的话，拿到值
-            $this->version = MAGICK_MIXTURE_VERSION;
+            $this->version = NPCINK_SITE_TOOLBOX_VERSION;
         } else {
             //没有的话，设置默认插件版本号值
             $this->version = '1.0.3';
         }
-        $this->plugin_name = 'magick-tool-box';
+        $this->plugin_name = defined('NPCINK_SITE_TOOLBOX_NAME')
+            ? NPCINK_SITE_TOOLBOX_NAME
+            : 'npcink-site-toolbox';
 
         $this->load_dependencies(); //加载此插件所需的依赖项
         $this->define_admin_hooks(); //注册与后台功能相关的所有挂钩
@@ -62,25 +64,25 @@ class Magick_Mixture
     //私有的，只有本类内部可以使用
     private function load_dependencies()
     {
-        require_once plugin_dir_path(__FILE__) . 'class-magick-helpers.php';
+        require_once plugin_dir_path(__FILE__) . 'class-npcink-toolbox-helpers.php';
 
-        require_once plugin_dir_path(__FILE__) . 'class-magick-rate-limiter.php';
+        require_once plugin_dir_path(__FILE__) . 'class-npcink-toolbox-rate-limiter.php';
 
-        require_once plugin_dir_path(__FILE__) . 'class-magick-audit-logger.php';
+        require_once plugin_dir_path(__FILE__) . 'class-npcink-toolbox-audit-logger.php';
 
-        require_once plugin_dir_path(__FILE__) . 'class-magick-site-health.php';
+        require_once plugin_dir_path(__FILE__) . 'class-npcink-toolbox-site-health.php';
 
-        require_once plugin_dir_path(__FILE__) . 'class-magick-mixture-tool.php';
+        require_once plugin_dir_path(__FILE__) . 'class-npcink-toolbox-tool.php';
 
-        require_once plugin_dir_path(__FILE__) . 'class-mabox-config-schema.php';
+        require_once plugin_dir_path(__FILE__) . 'class-npcink-toolbox-config-schema.php';
 
-        require_once plugin_dir_path(__FILE__) . 'class-magick-config-manager.php';
+        require_once plugin_dir_path(__FILE__) . 'class-npcink-toolbox-config-manager.php';
 
         require_once plugin_dir_path(__FILE__) . '../admin/modules/loader.php';
 
-        require_once plugin_dir_path(__FILE__) . '../admin/class-magick-mixture-admin.php';
+        require_once plugin_dir_path(__FILE__) . '../admin/class-npcink-toolbox-admin.php';
 
-        require_once plugin_dir_path(__FILE__) . '../public/class-magick-mixture-public.php';
+        require_once plugin_dir_path(__FILE__) . '../public/class-npcink-toolbox-public.php';
     }
 
     /**
@@ -93,11 +95,11 @@ class Magick_Mixture
     private function define_admin_hooks()
     {
 
-        $plugin_admin = new MaBox_Admin($this->get_plugin_name(), $this->get_version());
+        $plugin_admin = new Npcink_Toolbox_Admin($this->get_plugin_name(), $this->get_version());
 
         // 站点健康检测
-        if (class_exists('MaBox_Site_Health')) {
-            MaBox_Site_Health::run();
+        if (class_exists('Npcink_Toolbox_Site_Health')) {
+            Npcink_Toolbox_Site_Health::run();
         }
 
 
@@ -119,7 +121,7 @@ class Magick_Mixture
     private function define_public_hooks()
     {
 
-        $plugin_public = new MaBox_Public($this->get_plugin_name(), $this->get_version());
+        $plugin_public = new Npcink_Toolbox_Public($this->get_plugin_name(), $this->get_version());
     }
 
     /**
@@ -129,9 +131,9 @@ class Magick_Mixture
      */
     public function run()
     {
-        add_filter('block_categories_all', array('MaBox_Block_Patterns', 'add_block_category'));
-        add_action('init', array('MaBox_Block_Patterns', 'register'));
-        add_action('init', array('MaBox_Site_Stats', 'register_block'));
+        add_filter('block_categories_all', array('Npcink_Toolbox_Block_Patterns', 'add_block_category'));
+        add_action('init', array('Npcink_Toolbox_Block_Patterns', 'register'));
+        add_action('init', array('Npcink_Toolbox_Site_Stats', 'register_block'));
 
         //对js文件进行module接入
         add_filter('script_loader_tag', array(__CLASS__, 'refund_type_script'), 10, 2);
@@ -166,18 +168,10 @@ class Magick_Mixture
     public static function refund_type_script($tag, $handle)
     {
         // 仅匹配本插件的 index.js（通过 handle 名称精确匹配）
-        if (strpos($handle, 'magick-tool-box') !== false && strpos($tag, 'index.js') !== false) {
+        if (strpos($handle, 'npcink-site-toolbox') !== false && strpos($tag, 'index.js') !== false) {
             // 在 script 标签中添加 type 属性
             $tag = str_replace('<script', '<script type="module"', $tag);
         }
         return $tag;
     }
-}
-
-/**
- * 向后兼容：旧类名别名
- * @deprecated 2.5.0 使用 Magick_Mixture 替代
- */
-if (!class_exists('Magick_Mixtrue')) {
-    class_alias('Magick_Mixture', 'Magick_Mixtrue');
 }

@@ -30,7 +30,7 @@ if (!function_exists('add_filter')) {
     }
 }
 
-require_once dirname(__DIR__, 2) . '/includes/interface-mabox-module.php';
+require_once dirname(__DIR__, 2) . '/includes/interface-npcink-toolbox-module.php';
 require_once dirname(__DIR__, 2) . '/admin/partials/optimize/medium/ban_auto_size.php';
 
 class MediaAutoSizeFilterTest extends TestCase
@@ -43,9 +43,9 @@ class MediaAutoSizeFilterTest extends TestCase
 
     public function test_intermediate_image_sizes_callback_is_registered_as_a_filter(): void
     {
-        MaBox_Medium_Ban_Auto_Size::run();
+        Npcink_Toolbox_Medium_Ban_Auto_Size::run();
 
-        $callback = array('MaBox_Medium_Ban_Auto_Size', 'shapeSpace_disable_image_sizes');
+        $callback = array('Npcink_Toolbox_Medium_Ban_Auto_Size', 'shapeSpace_disable_image_sizes');
         $this->assertHookRegistered(
             $GLOBALS['_test_mabox_filters'],
             'intermediate_image_sizes_advanced',
@@ -71,7 +71,7 @@ class MediaAutoSizeFilterTest extends TestCase
             'plugin-square' => array('width' => 640, 'height' => 640),
         );
 
-        $filtered = MaBox_Medium_Ban_Auto_Size::shapeSpace_disable_image_sizes($sizes);
+        $filtered = Npcink_Toolbox_Medium_Ban_Auto_Size::shapeSpace_disable_image_sizes($sizes);
 
         $this->assertSame(
             array(

@@ -5,8 +5,8 @@ defined('ABSPATH') || exit;
 /**
  * 一些公共函数
  */
-if (!class_exists('MaBox_Tool')) {
-    class MaBox_Tool
+if (!class_exists('Npcink_Toolbox_Tool')) {
+    class Npcink_Toolbox_Tool
     {
         /**
          * 获取 WordPress 站点本地日期时间。

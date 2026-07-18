@@ -7,8 +7,9 @@ Npcink Site Toolbox
 ├── PHP 后端（WordPress 插件标准架构）
 │   ├── npcink-site-toolbox.php          # 插件入口
 │   ├── includes/                     # 核心类
-│   │   ├── class-magick-mixture-admin.php   # 管理端
-│   │   └── class-magick-config-manager.php  # 配置管理
+│   │   ├── class-npcink-site-toolbox.php          # 主运行类
+│   │   └── class-npcink-toolbox-config-manager.php # 配置管理
+│   ├── admin/class-npcink-toolbox-admin.php       # 管理端
 │   ├── admin/                        # 后台功能模块
 │   │   ├── modules/                  # 模块注册表与加载器
 │   │   │   ├── registry.php          # 功能注册表
@@ -34,11 +35,11 @@ Npcink Site Toolbox
 
 | Option 键 | 存储内容 |
 |-----------|----------|
-| `Magick_ToolBox_Option_Optimize` | 站点、媒体和后台优化 |
-| `Magick_ToolBox_Option_Page` | 页面功能、外观和评论 |
-| `Magick_ToolBox_Option_Function` | SEO、统计与辅助功能 |
-| `Magick_ToolBox_Option_Domestic` | 国内生态配置 |
-| `Magick_ToolBox_Option_Performance` | OSS 和维护工具配置 |
+| `npcink_site_toolbox_optimize` | 站点、媒体和后台优化 |
+| `npcink_site_toolbox_page` | 页面功能、外观和评论 |
+| `npcink_site_toolbox_function` | SEO、统计与辅助功能 |
+| `npcink_site_toolbox_domestic` | 国内生态配置 |
+| `npcink_site_toolbox_performance` | OSS 和维护工具配置 |
 
 ### 数据流
 

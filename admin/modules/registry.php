@@ -13,7 +13,7 @@ return array(
 
     // ========== 站点优化 ==========
     'optimize.hide_top_toolbar' => array(
-        'class'       => 'MaBox_Hide_Top_Toolbar',
+        'class'       => 'Npcink_Toolbox_Hide_Top_Toolbar',
         'file'        => 'optimize/site/hide_top_toolbar.php',
         'option_key'  => 'optimize.site.hide_top_toolbar',
         'category'    => 'optimize',
@@ -27,7 +27,7 @@ return array(
         'preset_tags' => array('pure', 'blog'),
     ),
     'optimize.no_escape' => array(
-        'class'       => 'MaBox_No_Escape',
+        'class'       => 'Npcink_Toolbox_No_Escape',
         'file'        => 'optimize/site/no_escape.php',
         'option_key'  => 'optimize.site.no_escape',
         'category'    => 'optimize',
@@ -41,7 +41,7 @@ return array(
         'preset_tags' => array('pure', 'blog'),
     ),
     'optimize.remove_wp_version' => array(
-        'class'     => 'MaBox_Remove_WP_Version',
+        'class'     => 'Npcink_Toolbox_Remove_WP_Version',
         'file'      => 'optimize/site/remove_wp_version.php',
         'option_key'=> 'optimize.site.remove_RSS_version',
         'category'  => 'optimize',
@@ -49,7 +49,7 @@ return array(
         'risk_tags' => array('推荐', '安全'),
     ),
     'optimize.category_link_simplify' => array(
-        'class'     => 'MaBox_Category_Link_Simplify',
+        'class'     => 'Npcink_Toolbox_Category_Link_Simplify',
         'file'      => 'optimize/site/category_link_simplify.php',
         'option_key'=> 'optimize.site.category_link_simplify',
         'category'  => 'optimize',
@@ -57,7 +57,7 @@ return array(
         'risk_tags' => array('SEO'),
     ),
     'optimize.search_link_simplify' => array(
-        'class'     => 'MaBox_Search_Link_Simplify',
+        'class'     => 'Npcink_Toolbox_Search_Link_Simplify',
         'file'      => 'optimize/site/search_link_simplify.php',
         'option_key'=> 'optimize.site.search_link_simplify',
         'category'  => 'optimize',
@@ -65,7 +65,7 @@ return array(
         'risk_tags' => array('SEO'),
     ),
     'optimize.remove_sitemap_users' => array(
-        'class'     => 'MaBox_Remove_Sitemap_Users',
+        'class'     => 'Npcink_Toolbox_Remove_Sitemap_Users',
         'file'      => 'optimize/site/remove_sitemap_users.php',
         'option_key'=> 'optimize.site.remove_sitemap_users',
         'category'  => 'optimize',
@@ -73,7 +73,7 @@ return array(
         'risk_tags' => array('推荐', '安全'),
     ),
     'optimize.user_list_show_nickname' => array(
-        'class'     => 'MaBox_User_List_Show_Nickname',
+        'class'     => 'Npcink_Toolbox_User_List_Show_Nickname',
         'file'      => 'optimize/site/user_list_show_nickname.php',
         'option_key'=> 'optimize.site.user_list_show_nickname',
         'category'  => 'optimize',
@@ -81,7 +81,7 @@ return array(
         'risk_tags' => array('仅后台'),
     ),
     'optimize.cdn_replace' => array(
-        'class'       => 'MaBox_CDN_Replace',
+        'class'       => 'Npcink_Toolbox_CDN_Replace',
         'file'        => 'optimize/site/cdn_replace.php',
         'option_key'  => 'optimize.site.cdn_replace',
         'category'    => 'optimize',
@@ -96,7 +96,7 @@ return array(
         'preset_tags' => array('performance'),
     ),
     'optimize.hide_email_ip' => array(
-        'class'     => 'MaBox_Hide_Email_IP',
+        'class'     => 'Npcink_Toolbox_Hide_Email_IP',
         'file'      => 'optimize/site/hide_email_ip.php',
         'option_key'=> 'optimize.site.hide_email_ip',
         'category'  => 'optimize',
@@ -104,7 +104,7 @@ return array(
         'risk_tags' => array('推荐', '安全'),
     ),
     'optimize.widgets' => array(
-        'class'     => 'MaBox_Widgets',
+        'class'     => 'Npcink_Toolbox_Widgets',
         'file'      => 'optimize/widget/index.php',
         'option_key'=> 'optimize.widgets',
         'category'  => 'optimize',
@@ -113,7 +113,7 @@ return array(
         'risk_tags' => array('推荐'),
     ),
     'optimize.image_add_tag' => array(
-        'class'     => 'MaBox_Image_Add_Tag',
+        'class'     => 'Npcink_Toolbox_Image_Add_Tag',
         'file'      => 'optimize/medium/image_add_tag.php',
         'option_key'=> 'optimize.medium.img_add_tag',
         'category'  => 'optimize',
@@ -121,7 +121,7 @@ return array(
         'risk_tags' => array('推荐', 'SEO'),
     ),
     'optimize.ban_auto_size' => array(
-        'class'     => 'MaBox_Medium_Ban_Auto_Size',
+        'class'     => 'Npcink_Toolbox_Medium_Ban_Auto_Size',
         'file'      => 'optimize/medium/ban_auto_size.php',
         'option_key'=> 'optimize.medium.no_auto_size',
         'category'  => 'optimize',
@@ -130,7 +130,7 @@ return array(
         'risk_tags' => array('谨慎', '需主题兼容'),
     ),
     'optimize.svg_support' => array(
-        'class'     => 'MaBox_Medium_Svg_Support',
+        'class'     => 'Npcink_Toolbox_Medium_Svg_Support',
         'file'      => 'optimize/medium/svg_support.php',
         'option_key'=> 'optimize.medium.medium_add_svg',
         'category'  => 'optimize',
@@ -138,7 +138,7 @@ return array(
         'risk_tags' => array('进阶', 'XSS 风险'),
     ),
     'optimize.image_rename' => array(
-        'class'     => 'MaBox_Medium_Image_Rename',
+        'class'     => 'Npcink_Toolbox_Medium_Image_Rename',
         'file'      => 'optimize/medium/image_rename.php',
         'option_key'=> 'optimize.medium.upload_auto_name',
         'category'  => 'optimize',
@@ -147,7 +147,7 @@ return array(
         'risk_tags' => array('推荐'),
     ),
     'optimize.admin_single_add_user_screen' => array(
-        'class'     => 'MaBox_Admin_Single_Add_User_Screen',
+        'class'     => 'Npcink_Toolbox_Admin_Single_Add_User_Screen',
         'file'      => 'optimize/admin/single_add_user_screen.php',
         'option_key'=> 'optimize.admin.add_user',
         'category'  => 'optimize',
@@ -155,7 +155,7 @@ return array(
         'risk_tags' => array('仅后台'),
     ),
     'optimize.admin_add_time_screen' => array(
-        'class'     => 'MaBox_Admin_Add_Time_Screen',
+        'class'     => 'Npcink_Toolbox_Admin_Add_Time_Screen',
         'file'      => 'optimize/admin/add_time_screen.php',
         'option_key'=> 'optimize.admin.add_time',
         'category'  => 'optimize',
@@ -163,7 +163,7 @@ return array(
         'risk_tags' => array('仅后台'),
     ),
     'optimize.admin_single_show_id' => array(
-        'class'     => 'MaBox_Admin_Single_Show_ID',
+        'class'     => 'Npcink_Toolbox_Admin_Single_Show_ID',
         'file'      => 'optimize/admin/single_show_id.php',
         'option_key'=> 'optimize.admin.show_id',
         'category'  => 'optimize',
@@ -171,7 +171,7 @@ return array(
         'risk_tags' => array('仅后台'),
     ),
     'optimize.admin_thumbnail_switcher' => array(
-        'class'     => 'MaBox_Admin_Single_Thumbnail_Switcher',
+        'class'     => 'Npcink_Toolbox_Admin_Single_Thumbnail_Switcher',
         'file'      => 'optimize/admin/thumbnail_switcher/index.php',
         'option_key'=> 'optimize.admin.thumbnail_switcher',
         'category'  => 'optimize',
@@ -182,7 +182,7 @@ return array(
     // ========== 页面外观 ==========
 
     'page.reading_progress' => array(
-        'class'     => 'MaBox_Page_Reading_Progress',
+        'class'     => 'Npcink_Toolbox_Page_Reading_Progress',
         'file'      => 'page/exterior/reading_progress/index.php',
         'option_key'=> 'page.feature.reading_progress',
         'category'  => 'page',
@@ -192,7 +192,7 @@ return array(
     ),
     // ========== 页面评论 ==========
     'page.comment_interval' => array(
-        'class'     => 'MaBox_Page_Comment_Interval',
+        'class'     => 'Npcink_Toolbox_Page_Comment_Interval',
         'file'      => 'page/comment/comment_interval.php',
         'option_key'=> 'page.comment.interval',
         'category'  => 'page',
@@ -200,7 +200,7 @@ return array(
         'config_path' => 'page.comment',
     ),
     'page.limit_word_count' => array(
-        'class'     => 'MaBox_Comment_Limit_Word_Count',
+        'class'     => 'Npcink_Toolbox_Comment_Limit_Word_Count',
         'file'      => 'page/comment/limit_word_count.php',
         'option_key'=> 'page.comment.words_number',
         'category'  => 'page',
@@ -208,7 +208,7 @@ return array(
         'config_path' => 'page.comment',
     ),
     'page.ban_pure_english' => array(
-        'class'     => 'MaBox_Comment_Ban_Pure_English',
+        'class'     => 'Npcink_Toolbox_Comment_Ban_Pure_English',
         'file'      => 'page/comment/ban_pure_english.php',
         'option_key'=> 'page.comment.english',
         'category'  => 'page',
@@ -216,14 +216,14 @@ return array(
         'config_path' => 'page.comment',
     ),
     'page.only_comment_once' => array(
-        'class'     => 'MaBox_Comment_Only_Once',
+        'class'     => 'Npcink_Toolbox_Comment_Only_Once',
         'file'      => 'page/comment/only_comment_once.php',
         'option_key'=> 'page.comment.only',
         'category'  => 'page',
         'scope'     => 'frontend',
     ),
     'page.comment_sensitive_words' => array(
-        'class'     => 'MaBox_Comment_Sensitive_Words',
+        'class'     => 'Npcink_Toolbox_Comment_Sensitive_Words',
         'file'      => 'page/comment/sensitive_words.php',
         'option_key'=> 'page.comment.sensitive_words',
         'category'  => 'page',
@@ -232,14 +232,14 @@ return array(
     ),
     // ========== 页面功能 ==========
     'page.first_picture' => array(
-        'class'     => 'MaBox_Single_First_Picture',
+        'class'     => 'Npcink_Toolbox_Single_First_Picture',
         'file'      => 'page/function/first_picture.php',
         'option_key'=> 'page.function.first_picture',
         'category'  => 'page',
         'scope'     => 'frontend',
     ),
     'page.single_keyword_add_link' => array(
-        'class'     => 'MaBox_Single_Keyword_Add_Link',
+        'class'     => 'Npcink_Toolbox_Single_Keyword_Add_Link',
         'file'      => 'page/function/single_keyword_add_link.php',
         'option_key'=> 'page.function.add_inks',
         'category'  => 'page',
@@ -247,21 +247,21 @@ return array(
         'label'     => '关键词自动内链',
     ),
     'page.add_article_update_time' => array(
-        'class'     => 'MaBox_Single_Add_Last_Updated_Date',
+        'class'     => 'Npcink_Toolbox_Single_Add_Last_Updated_Date',
         'file'      => 'page/function/add_article_update_time.php',
         'option_key'=> 'page.function.add_last_update',
         'category'  => 'page',
         'scope'     => 'frontend',
     ),
     'page.unlisted_vague_img' => array(
-        'class'     => 'MaBox_Unlisted_Vague_Img',
+        'class'     => 'Npcink_Toolbox_Unlisted_Vague_Img',
         'file'      => 'page/function/unlisted_vague_img.php',
         'option_key'=> 'page.function.no_login_img',
         'category'  => 'page',
         'scope'     => 'frontend',
     ),
     'page.maintenance_tips' => array(
-        'class'     => 'MaBox_Maintenance_Tips',
+        'class'     => 'Npcink_Toolbox_Maintenance_Tips',
         'file'      => 'page/function/maintenance_tips.php',
         'option_key'=> 'page.function.maintenance_tips',
         'category'  => 'page',
@@ -269,7 +269,7 @@ return array(
         'config_path' => 'page.function',
     ),
     'page.default_thumbnail' => array(
-        'class'     => 'MaBox_Page_Default_Thumbnail',
+        'class'     => 'Npcink_Toolbox_Page_Default_Thumbnail',
         'file'      => 'page/function/default_thumbnail.php',
         'option_key'=> 'page.function.default_thumbnail',
         'category'  => 'page',
@@ -277,7 +277,7 @@ return array(
         'config_path' => 'page.function',
     ),
     'page.search_limit' => array(
-        'class'     => 'MaBox_Page_Search_Limit',
+        'class'     => 'Npcink_Toolbox_Page_Search_Limit',
         'file'      => 'page/function/search_limit.php',
         'option_key'=> 'page.function.search_limit',
         'category'  => 'page',
@@ -285,7 +285,7 @@ return array(
         'config_path' => 'page.function',
     ),
     'page.login_search' => array(
-        'class'     => 'MaBox_Page_Login_Search',
+        'class'     => 'Npcink_Toolbox_Page_Login_Search',
         'file'      => 'page/function/login_search.php',
         'option_key'=> 'page.function.login_search',
         'category'  => 'page',
@@ -294,7 +294,7 @@ return array(
 
     // ========== 页面权限 ==========
     'page.hide_category' => array(
-        'class'     => 'MaBox_Page_Hide_Category',
+        'class'     => 'Npcink_Toolbox_Page_Hide_Category',
         'file'      => 'page/jurisdiction/hide_category.php',
         'option_key'=> 'page.jurisdiction.category_id',
         'category'  => 'page',
@@ -304,7 +304,7 @@ return array(
         'risk_tags' => array('仅前台'),
     ),
     'page.hide_tag' => array(
-        'class'     => 'MaBox_Page_Hide_Tag',
+        'class'     => 'Npcink_Toolbox_Page_Hide_Tag',
         'file'      => 'page/jurisdiction/hide_tag.php',
         'option_key'=> 'page.jurisdiction.tag_id',
         'category'  => 'page',
@@ -314,7 +314,7 @@ return array(
         'risk_tags' => array('仅前台'),
     ),
     'page.hide_page' => array(
-        'class'     => 'MaBox_Page_Hide_Page',
+        'class'     => 'Npcink_Toolbox_Page_Hide_Page',
         'file'      => 'page/jurisdiction/hide_page.php',
         'option_key'=> 'page.jurisdiction.page_id',
         'category'  => 'page',
@@ -326,7 +326,7 @@ return array(
 
     // ========== SEO ==========
     'seo.seo_home' => array(
-        'class'     => 'MaBox_Seo_Home',
+        'class'     => 'Npcink_Toolbox_Seo_Home',
         'file'      => 'function/seo/seo_home.php',
         'option_key'=> 'function.seo.seo_home',
         'category'  => 'function',
@@ -335,7 +335,7 @@ return array(
         'risk_tags' => array('推荐', 'SEO'),
     ),
     'seo.seo_single' => array(
-        'class'     => 'MaBox_Seo_Single',
+        'class'     => 'Npcink_Toolbox_Seo_Single',
         'file'      => 'function/seo/seo_single.php',
         'option_key'=> 'function.seo.seo_single',
         'category'  => 'function',
@@ -343,7 +343,7 @@ return array(
         'risk_tags' => array('推荐', 'SEO'),
     ),
     'seo.seo_category_add_meat' => array(
-        'class'     => 'MaBox_Seo_Category_Add_Meat',
+        'class'     => 'Npcink_Toolbox_Seo_Category_Add_Meat',
         'file'      => 'function/seo/seo_category_add_meat.php',
         'option_key'=> 'function.seo.seo_category',
         'category'  => 'function',
@@ -351,7 +351,7 @@ return array(
         'risk_tags' => array('SEO'),
     ),
     'seo.seo_category' => array(
-        'class'     => 'MaBox_Seo_Category',
+        'class'     => 'Npcink_Toolbox_Seo_Category',
         'file'      => 'function/seo/seo_category.php',
         'option_key'=> 'function.seo.seo_category',
         'category'  => 'function',
@@ -359,7 +359,7 @@ return array(
         'risk_tags' => array('SEO'),
     ),
     'seo.seo_tag' => array(
-        'class'     => 'MaBox_Seo_Tag',
+        'class'     => 'Npcink_Toolbox_Seo_Tag',
         'file'      => 'function/seo/seo_tag.php',
         'option_key'=> 'function.seo.seo_category',
         'category'  => 'function',
@@ -369,14 +369,14 @@ return array(
 
     // ========== 辅助功能 ==========
     'auxiliary.census_single' => array(
-        'class'     => 'MaBox_Census_Single',
+        'class'     => 'Npcink_Toolbox_Census_Single',
         'file'      => 'function/auxiliary/census-single.php',
         'option_key'=> 'function.auxiliary.single_count',
         'category'  => 'function',
         'scope'     => 'both',
     ),
     'auxiliary.ban_malice_search' => array(
-        'class'     => 'MaBox_Ban_Malice_Search',
+        'class'     => 'Npcink_Toolbox_Ban_Malice_Search',
         'file'      => 'function/auxiliary/ban_malice_search.php',
         'option_key'=> 'function.auxiliary.no_malice_key',
         'category'  => 'function',
@@ -384,7 +384,7 @@ return array(
         'config_path' => 'function.auxiliary',
     ),
     'auxiliary.baidu_tonji' => array(
-        'class'     => 'MaBox_Baidu_Tonji',
+        'class'     => 'Npcink_Toolbox_Baidu_Tonji',
         'file'      => 'function/auxiliary/baidu_tonji.php',
         'option_key'=> 'function.auxiliary.baidu_tonji',
         'category'  => 'function',
@@ -393,7 +393,7 @@ return array(
         'label'     => '百度统计',
     ),
     'auxiliary.google_tonji' => array(
-        'class'     => 'MaBox_Google_Tonji',
+        'class'     => 'Npcink_Toolbox_Google_Tonji',
         'file'      => 'function/auxiliary/google_tonji.php',
         'option_key'=> 'function.auxiliary.google_tonji',
         'category'  => 'function',
@@ -402,7 +402,7 @@ return array(
         'label'     => 'Google Analytics',
     ),
     'auxiliary.biying_tonji' => array(
-        'class'     => 'MaBox_Biying_Tonji',
+        'class'     => 'Npcink_Toolbox_Biying_Tonji',
         'file'      => 'function/auxiliary/biying_tonji.php',
         'option_key'=> 'function.auxiliary.biying_tonji',
         'category'  => 'function',
@@ -413,7 +413,7 @@ return array(
 
     // ========== 页面 jurisdiction interface ==========
     'page.interface_category_data' => array(
-        'class'     => 'MaBox_Interface_Category_Data',
+        'class'     => 'Npcink_Toolbox_Interface_Category_Data',
         'file'      => 'page/jurisdiction/interface_category_data.php',
         'option_key'=> 'page.jurisdiction.category_id',
         'category'  => 'page',
@@ -422,7 +422,7 @@ return array(
 
     // ========== 国内生态 - 备案与合规 ==========
     'domestic.compliance' => array(
-        'class'     => 'MaBox_Domestic_Compliance',
+        'class'     => 'Npcink_Toolbox_Domestic_Compliance',
         'file'      => 'domestic/compliance/index.php',
         'option_key'=> 'domestic.compliance.icp_enabled',
         'category'  => 'domestic',
@@ -433,7 +433,7 @@ return array(
 
     // ========== 国内生态 - 微信生态 ==========
     'domestic.wechat' => array(
-        'class'     => 'MaBox_Domestic_Wechat',
+        'class'     => 'Npcink_Toolbox_Domestic_Wechat',
         'file'      => 'domestic/wechat/index.php',
         'option_key'=> 'domestic.wechat.jssdk_enabled',
         'category'  => 'domestic',
@@ -444,7 +444,7 @@ return array(
 
     // ========== 国内生态 - 评论安全 ==========
     'domestic.comment_security' => array(
-        'class'     => 'MaBox_Domestic_Comment_Security',
+        'class'     => 'Npcink_Toolbox_Domestic_Comment_Security',
         'file'      => 'domestic/comment_security/index.php',
         'option_key'=> 'domestic.comment_security.blacklist_enabled',
         'category'  => 'domestic',
@@ -455,7 +455,7 @@ return array(
 
     // ========== 国内生态 - 登录安全 ==========
     'domestic.login_security' => array(
-        'class'            => 'MaBox_Domestic_Login_Security',
+        'class'            => 'Npcink_Toolbox_Domestic_Login_Security',
         'file'             => 'domestic/login_security/index.php',
         'option_key'       => 'domestic.login_security.attempt_limit_enabled',
         'activation_paths' => array(
@@ -475,7 +475,7 @@ return array(
 
     // ========== 性能优化 - 对象存储 ==========
     'performance.oss' => array(
-        'class'     => 'MaBox_Performance_Oss',
+        'class'     => 'Npcink_Toolbox_Performance_Oss',
         'file'      => 'performance/oss/index.php',
         'option_key'=> 'performance.oss.enabled',
         'category'  => 'performance',
@@ -486,7 +486,7 @@ return array(
 
     // ========== 性能优化 - SEO检查 ==========
     'performance.seo_checker' => array(
-        'class'     => 'MaBox_Performance_Seo_Checker',
+        'class'     => 'Npcink_Toolbox_Performance_Seo_Checker',
         'file'      => 'performance/seo_checker/index.php',
         'option_key'=> 'performance.seo_checker.enabled',
         'category'  => 'performance',
@@ -497,7 +497,7 @@ return array(
 
     // ========== 性能优化 - 媒体库体检 ==========
     'performance.media_health' => array(
-        'class'     => 'MaBox_Performance_Media_Health',
+        'class'     => 'Npcink_Toolbox_Performance_Media_Health',
         'file'      => 'performance/media_health/index.php',
         'option_key'=> 'performance.media_health.enabled',
         'category'  => 'performance',
@@ -508,7 +508,7 @@ return array(
 
     // ========== 性能优化 - 搜索增强 ==========
     'performance.search_enhance' => array(
-        'class'     => 'MaBox_Performance_Search_Enhance',
+        'class'     => 'Npcink_Toolbox_Performance_Search_Enhance',
         'file'      => 'performance/search_enhance/index.php',
         'option_key'=> 'performance.search_enhance.highlight_enabled',
         'category'  => 'performance',
@@ -519,7 +519,7 @@ return array(
 
     // ========== 性能优化 - 数据库清理 ==========
     'performance.db_clean' => array(
-        'class'     => 'MaBox_Performance_Db_Clean',
+        'class'     => 'Npcink_Toolbox_Performance_Db_Clean',
         'file'      => 'performance/db_clean/index.php',
         'option_key'=> 'performance.db_clean.enabled',
         'category'  => 'performance',

@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 /**
  * Shared site-statistics provider and dynamic block renderer.
  */
-final class MaBox_Site_Stats
+final class Npcink_Toolbox_Site_Stats
 {
     /** @var array<string,array{label:string,value:int}>|null */
     private static $cached_stats;

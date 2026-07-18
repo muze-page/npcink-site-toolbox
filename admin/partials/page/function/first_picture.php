@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源：https://www.huitheme.com/wordpress-auto-featured-image.html
  */
 
-if (!class_exists('MaBox_Single_First_Picture')) {
-    class MaBox_Single_First_Picture implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Single_First_Picture')) {
+    class Npcink_Toolbox_Single_First_Picture implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {

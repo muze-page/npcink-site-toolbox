@@ -7,13 +7,13 @@ use PHPUnit\Framework\TestCase;
 class MetadataAggregationTest extends TestCase {
 
     public function test_metadata_class_exists(): void {
-        $this->assertTrue(class_exists('MaBox_Module_Metadata'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Module_Metadata'));
     }
 
     public function test_registry_is_the_single_source_with_stable_module_order(): void {
-        MaBox_Module_Metadata::reset_cache();
+        Npcink_Toolbox_Module_Metadata::reset_cache();
         $registry = require dirname(__DIR__, 2) . '/admin/modules/registry.php';
-        $metadata = MaBox_Module_Metadata::get_registry();
+        $metadata = Npcink_Toolbox_Module_Metadata::get_registry();
 
         $this->assertCount(55, $registry);
         $this->assertSame(self::expected_module_ids(), array_keys($registry));
@@ -21,8 +21,8 @@ class MetadataAggregationTest extends TestCase {
     }
 
     public function test_four_sidecar_metadata_entries_are_folded_exactly_into_registry(): void {
-        MaBox_Module_Metadata::reset_cache();
-        $registry = MaBox_Module_Metadata::get_registry();
+        Npcink_Toolbox_Module_Metadata::reset_cache();
+        $registry = Npcink_Toolbox_Module_Metadata::get_registry();
 
         foreach (self::expected_folded_metadata() as $module_id => $expected) {
             $this->assertArrayHasKey($module_id, $registry);
@@ -59,8 +59,8 @@ class MetadataAggregationTest extends TestCase {
     }
 
     public function test_ui_metadata_excludes_internal_keys_and_preserves_public_fields(): void {
-        MaBox_Module_Metadata::reset_cache();
-        $ui = MaBox_Module_Metadata::get_ui_metadata();
+        Npcink_Toolbox_Module_Metadata::reset_cache();
+        $ui = Npcink_Toolbox_Module_Metadata::get_ui_metadata();
 
         $this->assertIsArray($ui);
         $this->assertCount(55, $ui);
@@ -83,18 +83,18 @@ class MetadataAggregationTest extends TestCase {
     }
 
     public function test_get_module_keeps_public_behavior(): void {
-        MaBox_Module_Metadata::reset_cache();
+        Npcink_Toolbox_Module_Metadata::reset_cache();
 
-        $this->assertNull(MaBox_Module_Metadata::get_module('nonexistent.module'));
+        $this->assertNull(Npcink_Toolbox_Module_Metadata::get_module('nonexistent.module'));
         $this->assertSame(
             self::expected_folded_metadata()['optimize.hide_top_toolbar'],
-            MaBox_Module_Metadata::get_module('optimize.hide_top_toolbar')
+            Npcink_Toolbox_Module_Metadata::get_module('optimize.hide_top_toolbar')
         );
     }
 
     public function test_required_keys_are_present_in_all_modules(): void {
-        MaBox_Module_Metadata::reset_cache();
-        $registry = MaBox_Module_Metadata::get_registry();
+        Npcink_Toolbox_Module_Metadata::reset_cache();
+        $registry = Npcink_Toolbox_Module_Metadata::get_registry();
         $required = array('class', 'file', 'option_key', 'category', 'scope');
 
         foreach ($registry as $module_id => $meta) {
@@ -105,11 +105,11 @@ class MetadataAggregationTest extends TestCase {
     }
 
     public function test_loader_registry_and_login_security_activation_contract_are_unchanged(): void {
-        MaBox_Module_Metadata::reset_cache();
+        Npcink_Toolbox_Module_Metadata::reset_cache();
         $registry = require dirname(__DIR__, 2) . '/admin/modules/registry.php';
 
-        $this->assertSame($registry, MaBox_Module_Metadata::get_registry());
-        $this->assertSame($registry, MaBox_Module_Loader::get_registry());
+        $this->assertSame($registry, Npcink_Toolbox_Module_Metadata::get_registry());
+        $this->assertSame($registry, Npcink_Toolbox_Module_Loader::get_registry());
         $this->assertSame(array(
             'domestic.login_security.attempt_limit_enabled',
             'domestic.login_security.anonymous_author_guard_enabled',
@@ -123,10 +123,10 @@ class MetadataAggregationTest extends TestCase {
                 ),
             ),
         );
-        $this->assertContains('domestic.login_security', MaBox_Module_Loader::get_active_modules($config));
+        $this->assertContains('domestic.login_security', Npcink_Toolbox_Module_Loader::get_active_modules($config));
 
         $config['domestic']['login_security']['anonymous_author_guard_enabled'] = false;
-        $this->assertNotContains('domestic.login_security', MaBox_Module_Loader::get_active_modules($config));
+        $this->assertNotContains('domestic.login_security', Npcink_Toolbox_Module_Loader::get_active_modules($config));
     }
 
     private static function expected_module_ids(): array {
@@ -192,7 +192,7 @@ class MetadataAggregationTest extends TestCase {
     private static function expected_folded_metadata(): array {
         return array(
             'optimize.hide_top_toolbar' => array(
-                'class'       => 'MaBox_Hide_Top_Toolbar',
+                'class'       => 'Npcink_Toolbox_Hide_Top_Toolbar',
                 'file'        => 'optimize/site/hide_top_toolbar.php',
                 'option_key'  => 'optimize.site.hide_top_toolbar',
                 'category'    => 'optimize',
@@ -206,7 +206,7 @@ class MetadataAggregationTest extends TestCase {
                 'preset_tags' => array('pure', 'blog'),
             ),
             'optimize.no_escape' => array(
-                'class'       => 'MaBox_No_Escape',
+                'class'       => 'Npcink_Toolbox_No_Escape',
                 'file'        => 'optimize/site/no_escape.php',
                 'option_key'  => 'optimize.site.no_escape',
                 'category'    => 'optimize',
@@ -220,7 +220,7 @@ class MetadataAggregationTest extends TestCase {
                 'preset_tags' => array('pure', 'blog'),
             ),
             'optimize.cdn_replace' => array(
-                'class'       => 'MaBox_CDN_Replace',
+                'class'       => 'Npcink_Toolbox_CDN_Replace',
                 'file'        => 'optimize/site/cdn_replace.php',
                 'option_key'  => 'optimize.site.cdn_replace',
                 'category'    => 'optimize',
@@ -235,7 +235,7 @@ class MetadataAggregationTest extends TestCase {
                 'preset_tags' => array('performance'),
             ),
             'domestic.login_security' => array(
-                'class'            => 'MaBox_Domestic_Login_Security',
+                'class'            => 'Npcink_Toolbox_Domestic_Login_Security',
                 'file'             => 'domestic/login_security/index.php',
                 'option_key'       => 'domestic.login_security.attempt_limit_enabled',
                 'activation_paths' => array(

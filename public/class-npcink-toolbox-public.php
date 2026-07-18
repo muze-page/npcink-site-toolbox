@@ -8,8 +8,8 @@ defined('ABSPATH') || exit;
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    magick_mixture
- * @subpackage magick_mixture/public
+ * @package    Npcink_Site_Toolbox
+ * @subpackage Npcink_Site_Toolbox/public
  */
 
 /**
@@ -18,11 +18,11 @@ defined('ABSPATH') || exit;
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    magick_mixture
- * @subpackage magick_mixture/public
+ * @package    Npcink_Site_Toolbox
+ * @subpackage Npcink_Site_Toolbox/public
  * @author     Your Name <email@example.com>
  */
-class MaBox_Public
+class Npcink_Toolbox_Public
 {
 
     /**
@@ -69,10 +69,10 @@ class MaBox_Public
         //准备地址
         $url_css = plugin_dir_url(__FILE__) . 'css/mami-public.css';
         wp_enqueue_style(
-            MAGICK_MIXTURE_NAME . '_mami-public',
+            NPCINK_SITE_TOOLBOX_NAME . '_mami-public',
             $url_css,
             array(),
-            MAGICK_MIXTURE_VERSION,
+            NPCINK_SITE_TOOLBOX_VERSION,
             'all'
         );
     }

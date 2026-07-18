@@ -77,8 +77,8 @@ describe('admin build contract scanner', () => {
   it('locks relative base, manifest graph, fixed entry/CSS and hashed lazy assets', () => {
     const config = readRelativeFile('../vite.config.ts');
     const packageManifest = readRelativeFile('../../package.json');
-    const adminPhp = readRelativeFile('../../../admin/class-magick-mixture-admin.php');
-    const pluginPhp = readRelativeFile('../../../includes/class-magick-mixture.php');
+    const adminPhp = readRelativeFile('../../../admin/class-npcink-toolbox-admin.php');
+    const pluginPhp = readRelativeFile('../../../includes/class-npcink-site-toolbox.php');
     const htmlSource = readRelativeFile('../index.html');
     const bootstrapSource = readRelativeFile('./bootstrap.ts');
 

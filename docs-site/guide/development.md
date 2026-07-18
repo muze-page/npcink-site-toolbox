@@ -11,21 +11,21 @@
 /**
  * 功能：新功能说明
  */
-if (!class_exists('MaBox_Page_New_Feature')) {
-    class MaBox_Page_New_Feature {
+if (!class_exists('Npcink_Toolbox_Page_New_Feature')) {
+    class Npcink_Toolbox_Page_New_Feature implements Npcink_Toolbox_Module_Interface {
         private static $option;
 
         public static function run($config) {
             self::$option = $config;
             // 仅在功能开启时注册 Hook
-            $enabled = MaBox_Helpers::get_config('page', 'new_feature_enabled', false);
+            $enabled = Npcink_Toolbox_Helpers::get_config('page', 'new_feature_enabled', false);
             if ($enabled) {
                 add_action('wp_footer', array(__CLASS__, 'display'));
             }
         }
 
         public static function display() {
-            $text = MaBox_Helpers::get_config('page', 'new_feature_text', 'Hello');
+            $text = Npcink_Toolbox_Helpers::get_config('page', 'new_feature_text', 'Hello');
             echo esc_html($text);
         }
     }
@@ -38,7 +38,7 @@ if (!class_exists('MaBox_Page_New_Feature')) {
 
 ```php
 'page.new_feature' => array(
-    'class'     => 'MaBox_Page_New_Feature',
+    'class'     => 'Npcink_Toolbox_Page_New_Feature',
     'file'      => 'page/new_feature.php',
     'option_key'=> 'page.function.new_feature_enabled',
     'category'  => 'page',
@@ -65,7 +65,7 @@ if (!class_exists('MaBox_Page_New_Feature')) {
 
 ### 3. 定义设置契约
 
-在 `includes/class-mabox-config-schema.php` 的对应字段中定义类型、默认值、校验和搜索元数据：
+在 `includes/class-npcink-toolbox-config-schema.php` 的对应字段中定义类型、默认值、校验和搜索元数据：
 
 ```php
 'new_feature_enabled' => array(
@@ -190,10 +190,10 @@ export {};
 
 ## 模块接口契约
 
-所有模块应实现 `MaBox_Module_Interface`：
+所有模块应实现 `Npcink_Toolbox_Module_Interface`：
 
 ```php
-class MaBox_My_Module implements MaBox_Module_Interface {
+class Npcink_Toolbox_My_Module implements Npcink_Toolbox_Module_Interface {
     public static function run($config = array()) {
         // 初始化逻辑
     }
@@ -229,7 +229,7 @@ GitHub Actions 自动运行：
 
 ### PHP
 - 使用 4 空格缩进
-- 类名使用 `MaBox_` 前缀
+- 类名使用 `Npcink_Toolbox_` 前缀；主运行类使用 `Npcink_Site_Toolbox`
 - 静态类方法，不使用实例化
 - 所有字符串使用 `__()` 国际化
 

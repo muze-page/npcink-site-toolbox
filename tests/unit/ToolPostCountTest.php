@@ -31,7 +31,7 @@ if (!function_exists('wp_count_posts')) {
     }
 }
 
-require_once dirname(__FILE__) . '/../../includes/class-magick-mixture-tool.php';
+require_once dirname(__FILE__) . '/../../includes/class-npcink-toolbox-tool.php';
 
 final class ToolPostCountTest extends TestCase
 {
@@ -99,7 +99,7 @@ final class ToolPostCountTest extends TestCase
     }
 }
 
-final class PostCountMaBoxTool extends MaBox_Tool
+final class PostCountMaBoxTool extends Npcink_Toolbox_Tool
 {
     private static $currentSiteDateTime;
 

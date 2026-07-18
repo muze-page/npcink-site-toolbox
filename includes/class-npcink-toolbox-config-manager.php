@@ -7,18 +7,18 @@ defined('ABSPATH') || exit;
  *
  * @since 2.1.0
  */
-if (!class_exists('MaBox_Config_Manager')) {
-    class MaBox_Config_Manager {
+if (!class_exists('Npcink_Toolbox_Config_Manager')) {
+    class Npcink_Toolbox_Config_Manager {
 
         /**
          * 顶层配置模块与 WordPress Option 的唯一映射。
          */
         private static $module_map = array(
-            'optimize'    => MAGICK_MIXTURE_OPTION_OPTIMIZE,
-            'page'        => MAGICK_MIXTURE_OPTION_PAGE,
-            'function'    => MAGICK_MIXTURE_OPTION_FUNCTION,
-            'domestic'    => MAGICK_MIXTURE_OPTION_DOMESTIC,
-            'performance' => MAGICK_MIXTURE_OPTION_PERFORMANCE,
+            'optimize'    => NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE,
+            'page'        => NPCINK_SITE_TOOLBOX_OPTION_PAGE,
+            'function'    => NPCINK_SITE_TOOLBOX_OPTION_FUNCTION,
+            'domestic'    => NPCINK_SITE_TOOLBOX_OPTION_DOMESTIC,
+            'performance' => NPCINK_SITE_TOOLBOX_OPTION_PERFORMANCE,
         );
 
         /**
@@ -58,7 +58,7 @@ if (!class_exists('MaBox_Config_Manager')) {
             $config = is_array($config) ? $config : self::get_merged_config();
             // 新安装时 Option 尚不存在，但读取契约仍必须向前端提供
             // 完整且已清洗的配置结构，避免各设置组件自行猜测缺失分支。
-            $validation = MaBox_Config_Schema::validate_full_config($config);
+            $validation = Npcink_Toolbox_Config_Schema::validate_full_config($config);
             $data = $validation['data'];
             $status = array();
 
@@ -89,7 +89,7 @@ if (!class_exists('MaBox_Config_Manager')) {
                 return array('success' => false, 'error' => '设置数据格式无效');
             }
 
-            $structure = MaBox_Config_Schema::validate_browser_settings($settings);
+            $structure = Npcink_Toolbox_Config_Schema::validate_browser_settings($settings);
             if (!$structure['valid']) {
                 $message = !empty($structure['errors'][0]) ? $structure['errors'][0] : '设置结构无效';
                 return array('success' => false, 'error' => $message);
@@ -301,7 +301,7 @@ if (!class_exists('MaBox_Config_Manager')) {
 
         public static function get_secret_paths() {
             $paths = array();
-            $schema = MaBox_Config_Schema::get_schema();
+            $schema = Npcink_Toolbox_Config_Schema::get_schema();
 
             foreach ($schema as $module_key => $module_def) {
                 if (!is_array($module_def) || $module_key === '_option_key' || $module_key === '_flat') {

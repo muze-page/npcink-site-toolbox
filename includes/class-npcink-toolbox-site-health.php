@@ -9,8 +9,8 @@ defined('ABSPATH') || exit;
  *
  * @since 2.4.0
  */
-if (!class_exists('MaBox_Site_Health')) {
-    class MaBox_Site_Health
+if (!class_exists('Npcink_Toolbox_Site_Health')) {
+    class Npcink_Toolbox_Site_Health
     {
         /**
          * 注册站点健康检测项
@@ -27,37 +27,37 @@ if (!class_exists('MaBox_Site_Health')) {
         public static function add_tests($tests)
         {
             // 直接检测（不依赖 REST API）
-            $tests['direct']['mabox_php_version'] = array(
+            $tests['direct']['npcink_site_toolbox_php_version'] = array(
                 'label' => __('PHP 版本', 'npcink-site-toolbox'),
                 'test'  => array(__CLASS__, 'test_php_version'),
             );
 
-            $tests['direct']['mabox_wp_version'] = array(
+            $tests['direct']['npcink_site_toolbox_wp_version'] = array(
                 'label' => __('WordPress 版本', 'npcink-site-toolbox'),
                 'test'  => array(__CLASS__, 'test_wp_version'),
             );
 
-            $tests['direct']['mabox_permalink'] = array(
+            $tests['direct']['npcink_site_toolbox_permalink'] = array(
                 'label' => __('伪静态（固定链接）', 'npcink-site-toolbox'),
                 'test'  => array(__CLASS__, 'test_permalink'),
             );
 
-            $tests['direct']['mabox_object_cache'] = array(
+            $tests['direct']['npcink_site_toolbox_object_cache'] = array(
                 'label' => __('对象缓存', 'npcink-site-toolbox'),
                 'test'  => array(__CLASS__, 'test_object_cache'),
             );
 
-            $tests['direct']['mabox_rest_api'] = array(
+            $tests['direct']['npcink_site_toolbox_rest_api'] = array(
                 'label' => __('REST API 可用性', 'npcink-site-toolbox'),
                 'test'  => array(__CLASS__, 'test_rest_api'),
             );
 
-            $tests['direct']['mabox_module_count'] = array(
+            $tests['direct']['npcink_site_toolbox_module_count'] = array(
                 'label' => __('已激活模块数', 'npcink-site-toolbox'),
                 'test'  => array(__CLASS__, 'test_module_count'),
             );
 
-            $tests['direct']['mabox_high_risk_modules'] = array(
+            $tests['direct']['npcink_site_toolbox_high_risk_modules'] = array(
                 'label' => __('高风险模块检查', 'npcink-site-toolbox'),
                 'test'  => array(__CLASS__, 'test_high_risk_modules'),
             );
@@ -112,7 +112,7 @@ if (!class_exists('MaBox_Site_Health')) {
                     'https://wordpress.org/support/update-php/',
                     __('了解如何升级 PHP 版本', 'npcink-site-toolbox')
                 ),
-                'test'        => 'mabox_php_version',
+                'test'        => 'npcink_site_toolbox_php_version',
             );
 
             return $result;
@@ -159,7 +159,7 @@ if (!class_exists('MaBox_Site_Health')) {
                     admin_url('update-core.php'),
                     __('检查更新', 'npcink-site-toolbox')
                 ),
-                'test'        => 'mabox_wp_version',
+                'test'        => 'npcink_site_toolbox_wp_version',
             );
 
             return $result;
@@ -197,7 +197,7 @@ if (!class_exists('MaBox_Site_Health')) {
                     admin_url('options-permalink.php'),
                     __('设置固定链接', 'npcink-site-toolbox')
                 ),
-                'test'        => 'mabox_permalink',
+                'test'        => 'npcink_site_toolbox_permalink',
             );
 
             return $result;
@@ -230,7 +230,7 @@ if (!class_exists('MaBox_Site_Health')) {
                     'https://wordpress.org/plugins/search/object+cache/',
                     __('浏览对象缓存插件', 'npcink-site-toolbox')
                 ),
-                'test'        => 'mabox_object_cache',
+                'test'        => 'npcink_site_toolbox_object_cache',
             );
 
             return $result;
@@ -272,7 +272,7 @@ if (!class_exists('MaBox_Site_Health')) {
                     '<p>%s</p>',
                     __('请检查是否有安全插件或服务器配置阻止了 REST API 访问。', 'npcink-site-toolbox')
                 ),
-                'test'        => 'mabox_rest_api',
+                'test'        => 'npcink_site_toolbox_rest_api',
             );
 
             return $result;
@@ -283,7 +283,7 @@ if (!class_exists('MaBox_Site_Health')) {
          */
         public static function test_module_count()
         {
-            if (!class_exists('MaBox_Module_Loader')) {
+            if (!class_exists('Npcink_Toolbox_Module_Loader')) {
                 return array(
                     'label'  => __('模块检测不可用', 'npcink-site-toolbox'),
                     'status' => 'recommended',
@@ -292,13 +292,13 @@ if (!class_exists('MaBox_Site_Health')) {
                         'color' => 'blue',
                     ),
                     'description' => '<p>模块加载器未初始化。</p>',
-                    'test'   => 'mabox_module_count',
+                    'test'   => 'npcink_site_toolbox_module_count',
                 );
             }
 
-            $active = get_option(MAGICK_TOOLBOX_ACTIVE_MODULES, array());
+            $active = get_option(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES, array());
             $count = count($active);
-            $total = count(MaBox_Module_Loader::get_all_module_ids());
+            $total = count(Npcink_Toolbox_Module_Loader::get_all_module_ids());
 
             $result = array(
                 'label'       => sprintf(
@@ -321,7 +321,7 @@ if (!class_exists('MaBox_Site_Health')) {
                         $total
                     )
                 ),
-                'test'        => 'mabox_module_count',
+                'test'        => 'npcink_site_toolbox_module_count',
             );
 
             return $result;
@@ -332,7 +332,7 @@ if (!class_exists('MaBox_Site_Health')) {
          */
         public static function test_high_risk_modules()
         {
-            if (!class_exists('MaBox_Module_Loader')) {
+            if (!class_exists('Npcink_Toolbox_Module_Loader')) {
                 return array(
                     'label'  => __('模块检测不可用', 'npcink-site-toolbox'),
                     'status' => 'recommended',
@@ -341,12 +341,12 @@ if (!class_exists('MaBox_Site_Health')) {
                         'color' => 'blue',
                     ),
                     'description' => '<p>模块加载器未初始化。</p>',
-                    'test'   => 'mabox_high_risk_modules',
+                    'test'   => 'npcink_site_toolbox_high_risk_modules',
                 );
             }
 
-            $active = get_option(MAGICK_TOOLBOX_ACTIVE_MODULES, array());
-            $tiers = MaBox_Module_Loader::get_tiers();
+            $active = get_option(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES, array());
+            $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
             $high_risk_active = array();
 
             if (isset($tiers['high_risk'])) {
@@ -369,7 +369,7 @@ if (!class_exists('MaBox_Site_Health')) {
                         'color' => 'blue',
                     ),
                     'description' => '<p>当前未启用任何高风险或实验性模块，站点运行状态安全。</p>',
-                    'test'        => 'mabox_high_risk_modules',
+                    'test'        => 'npcink_site_toolbox_high_risk_modules',
                 );
             }
 
@@ -404,7 +404,7 @@ if (!class_exists('MaBox_Site_Health')) {
                     'color' => 'blue',
                 ),
                 'description' => $desc,
-                'test'        => 'mabox_high_risk_modules',
+                'test'        => 'npcink_site_toolbox_high_risk_modules',
             );
 
             return $result;

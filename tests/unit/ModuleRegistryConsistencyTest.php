@@ -16,7 +16,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_registry_module_files_exist(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         $partials_dir = self::$plugin_dir . '/admin/partials/';
 
         foreach ($registry as $module_id => $meta) {
@@ -33,7 +33,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
             class_alias('ModuleRegistryWpWidgetStub', 'WP_Widget');
         }
 
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         $partials_dir = self::$plugin_dir . '/admin/partials/';
 
         foreach ($registry as $module_id => $meta) {
@@ -46,8 +46,8 @@ class ModuleRegistryConsistency_Test extends TestCase {
 
             $class = new ReflectionClass($meta['class']);
             $this->assertTrue(
-                $class->implementsInterface('MaBox_Module_Interface'),
-                "Module '$module_id' should implement MaBox_Module_Interface"
+                $class->implementsInterface('Npcink_Toolbox_Module_Interface'),
+                "Module '$module_id' should implement Npcink_Toolbox_Module_Interface"
             );
             $this->assertFalse(
                 $class->hasMethod('runs'),
@@ -72,7 +72,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_parameterized_modules_receive_their_configuration_subtree(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         $expected_paths = array(
             'page.maintenance_tips'       => 'page.function',
             'page.hide_category'          => 'page.jurisdiction',
@@ -95,8 +95,8 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_domestic_login_security_has_exact_activation_and_schema_contracts(): void {
-        $registry = MaBox_Module_Loader::get_registry();
-        $schema = MaBox_Config_Schema::get_schema();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $meta = $registry['domestic.login_security'];
         $login_schema = $schema['domestic']['login_security'];
 
@@ -150,7 +150,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
         $autoload = file_get_contents(self::$plugin_dir . '/includes/autoload.php');
 
         $this->assertStringContainsString(
-            "'MaBox_Module_Interface' => 'includes/interface-mabox-module.php'",
+            "'Npcink_Toolbox_Module_Interface' => 'includes/interface-npcink-toolbox-module.php'",
             $autoload
         );
     }
@@ -162,62 +162,62 @@ class ModuleRegistryConsistency_Test extends TestCase {
 
     public function test_no_escape_class_exists(): void {
         require_once self::$plugin_dir . '/admin/partials/optimize/site/no_escape.php';
-        $this->assertTrue(class_exists('MaBox_No_Escape'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_No_Escape'));
     }
 
     public function test_no_escape_implements_interface(): void {
         $this->assertTrue(
-            is_subclass_of('MaBox_No_Escape', 'MaBox_Module_Interface'),
-            'MaBox_No_Escape should implement MaBox_Module_Interface'
+            is_subclass_of('Npcink_Toolbox_No_Escape', 'Npcink_Toolbox_Module_Interface'),
+            'Npcink_Toolbox_No_Escape should implement Npcink_Toolbox_Module_Interface'
         );
     }
 
     public function test_no_escape_has_run_method(): void {
-        $this->assertTrue(method_exists('MaBox_No_Escape', 'run'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_No_Escape', 'run'));
     }
 
     public function test_h5_main_removed_from_registry(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         $this->assertArrayNotHasKey('h5.main', $registry);
     }
 
     public function test_function_b2_removed_from_registry(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         $this->assertArrayNotHasKey('function.b2', $registry);
     }
 
     public function test_h5_main_removed_from_tiers(): void {
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         foreach ($tiers as $tier => $modules) {
             $this->assertNotContains('h5.main', $modules, "h5.main should not be in tier '$tier'");
         }
     }
 
     public function test_function_b2_removed_from_tiers(): void {
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         foreach ($tiers as $tier => $modules) {
             $this->assertNotContains('function.b2', $modules, "function.b2 should not be in tier '$tier'");
         }
     }
 
     public function test_ai_review_runtime_removed_from_backend_contracts(): void {
-        $schema = MaBox_Config_Schema::get_schema();
-        $map = MaBox_Config_Manager::get_module_map();
-        $registry = MaBox_Module_Loader::get_registry();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         $autoload = file_get_contents(self::$plugin_dir . '/includes/autoload.php');
 
         $this->assertArrayNotHasKey('ai_review', $schema);
         $this->assertArrayNotHasKey('ai_review', $map);
         $this->assertArrayNotHasKey('ai_review.main', $registry);
-        $this->assertStringNotContainsString('MaBox_Ai_', $autoload);
+        $this->assertStringNotContainsString('Npcink_Toolbox_Ai_', $autoload);
         $this->assertDirectoryDoesNotExist(self::$plugin_dir . '/admin/partials/ai_review');
     }
 
     public function test_noop_function_config_module_is_removed_from_backend_contracts(): void {
-        $schema = MaBox_Config_Schema::get_schema();
-        $defaults = MaBox_Config_Schema::get_defaults();
-        $registry = MaBox_Module_Loader::get_registry();
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $defaults = Npcink_Toolbox_Config_Schema::get_defaults();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         $autoload = file_get_contents(self::$plugin_dir . '/includes/autoload.php');
 
         $this->assertCount(55, $registry);
@@ -228,7 +228,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
             $this->assertNotContains('function.config', $modules, $tier);
         }
         $this->assertIsString($autoload);
-        $this->assertStringNotContainsString("'MaBox_Config' =>", $autoload);
+        $this->assertStringNotContainsString("'Npcink_Toolbox_Config' =>", $autoload);
         $this->assertStringNotContainsString('function/config/index.php', $autoload);
         $this->assertFileDoesNotExist(
             self::$plugin_dir . '/admin/partials/function/config/index.php'
@@ -236,9 +236,9 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_retired_credential_integrations_are_removed_from_backend_contracts(): void {
-        $schema = MaBox_Config_Schema::get_schema();
-        $registry = MaBox_Module_Loader::get_registry();
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         $autoload = file_get_contents(self::$plugin_dir . '/includes/autoload.php');
 
         $this->assertArrayNotHasKey('baidu_push', $schema['domestic']);
@@ -249,8 +249,8 @@ class ModuleRegistryConsistency_Test extends TestCase {
             $this->assertNotContains('domestic.baidu_push', $modules);
             $this->assertNotContains('page.anti_crawler', $modules);
         }
-        $this->assertStringNotContainsString('MaBox_Domestic_Baidu_Push', $autoload);
-        $this->assertStringNotContainsString('MaBox_Page_Anti_Crawler', $autoload);
+        $this->assertStringNotContainsString('Npcink_Toolbox_Domestic_Baidu_Push', $autoload);
+        $this->assertStringNotContainsString('Npcink_Toolbox_Page_Anti_Crawler', $autoload);
         $this->assertDirectoryDoesNotExist(self::$plugin_dir . '/admin/partials/domestic/baidu_push');
         $this->assertDirectoryDoesNotExist(self::$plugin_dir . '/admin/partials/page/function/anti_crawler');
     }
@@ -280,18 +280,18 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_has_no_h5_branch(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $this->assertArrayNotHasKey('h5', $schema);
     }
 
     public function test_schema_has_no_b2_branch(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $this->assertIsArray($schema['function']);
         $this->assertArrayNotHasKey('b2', $schema['function']);
     }
 
     public function test_config_manager_has_no_h5_mapping(): void {
-        $map = MaBox_Config_Manager::get_module_map();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
         $this->assertArrayNotHasKey('h5', $map);
     }
 
@@ -305,7 +305,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     public function test_census_single_no_b2_div_id(): void {
         $file = self::$plugin_dir . '/admin/partials/function/auxiliary/census-single.php';
         $content = file_get_contents($file);
-        $this->assertStringNotContainsString('MaBox_b2_shop_count', $content);
+        $this->assertStringNotContainsString('Npcink_Toolbox_b2_shop_count', $content);
     }
 
     public function test_count_frontend_source_and_dashboard_page_asset_contract_exist(): void {
@@ -314,17 +314,17 @@ class ModuleRegistryConsistency_Test extends TestCase {
 
         $loader = file_get_contents(self::$plugin_dir . '/admin/partials/function/auxiliary/census-single.php');
         // WordPress maps an index.php submenu to dashboard_page_{$menu_slug}, not index_page_{$menu_slug}.
-        $this->assertStringContainsString("'dashboard_page_magick-census-single'", $loader);
-        $this->assertStringNotContainsString("'index_page_magick-census-single'", $loader);
+        $this->assertStringContainsString("'dashboard_page_npcink-site-toolbox-census'", $loader);
+        $this->assertStringNotContainsString("'index_page_npcink-site-toolbox-census'", $loader);
         $this->assertStringContainsString("'vite/count/dist/index.css'", $loader);
         $this->assertStringContainsString("'vite/count/dist/index.js'", $loader);
         $this->assertStringContainsString('filemtime($build_css_path)', $loader);
         $this->assertStringContainsString('filemtime($build_js_path)', $loader);
-        $this->assertStringContainsString("MAGICK_MIXTURE_NAME . '_census_css'", $loader);
-        $this->assertSame(2, substr_count($loader, "MAGICK_MIXTURE_NAME . '_census_js'"));
-        $this->assertStringContainsString("wp_localize_script(MAGICK_MIXTURE_NAME . '_census_js', 'dataLocal'", $loader);
+        $this->assertStringContainsString("NPCINK_SITE_TOOLBOX_NAME . '_census_css'", $loader);
+        $this->assertSame(2, substr_count($loader, "NPCINK_SITE_TOOLBOX_NAME . '_census_js'"));
+        $this->assertStringContainsString("wp_localize_script(NPCINK_SITE_TOOLBOX_NAME . '_census_js', 'dataLocal'", $loader);
         $this->assertStringContainsString("'countData' => self::deliver_data()", $loader);
-        $this->assertStringContainsString('id="mabox_census_count"', $loader);
+        $this->assertStringContainsString('id="npcink_site_toolbox_census_count"', $loader);
     }
 
     public function test_retired_vite_public_project_is_absent(): void {
@@ -390,28 +390,28 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_p0_modules_removed_from_registry(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         foreach (self::removedP0Modules() as $module_id) {
             $this->assertArrayNotHasKey($module_id, $registry, "$module_id should not be in registry");
         }
     }
 
     public function test_p1_modules_removed_from_registry(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         foreach (self::removedP1Modules() as $module_id) {
             $this->assertArrayNotHasKey($module_id, $registry, "$module_id should not be in registry");
         }
     }
 
     public function test_p2_modules_removed_from_registry(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         foreach (self::removedP2Modules() as $module_id) {
             $this->assertArrayNotHasKey($module_id, $registry, "$module_id should not be in registry");
         }
     }
 
     public function test_p0_modules_removed_from_tiers(): void {
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         foreach (self::removedP0Modules() as $module_id) {
             foreach ($tiers as $tier => $modules) {
                 $this->assertNotContains($module_id, $modules, "$module_id should not be in tier '$tier'");
@@ -420,7 +420,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_p1_modules_removed_from_tiers(): void {
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         foreach (self::removedP1Modules() as $module_id) {
             foreach ($tiers as $tier => $modules) {
                 $this->assertNotContains($module_id, $modules, "$module_id should not be in tier '$tier'");
@@ -429,7 +429,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_p2_modules_removed_from_tiers(): void {
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         foreach (self::removedP2Modules() as $module_id) {
             foreach ($tiers as $tier => $modules) {
                 $this->assertNotContains($module_id, $modules, "$module_id should not be in tier '$tier'");
@@ -438,14 +438,14 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_p3_modules_removed_from_registry(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         foreach (self::removedP3Modules() as $module_id) {
             $this->assertArrayNotHasKey($module_id, $registry, "$module_id should not be in registry");
         }
     }
 
     public function test_p3_modules_removed_from_tiers(): void {
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         foreach (self::removedP3Modules() as $module_id) {
             foreach ($tiers as $tier => $modules) {
                 $this->assertNotContains($module_id, $modules, "$module_id should not be in tier '$tier'");
@@ -454,14 +454,14 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_p4_modules_removed_from_registry(): void {
-        $registry = MaBox_Module_Loader::get_registry();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
         foreach (self::removedP4Modules() as $module_id) {
             $this->assertArrayNotHasKey($module_id, $registry, "$module_id should not be in registry");
         }
     }
 
     public function test_p4_modules_removed_from_tiers(): void {
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         foreach (self::removedP4Modules() as $module_id) {
             foreach ($tiers as $tier => $modules) {
                 $this->assertNotContains($module_id, $modules, "$module_id should not be in tier '$tier'");
@@ -568,7 +568,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_has_no_removed_branches(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $this->assertArrayNotHasKey('template', $schema);
         $this->assertArrayNotHasKey('services', $schema);
         $this->assertArrayNotHasKey('feedback', $schema);
@@ -576,7 +576,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_page_feature_has_no_removed_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $feature = $schema['page']['feature'];
         $removed_feature_fields = ['particle', 'screen_hair', 'lantern', 'lantern_left', 'lantern_right', 'pixel_chicken', 'past_books', 'bottom_effect', 'background_effect'];
         foreach ($removed_feature_fields as $field) {
@@ -585,7 +585,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_page_feature_has_no_p3_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $feature = $schema['page']['feature'];
         $removed = ['top_loading', 'scrol', 'site_grey', 'copy_pop_up', 'page_scrolling', 'font_switch', 'fonts', 'font_position'];
         foreach ($removed as $field) {
@@ -594,7 +594,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_page_function_has_no_p3_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $func = $schema['page']['function'];
         $removed = ['share', 'share_position', 'share_top', 'share_margins', 'share_text', 'share_email_email', 'share_email_title', 'share_email_content', 'share_img_home', 'share_img_page', 'share_img_about', 'switch_lang_jf'];
         foreach ($removed as $field) {
@@ -603,15 +603,15 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_page_comment_has_no_p3_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $this->assertArrayNotHasKey('comment_emote', $schema['page']['comment'], 'page.comment.comment_emote should not exist in schema');
     }
 
     public function test_legacy_login_verification_removed_from_backend_contracts(): void {
-        $schema = MaBox_Config_Schema::get_schema();
-        $map = MaBox_Config_Manager::get_module_map();
-        $registry = MaBox_Module_Loader::get_registry();
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
         $autoload = file_get_contents(self::$plugin_dir . '/includes/autoload.php');
         $plugin = file_get_contents(self::$plugin_dir . '/npcink-site-toolbox.php');
         $uninstall = file_get_contents(self::$plugin_dir . '/uninstall.php');
@@ -621,27 +621,27 @@ class ModuleRegistryConsistency_Test extends TestCase {
         foreach ($tiers as $modules) {
             $this->assertNotContains('login.login_verify', $modules);
         }
-        $this->assertStringNotContainsString('MaBox_Login_Verify', $autoload);
+        $this->assertStringNotContainsString('Npcink_Toolbox_Login_Verify', $autoload);
         $this->assertFileDoesNotExist(self::$plugin_dir . '/admin/partials/login/security/login_verify.php');
 
         $this->assertArrayNotHasKey('login', $schema);
         $this->assertArrayNotHasKey('login', $map);
-        $this->assertArrayNotHasKey('login', MaBox_Config_Schema::get_defaults());
-        $this->assertFalse(defined('MAGICK_MIXTURE_OPTION_LOGIN'));
+        $this->assertArrayNotHasKey('login', Npcink_Toolbox_Config_Schema::get_defaults());
+        $this->assertFalse(defined('NPCINK_SITE_TOOLBOX_OPTION_LOGIN'));
 
-        $legacy_browser_settings = MaBox_Config_Schema::get_defaults();
+        $legacy_browser_settings = Npcink_Toolbox_Config_Schema::get_defaults();
         $legacy_browser_settings['login'] = array('security' => array('login_code' => 'math'));
-        $legacy_validation = MaBox_Config_Schema::validate_browser_settings($legacy_browser_settings);
+        $legacy_validation = Npcink_Toolbox_Config_Schema::validate_browser_settings($legacy_browser_settings);
         $this->assertFalse($legacy_validation['valid']);
         $this->assertContains('settings.login 不是已知字段', $legacy_validation['errors']);
 
-        $this->assertStringNotContainsString('MAGICK_MIXTURE_OPTION_LOGIN', $plugin);
+        $this->assertStringNotContainsString('NPCINK_SITE_TOOLBOX_OPTION_LOGIN', $plugin);
         $this->assertStringNotContainsString('Magick_ToolBox_Option_Login', $uninstall);
         $this->assertStringNotContainsString('login/security/login_verify.php', $phpstan);
     }
 
     public function test_schema_page_function_has_no_removed_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $func = $schema['page']['function'];
         $this->assertArrayNotHasKey('article_rating', $func);
         $this->assertArrayNotHasKey('batch_replace', $func);
@@ -653,7 +653,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_page_jurisdiction_has_no_removed_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $this->assertArrayNotHasKey('front_debug', $schema['page']['jurisdiction']);
         $this->assertArrayNotHasKey('ban_open_weixing', $schema['page']['jurisdiction']);
         $this->assertArrayNotHasKey('ban_open_qq', $schema['page']['jurisdiction']);
@@ -661,7 +661,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_page_comment_has_no_p4_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $comment = $schema['page']['comment'];
         $removed = [
             'modify_comment_user',
@@ -676,7 +676,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_config_manager_has_no_removed_mappings(): void {
-        $map = MaBox_Config_Manager::get_module_map();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
         $this->assertArrayNotHasKey('template', $map);
         $this->assertArrayNotHasKey('services', $map);
         $this->assertArrayNotHasKey('feedback', $map);
@@ -758,12 +758,12 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_has_no_shortcode_branch(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $this->assertArrayNotHasKey('shortcode', $schema);
     }
 
     public function test_schema_page_feature_has_no_p2_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $feature = $schema['page']['feature'];
         $removed = ['title', 'go_top', 'page_back_top_cat_right'];
         foreach ($removed as $field) {
@@ -772,7 +772,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_schema_page_function_has_no_p2_fields(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $func = $schema['page']['function'];
         $removed = ['color_tag', 'top_ad', 'top_ad_content', 'top_ad_position', 'header_notice', 'header_notice_text', 'header_notice_color', 'header_notice_link', 'header_notice_dismissible', 'link_source', 'source_key'];
         foreach ($removed as $field) {
@@ -781,7 +781,7 @@ class ModuleRegistryConsistency_Test extends TestCase {
     }
 
     public function test_config_manager_has_no_shortcode_mapping(): void {
-        $map = MaBox_Config_Manager::get_module_map();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
         $this->assertArrayNotHasKey('shortcode', $map);
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname(__DIR__, 2) . '/includes/interface-mabox-module.php';
+require_once dirname(__DIR__, 2) . '/includes/interface-npcink-toolbox-module.php';
 require_once dirname(__DIR__, 2) . '/admin/partials/function/auxiliary/census-single.php';
 
 final class MiscOutputComplianceTest extends TestCase
@@ -51,14 +51,14 @@ final class MiscOutputComplianceTest extends TestCase
     {
         $this->assertSame(
             array('option_id' => array(3, 7, 12)),
-            MaBox_Census_Single::sanitize_options(array(
+            Npcink_Toolbox_Census_Single::sanitize_options(array(
                 'option_id' => array('3', '03', 3, 0, -7, '7.5', 'abc', 7, ' 12 '),
                 'unexpected' => 'discard me',
             ))
         );
         $this->assertSame(
             array('option_id' => array()),
-            MaBox_Census_Single::sanitize_options('invalid')
+            Npcink_Toolbox_Census_Single::sanitize_options('invalid')
         );
     }
 

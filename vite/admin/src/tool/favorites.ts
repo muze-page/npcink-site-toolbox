@@ -1,6 +1,6 @@
 import { notice } from "@/tool/notice";
 
-const FAVORITES_KEY = "mabox_favorites";
+const FAVORITES_KEY = "npcink_site_toolbox_favorites";
 
 export function getFavorites(): string[] {
   try {

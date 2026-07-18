@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源：https://www.npc.ink/17995.html
  */
 
-if (!class_exists('MaBox_Comment_Limit_Word_Count')) {
-    class MaBox_Comment_Limit_Word_Count implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Comment_Limit_Word_Count')) {
+    class Npcink_Toolbox_Comment_Limit_Word_Count implements Npcink_Toolbox_Module_Interface
     {
         public static $option; //配置
         public static function run($config = array())
@@ -19,8 +19,8 @@ if (!class_exists('MaBox_Comment_Limit_Word_Count')) {
 
         public static function set_comments_length($approved, $commentdata)
         {
-            $minCommentlength =  MaBox_Admin::get_config(self::$option, 'words_number_min'); //最少字數限制
-            $maxCommentlength = MaBox_Admin::get_config(self::$option, 'words_number_max'); //最多字數限制
+            $minCommentlength =  Npcink_Toolbox_Admin::get_config(self::$option, 'words_number_min'); //最少字數限制
+            $maxCommentlength = Npcink_Toolbox_Admin::get_config(self::$option, 'words_number_max'); //最多字數限制
             $pointCommentlength = mb_strlen($commentdata['comment_content'], 'UTF8'); //mb_strlen 1個中文字符當作1個長度
             if ($pointCommentlength < $minCommentlength) {
                 return new \WP_Error('comment_too_short', '抱歉，您的评论字数过少，请至少输入' . $minCommentlength . '个字（目前字数：' . $pointCommentlength . '个字）');

@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源：
  */
 
-if (!class_exists('MaBox_Maintenance_Tips')) {
-    class MaBox_Maintenance_Tips implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Maintenance_Tips')) {
+    class Npcink_Toolbox_Maintenance_Tips implements Npcink_Toolbox_Module_Interface
     {
 
         private static $configs; //配置
@@ -21,7 +21,7 @@ if (!class_exists('MaBox_Maintenance_Tips')) {
          */
         public static function run($config = array())
         {
-            self::$configs = MaBox_Admin::get_config($config, 'maintenance_tips', 'false'); //展示类型
+            self::$configs = Npcink_Toolbox_Admin::get_config($config, 'maintenance_tips', 'false'); //展示类型
             self::$blogname =  get_bloginfo('name');
             self::$blogdescription = get_bloginfo('description');
             self::$url = plugin_dir_url((__FILE__)) . 'maintenance/';
@@ -60,7 +60,7 @@ if (!class_exists('MaBox_Maintenance_Tips')) {
                 'mabox-maintenance-responsive',
                 self::$url . 'responsive.css',
                 array(),
-                MAGICK_MIXTURE_VERSION
+                NPCINK_SITE_TOOLBOX_VERSION
             );
         }
 

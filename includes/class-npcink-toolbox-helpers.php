@@ -8,8 +8,8 @@ defined('ABSPATH') || exit;
  * 此类在插件初始化时必然加载，模块可安全调用。
  */
 
-if (!class_exists('MaBox_Helpers')) {
-    class MaBox_Helpers
+if (!class_exists('Npcink_Toolbox_Helpers')) {
+    class Npcink_Toolbox_Helpers
     {
         /**
          * 获取用户真实 IP
@@ -50,11 +50,11 @@ if (!class_exists('MaBox_Helpers')) {
         }
 
         /**
-         * 安全获取配置值（直接读取 Config_Manager，不依赖 MaBox_Admin）
+         * 安全获取配置值（直接读取 Config_Manager，不依赖 Npcink_Toolbox_Admin）
          */
         public static function get_config($module, $key, $default = false)
         {
-            $module_config = MaBox_Config_Manager::get_module_config($module);
+            $module_config = Npcink_Toolbox_Config_Manager::get_module_config($module);
             if (is_array($module_config) && array_key_exists($key, $module_config)) {
                 return $module_config[$key];
             }
@@ -66,7 +66,7 @@ if (!class_exists('MaBox_Helpers')) {
          */
         public static function get_merged_config()
         {
-            return MaBox_Config_Manager::get_merged_config();
+            return Npcink_Toolbox_Config_Manager::get_merged_config();
         }
     }
 }

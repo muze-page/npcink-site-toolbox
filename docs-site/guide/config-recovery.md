@@ -24,7 +24,7 @@
 在 `wp-config.php` 的“停止编辑”注释之前加入：
 
 ```php
-define( 'MABOX_DISABLE_LOGIN_PROTECTION', true );
+define( 'NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION', true );
 ```
 
 重新登录后台后，关闭“登录尝试保护”并保存，再从 `wp-config.php` 删除该常量。不要把紧急常量作为长期功能开关。
@@ -35,7 +35,7 @@ define( 'MABOX_DISABLE_LOGIN_PROTECTION', true );
 
 ```bash
 wp --path=/path/to/wordpress option patch update \
-  Magick_ToolBox_Option_Domestic \
+  npcink_site_toolbox_domestic \
   login_security attempt_limit_enabled false \
   --format=json
 
@@ -46,7 +46,7 @@ wp --path=/path/to/wordpress cache flush
 
 ```bash
 wp --path=/path/to/wordpress option get \
-  Magick_ToolBox_Option_Domestic \
+  npcink_site_toolbox_domestic \
   --format=json
 ```
 

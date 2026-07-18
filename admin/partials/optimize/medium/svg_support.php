@@ -11,8 +11,8 @@ defined('ABSPATH') || exit;
  * 2. 上传时清洗 SVG 内容（移除危险标签和属性）
  * 3. 使用 wp_check_filetype_and_ext 验证文件类型
  */
-if (!class_exists('MaBox_Medium_Svg_Support')) {
-    class MaBox_Medium_Svg_Support implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Medium_Svg_Support')) {
+    class Npcink_Toolbox_Medium_Svg_Support implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())
@@ -145,8 +145,8 @@ if (!class_exists('MaBox_Medium_Svg_Support')) {
             }
 
             // 记录日志
-            if (class_exists('MaBox_Audit_Logger')) {
-                MaBox_Audit_Logger::file('SVG 上传已清洗: ' . $file['name'], array(
+            if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+                Npcink_Toolbox_Audit_Logger::file('SVG 上传已清洗: ' . $file['name'], array(
                     'user_id' => get_current_user_id(),
                 ));
             }

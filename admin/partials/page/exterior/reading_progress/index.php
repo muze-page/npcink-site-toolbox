@@ -2,8 +2,8 @@
 
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Page_Reading_Progress')) {
-    class MaBox_Page_Reading_Progress implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Page_Reading_Progress')) {
+    class Npcink_Toolbox_Page_Reading_Progress implements Npcink_Toolbox_Module_Interface
     {
         private static $option;
 
@@ -22,17 +22,17 @@ if (!class_exists('MaBox_Page_Reading_Progress')) {
 
             $dir = plugin_dir_url(__DIR__) . 'reading_progress/';
             wp_enqueue_style(
-                MAGICK_MIXTURE_NAME . '_reading_progress_css',
+                NPCINK_SITE_TOOLBOX_NAME . '_reading_progress_css',
                 $dir . 'style.css',
                 array(),
-                MAGICK_MIXTURE_VERSION,
+                NPCINK_SITE_TOOLBOX_VERSION,
                 false
             );
             wp_enqueue_script(
-                MAGICK_MIXTURE_NAME . '_reading_progress_js',
+                NPCINK_SITE_TOOLBOX_NAME . '_reading_progress_js',
                 $dir . 'script.js',
                 array(),
-                MAGICK_MIXTURE_VERSION,
+                NPCINK_SITE_TOOLBOX_VERSION,
                 true
             );
         }
@@ -43,8 +43,8 @@ if (!class_exists('MaBox_Page_Reading_Progress')) {
                 return;
             }
 
-            $color = MaBox_Admin::get_config(self::$option, 'reading_progress_color', '#1677ff');
-            $height = MaBox_Admin::get_config(self::$option, 'reading_progress_height', 3);
+            $color = Npcink_Toolbox_Admin::get_config(self::$option, 'reading_progress_color', '#1677ff');
+            $height = Npcink_Toolbox_Admin::get_config(self::$option, 'reading_progress_height', 3);
 
             if (empty($color)) {
                 $color = '#1677ff';

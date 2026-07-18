@@ -275,7 +275,7 @@ describe("riskyFeature", () => {
 
       const confirmOptions = vi.mocked(Modal.confirm).mock.calls[0][0];
       expect(JSON.stringify(confirmOptions.content)).toContain(
-        "确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 MABOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。",
+        "确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。",
       );
       confirmOptions.onOk?.();
       expect(onConfirm).toHaveBeenCalledTimes(1);
@@ -319,7 +319,7 @@ describe("riskyFeature", () => {
           },
         },
       });
-      localStorage.setItem("mabox_risky_dismissed", JSON.stringify(["optimize-medium-no_auto_size"]));
+      localStorage.setItem("npcink_site_toolbox_risky_dismissed", JSON.stringify(["optimize-medium-no_auto_size"]));
       const { checkRiskyFeature } = await import("@/tool/riskyFeature");
       const onConfirm = vi.fn();
       const result = checkRiskyFeature("optimize-medium-no_auto_size", true, onConfirm);

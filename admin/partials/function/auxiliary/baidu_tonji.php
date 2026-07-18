@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Baidu_Tonji')) {
-    class MaBox_Baidu_Tonji implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Baidu_Tonji')) {
+    class Npcink_Toolbox_Baidu_Tonji implements Npcink_Toolbox_Module_Interface
     {
         private static $option;
 

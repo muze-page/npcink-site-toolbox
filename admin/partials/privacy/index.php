@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  *
  * @since 2.4.0
  */
-if (!class_exists('MaBox_Privacy')) {
-    class MaBox_Privacy
+if (!class_exists('Npcink_Toolbox_Privacy')) {
+    class Npcink_Toolbox_Privacy
     {
         /**
          * 外部服务列表
@@ -162,7 +162,7 @@ if (!class_exists('MaBox_Privacy')) {
          */
         public static function admin_notice()
         {
-            if (get_option('mabox_privacy_notice_dismissed')) {
+            if (get_option('npcink_site_toolbox_privacy_notice_dismissed')) {
                 return;
             }
 

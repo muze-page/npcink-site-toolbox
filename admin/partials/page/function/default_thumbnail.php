@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 默认文章缩略图
  * 当文章没有特色图时，使用默认缩略图
  */
-if (!class_exists('MaBox_Page_Default_Thumbnail')) {
-    class MaBox_Page_Default_Thumbnail implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Page_Default_Thumbnail')) {
+    class Npcink_Toolbox_Page_Default_Thumbnail implements Npcink_Toolbox_Module_Interface
     {
         private static $option;
 
@@ -19,7 +19,7 @@ if (!class_exists('MaBox_Page_Default_Thumbnail')) {
 
         public static function default_thumbnail($html, $post_id, $post_thumbnail_id, $size, $attr)
         {
-            $default_url = MaBox_Admin::get_config(self::$option, 'default_thumbnail');
+            $default_url = Npcink_Toolbox_Admin::get_config(self::$option, 'default_thumbnail');
             if (empty($default_url)) {
                 return $html;
             }

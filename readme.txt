@@ -115,6 +115,7 @@ The site-statistics block editor script is shipped as readable source in `blocks
 * Unified long admin settings pages with accessible, search-aware secondary tabs while keeping compact views direct.
 * Added an overview guide with direct post and page editor links for using the bundled patterns and site-statistics block.
 * Grouped the live block and bundled patterns under matching Npcink Site Toolbox inserter categories.
+* Unified pre-release PHP identifiers and plugin-owned storage keys under the Npcink Site Toolbox identity without compatibility shims.
 
 = 3.1.1 =
 * Release date: 2026-07-18.

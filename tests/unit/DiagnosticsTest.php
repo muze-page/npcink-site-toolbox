@@ -4,10 +4,10 @@ defined('ABSPATH') || exit;
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname(__FILE__) . '/../../includes/class-mabox-diagnostics.php';
+require_once dirname(__FILE__) . '/../../includes/class-npcink-toolbox-diagnostics.php';
 
 /**
- * MaBox_Diagnostics 单元测试
+ * Npcink_Toolbox_Diagnostics 单元测试
  *
  * 验证诊断摘要契约、状态优先级和模块风险统计。
  *
@@ -16,13 +16,13 @@ require_once dirname(__FILE__) . '/../../includes/class-mabox-diagnostics.php';
 class DiagnosticsTest extends TestCase {
 
     public function test_class_exists(): void {
-        $this->assertTrue(class_exists('MaBox_Diagnostics'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Diagnostics'));
     }
 
     public function test_summary_uses_factual_contract(): void {
         $this->setWordPressState(array());
 
-        $summary = MaBox_Diagnostics::get_summary();
+        $summary = Npcink_Toolbox_Diagnostics::get_summary();
 
         $this->assertSame(
             array('status', 'items', 'module_risks', 'generated_at'),
@@ -38,16 +38,16 @@ class DiagnosticsTest extends TestCase {
     }
 
     public function test_removed_derived_contract_methods_do_not_exist(): void {
-        $this->assertFalse(method_exists('MaBox_Diagnostics', 'calculate_score'));
-        $this->assertFalse(method_exists('MaBox_Diagnostics', 'get_recommendations'));
-        $this->assertFalse(method_exists('MaBox_Diagnostics', 'get_fix_suggestions'));
-        $this->assertFalse(method_exists('MaBox_Diagnostics', 'get_service_hints'));
+        $this->assertFalse(method_exists('Npcink_Toolbox_Diagnostics', 'calculate_score'));
+        $this->assertFalse(method_exists('Npcink_Toolbox_Diagnostics', 'get_recommendations'));
+        $this->assertFalse(method_exists('Npcink_Toolbox_Diagnostics', 'get_fix_suggestions'));
+        $this->assertFalse(method_exists('Npcink_Toolbox_Diagnostics', 'get_service_hints'));
     }
 
     public function test_summary_ignores_invalid_active_module_option(): void {
-        $this->setWordPressState(array(MAGICK_TOOLBOX_ACTIVE_MODULES => 'invalid'));
+        $this->setWordPressState(array(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES => 'invalid'));
 
-        $summary = MaBox_Diagnostics::get_summary();
+        $summary = Npcink_Toolbox_Diagnostics::get_summary();
 
         $this->assertSame('good', $summary['status']);
         $this->assertSame(array(), $summary['module_risks']);
@@ -125,13 +125,13 @@ class DiagnosticsTest extends TestCase {
     }
 
     public function test_module_risks_empty_without_active_tiered_modules(): void {
-        $method = new ReflectionMethod('MaBox_Diagnostics', 'get_module_risks');
+        $method = new ReflectionMethod('Npcink_Toolbox_Diagnostics', 'get_module_risks');
 
         $this->assertSame(array(), $method->invoke(null, array(), array()));
     }
 
     public function test_module_risks_only_include_active_tiered_modules(): void {
-        $method = new ReflectionMethod('MaBox_Diagnostics', 'get_module_risks');
+        $method = new ReflectionMethod('Npcink_Toolbox_Diagnostics', 'get_module_risks');
         $risks = $method->invoke(
             null,
             array('performance.db_clean', 'experimental.module', 'ordinary.module'),
@@ -155,8 +155,8 @@ class DiagnosticsTest extends TestCase {
     }
 
     public function test_all_tiered_risk_modules_have_user_facing_labels(): void {
-        $registry = MaBox_Module_Loader::get_registry();
-        $tiers = MaBox_Module_Loader::get_tiers();
+        $registry = Npcink_Toolbox_Module_Loader::get_registry();
+        $tiers = Npcink_Toolbox_Module_Loader::get_tiers();
 
         foreach (array_merge($tiers['high_risk'], $tiers['experimental']) as $module_id) {
             $this->assertArrayHasKey($module_id, $registry);
@@ -165,7 +165,7 @@ class DiagnosticsTest extends TestCase {
     }
 
     public function test_placeholder_translations_have_comments_and_ordered_multi_placeholders(): void {
-        $source = file_get_contents(dirname(__FILE__) . '/../../includes/class-mabox-diagnostics.php');
+        $source = file_get_contents(dirname(__FILE__) . '/../../includes/class-npcink-toolbox-diagnostics.php');
         $this->assertIsString($source);
 
         preg_match_all(
@@ -178,13 +178,13 @@ class DiagnosticsTest extends TestCase {
     }
 
     private function determineStatus(array $module_risks, array $items): string {
-        $method = new ReflectionMethod('MaBox_Diagnostics', 'determine_status');
+        $method = new ReflectionMethod('Npcink_Toolbox_Diagnostics', 'determine_status');
 
         return $method->invoke(null, $module_risks, $items);
     }
 
     private function getDiagnosticItems(): array {
-        $method = new ReflectionMethod('MaBox_Diagnostics', 'get_diagnostic_items');
+        $method = new ReflectionMethod('Npcink_Toolbox_Diagnostics', 'get_diagnostic_items');
         $env = array(
             'php_version'        => '8.2',
             'wp_version'         => '6.9',
@@ -201,7 +201,7 @@ class DiagnosticsTest extends TestCase {
         }
 
         $GLOBALS['_test_option_store'] = array_merge(array(
-            MAGICK_TOOLBOX_ACTIVE_MODULES => array(),
+            NPCINK_SITE_TOOLBOX_ACTIVE_MODULES => array(),
         ), $options);
     }
 }

@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：文章中出现的标签自动添加链接
  * 来源：https://www.npc.ink/15286.html
  */
-if (!class_exists('MaBox_Single_Keyword_Add_Link')) {
-    class MaBox_Single_Keyword_Add_Link implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Single_Keyword_Add_Link')) {
+    class Npcink_Toolbox_Single_Keyword_Add_Link implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())

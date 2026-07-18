@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') || exit;
-if (!class_exists('MaBox_Domestic_Login_Security')) {
-    class MaBox_Domestic_Login_Security implements MaBox_Module_Interface {
-        const LOCK_ERROR_CODE = 'mabox_login_attempt_locked';
+if (!class_exists('Npcink_Toolbox_Domestic_Login_Security')) {
+    class Npcink_Toolbox_Domestic_Login_Security implements Npcink_Toolbox_Module_Interface {
+        const LOCK_ERROR_CODE = 'npcink_site_toolbox_login_attempt_locked';
 
         private static $config = array();
 
@@ -175,8 +175,8 @@ if (!class_exists('MaBox_Domestic_Login_Security')) {
         }
 
         private static function is_protection_disabled() {
-            return defined('MABOX_DISABLE_LOGIN_PROTECTION')
-                && (bool) constant('MABOX_DISABLE_LOGIN_PROTECTION');
+            return defined('NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION')
+                && (bool) constant('NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION');
         }
 
         private static function is_wp_error_instance($value) {
@@ -218,15 +218,15 @@ if (!class_exists('MaBox_Domestic_Login_Security')) {
         }
 
         private static function counter_key($user_id, $client_ip) {
-            return 'mabox_login_attempt_' . self::state_hash($user_id, $client_ip);
+            return 'npcink_site_toolbox_login_attempt_' . self::state_hash($user_id, $client_ip);
         }
 
         private static function lock_key($user_id, $client_ip) {
-            return 'mabox_login_lock_' . self::state_hash($user_id, $client_ip);
+            return 'npcink_site_toolbox_login_lock_' . self::state_hash($user_id, $client_ip);
         }
 
         private static function state_hash($user_id, $client_ip) {
-            $salt = function_exists('wp_salt') ? wp_salt('auth') : 'mabox-login-protection';
+            $salt = function_exists('wp_salt') ? wp_salt('auth') : 'npcink-site-toolbox-login-protection';
             return hash_hmac('sha256', intval($user_id) . '|' . $client_ip, $salt);
         }
 

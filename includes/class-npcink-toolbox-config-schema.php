@@ -13,8 +13,8 @@ defined('ABSPATH') || exit;
  * @since 2.5.0
  */
 
-if (!class_exists('MaBox_Config_Schema')) {
-    class MaBox_Config_Schema {
+if (!class_exists('Npcink_Toolbox_Config_Schema')) {
+    class Npcink_Toolbox_Config_Schema {
 
         private static $schema = null;
 
@@ -55,7 +55,7 @@ if (!class_exists('MaBox_Config_Schema')) {
         private static function build_schema() {
             return array(
                 'optimize' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_OPTIMIZE,
+                    '_option_key' => NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE,
                     'site' => array(
                         'hide_top_toolbar'       => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-site-hide_top_toolbar', '隐藏顶部工具条', 'site', '站点与媒体', '站点', array('toolbar', '顶部', '工具栏'), array('推荐', '仅后台'))),
                         'no_escape'              => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('optimize-site-no_escape', '禁止 Title 转义', 'site', '站点与媒体', '站点', array('title', '转义'), array('推荐'))),
@@ -87,7 +87,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                     ),
                 ),
                 'page' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_PAGE,
+                    '_option_key' => NPCINK_SITE_TOOLBOX_OPTION_PAGE,
                     'comment' => array(
                         'interval'                   => array('type' => 'boolean', 'default' => false),
                         'interval_time'              => array('type' => 'number',  'default' => 5, 'min' => 1, 'max' => 3600),
@@ -130,7 +130,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                     ),
                 ),
                 'function' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_FUNCTION,
+                    '_option_key' => NPCINK_SITE_TOOLBOX_OPTION_FUNCTION,
                     'auxiliary' => array(
                         'single_count'       => array('type' => 'boolean', 'default' => false),
                         'no_malice_key'      => array('type' => 'boolean', 'default' => false),
@@ -150,7 +150,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                     ),
                 ),
                 'domestic' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_DOMESTIC,
+                    '_option_key' => NPCINK_SITE_TOOLBOX_OPTION_DOMESTIC,
                     'compliance' => array(
                         'icp_enabled'    => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('domestic-compliance-icp', 'ICP 备案号', 'china', '国内生态', '合规', array('icp', '备案', '合规'), array('推荐'))),
                         'icp_number'     => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_text_field'),
@@ -202,7 +202,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                                 'level'      => 'low',
                                 'title'      => '登录尝试保护',
                                 'warning'    => '可信代理配置错误可能让多个访客共享同一来源 IP，造成账号误锁。',
-                                'suggestion' => '确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 MABOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。',
+                                'suggestion' => '确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。',
                             ),
                             'search'     => self::search_metadata('domestic-login_security-attempt_limit_enabled', '登录尝试保护', 'china', '国内生态', '登录安全', array('login', '登录', '失败', '限制', '锁定', '代理'), array('推荐', '安全')),
                         ),
@@ -222,7 +222,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                     ),
                 ),
                 'performance' => array(
-                    '_option_key' => MAGICK_MIXTURE_OPTION_PERFORMANCE,
+                    '_option_key' => NPCINK_SITE_TOOLBOX_OPTION_PERFORMANCE,
                     'oss' => array(
                         'enabled'      => array('type' => 'boolean', 'default' => false, 'search' => self::search_metadata('performance-oss-enabled', '对象存储 / OSS', 'maintenance', '维护工具', '云存储', array('oss', 'cos', '云存储', '阿里云', '腾讯云'), array('性能'))),
                         'provider'     => array('type' => 'string',  'default' => 'aliyun', 'sanitize' => 'sanitize_text_field'),
@@ -505,8 +505,8 @@ if (!class_exists('MaBox_Config_Schema')) {
         public static function get_ui_schema() {
             $ui = self::get_schema_ui_schema();
 
-            if (class_exists('MaBox_Module_Metadata')) {
-                $module_ui = MaBox_Module_Metadata::get_ui_metadata();
+            if (class_exists('Npcink_Toolbox_Module_Metadata')) {
+                $module_ui = Npcink_Toolbox_Module_Metadata::get_ui_metadata();
                 $ui = self::merge_module_metadata($ui, $module_ui);
             }
 
@@ -641,7 +641,7 @@ if (!class_exists('MaBox_Config_Schema')) {
          * 获取前端构建使用的最小设置契约。
          *
          * 敏感字段的键和值都不会进入生成物；运行时 REST 契约仍由
-         * MaBox_Config_Manager 独立负责，不读取此构建期快照。
+         * Npcink_Toolbox_Config_Manager 独立负责，不读取此构建期快照。
          */
         public static function get_admin_settings_contract() {
             $schema = self::get_schema();

@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
-if (!class_exists('MaBox_Performance_Seo_Checker')) {
-    class MaBox_Performance_Seo_Checker implements MaBox_Module_Interface {
+if (!class_exists('Npcink_Toolbox_Performance_Seo_Checker')) {
+    class Npcink_Toolbox_Performance_Seo_Checker implements Npcink_Toolbox_Module_Interface {
         private static $config;
         public static function run($config = array()) {
             self::$config = $config;
@@ -10,7 +10,7 @@ if (!class_exists('MaBox_Performance_Seo_Checker')) {
         public static function ajax_check() {
             if (!current_user_can('manage_options')) wp_send_json_error('权限不足', 403);
             $issues = array();
-            $seo_home = MaBox_Config_Manager::get_module_config('function');
+            $seo_home = Npcink_Toolbox_Config_Manager::get_module_config('function');
             if (isset($seo_home['seo']['title']) && empty($seo_home['seo']['title'])) {
                 $issues[] = array('type' => '首页标题', 'message' => '首页 SEO 标题为空');
             }

@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：按日期筛选文章和媒体
  * 来源：https://rudrastyh.com/wordpress/date-range-filter.html
  */
-if (!class_exists('MaBox_Admin_Add_Time_Screen')) {
-    class MaBox_Admin_Add_Time_Screen implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Admin_Add_Time_Screen')) {
+    class Npcink_Toolbox_Admin_Add_Time_Screen implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())
@@ -37,7 +37,7 @@ if (!class_exists('MaBox_Admin_Add_Time_Screen')) {
             }
 
             //http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.min.css
-            wp_enqueue_style('jquery-ui', plugin_dir_url(dirname(__DIR__)) . 'css/jquery-ui.min.css', array(), MAGICK_MIXTURE_VERSION);
+            wp_enqueue_style('jquery-ui', plugin_dir_url(dirname(__DIR__)) . 'css/jquery-ui.min.css', array(), NPCINK_SITE_TOOLBOX_VERSION);
             wp_enqueue_script('jquery-ui-datepicker');
         }
 

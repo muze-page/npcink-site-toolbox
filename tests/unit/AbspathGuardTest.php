@@ -110,7 +110,7 @@ class AbspathGuardTest extends TestCase {
         $content = file_get_contents($main_file);
 
         $autoload_pos = strpos($content, "includes/autoload.php");
-        $core_pos = strpos($content, "includes/class-magick-mixture.php");
+        $core_pos = strpos($content, "includes/class-npcink-site-toolbox.php");
 
         $this->assertNotFalse($autoload_pos, '主文件应该加载 includes/autoload.php');
         $this->assertNotFalse($core_pos, '主文件应该加载核心插件类');

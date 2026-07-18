@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源：
  */
 
-if (!class_exists('MaBox_Single_Add_Last_Updated_Date')) {
-    class MaBox_Single_Add_Last_Updated_Date implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Single_Add_Last_Updated_Date')) {
+    class Npcink_Toolbox_Single_Add_Last_Updated_Date implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {

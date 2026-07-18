@@ -52,12 +52,12 @@ class AdminSettingsContractTest extends TestCase
         $this->assertIsArray($contract);
         $this->assertSame(array('defaults', 'searchIndex', 'uiSchema'), array_keys($contract));
         $this->assertSame(array(), $contract['defaults']['page']['function']['countdown']);
-        $this->assertEquals(MaBox_Config_Schema::get_schema_ui_schema(), $contract['uiSchema']);
+        $this->assertEquals(Npcink_Toolbox_Config_Schema::get_schema_ui_schema(), $contract['uiSchema']);
         $this->assertFileDoesNotExist(
             $root . '/vite/admin/src/tool/featureIndexData.ts',
             'The retired handwritten search index must not return as a second source of truth.'
         );
-        $this->assertContainsNoRawSearchMetadata(MaBox_Config_Schema::get_schema());
+        $this->assertContainsNoRawSearchMetadata(Npcink_Toolbox_Config_Schema::get_schema());
         foreach ($contract['uiSchema'] as $entry) {
             $this->assertArrayNotHasKey('search', $entry);
         }
@@ -65,7 +65,7 @@ class AdminSettingsContractTest extends TestCase
         $this->requireExporter();
         $types = file_get_contents($root . '/vite/admin/src/generated/settings-types.ts');
         $this->assertIsString($types);
-        $this->assertSame(mabox_render_admin_settings_types(MaBox_Config_Schema::get_schema()), $types);
+        $this->assertSame(npcink_site_toolbox_render_admin_settings_types(Npcink_Toolbox_Config_Schema::get_schema()), $types);
     }
 
     public function test_generated_search_index_matches_schema_and_locks_semantic_routes(): void
@@ -78,7 +78,7 @@ class AdminSettingsContractTest extends TestCase
         $this->assertIsArray($generated);
 
         $actual = $generated['searchIndex'];
-        $expected = mabox_normalize_contract(MaBox_Config_Schema::get_admin_settings_contract()['searchIndex']);
+        $expected = npcink_site_toolbox_normalize_contract(Npcink_Toolbox_Config_Schema::get_admin_settings_contract()['searchIndex']);
 
         $this->assertCount(32, $actual);
         $this->assertSame($expected, $actual);
@@ -178,21 +178,21 @@ class AdminSettingsContractTest extends TestCase
     public function test_type_generator_fails_closed_for_unknown_schema_types(): void
     {
         $this->requireExporter();
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $schema['optimize']['site']['hide_top_toolbar']['type'] = 'object';
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unsupported Schema type object at optimize.site.hide_top_toolbar');
-        mabox_render_admin_settings_types($schema);
+        npcink_site_toolbox_render_admin_settings_types($schema);
     }
 
     public function test_retired_function_config_is_absent_from_live_contracts(): void
     {
         $this->requireExporter();
 
-        $schema = MaBox_Config_Schema::get_schema();
-        $defaults = MaBox_Config_Schema::get_defaults();
-        $types = mabox_render_admin_settings_types($schema);
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $defaults = Npcink_Toolbox_Config_Schema::get_defaults();
+        $types = npcink_site_toolbox_render_admin_settings_types($schema);
 
         $this->assertArrayNotHasKey('config', $schema['function']);
         $this->assertArrayNotHasKey('config', $defaults['function']);
@@ -217,7 +217,7 @@ class AdminSettingsContractTest extends TestCase
         try {
             $error = null;
             try {
-                mabox_atomic_replace_generated_files(array(
+                npcink_site_toolbox_atomic_replace_generated_files(array(
                     $first => 'new-first',
                     $second => 'new-second',
                 ));
@@ -249,8 +249,8 @@ class AdminSettingsContractTest extends TestCase
 
     public function test_browser_defaults_match_runtime_secret_stripping(): void
     {
-        $contract = MaBox_Config_Schema::get_admin_settings_contract();
-        $runtime = MaBox_Config_Manager::get_browser_config(MaBox_Config_Schema::get_defaults());
+        $contract = Npcink_Toolbox_Config_Schema::get_admin_settings_contract();
+        $runtime = Npcink_Toolbox_Config_Manager::get_browser_config(Npcink_Toolbox_Config_Schema::get_defaults());
 
         $this->assertEquals($runtime['data'], $contract['defaults']);
     }
@@ -259,7 +259,7 @@ class AdminSettingsContractTest extends TestCase
     {
         $this->requireExporter();
 
-        $property = new ReflectionProperty(MaBox_Config_Schema::class, 'schema');
+        $property = new ReflectionProperty(Npcink_Toolbox_Config_Schema::class, 'schema');
         $property->setAccessible(true);
         $original = $property->getValue();
         $property->setValue(null, array(
@@ -301,9 +301,9 @@ class AdminSettingsContractTest extends TestCase
         ));
 
         try {
-            $contract = MaBox_Config_Schema::get_admin_settings_contract();
+            $contract = Npcink_Toolbox_Config_Schema::get_admin_settings_contract();
 
-            $this->assertContainsNoRawSearchMetadata(MaBox_Config_Schema::get_schema());
+            $this->assertContainsNoRawSearchMetadata(Npcink_Toolbox_Config_Schema::get_schema());
             $this->assertSame(array('visible' => 'shown'), $contract['defaults']['flat']);
             $this->assertArrayNotHasKey('secret', $contract['defaults']['flat']);
             $this->assertSame('flat.visible', $contract['uiSchema']['flat-visible']['path']);
@@ -320,7 +320,7 @@ class AdminSettingsContractTest extends TestCase
                 ),
             ), $contract['searchIndex']);
 
-            $types = mabox_render_admin_settings_types(MaBox_Config_Schema::get_schema());
+            $types = npcink_site_toolbox_render_admin_settings_types(Npcink_Toolbox_Config_Schema::get_schema());
             $this->assertStringContainsString('export type Flat = {', $types);
             $this->assertStringContainsString('  visible: string;', $types);
             $this->assertStringContainsString('  flat: Flat;', $types);

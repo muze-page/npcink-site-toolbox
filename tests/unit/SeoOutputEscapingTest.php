@@ -38,8 +38,8 @@ final class SeoOutputEscapingTest extends TestCase
     {
         $source = $this->source('seo_category_add_meat.php');
 
-        $this->assertStringContainsString("esc_attr(get_option('cat-title-' . \$tag->term_id))", $source);
-        $this->assertStringContainsString("esc_attr(get_option('cat-words-' . \$tag->term_id))", $source);
+        $this->assertStringContainsString("esc_attr(get_option('npcink_site_toolbox_category_title_' . \$tag->term_id))", $source);
+        $this->assertStringContainsString("esc_attr(get_option('npcink_site_toolbox_category_keywords_' . \$tag->term_id))", $source);
         $this->assertSame(2, substr_count($source, 'esc_html($tag->name)'));
     }
 

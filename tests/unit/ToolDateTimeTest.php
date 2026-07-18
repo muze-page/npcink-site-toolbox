@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname(__FILE__) . '/../../includes/class-magick-mixture-tool.php';
+require_once dirname(__FILE__) . '/../../includes/class-npcink-toolbox-tool.php';
 
 final class ToolDateTimeTest extends TestCase
 {
@@ -100,14 +100,14 @@ final class ToolDateTimeTest extends TestCase
 
     public function test_production_source_has_no_runtime_date_or_fixed_china_offset(): void
     {
-        $source = file_get_contents(dirname(__FILE__) . '/../../includes/class-magick-mixture-tool.php');
+        $source = file_get_contents(dirname(__FILE__) . '/../../includes/class-npcink-toolbox-tool.php');
         $this->assertIsString($source);
         $this->assertSame(0, preg_match('/(?<![A-Za-z0-9_])date\s*\(/', $source));
         $this->assertStringNotContainsString('- 8 * 60 * 60', $source);
     }
 }
 
-final class TestableMaBoxTool extends MaBox_Tool
+final class TestableMaBoxTool extends Npcink_Toolbox_Tool
 {
     private static $currentSiteDateTime;
 

@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源1：https://wordpress.org/plugins/easy-thumbnail-switcher/
  * 来源2：https://www.huitheme.com/wordpress_posts_custom_thumbnail.html
  */
-if (!class_exists('MaBox_Admin_Single_Thumbnail_Switcher')) {
-    class MaBox_Admin_Single_Thumbnail_Switcher implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Admin_Single_Thumbnail_Switcher')) {
+    class Npcink_Toolbox_Admin_Single_Thumbnail_Switcher implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())

@@ -18,7 +18,7 @@
 
 ### 设置存在哪里？
 
-设置按模块存储在 WordPress `wp_options` 中。实际 option 映射由 `MaBox_Config_Manager` 管理，不应依赖旧文档中的固定键清单。
+设置按模块存储在 WordPress `wp_options` 中。实际 Option 映射由 `Npcink_Toolbox_Config_Manager` 管理，插件自有键统一使用 `npcink_site_toolbox_*` 前缀。
 
 ### 为什么不能导入或导出设置 JSON？
 

@@ -11,15 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // 定义插件常量（供纯单元测试使用）
-if ( ! defined( 'MAGICK_MIXTURE_OPTION_OPTIMIZE' ) ) {
-	define( 'MAGICK_MIXTURE_OPTION_OPTIMIZE', 'Magick_ToolBox_Option_Optimize' );
-	define( 'MAGICK_MIXTURE_OPTION_PAGE', 'Magick_ToolBox_Option_Page' );
-	define( 'MAGICK_MIXTURE_OPTION_FUNCTION', 'Magick_ToolBox_Option_Function' );
-	define( 'MAGICK_MIXTURE_OPTION_DOMESTIC', 'Magick_ToolBox_Option_Domestic' );
-	define( 'MAGICK_MIXTURE_OPTION_PERFORMANCE', 'Magick_ToolBox_Option_Performance' );
+if ( ! defined( 'NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE' ) ) {
+	define( 'NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE', 'npcink_site_toolbox_optimize' );
+	define( 'NPCINK_SITE_TOOLBOX_OPTION_PAGE', 'npcink_site_toolbox_page' );
+	define( 'NPCINK_SITE_TOOLBOX_OPTION_FUNCTION', 'npcink_site_toolbox_function' );
+	define( 'NPCINK_SITE_TOOLBOX_OPTION_DOMESTIC', 'npcink_site_toolbox_domestic' );
+	define( 'NPCINK_SITE_TOOLBOX_OPTION_PERFORMANCE', 'npcink_site_toolbox_performance' );
 }
-if ( ! defined( 'MAGICK_TOOLBOX_ACTIVE_MODULES' ) ) {
-	define( 'MAGICK_TOOLBOX_ACTIVE_MODULES', 'Magick_ToolBox_Active_Modules' );
+if ( ! defined( 'NPCINK_SITE_TOOLBOX_ACTIVE_MODULES' ) ) {
+	define( 'NPCINK_SITE_TOOLBOX_ACTIVE_MODULES', 'npcink_site_toolbox_active_modules' );
 }
 if ( ! defined( 'HOUR_IN_SECONDS' ) ) {
 	define( 'HOUR_IN_SECONDS', 3600 );

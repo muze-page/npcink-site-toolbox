@@ -1,10 +1,10 @@
 <?php
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Search_Health')) {
-    class MaBox_Search_Health
+if (!class_exists('Npcink_Toolbox_Search_Health')) {
+    class Npcink_Toolbox_Search_Health
     {
-        private static $option_key = 'mabox_search_log';
+        private static $option_key = 'npcink_site_toolbox_search_log';
         private static $keep_days = 30;
 
         public static function rest_get_summary($request)
@@ -23,7 +23,7 @@ if (!class_exists('MaBox_Search_Health')) {
         {
             $days = max(1, min(365, (int) $days));
             $log = self::get_log();
-            $config = MaBox_Config_Manager::get_merged_config();
+            $config = Npcink_Toolbox_Config_Manager::get_merged_config();
             if (empty($config)) {
                 $config = array();
             }
@@ -280,7 +280,7 @@ if (!class_exists('MaBox_Search_Health')) {
         {
             $recommendations = array();
 
-            $page_function = MaBox_Diagnostics::get_nested($config, 'page', 'function');
+            $page_function = Npcink_Toolbox_Diagnostics::get_nested($config, 'page', 'function');
             if (empty($page_function['search_limit'])) {
                 $recommendations[] = array(
                     'id' => 'rec_search_rate_limit',
@@ -325,7 +325,7 @@ if (!class_exists('MaBox_Search_Health')) {
                 );
             }
 
-            $search_enhance = MaBox_Diagnostics::get_nested($config, 'performance', 'search_enhance');
+            $search_enhance = Npcink_Toolbox_Diagnostics::get_nested($config, 'performance', 'search_enhance');
             if (empty($search_enhance['hotwords_enabled'])) {
                 $recommendations[] = array(
                     'id' => 'rec_enable_search_log',

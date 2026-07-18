@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源：https://www.npc.ink/18129.html
  */
 
-if (!class_exists('MaBox_Comment_Ban_Pure_English')) {
-    class MaBox_Comment_Ban_Pure_English implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Comment_Ban_Pure_English')) {
+    class Npcink_Toolbox_Comment_Ban_Pure_English implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {

@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：用户列表展示昵称
  * 来源：https://www.huitheme.com/add_user_nickname_column.html
  */
-if (!class_exists('MaBox_User_List_Show_Nickname')) {
-    class MaBox_User_List_Show_Nickname implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_User_List_Show_Nickname')) {
+    class Npcink_Toolbox_User_List_Show_Nickname implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {

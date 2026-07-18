@@ -52,7 +52,7 @@ trusted_proxies
 
 ## 恢复
 
-上线前应熟悉 [登录尝试保护紧急恢复](/guide/config-recovery#登录尝试保护紧急恢复)。紧急常量 `MABOX_DISABLE_LOGIN_PROTECTION` 只用于恢复，不应长期保留。
+上线前应熟悉 [登录尝试保护紧急恢复](/guide/config-recovery#登录尝试保护紧急恢复)。紧急常量 `NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION` 只用于恢复，不应长期保留。
 
 ## 能力边界
 

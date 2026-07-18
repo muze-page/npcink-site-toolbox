@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') || exit;
 //简单SEO - 首页TDK 
-if (!class_exists('MaBox_Seo_Home')) {
-    class MaBox_Seo_Home implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Seo_Home')) {
+    class Npcink_Toolbox_Seo_Home implements Npcink_Toolbox_Module_Interface
     {
         private static $config;
         public static function run($config = array())
@@ -24,7 +24,7 @@ if (!class_exists('MaBox_Seo_Home')) {
                     //准备选项
                     $option = self::$config;
                     //站点标题
-                    $title = MaBox_Admin::get_config($option, 'title');
+                    $title = Npcink_Toolbox_Admin::get_config($option, 'title');
                     if ($title !== '' && $title !== false) {
                         remove_action('wp_head', '_wp_render_title_tag', 1); //移除默认标题
                     }
@@ -41,21 +41,21 @@ if (!class_exists('MaBox_Seo_Home')) {
             $option = self::$config;
 
             //站点标题
-            $title = MaBox_Admin::get_config($option, 'title');
+            $title = Npcink_Toolbox_Admin::get_config($option, 'title');
             if ($title !== '' && $title !== false) {
                 echo '<title>' . esc_html($title) . '</title>';
                 echo "\n";
             }
 
             //站点关键词
-            $keywords = MaBox_Admin::get_config($option, 'keywords');
+            $keywords = Npcink_Toolbox_Admin::get_config($option, 'keywords');
             if ($keywords !== '' && $keywords !== false) {
                 echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />';
                 echo "\n";
             }
 
             //站点描述
-            $description = MaBox_Admin::get_config($option, 'description');
+            $description = Npcink_Toolbox_Admin::get_config($option, 'description');
             if ($description !== '' && $description !== false) {
                 echo '<meta name="description" content="' . esc_attr($description) . '" />';
                 echo "\n";

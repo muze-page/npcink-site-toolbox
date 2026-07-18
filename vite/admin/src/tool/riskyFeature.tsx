@@ -3,7 +3,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { getUiSchemaSync, fetchUiSchema, hasFetchedUiSchemaSync } from "@/tool/uiSchema";
 import { RiskInfo } from "@/tool/interface";
 
-const STORAGE_KEY = "mabox_risky_dismissed";
+const STORAGE_KEY = "npcink_site_toolbox_risky_dismissed";
 
 function normalizeRiskInfo(risk: RiskInfo | undefined): { title: string; warning: string; suggestion: string; noDismiss?: boolean } | null {
   if (

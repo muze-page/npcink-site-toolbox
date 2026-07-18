@@ -2,7 +2,7 @@
 
 defined('ABSPATH') || exit;
 
-class MaBox_Easy_Thumbnail_Switcher {
+class Npcink_Toolbox_Easy_Thumbnail_Switcher {
 
     public $add_new_str;
     public $change_str;
@@ -12,7 +12,7 @@ class MaBox_Easy_Thumbnail_Switcher {
     public $confirm_str;
 
     /**
-     * MaBox_Easy_Thumbnail_Switcher::__construct()
+     * Npcink_Toolbox_Easy_Thumbnail_Switcher::__construct()
      *
      * The main constructor function
      * @since 1.0
@@ -39,7 +39,7 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
     }
 
     /**
-     * MaBox_Easy_Thumbnail_Switcher::add_nonce()
+     * Npcink_Toolbox_Easy_Thumbnail_Switcher::add_nonce()
      *
      * Used to add a nonce for security checks
      * @since 1.0
@@ -57,7 +57,7 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
     }
 
     /**
-     * MaBox_Easy_Thumbnail_Switcher::scripts()
+     * Npcink_Toolbox_Easy_Thumbnail_Switcher::scripts()
      *
      * Enqueue scripts
      * @since 1.0
@@ -70,7 +70,7 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
 
         wp_enqueue_media();
 
-        wp_enqueue_style( 'ts-ets-css', plugins_url( '\css\styles.css', __FILE__ ), array(), MAGICK_MIXTURE_VERSION );
+        wp_enqueue_style( 'ts-ets-css', plugins_url( '\css\styles.css', __FILE__ ), array(), NPCINK_SITE_TOOLBOX_VERSION );
 
         wp_enqueue_script( 'ts-ets-js', plugins_url( '\js\script.js', __FILE__ ), array( 'jquery', 'media-upload', 'thickbox' ), '1.0', true );
 
@@ -83,7 +83,7 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
     }
 
     /**
-     * MaBox_Easy_Thumbnail_Switcher::add_column()
+     * Npcink_Toolbox_Easy_Thumbnail_Switcher::add_column()
      *
      * @param array $columns
      *
@@ -98,7 +98,7 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
     }
 
     /**
-     * MaBox_Easy_Thumbnail_Switcher::thumb_column()
+     * Npcink_Toolbox_Easy_Thumbnail_Switcher::thumb_column()
      *
      * @param string $column
      * @param int $id Post ID
@@ -126,7 +126,7 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
     }
 
     /**
-     * MaBox_Easy_Thumbnail_Switcher::update()
+     * Npcink_Toolbox_Easy_Thumbnail_Switcher::update()
      *
      * AJAX Callback for updating post thumbnail
      * @since 1.0
@@ -184,7 +184,7 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
     }
 
     /**
-     * MaBox_Easy_Thumbnail_Switcher::remove()
+     * Npcink_Toolbox_Easy_Thumbnail_Switcher::remove()
      *
      * AJAX Callback for removing post thumbnail
      * @since 1.0
@@ -237,4 +237,4 @@ $this->add_new_str = __( '添加', 'npcink-site-toolbox' );
 
 }
 
-new MaBox_Easy_Thumbnail_Switcher();
+new Npcink_Toolbox_Easy_Thumbnail_Switcher();

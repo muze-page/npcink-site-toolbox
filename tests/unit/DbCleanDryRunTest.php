@@ -5,45 +5,45 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * MaBox_Performance_Db_Clean dry-run 模式测试
+ * Npcink_Toolbox_Performance_Db_Clean dry-run 模式测试
  *
  * 测试数据库清理的 dry-run 行为
  */
-class MaBox_Db_Clean_DryRun_Test extends TestCase {
+class Npcink_Toolbox_Db_Clean_DryRun_Test extends TestCase {
 
     /**
      * 测试 DB Clean 类存在
      */
     public function test_class_exists(): void {
-        $this->assertTrue(class_exists('MaBox_Performance_Db_Clean'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Performance_Db_Clean'));
     }
 
     /**
      * 测试 ajax_preview 方法存在
      */
     public function test_ajax_preview_exists(): void {
-        $this->assertTrue(method_exists('MaBox_Performance_Db_Clean', 'ajax_preview'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_Performance_Db_Clean', 'ajax_preview'));
     }
 
     /**
      * 测试 ajax_clean 方法存在
      */
     public function test_ajax_clean_exists(): void {
-        $this->assertTrue(method_exists('MaBox_Performance_Db_Clean', 'ajax_clean'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_Performance_Db_Clean', 'ajax_clean'));
     }
 
     /**
      * 测试 ajax_stats 方法存在
      */
     public function test_ajax_stats_exists(): void {
-        $this->assertTrue(method_exists('MaBox_Performance_Db_Clean', 'ajax_stats'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_Performance_Db_Clean', 'ajax_stats'));
     }
 
     /**
      * 测试 REST API 路由中 dry_run 默认为 true
      */
     public function test_rest_route_has_dry_run_default(): void {
-        $admin_file = dirname(__FILE__) . '/../../admin/class-magick-mixture-admin.php';
+        $admin_file = dirname(__FILE__) . '/../../admin/class-npcink-toolbox-admin.php';
         $this->assertFileExists($admin_file);
 
         $content = file_get_contents($admin_file);
@@ -67,7 +67,7 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
     }
 
     public function test_rest_route_has_dry_run_default_true(): void {
-        $admin_file = dirname(__FILE__) . '/../../admin/class-magick-mixture-admin.php';
+        $admin_file = dirname(__FILE__) . '/../../admin/class-npcink-toolbox-admin.php';
         $this->assertFileExists($admin_file);
 
         $content = file_get_contents($admin_file);
@@ -134,7 +134,7 @@ class MaBox_Db_Clean_DryRun_Test extends TestCase {
     }
 
     public function test_rest_routes_reject_bulk_all_type(): void {
-        $admin_file = dirname(__FILE__) . '/../../admin/class-magick-mixture-admin.php';
+        $admin_file = dirname(__FILE__) . '/../../admin/class-npcink-toolbox-admin.php';
         $content = file_get_contents($admin_file);
 
         $allowed_types = "\$allowed = array('revisions', 'drafts', 'spam', 'transients', 'optimize', 'pending', 'trash');";

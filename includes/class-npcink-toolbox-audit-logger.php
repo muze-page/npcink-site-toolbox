@@ -9,8 +9,8 @@ defined('ABSPATH') || exit;
  *
  * @since 2.4.0
  */
-if (!class_exists('MaBox_Audit_Logger')) {
-    class MaBox_Audit_Logger
+if (!class_exists('Npcink_Toolbox_Audit_Logger')) {
+    class Npcink_Toolbox_Audit_Logger
     {
         /**
          * 日志级别
@@ -34,7 +34,7 @@ if (!class_exists('MaBox_Audit_Logger')) {
         /**
          * 日志存储选项名
          */
-        const OPTION_NAME = 'mabox_audit_log';
+        const OPTION_NAME = 'npcink_site_toolbox_audit_log';
 
         /**
          * 最大保留日志条数
@@ -60,7 +60,7 @@ if (!class_exists('MaBox_Audit_Logger')) {
                 'context'    => $context,
                 'user_id'    => get_current_user_id(),
                 'user_login' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_login : 'cli',
-                'ip'         => MaBox_Helpers::get_real_ip(),
+                'ip'         => Npcink_Toolbox_Helpers::get_real_ip(),
                 'request_uri' => isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI'])
                     ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI']))
                     : '',
@@ -74,7 +74,7 @@ if (!class_exists('MaBox_Audit_Logger')) {
              *
              * @since 2.4.0
              */
-            do_action('mabox_audit_log', $entry);
+            do_action('npcink_site_toolbox_audit_log', $entry);
 
             return true;
         }
@@ -179,7 +179,7 @@ if (!class_exists('MaBox_Audit_Logger')) {
         private static function store_entry($entry)
         {
             // 仅在明确启用时存储到数据库
-            if (!defined('MABOX_ENABLE_AUDIT_LOG_STORAGE') || !MABOX_ENABLE_AUDIT_LOG_STORAGE) {
+            if (!defined('NPCINK_SITE_TOOLBOX_ENABLE_AUDIT_LOG_STORAGE') || !NPCINK_SITE_TOOLBOX_ENABLE_AUDIT_LOG_STORAGE) {
                 return;
             }
 

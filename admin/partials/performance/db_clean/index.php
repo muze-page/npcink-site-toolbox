@@ -2,8 +2,8 @@
 
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Performance_Db_Clean')) {
-    class MaBox_Performance_Db_Clean implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Performance_Db_Clean')) {
+    class Npcink_Toolbox_Performance_Db_Clean implements Npcink_Toolbox_Module_Interface
     {
         private const BATCH_SIZE = 100;
 
@@ -16,14 +16,14 @@ if (!class_exists('MaBox_Performance_Db_Clean')) {
 
             if (!empty($config['auto_clean'])) {
                 $schedule = !empty($config['auto_clean_schedule']) ? $config['auto_clean_schedule'] : 'weekly';
-                if (!wp_next_scheduled('mabox_auto_db_clean')) {
-                    wp_schedule_event(time(), $schedule, 'mabox_auto_db_clean');
+                if (!wp_next_scheduled('npcink_site_toolbox_auto_db_clean')) {
+                    wp_schedule_event(time(), $schedule, 'npcink_site_toolbox_auto_db_clean');
                 }
-                add_action('mabox_auto_db_clean', array(__CLASS__, 'auto_clean'));
+                add_action('npcink_site_toolbox_auto_db_clean', array(__CLASS__, 'auto_clean'));
             } else {
-                $timestamp = wp_next_scheduled('mabox_auto_db_clean');
+                $timestamp = wp_next_scheduled('npcink_site_toolbox_auto_db_clean');
                 if ($timestamp) {
-                    wp_unschedule_event($timestamp, 'mabox_auto_db_clean');
+                    wp_unschedule_event($timestamp, 'npcink_site_toolbox_auto_db_clean');
                 }
             }
         }
@@ -91,8 +91,8 @@ if (!class_exists('MaBox_Performance_Db_Clean')) {
                 wp_send_json_success(self::build_preview($type));
             }
 
-            if (class_exists('MaBox_Audit_Logger')) {
-                MaBox_Audit_Logger::database('数据库清理: type=' . $type, array(
+            if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+                Npcink_Toolbox_Audit_Logger::database('数据库清理: type=' . $type, array(
                     'type' => $type,
                     'user_id' => get_current_user_id(),
                     'dry_run' => false,

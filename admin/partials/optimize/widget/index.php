@@ -7,27 +7,27 @@ defined('ABSPATH') || exit;
  *
  * 提供多个实用小工具，可在侧边栏或页脚使用。
  */
-if (!class_exists('MaBox_Widgets')) {
-    class MaBox_Widgets implements MaBox_Module_Interface {
+if (!class_exists('Npcink_Toolbox_Widgets')) {
+    class Npcink_Toolbox_Widgets implements Npcink_Toolbox_Module_Interface {
 
         public static function run($config = array()) {
             add_action('widgets_init', array(__CLASS__, 'register_widgets'));
         }
 
         public static function register_widgets() {
-            register_widget('MaBox_Widget_Site_Stats');
-            register_widget('MaBox_Widget_Recent_Posts_With_Thumb');
+            register_widget('Npcink_Toolbox_Widget_Site_Stats');
+            register_widget('Npcink_Toolbox_Widget_Recent_Posts_With_Thumb');
         }
     }
 
     /**
      * 站点统计小工具
      */
-    class MaBox_Widget_Site_Stats extends WP_Widget {
+    class Npcink_Toolbox_Widget_Site_Stats extends WP_Widget {
 
         public function __construct() {
             parent::__construct(
-                'mabox_site_stats',
+                'npcink_site_toolbox_site_stats',
                 'Npcink Site Toolbox - 站点统计',
                 array('description' => '显示站点文章、评论、用户等统计信息')
             );
@@ -42,7 +42,7 @@ if (!class_exists('MaBox_Widgets')) {
             }
 
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Shared renderer escapes labels, values, and class attributes.
-            echo MaBox_Site_Stats::render_items(array(), 'mabox-widget-stats');
+            echo Npcink_Toolbox_Site_Stats::render_items(array(), 'mabox-widget-stats');
 
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted wrapper HTML supplied by the active theme via the Widgets API.
             echo $args['after_widget'];
@@ -68,11 +68,11 @@ if (!class_exists('MaBox_Widgets')) {
     /**
      * 带缩略图的最新文章小工具
      */
-    class MaBox_Widget_Recent_Posts_With_Thumb extends WP_Widget {
+    class Npcink_Toolbox_Widget_Recent_Posts_With_Thumb extends WP_Widget {
 
         public function __construct() {
             parent::__construct(
-                'mabox_recent_posts_thumb',
+                'npcink_site_toolbox_recent_posts_thumb',
                 'Npcink Site Toolbox - 最新文章（带图）',
                 array('description' => '显示最新文章列表，带特色图缩略图')
             );

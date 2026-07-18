@@ -5,24 +5,24 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 /**
- * MaBox_Config_Manager 单元测试
+ * Npcink_Toolbox_Config_Manager 单元测试
  *
  * 测试配置读取、保存与敏感设置契约
  */
-class MaBox_Config_Manager_Test extends TestCase {
+class Npcink_Toolbox_Config_Manager_Test extends TestCase {
 
     /**
      * 测试 Config_Manager 类存在
      */
     public function test_config_manager_class_exists(): void {
-        $this->assertTrue(class_exists('MaBox_Config_Manager'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Config_Manager'));
     }
 
     /**
      * 测试 module_map 包含所有预期的模块键
      */
     public function test_module_map_contains_expected_keys(): void {
-        $map = MaBox_Config_Manager::get_module_map();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
 
         $expected_keys = array(
             'optimize', 'page', 'function', 'domestic', 'performance',
@@ -38,12 +38,12 @@ class MaBox_Config_Manager_Test extends TestCase {
      * 测试 module_map 返回的选项键名格式正确
      */
     public function test_module_map_values_are_valid_option_names(): void {
-        $map = MaBox_Config_Manager::get_module_map();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
 
         foreach ($map as $module_key => $option_name) {
             $this->assertIsString($option_name, "Option name for '$module_key' should be a string");
-            $this->assertStringStartsWith('Magick_ToolBox_Option_', $option_name,
-                "Option name for '$module_key' should start with 'Magick_ToolBox_Option_'");
+            $this->assertStringStartsWith('npcink_site_toolbox_', $option_name,
+                "Option name for '$module_key' should start with 'npcink_site_toolbox_'");
         }
     }
 
@@ -51,7 +51,7 @@ class MaBox_Config_Manager_Test extends TestCase {
      * 测试 module_map 键数量
      */
     public function test_module_map_has_correct_count(): void {
-        $map = MaBox_Config_Manager::get_module_map();
+        $map = Npcink_Toolbox_Config_Manager::get_module_map();
         $this->assertCount(5, $map);
     }
 
@@ -72,14 +72,14 @@ class MaBox_Config_Manager_Test extends TestCase {
         );
 
         foreach ($methods as $method) {
-            $this->assertTrue(method_exists('MaBox_Config_Manager', $method),
+            $this->assertTrue(method_exists('Npcink_Toolbox_Config_Manager', $method),
                 "Method '$method' should exist");
         }
     }
 
     public function test_legacy_migration_and_import_export_methods_are_removed(): void {
         foreach (array('needs_migration', 'migrate', 'rollback', 'export_config', 'import_config') as $method) {
-            $this->assertFalse(method_exists('MaBox_Config_Manager', $method), "Method '$method' should be removed");
+            $this->assertFalse(method_exists('Npcink_Toolbox_Config_Manager', $method), "Method '$method' should be removed");
         }
     }
 
@@ -87,7 +87,7 @@ class MaBox_Config_Manager_Test extends TestCase {
      * 测试 clear_cache 方法为静态
      */
     public function test_clear_cache_is_static(): void {
-        $method = new ReflectionMethod('MaBox_Config_Manager', 'clear_cache');
+        $method = new ReflectionMethod('Npcink_Toolbox_Config_Manager', 'clear_cache');
         $this->assertTrue($method->isStatic());
     }
 
@@ -95,7 +95,7 @@ class MaBox_Config_Manager_Test extends TestCase {
      * 测试 get_module_map 方法为静态
      */
     public function test_get_module_map_is_static(): void {
-        $method = new ReflectionMethod('MaBox_Config_Manager', 'get_module_map');
+        $method = new ReflectionMethod('Npcink_Toolbox_Config_Manager', 'get_module_map');
         $this->assertTrue($method->isStatic());
     }
 
@@ -103,7 +103,7 @@ class MaBox_Config_Manager_Test extends TestCase {
      * 测试类为纯静态设计（无实例属性）
      */
     public function test_class_is_static_design(): void {
-        $class = new ReflectionClass('MaBox_Config_Manager');
+        $class = new ReflectionClass('Npcink_Toolbox_Config_Manager');
         $properties = $class->getProperties();
 
         foreach ($properties as $property) {

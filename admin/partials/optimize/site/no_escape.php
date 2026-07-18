@@ -2,8 +2,8 @@
 
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_No_Escape')) {
-    class MaBox_No_Escape implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_No_Escape')) {
+    class Npcink_Toolbox_No_Escape implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {

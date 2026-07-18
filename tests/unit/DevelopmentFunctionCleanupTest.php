@@ -9,9 +9,9 @@ final class DevelopmentFunctionCleanupTest extends TestCase
     public function test_release_runtime_has_no_server_debug_logging_or_print_dump(): void
     {
         $files = array(
-            'includes/class-magick-mixture-tool.php',
-            'includes/class-magick-audit-logger.php',
-            'admin/class-magick-mixture-admin.php',
+            'includes/class-npcink-toolbox-tool.php',
+            'includes/class-npcink-toolbox-audit-logger.php',
+            'admin/class-npcink-toolbox-admin.php',
             'admin/modules/loader.php',
             'admin/partials/optimize/medium/svg_support.php',
         );
@@ -26,7 +26,7 @@ final class DevelopmentFunctionCleanupTest extends TestCase
 
     public function test_unused_tool_print_method_is_removed(): void
     {
-        $source = $this->source('includes/class-magick-mixture-tool.php');
+        $source = $this->source('includes/class-npcink-toolbox-tool.php');
 
         $this->assertStringNotContainsString('public static function p(', $source);
         $this->assertStringNotContainsString('public static function run_page_hook(', $source);
@@ -38,18 +38,18 @@ final class DevelopmentFunctionCleanupTest extends TestCase
     {
         $source = $this->source('npcink-site-toolbox.php');
 
-        $this->assertStringContainsString('(new Magick_Mixture())->run();', $source);
+        $this->assertStringContainsString('(new Npcink_Site_Toolbox())->run();', $source);
         $this->assertStringNotContainsString('function npcink_site_toolbox_run()', $source);
         $this->assertStringNotContainsString('function run_magick_mixture()', $source);
     }
 
-    public function test_uninstall_dynamic_table_variable_uses_plugin_prefix(): void
+    public function test_uninstall_does_not_keep_retired_table_cleanup(): void
     {
         $source = $this->source('uninstall.php');
 
-        $this->assertStringContainsString('$mabox_table_name =', $source);
-        $this->assertStringNotContainsString('$table_name', $source);
-        $this->assertStringContainsString('PluginCheck.Security.DirectDB.UnescapedDBParameter', $source);
+        $this->assertStringNotContainsString('link_counter', $source);
+        $this->assertStringNotContainsString('DROP TABLE', $source);
+        $this->assertStringNotContainsString('PluginCheck.Security.DirectDB.UnescapedDBParameter', $source);
     }
 
     private function source(string $relativePath): string

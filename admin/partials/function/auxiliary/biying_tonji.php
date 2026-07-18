@@ -5,8 +5,8 @@ defined('ABSPATH') || exit;
  * 效果：必应统计
  * 来源：
  */
-if (!class_exists('MaBox_Biying_Tonji')) {
-    class MaBox_Biying_Tonji implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Biying_Tonji')) {
+    class Npcink_Toolbox_Biying_Tonji implements Npcink_Toolbox_Module_Interface
     {
         private static $option;
         public static function run($config = array())

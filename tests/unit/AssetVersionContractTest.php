@@ -35,15 +35,15 @@ final class AssetVersionContractTest extends TestCase
     public function test_plugin_owned_assets_have_explicit_versions(): void
     {
         $this->assertStringContainsString(
-            "wp_register_style('mabox-cookie-style', false, array(), MAGICK_MIXTURE_VERSION)",
+            "wp_register_style('mabox-cookie-style', false, array(), NPCINK_SITE_TOOLBOX_VERSION)",
             $this->source('admin/partials/domestic/compliance/index.php')
         );
         $this->assertStringContainsString(
-            "wp_register_script('mabox-cookie-script', false, array(), MAGICK_MIXTURE_VERSION, true)",
+            "wp_register_script('mabox-cookie-script', false, array(), NPCINK_SITE_TOOLBOX_VERSION, true)",
             $this->source('admin/partials/domestic/compliance/index.php')
         );
         $this->assertStringContainsString(
-            "wp_register_style('mabox-wechat-guide-style', false, array(), MAGICK_MIXTURE_VERSION)",
+            "wp_register_style('mabox-wechat-guide-style', false, array(), NPCINK_SITE_TOOLBOX_VERSION)",
             $this->source('admin/partials/domestic/wechat/index.php')
         );
         $this->assertStringContainsString(
@@ -51,15 +51,15 @@ final class AssetVersionContractTest extends TestCase
             $this->source('admin/partials/domestic/wechat/index.php')
         );
         $this->assertStringContainsString(
-            "wp_register_script('mabox-wechat-guide-script', false, array(), MAGICK_MIXTURE_VERSION, true)",
+            "wp_register_script('mabox-wechat-guide-script', false, array(), NPCINK_SITE_TOOLBOX_VERSION, true)",
             $this->source('admin/partials/domestic/wechat/index.php')
         );
         $this->assertStringContainsString(
-            "array(), MAGICK_MIXTURE_VERSION );",
+            "array(), NPCINK_SITE_TOOLBOX_VERSION );",
             $this->source('admin/partials/optimize/admin/thumbnail_switcher/easy-thumbnail-switcher.php')
         );
         $this->assertStringContainsString(
-            "array(), MAGICK_MIXTURE_VERSION)",
+            "array(), NPCINK_SITE_TOOLBOX_VERSION)",
             $this->source('admin/partials/optimize/admin/add_time_screen.php')
         );
     }

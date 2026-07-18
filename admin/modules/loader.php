@@ -10,19 +10,19 @@ defined('ABSPATH') || exit;
  */
 
 // 加载模块接口契约
-require_once plugin_dir_path(dirname(dirname(__FILE__))) . 'includes/interface-mabox-module.php';
+require_once plugin_dir_path(dirname(dirname(__FILE__))) . 'includes/interface-npcink-toolbox-module.php';
 
 // 加载元数据聚合层
 require_once plugin_dir_path(__FILE__) . 'metadata.php';
 
-if (!class_exists('MaBox_Module_Loader')) {
-    class MaBox_Module_Loader {
+if (!class_exists('Npcink_Toolbox_Module_Loader')) {
+    class Npcink_Toolbox_Module_Loader {
 
         private static $registry = null;
 
         public static function get_registry() {
             if (self::$registry === null) {
-                self::$registry = MaBox_Module_Metadata::get_registry();
+                self::$registry = Npcink_Toolbox_Module_Metadata::get_registry();
             }
             return self::$registry;
         }
@@ -42,7 +42,7 @@ if (!class_exists('MaBox_Module_Loader')) {
                 }
 
                 if (!empty($meta['theme_requirement'])) {
-                    if (!MaBox_Tool::theme_active($meta['theme_requirement'])) {
+                    if (!Npcink_Toolbox_Tool::theme_active($meta['theme_requirement'])) {
                         continue;
                     }
                 }
@@ -101,16 +101,16 @@ if (!class_exists('MaBox_Module_Loader')) {
 
             // 验证模块是否实现接口契约。不合规模块必须停止加载。
             $class = $meta['class'];
-            if (!is_subclass_of($class, 'MaBox_Module_Interface')) {
-                if (class_exists('MaBox_Audit_Logger')) {
-                    MaBox_Audit_Logger::log('error', 'config', "Module {$class} does not implement MaBox_Module_Interface");
+            if (!is_subclass_of($class, 'Npcink_Toolbox_Module_Interface')) {
+                if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+                    Npcink_Toolbox_Audit_Logger::log('error', 'config', "Module {$class} does not implement Npcink_Toolbox_Module_Interface");
                 }
                 return;
             }
 
             if (!is_callable(array($class, 'run'))) {
-                if (class_exists('MaBox_Audit_Logger')) {
-                    MaBox_Audit_Logger::log('error', 'config', "Module {$class} has no callable run() method");
+                if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+                    Npcink_Toolbox_Audit_Logger::log('error', 'config', "Module {$class} has no callable run() method");
                 }
                 return;
             }

@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 接口 - 提供分类和标签数据接口
  */
 
-if (!class_exists('MaBox_Interface_Category_Data')) {
-    class MaBox_Interface_Category_Data implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Interface_Category_Data')) {
+    class Npcink_Toolbox_Interface_Category_Data implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {
@@ -84,7 +84,7 @@ if (!class_exists('MaBox_Interface_Category_Data')) {
         private static function unavailable_response()
         {
             return new WP_Error(
-                'mabox_category_data_unavailable',
+                'npcink_site_toolbox_category_data_unavailable',
                 __('无法获取分类、标签和页面数据。', 'npcink-site-toolbox'),
                 array('status' => 500)
             );

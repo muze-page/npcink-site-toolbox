@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Module_Metadata')) {
-    class MaBox_Module_Metadata {
+if (!class_exists('Npcink_Toolbox_Module_Metadata')) {
+    class Npcink_Toolbox_Module_Metadata {
 
         private static $registry = null;
 

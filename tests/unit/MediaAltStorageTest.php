@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-final class MaBox_Media_Alt_Storage_Test extends TestCase {
+final class Npcink_Toolbox_Media_Alt_Storage_Test extends TestCase {
 
     /**
      * @dataProvider alt_handler_files

@@ -181,7 +181,7 @@ final class SiteHealthI18nTest extends TestCase
     private function source(): string
     {
         $source = file_get_contents(
-            dirname(__DIR__, 2) . '/includes/class-magick-site-health.php'
+            dirname(__DIR__, 2) . '/includes/class-npcink-toolbox-site-health.php'
         );
         $this->assertIsString($source);
 

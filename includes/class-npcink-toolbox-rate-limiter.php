@@ -8,8 +8,8 @@ defined('ABSPATH') || exit;
  *
  * @since 2.4.0
  */
-if (!class_exists('MaBox_Rate_Limiter')) {
-    class MaBox_Rate_Limiter
+if (!class_exists('Npcink_Toolbox_Rate_Limiter')) {
+    class Npcink_Toolbox_Rate_Limiter
     {
         /**
          * 默认限制配置
@@ -30,7 +30,7 @@ if (!class_exists('MaBox_Rate_Limiter')) {
         public static function check($key, $config = array())
         {
             $config = array_merge(self::$defaults, $config);
-            $transient_key = 'mabox_rate_limit_' . md5($key);
+            $transient_key = 'npcink_site_toolbox_rate_limit_' . md5($key);
             $data = get_transient($transient_key);
 
             if ($data === false) {
@@ -70,8 +70,8 @@ if (!class_exists('MaBox_Rate_Limiter')) {
                 set_transient($transient_key, $data, $config['block_time']);
 
                 // 记录日志
-                if (class_exists('MaBox_Audit_Logger')) {
-                    MaBox_Audit_Logger::rate_limit('频率限制触发: ' . $key, array(
+                if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+                    Npcink_Toolbox_Audit_Logger::rate_limit('频率限制触发: ' . $key, array(
                         'count' => $data['count'],
                         'time_window' => $config['time_window'],
                     ));
@@ -92,7 +92,7 @@ if (!class_exists('MaBox_Rate_Limiter')) {
          */
         public static function get_client_id()
         {
-            $ip = MaBox_Helpers::get_real_ip();
+            $ip = Npcink_Toolbox_Helpers::get_real_ip();
             $ua = isset($_SERVER['HTTP_USER_AGENT']) && is_string($_SERVER['HTTP_USER_AGENT'])
                 ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT']))
                 : '';
@@ -175,7 +175,7 @@ if (!class_exists('MaBox_Rate_Limiter')) {
          */
         public static function reset($key)
         {
-            $transient_key = 'mabox_rate_limit_' . md5($key);
+            $transient_key = 'npcink_site_toolbox_rate_limit_' . md5($key);
             return delete_transient($transient_key);
         }
 
@@ -187,7 +187,7 @@ if (!class_exists('MaBox_Rate_Limiter')) {
          */
         public static function get_status($key)
         {
-            $transient_key = 'mabox_rate_limit_' . md5($key);
+            $transient_key = 'npcink_site_toolbox_rate_limit_' . md5($key);
             return get_transient($transient_key);
         }
     }

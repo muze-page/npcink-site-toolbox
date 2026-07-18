@@ -51,8 +51,8 @@ if (!htmlSource.includes('src="./index.js"') || !htmlSource.includes('href="./in
 
 const mainSource = readFileSync(join(sourceDirectory, 'main.tsx'), 'utf8');
 const dataContextSource = readFileSync(join(sourceDirectory, 'components/tool/dataContext.tsx'), 'utf8');
-if (!mainSource.includes('document.getElementById("mabox_census_count")')) {
-  throw new Error('Count mount contract #mabox_census_count is missing');
+if (!mainSource.includes('document.getElementById("npcink_site_toolbox_census_count")')) {
+  throw new Error('Count mount contract #npcink_site_toolbox_census_count is missing');
 }
 if (!dataContextSource.includes('window.dataLocal')) {
   throw new Error('Count data contract window.dataLocal is missing');
@@ -167,7 +167,7 @@ const walkRules = (rules) => {
   for (const rule of Array.from(rules)) {
     if (rule.type === 1) {
       for (const selector of rule.selectorText.split(',')) {
-        if (!selector.trim().startsWith('#mabox_census_count')) invalidSelectors.push(selector.trim());
+        if (!selector.trim().startsWith('#npcink_site_toolbox_census_count')) invalidSelectors.push(selector.trim());
       }
     }
     if (rule.cssRules) walkRules(rule.cssRules);
@@ -176,7 +176,7 @@ const walkRules = (rules) => {
 walkRules(style.sheet.cssRules);
 dom.window.close();
 if (invalidSelectors.length > 0) {
-  throw new Error(`Count CSS escaped #mabox_census_count: ${invalidSelectors.join(', ')}`);
+  throw new Error(`Count CSS escaped #npcink_site_toolbox_census_count: ${invalidSelectors.join(', ')}`);
 }
 
 const sourceFiles = collectFiles(sourceDirectory)

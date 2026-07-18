@@ -4,33 +4,33 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+require_once dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
 
 class DomesticEnvironmentTest extends TestCase
 {
     public function test_class_exists(): void
     {
-        $this->assertTrue(class_exists('MaBox_Domestic_Environment'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Domestic_Environment'));
     }
 
     public function test_rest_check_method_exists(): void
     {
-        $this->assertTrue(method_exists('MaBox_Domestic_Environment', 'rest_check'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_Domestic_Environment', 'rest_check'));
     }
 
     public function test_rest_apply_method_exists(): void
     {
-        $this->assertTrue(method_exists('MaBox_Domestic_Environment', 'rest_apply'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_Domestic_Environment', 'rest_apply'));
     }
 
     public function test_get_environment_status_method_exists(): void
     {
-        $this->assertTrue(method_exists('MaBox_Domestic_Environment', 'get_environment_status'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_Domestic_Environment', 'get_environment_status'));
     }
 
     public function test_checks_define_four_services(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString('google_fonts', $content);
@@ -41,7 +41,7 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_check_results_include_required_fields(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("'service'", $content);
@@ -52,17 +52,17 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_check_uses_transient_cache(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
-        $this->assertStringContainsString("get_transient('mabox_environment_check'", $content);
-        $this->assertStringContainsString("set_transient('mabox_environment_check'", $content);
+        $this->assertStringContainsString("get_transient('npcink_site_toolbox_environment_check'", $content);
+        $this->assertStringContainsString("set_transient('npcink_site_toolbox_environment_check'", $content);
         $this->assertStringContainsString("HOUR_IN_SECONDS", $content);
     }
 
     public function test_external_connectivity_checks_do_not_disable_tls_verification(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertDoesNotMatchRegularExpression(
@@ -74,7 +74,7 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_apply_validates_fixes_param(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("is_array(\$fixes)", $content);
@@ -83,7 +83,7 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_apply_only_allows_valid_fixes(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("array_intersect(\$fixes, \$allowed_fixes)", $content);
@@ -94,7 +94,7 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_apply_sets_gravatar_mirror_default(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("cdn_gravatar_mirror", $content);
@@ -104,7 +104,7 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_apply_sets_google_fonts_mirror_default(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("cdn_google_fonts_mirror", $content);
@@ -114,17 +114,17 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_apply_returns_diffs_instead_of_saving(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("'diffs'", $content);
         $this->assertStringContainsString("'proposed'", $content);
-        $this->assertStringNotContainsString("update_option(MAGICK_MIXTURE_OPTION_OPTIMIZE", $content);
+        $this->assertStringNotContainsString("update_option(NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE", $content);
     }
 
     public function test_apply_marks_cdn_replace_as_high_risk(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString("'risk_level' => 'high'", $content);
@@ -133,25 +133,25 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_apply_audit_logger_uses_correct_signature(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
-        $this->assertStringContainsString("MaBox_Audit_Logger::log('info', 'config'", $content);
+        $this->assertStringContainsString("Npcink_Toolbox_Audit_Logger::log('info', 'config'", $content);
     }
 
     public function test_apply_clears_transient_cache(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
-        $this->assertStringContainsString("MaBox_Audit_Logger::log", $content);
+        $this->assertStringContainsString("Npcink_Toolbox_Audit_Logger::log", $content);
     }
 
     public function test_get_environment_status_returns_structure(): void
     {
         $this->mockWordPressFunctions();
 
-        $status = MaBox_Domestic_Environment::get_environment_status();
+        $status = Npcink_Toolbox_Domestic_Environment::get_environment_status();
 
         $this->assertIsArray($status);
         $this->assertArrayHasKey('items', $status);
@@ -169,11 +169,11 @@ class DomesticEnvironmentTest extends TestCase
     public function test_get_environment_status_none_replaced_by_default(): void
     {
         $this->mockWordPressFunctions(array(
-            MAGICK_MIXTURE_OPTION_OPTIMIZE => array('site' => array()),
+            NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE => array('site' => array()),
         ));
         $this->clearConfigCache();
 
-        $status = MaBox_Domestic_Environment::get_environment_status();
+        $status = Npcink_Toolbox_Domestic_Environment::get_environment_status();
 
         $this->assertEquals(0, $status['replaced']);
         $this->assertEquals(3, $status['total']);
@@ -184,7 +184,7 @@ class DomesticEnvironmentTest extends TestCase
     public function test_get_environment_status_all_replaced(): void
     {
         $this->mockWordPressFunctions(array(
-            MAGICK_MIXTURE_OPTION_OPTIMIZE => array(
+            NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE => array(
                 'site' => array(
                     'cdn_gravatar' => true,
                     'cdn_google_fonts' => true,
@@ -194,7 +194,7 @@ class DomesticEnvironmentTest extends TestCase
         ));
         $this->clearConfigCache();
 
-        $status = MaBox_Domestic_Environment::get_environment_status();
+        $status = Npcink_Toolbox_Domestic_Environment::get_environment_status();
 
         $this->assertEquals(3, $status['replaced']);
         $this->assertTrue($status['all_replaced']);
@@ -204,7 +204,7 @@ class DomesticEnvironmentTest extends TestCase
     public function test_get_environment_status_partial_replaced(): void
     {
         $this->mockWordPressFunctions(array(
-            MAGICK_MIXTURE_OPTION_OPTIMIZE => array(
+            NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE => array(
                 'site' => array(
                     'cdn_gravatar' => true,
                 ),
@@ -212,7 +212,7 @@ class DomesticEnvironmentTest extends TestCase
         ));
         $this->clearConfigCache();
 
-        $status = MaBox_Domestic_Environment::get_environment_status();
+        $status = Npcink_Toolbox_Domestic_Environment::get_environment_status();
 
         $this->assertEquals(1, $status['replaced']);
         $this->assertFalse($status['all_replaced']);
@@ -221,7 +221,7 @@ class DomesticEnvironmentTest extends TestCase
 
     public function test_suggestions_for_unreachable_services(): void
     {
-        $file = dirname(__FILE__) . '/../../includes/class-mabox-domestic-environment.php';
+        $file = dirname(__FILE__) . '/../../includes/class-npcink-toolbox-domestic-environment.php';
         $content = file_get_contents($file);
 
         $this->assertStringContainsString('CDN 替换', $content);
@@ -239,20 +239,20 @@ class DomesticEnvironmentTest extends TestCase
         }
 
         $GLOBALS['_test_option_store'] = array_merge(array(
-            MAGICK_TOOLBOX_ACTIVE_MODULES => array(),
-            MAGICK_MIXTURE_OPTION_OPTIMIZE => array(),
-            MAGICK_MIXTURE_OPTION_PAGE => array(),
-            MAGICK_MIXTURE_OPTION_FUNCTION => array(),
-            MAGICK_MIXTURE_OPTION_DOMESTIC => array(),
-            MAGICK_MIXTURE_OPTION_PERFORMANCE => array(),
+            NPCINK_SITE_TOOLBOX_ACTIVE_MODULES => array(),
+            NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE => array(),
+            NPCINK_SITE_TOOLBOX_OPTION_PAGE => array(),
+            NPCINK_SITE_TOOLBOX_OPTION_FUNCTION => array(),
+            NPCINK_SITE_TOOLBOX_OPTION_DOMESTIC => array(),
+            NPCINK_SITE_TOOLBOX_OPTION_PERFORMANCE => array(),
         ), $options);
     }
 
     private function clearConfigCache(): void
     {
-        if (class_exists('MaBox_Config_Manager')) {
+        if (class_exists('Npcink_Toolbox_Config_Manager')) {
             $prev = error_reporting(error_reporting() & ~E_DEPRECATED);
-            $prop = new ReflectionProperty('MaBox_Config_Manager', 'merged_cache');
+            $prop = new ReflectionProperty('Npcink_Toolbox_Config_Manager', 'merged_cache');
             $prop->setValue(null, null);
             error_reporting($prev);
         }

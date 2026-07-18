@@ -51,7 +51,7 @@ final class MaintenanceOutputEscapingTest extends TestCase
         $red = $this->source('admin/partials/page/function/maintenance/red.php');
 
         $this->assertStringContainsString(
-            "MaBox_Admin::get_config(\$mabox_function, 'countdown', array())",
+            "Npcink_Toolbox_Admin::get_config(\$mabox_function, 'countdown', array())",
             $data
         );
         $this->assertStringContainsString('is_array($mabox_countdown_data)', $data);

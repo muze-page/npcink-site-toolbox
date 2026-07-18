@@ -12,8 +12,8 @@ defined('ABSPATH') || exit;
  *
  * @since 2.5.0
  */
-if (!class_exists('MaBox_Diagnostics')) {
-    class MaBox_Diagnostics
+if (!class_exists('Npcink_Toolbox_Diagnostics')) {
+    class Npcink_Toolbox_Diagnostics
     {
         /**
          * 获取诊断摘要
@@ -23,11 +23,11 @@ if (!class_exists('MaBox_Diagnostics')) {
         public static function get_summary()
         {
             $items = self::get_diagnostic_items(self::get_environment());
-            $active_modules = get_option(MAGICK_TOOLBOX_ACTIVE_MODULES, array());
+            $active_modules = get_option(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES, array());
             if (!is_array($active_modules)) {
                 $active_modules = array();
             }
-            $tiers = class_exists('MaBox_Module_Loader') ? MaBox_Module_Loader::get_tiers() : array();
+            $tiers = class_exists('Npcink_Toolbox_Module_Loader') ? Npcink_Toolbox_Module_Loader::get_tiers() : array();
             $module_risks = self::get_module_risks($active_modules, $tiers);
 
             return array(
@@ -113,7 +113,7 @@ if (!class_exists('MaBox_Diagnostics')) {
                 return $module_risks;
             }
 
-            $registry = class_exists('MaBox_Module_Loader') ? MaBox_Module_Loader::get_registry() : array();
+            $registry = class_exists('Npcink_Toolbox_Module_Loader') ? Npcink_Toolbox_Module_Loader::get_registry() : array();
             foreach (array('high_risk', 'experimental') as $tier) {
                 if (!isset($tiers[$tier])) {
                     continue;

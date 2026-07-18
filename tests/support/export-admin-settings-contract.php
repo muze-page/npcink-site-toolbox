@@ -12,23 +12,23 @@ $root = dirname(__DIR__, 2);
 if (!defined('ABSPATH')) {
     define('ABSPATH', $root . '/');
 }
-if (!defined('MAGICK_MIXTURE_OPTION_OPTIMIZE')) {
-    define('MAGICK_MIXTURE_OPTION_OPTIMIZE', 'Magick_ToolBox_Option_Optimize');
+if (!defined('NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE')) {
+    define('NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE', 'npcink_site_toolbox_optimize');
 }
-if (!defined('MAGICK_MIXTURE_OPTION_PAGE')) {
-    define('MAGICK_MIXTURE_OPTION_PAGE', 'Magick_ToolBox_Option_Page');
+if (!defined('NPCINK_SITE_TOOLBOX_OPTION_PAGE')) {
+    define('NPCINK_SITE_TOOLBOX_OPTION_PAGE', 'npcink_site_toolbox_page');
 }
-if (!defined('MAGICK_MIXTURE_OPTION_FUNCTION')) {
-    define('MAGICK_MIXTURE_OPTION_FUNCTION', 'Magick_ToolBox_Option_Function');
+if (!defined('NPCINK_SITE_TOOLBOX_OPTION_FUNCTION')) {
+    define('NPCINK_SITE_TOOLBOX_OPTION_FUNCTION', 'npcink_site_toolbox_function');
 }
-if (!defined('MAGICK_MIXTURE_OPTION_DOMESTIC')) {
-    define('MAGICK_MIXTURE_OPTION_DOMESTIC', 'Magick_ToolBox_Option_Domestic');
+if (!defined('NPCINK_SITE_TOOLBOX_OPTION_DOMESTIC')) {
+    define('NPCINK_SITE_TOOLBOX_OPTION_DOMESTIC', 'npcink_site_toolbox_domestic');
 }
-if (!defined('MAGICK_MIXTURE_OPTION_PERFORMANCE')) {
-    define('MAGICK_MIXTURE_OPTION_PERFORMANCE', 'Magick_ToolBox_Option_Performance');
+if (!defined('NPCINK_SITE_TOOLBOX_OPTION_PERFORMANCE')) {
+    define('NPCINK_SITE_TOOLBOX_OPTION_PERFORMANCE', 'npcink_site_toolbox_performance');
 }
 
-require_once $root . '/includes/class-mabox-config-schema.php';
+require_once $root . '/includes/class-npcink-toolbox-config-schema.php';
 
 /**
  * Recursively sort JSON objects while preserving list order.
@@ -36,13 +36,13 @@ require_once $root . '/includes/class-mabox-config-schema.php';
  * @param mixed $value
  * @return mixed
  */
-function mabox_normalize_contract($value) {
+function npcink_site_toolbox_normalize_contract($value) {
     if (!is_array($value)) {
         return $value;
     }
 
     foreach ($value as $key => $item) {
-        $value[$key] = mabox_normalize_contract($item);
+        $value[$key] = npcink_site_toolbox_normalize_contract($item);
     }
 
     $is_list = empty($value) || array_keys($value) === range(0, count($value) - 1);
@@ -56,7 +56,7 @@ function mabox_normalize_contract($value) {
 /**
  * Convert a Schema identifier to the stable exported TypeScript name.
  */
-function mabox_typescript_identifier($value) {
+function npcink_site_toolbox_typescript_identifier($value) {
     $parts = preg_split('/[^A-Za-z0-9]+/', (string) $value);
     if (!is_array($parts)) {
         throw new RuntimeException("Unable to derive TypeScript identifier for {$value}");
@@ -78,10 +78,10 @@ function mabox_typescript_identifier($value) {
 /**
  * Derive a stable exported TypeScript name from the Schema path.
  */
-function mabox_setting_type_name($module_key, $sub_key = '') {
-    $type_name = mabox_typescript_identifier($module_key);
+function npcink_site_toolbox_setting_type_name($module_key, $sub_key = '') {
+    $type_name = npcink_site_toolbox_typescript_identifier($module_key);
     if ($sub_key !== '') {
-        $type_name .= mabox_typescript_identifier($sub_key);
+        $type_name .= npcink_site_toolbox_typescript_identifier($sub_key);
     }
     return $type_name;
 }
@@ -89,7 +89,7 @@ function mabox_setting_type_name($module_key, $sub_key = '') {
 /**
  * Render a property name safely without changing existing identifier output.
  */
-function mabox_typescript_property($name) {
+function npcink_site_toolbox_typescript_property($name) {
     if (preg_match('/^[A-Za-z_$][A-Za-z0-9_$]*$/', (string) $name)) {
         return (string) $name;
     }
@@ -104,7 +104,7 @@ function mabox_typescript_property($name) {
 /**
  * Map the supported Schema types exactly and reject unknown or incomplete types.
  */
-function mabox_typescript_type_for_contract($contract, $path) {
+function npcink_site_toolbox_typescript_type_for_contract($contract, $path) {
     if (!is_array($contract) || !isset($contract['type']) || !is_string($contract['type'])) {
         throw new RuntimeException("Missing Schema type at {$path}");
     }
@@ -120,7 +120,7 @@ function mabox_typescript_type_for_contract($contract, $path) {
             if (!isset($contract['items']) || !is_array($contract['items'])) {
                 throw new RuntimeException("Missing array item Schema at {$path}");
             }
-            $item_type = mabox_typescript_type_for_contract($contract['items'], $path . '[]');
+            $item_type = npcink_site_toolbox_typescript_type_for_contract($contract['items'], $path . '[]');
             return $item_type . '[]';
         default:
             throw new RuntimeException("Unsupported Schema type {$contract['type']} at {$path}");
@@ -130,7 +130,7 @@ function mabox_typescript_type_for_contract($contract, $path) {
 /**
  * Render one non-sensitive settings type from a Schema field collection.
  */
-function mabox_render_setting_type($type_name, $field_definitions, $path) {
+function npcink_site_toolbox_render_setting_type($type_name, $field_definitions, $path) {
     if (!is_array($field_definitions)) {
         throw new RuntimeException("Invalid field collection at {$path}");
     }
@@ -143,12 +143,12 @@ function mabox_render_setting_type($type_name, $field_definitions, $path) {
         if (!is_array($field_def)) {
             throw new RuntimeException("Invalid field Schema at {$path}.{$field_key}");
         }
-        $field_type = mabox_typescript_type_for_contract($field_def, $path . '.' . $field_key);
+        $field_type = npcink_site_toolbox_typescript_type_for_contract($field_def, $path . '.' . $field_key);
         if (!empty($field_def['sensitive'])) {
             continue;
         }
 
-        $property = mabox_typescript_property($field_key);
+        $property = npcink_site_toolbox_typescript_property($field_key);
         $lines[] = "  {$property}: {$field_type};";
     }
     $lines[] = '};';
@@ -159,7 +159,7 @@ function mabox_render_setting_type($type_name, $field_definitions, $path) {
 /**
  * Collect sensitive paths without exporting their values or leaf types.
  */
-function mabox_collect_secret_paths($schema) {
+function npcink_site_toolbox_collect_secret_paths($schema) {
     $paths = array();
 
     foreach ($schema as $module_key => $module_def) {
@@ -212,12 +212,12 @@ function mabox_collect_secret_paths($schema) {
 /**
  * Generate all established settings types and the browser-safe Option tree.
  */
-function mabox_render_admin_settings_types($schema) {
+function npcink_site_toolbox_render_admin_settings_types($schema) {
     if (!is_array($schema)) {
         throw new RuntimeException('Settings Schema must be an array');
     }
 
-    $secret_paths = mabox_collect_secret_paths($schema);
+    $secret_paths = npcink_site_toolbox_collect_secret_paths($schema);
     $lines = array(
         '// This file is generated by tests/support/export-admin-settings-contract.php.',
         '// Do not edit it by hand.',
@@ -245,10 +245,10 @@ function mabox_render_admin_settings_types($schema) {
         }
 
         if (!empty($module_def['_flat'])) {
-            $type_name = mabox_setting_type_name($module_key);
+            $type_name = npcink_site_toolbox_setting_type_name($module_key);
             $module_type_references[$module_key] = $type_name;
             $lines[] = '';
-            $lines[] = mabox_render_setting_type($type_name, $module_def, $module_key);
+            $lines[] = npcink_site_toolbox_render_setting_type($type_name, $module_def, $module_key);
             continue;
         }
 
@@ -260,10 +260,10 @@ function mabox_render_admin_settings_types($schema) {
             if (!is_array($sub_def)) {
                 throw new RuntimeException("Invalid submodule Schema at {$module_key}.{$sub_key}");
             }
-            $type_name = mabox_setting_type_name($module_key, $sub_key);
+            $type_name = npcink_site_toolbox_setting_type_name($module_key, $sub_key);
             $module_type_references[$module_key][$sub_key] = $type_name;
             $lines[] = '';
-            $lines[] = mabox_render_setting_type($type_name, $sub_def, $module_key . '.' . $sub_key);
+            $lines[] = npcink_site_toolbox_render_setting_type($type_name, $sub_def, $module_key . '.' . $sub_key);
         }
     }
 
@@ -271,7 +271,7 @@ function mabox_render_admin_settings_types($schema) {
     $lines[] = 'export type Option = {';
     $lines[] = '  [key: string]: any;';
     foreach ($module_type_references as $module_key => $module_reference) {
-        $module_property = mabox_typescript_property($module_key);
+        $module_property = npcink_site_toolbox_typescript_property($module_key);
         if (is_string($module_reference)) {
             $lines[] = "  {$module_property}: {$module_reference};";
             continue;
@@ -279,7 +279,7 @@ function mabox_render_admin_settings_types($schema) {
 
         $lines[] = "  {$module_property}: {";
         foreach ($module_reference as $sub_key => $type_name) {
-            $sub_property = mabox_typescript_property($sub_key);
+            $sub_property = npcink_site_toolbox_typescript_property($sub_key);
             $lines[] = "    {$sub_property}: {$type_name};";
         }
         $lines[] = '  };';
@@ -292,7 +292,7 @@ function mabox_render_admin_settings_types($schema) {
 /**
  * Atomically replace every target after all temporary files are ready.
  */
-function mabox_atomic_replace_generated_files($files) {
+function npcink_site_toolbox_atomic_replace_generated_files($files) {
     $temporary_files = array();
     $backup_files = array();
     $installed_targets = array();
@@ -434,7 +434,7 @@ function mabox_atomic_replace_generated_files($files) {
 /**
  * Execute the narrow two-artifact generator/check command.
  */
-function mabox_export_admin_settings_contract($root, $arguments) {
+function npcink_site_toolbox_export_admin_settings_contract($root, $arguments) {
     $check = $arguments === array('--check');
     if ($arguments !== array() && !$check) {
         fwrite(STDERR, "Usage: php tests/support/export-admin-settings-contract.php [--check]\n");
@@ -442,14 +442,14 @@ function mabox_export_admin_settings_contract($root, $arguments) {
     }
 
     try {
-        $contract = mabox_normalize_contract(MaBox_Config_Schema::get_admin_settings_contract());
+        $contract = npcink_site_toolbox_normalize_contract(Npcink_Toolbox_Config_Schema::get_admin_settings_contract());
         $json = json_encode($contract, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         if (!is_string($json)) {
             throw new RuntimeException('Unable to encode admin settings contract: ' . json_last_error_msg());
         }
         $json .= "\n";
 
-        $typescript = mabox_render_admin_settings_types(MaBox_Config_Schema::get_schema());
+        $typescript = npcink_site_toolbox_render_admin_settings_types(Npcink_Toolbox_Config_Schema::get_schema());
         $files = array(
             $root . '/vite/admin/src/generated/settings-contract.json' => $json,
             $root . '/vite/admin/src/generated/settings-types.ts' => $typescript,
@@ -472,7 +472,7 @@ function mabox_export_admin_settings_contract($root, $arguments) {
             return 0;
         }
 
-        mabox_atomic_replace_generated_files($files);
+        npcink_site_toolbox_atomic_replace_generated_files($files);
         fwrite(STDOUT, "Generated vite/admin/src/generated/settings-contract.json.\n");
         fwrite(STDOUT, "Generated vite/admin/src/generated/settings-types.ts.\n");
         return 0;
@@ -483,5 +483,5 @@ function mabox_export_admin_settings_contract($root, $arguments) {
 }
 
 if (isset($_SERVER['SCRIPT_FILENAME']) && realpath($_SERVER['SCRIPT_FILENAME']) === __FILE__) {
-    exit(mabox_export_admin_settings_contract($root, array_slice($argv, 1)));
+    exit(npcink_site_toolbox_export_admin_settings_contract($root, array_slice($argv, 1)));
 }

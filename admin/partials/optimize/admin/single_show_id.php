@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：文章列表显示文章ID
  * 来源：https://blog.csdn.net/qq_39339179/article/details/119135050
  */
-if (!class_exists('MaBox_Admin_Single_Show_ID')) {
-    class MaBox_Admin_Single_Show_ID implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Admin_Single_Show_ID')) {
+    class Npcink_Toolbox_Admin_Single_Show_ID implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())

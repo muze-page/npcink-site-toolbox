@@ -6,13 +6,13 @@ defined('ABSPATH') || exit;
  * 功能：图片重命名
  * 来源：
  */
-if (!class_exists('MaBox_Medium_Image_Rename')) {
-    class MaBox_Medium_Image_Rename implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Medium_Image_Rename')) {
+    class Npcink_Toolbox_Medium_Image_Rename implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())
         {
-            $upload_auto_name = MaBox_Admin::get_config($config, 'upload_auto_name', 'false');
+            $upload_auto_name = Npcink_Toolbox_Admin::get_config($config, 'upload_auto_name', 'false');
 
             switch ($upload_auto_name) {
                     //时间

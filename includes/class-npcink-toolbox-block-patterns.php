@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 /**
  * Register shared editor categories and reusable core-block patterns.
  */
-final class MaBox_Block_Patterns
+final class Npcink_Toolbox_Block_Patterns
 {
     /**
      * Add the plugin category to the block inserter without disturbing core order.

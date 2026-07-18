@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Unified pre-release PHP classes, constants, autoload paths, and plugin-owned storage keys under the Npcink Site Toolbox identity.
+- Removed retired class aliases, dual-name assumptions, and uninstall cleanup for data surfaces that were never publicly released.
+
 ## [3.2.0] - 2026-07-18
 
 ### Added

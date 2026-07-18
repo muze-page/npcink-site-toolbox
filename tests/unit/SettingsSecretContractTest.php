@@ -44,33 +44,33 @@ class SettingsSecretContractTest extends TestCase
         parent::setUp();
         $GLOBALS['_test_option_store'] = array();
         $GLOBALS['_test_update_option_failures'] = array();
-        MaBox_Config_Manager::clear_cache();
+        Npcink_Toolbox_Config_Manager::clear_cache();
     }
 
     public function test_schema_is_the_single_source_for_secret_paths(): void
     {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
         $expected = array(
             'domestic.wechat.appsecret',
             'performance.oss.access_key',
             'performance.oss.secret_key',
         );
 
-        $this->assertSame($expected, MaBox_Config_Manager::get_secret_paths());
+        $this->assertSame($expected, Npcink_Toolbox_Config_Manager::get_secret_paths());
         $this->assertTrue($schema['domestic']['wechat']['appsecret']['sensitive']);
         $this->assertTrue($schema['performance']['oss']['access_key']['sensitive']);
         $this->assertTrue($schema['performance']['oss']['secret_key']['sensitive']);
         $this->assertSame('', $schema['domestic']['wechat']['appsecret']['default']);
         $this->assertSame('', $schema['performance']['oss']['access_key']['default']);
         $this->assertSame('', $schema['performance']['oss']['secret_key']['default']);
-        $this->assertStringNotContainsString(self::CANARY, serialize(MaBox_Config_Schema::get_defaults()));
+        $this->assertStringNotContainsString(self::CANARY, serialize(Npcink_Toolbox_Config_Schema::get_defaults()));
     }
 
     public function test_array_item_contracts_do_not_change_defaults_or_ui_schema(): void
     {
-        $schema = MaBox_Config_Schema::get_schema();
-        $defaults = MaBox_Config_Schema::get_defaults();
-        $ui_schema = MaBox_Config_Schema::get_ui_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $defaults = Npcink_Toolbox_Config_Schema::get_defaults();
+        $ui_schema = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         $this->assertSame(array('type' => 'string'), $schema['page']['function']['countdown']['items']);
         $this->assertSame('number', $schema['page']['jurisdiction']['category_id']['items']['type']);
@@ -84,7 +84,7 @@ class SettingsSecretContractTest extends TestCase
     {
         $config = $this->configWithSecrets(self::CANARY);
 
-        $browser = MaBox_Config_Manager::get_browser_config($config);
+        $browser = Npcink_Toolbox_Config_Manager::get_browser_config($config);
 
         $this->assertArrayNotHasKey('appsecret', $browser['data']['domestic']['wechat']);
         $this->assertArrayNotHasKey('access_key', $browser['data']['performance']['oss']);
@@ -97,27 +97,27 @@ class SettingsSecretContractTest extends TestCase
 
     public function test_browser_config_drops_retired_batch_replacement_fields(): void
     {
-        $config = MaBox_Config_Schema::get_defaults();
+        $config = Npcink_Toolbox_Config_Schema::get_defaults();
         $config['page']['function']['batch_replace'] = true;
         $config['page']['function']['batch_replace_pairs'] = array(
             array('find' => 'old', 'replace' => 'new'),
         );
 
-        $browser = MaBox_Config_Manager::get_browser_config($config);
+        $browser = Npcink_Toolbox_Config_Manager::get_browser_config($config);
 
         $this->assertArrayNotHasKey('batch_replace', $browser['data']['page']['function']);
         $this->assertArrayNotHasKey('batch_replace_pairs', $browser['data']['page']['function']);
-        $this->assertFalse(MaBox_Config_Schema::validate_browser_settings($config)['valid']);
+        $this->assertFalse(Npcink_Toolbox_Config_Schema::validate_browser_settings($config)['valid']);
     }
 
     public function test_rest_get_settings_never_returns_canary_values(): void
     {
         $config = $this->configWithSecrets(self::CANARY);
-        $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Domestic'] = $config['domestic'];
-        $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Performance'] = $config['performance'];
-        MaBox_Config_Manager::clear_cache();
+        $GLOBALS['_test_option_store']['npcink_site_toolbox_domestic'] = $config['domestic'];
+        $GLOBALS['_test_option_store']['npcink_site_toolbox_performance'] = $config['performance'];
+        Npcink_Toolbox_Config_Manager::clear_cache();
 
-        $response = MaBox_Admin::rest_get_settings(null);
+        $response = Npcink_Toolbox_Admin::rest_get_settings(null);
 
         $this->assertIsArray($response);
         $this->assertStringNotContainsString(self::CANARY, serialize($response));
@@ -129,10 +129,10 @@ class SettingsSecretContractTest extends TestCase
     public function test_fresh_install_rest_get_returns_complete_non_sensitive_defaults(): void
     {
         $GLOBALS['_test_option_store'] = array();
-        MaBox_Config_Manager::clear_cache();
+        Npcink_Toolbox_Config_Manager::clear_cache();
 
-        $response = MaBox_Admin::rest_get_settings(null);
-        $expected_modules = array_keys(MaBox_Config_Schema::get_defaults());
+        $response = Npcink_Toolbox_Admin::rest_get_settings(null);
+        $expected_modules = array_keys(Npcink_Toolbox_Config_Schema::get_defaults());
 
         $this->assertSame($expected_modules, array_keys($response['data']));
         $this->assertArrayHasKey('wechat', $response['data']['domestic']);
@@ -150,7 +150,7 @@ class SettingsSecretContractTest extends TestCase
 
     public function test_missing_secret_change_keeps_existing_values(): void
     {
-        $result = MaBox_Config_Manager::merge_secret_changes(
+        $result = Npcink_Toolbox_Config_Manager::merge_secret_changes(
             $this->browserSettings(),
             array(),
             $this->configWithSecrets(self::CANARY)
@@ -164,7 +164,7 @@ class SettingsSecretContractTest extends TestCase
 
     public function test_replace_and_clear_are_applied_independently(): void
     {
-        $result = MaBox_Config_Manager::merge_secret_changes(
+        $result = Npcink_Toolbox_Config_Manager::merge_secret_changes(
             $this->browserSettings(),
             array(
                 'domestic.wechat.appsecret' => array('operation' => 'replace', 'value' => 'new-wechat-secret'),
@@ -184,7 +184,7 @@ class SettingsSecretContractTest extends TestCase
      */
     public function test_invalid_secret_changes_are_rejected(array $changes): void
     {
-        $result = MaBox_Config_Manager::merge_secret_changes(
+        $result = Npcink_Toolbox_Config_Manager::merge_secret_changes(
             $this->browserSettings(),
             $changes,
             $this->configWithSecrets(self::CANARY)
@@ -212,7 +212,7 @@ class SettingsSecretContractTest extends TestCase
         $settings = $this->browserSettings();
         $settings['domestic']['wechat']['appsecret'] = 'smuggled-secret';
 
-        $result = MaBox_Config_Manager::merge_secret_changes(
+        $result = Npcink_Toolbox_Config_Manager::merge_secret_changes(
             $settings,
             array(),
             $this->configWithSecrets(self::CANARY)
@@ -227,11 +227,11 @@ class SettingsSecretContractTest extends TestCase
         $settings = $this->browserSettings();
         $settings['domestic']['wechat']['appsecret'] = 'smuggled-secret';
 
-        $direct_secret = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+        $direct_secret = Npcink_Toolbox_Admin::rest_save_settings(new SettingsContractRequest(array(
             'settings' => $settings,
             'secretChanges' => array(),
         )));
-        $unknown_top_level = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+        $unknown_top_level = Npcink_Toolbox_Admin::rest_save_settings(new SettingsContractRequest(array(
             'settings' => $this->browserSettings(),
             'secretChanges' => array(),
             'legacyConfig' => array(),
@@ -249,13 +249,13 @@ class SettingsSecretContractTest extends TestCase
     {
         foreach ($this->invalidSettingsTrees() as $label => $settings) {
             $GLOBALS['_test_option_store'] = array(
-                'Magick_ToolBox_Option_Optimize' => array('sentinel' => $label),
+                'npcink_site_toolbox_optimize' => array('sentinel' => $label),
             );
-            MaBox_Config_Manager::clear_cache();
+            Npcink_Toolbox_Config_Manager::clear_cache();
             $before = $GLOBALS['_test_option_store'];
 
-            $manager_result = MaBox_Config_Manager::merge_secret_changes($settings, array(), array());
-            $rest_result = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+            $manager_result = Npcink_Toolbox_Config_Manager::merge_secret_changes($settings, array(), array());
+            $rest_result = Npcink_Toolbox_Admin::rest_save_settings(new SettingsContractRequest(array(
                 'settings' => $settings,
                 'secretChanges' => array(),
             )));
@@ -278,16 +278,16 @@ class SettingsSecretContractTest extends TestCase
         ));
         $expected = "203.0.113.10\n2001:db8::10";
 
-        $browser_validation = MaBox_Config_Schema::validate_browser_settings($settings);
+        $browser_validation = Npcink_Toolbox_Config_Schema::validate_browser_settings($settings);
         $this->assertTrue($browser_validation['valid']);
 
-        $merge = MaBox_Config_Manager::merge_secret_changes($settings, array(), array());
+        $merge = Npcink_Toolbox_Config_Manager::merge_secret_changes($settings, array(), array());
         $this->assertTrue($merge['success']);
-        $sanitized = MaBox_Config_Schema::validate_full_config($merge['data']);
+        $sanitized = Npcink_Toolbox_Config_Schema::validate_full_config($merge['data']);
         $this->assertTrue($sanitized['valid']);
         $this->assertSame($expected, $sanitized['data']['domestic']['login_security']['trusted_proxies']);
 
-        $response = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+        $response = Npcink_Toolbox_Admin::rest_save_settings(new SettingsContractRequest(array(
             'settings' => $settings,
             'secretChanges' => array(),
         )));
@@ -296,7 +296,7 @@ class SettingsSecretContractTest extends TestCase
         $this->assertTrue($response['success']);
         $this->assertSame(
             $expected,
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Domestic']['login_security']['trusted_proxies']
+            $GLOBALS['_test_option_store']['npcink_site_toolbox_domestic']['login_security']['trusted_proxies']
         );
     }
 
@@ -320,14 +320,14 @@ class SettingsSecretContractTest extends TestCase
             $settings = $this->browserSettings();
             $settings['domestic']['login_security'][$case[0]] = $case[1];
             $GLOBALS['_test_option_store'] = array(
-                'Magick_ToolBox_Option_Domestic' => array('sentinel' => $label),
+                'npcink_site_toolbox_domestic' => array('sentinel' => $label),
             );
-            MaBox_Config_Manager::clear_cache();
+            Npcink_Toolbox_Config_Manager::clear_cache();
             $before = $GLOBALS['_test_option_store'];
 
-            $browser_validation = MaBox_Config_Schema::validate_browser_settings($settings);
-            $manager_result = MaBox_Config_Manager::merge_secret_changes($settings, array(), array());
-            $rest_result = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+            $browser_validation = Npcink_Toolbox_Config_Schema::validate_browser_settings($settings);
+            $manager_result = Npcink_Toolbox_Config_Manager::merge_secret_changes($settings, array(), array());
+            $rest_result = Npcink_Toolbox_Admin::rest_save_settings(new SettingsContractRequest(array(
                 'settings' => $settings,
                 'secretChanges' => array(),
             )));
@@ -344,10 +344,10 @@ class SettingsSecretContractTest extends TestCase
     public function test_complete_settings_with_keep_replace_and_clear_save_successfully(): void
     {
         $current = $this->configWithSecrets(self::CANARY);
-        foreach (MaBox_Config_Manager::get_module_map() as $module => $option_name) {
+        foreach (Npcink_Toolbox_Config_Manager::get_module_map() as $module => $option_name) {
             $GLOBALS['_test_option_store'][$option_name] = $current[$module];
         }
-        MaBox_Config_Manager::clear_cache();
+        Npcink_Toolbox_Config_Manager::clear_cache();
 
         $settings = $this->browserSettings();
         $settings['page']['function']['countdown'] = array('2026-07-15 12:00:00');
@@ -356,7 +356,7 @@ class SettingsSecretContractTest extends TestCase
         $settings['page']['jurisdiction']['page_id'] = array(4);
         $settings['page']['jurisdiction']['single_id'] = array(5);
 
-        $response = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+        $response = Npcink_Toolbox_Admin::rest_save_settings(new SettingsContractRequest(array(
             'settings' => $settings,
             'secretChanges' => array(
                 'domestic.wechat.appsecret' => array('operation' => 'replace', 'value' => 'new-wechat-secret'),
@@ -368,40 +368,40 @@ class SettingsSecretContractTest extends TestCase
         $this->assertTrue($response['success']);
         $this->assertSame(
             'new-wechat-secret',
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Domestic']['wechat']['appsecret']
+            $GLOBALS['_test_option_store']['npcink_site_toolbox_domestic']['wechat']['appsecret']
         );
         $this->assertSame(
             self::CANARY,
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Performance']['oss']['access_key']
+            $GLOBALS['_test_option_store']['npcink_site_toolbox_performance']['oss']['access_key']
         );
         $this->assertSame(
             '',
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Performance']['oss']['secret_key']
+            $GLOBALS['_test_option_store']['npcink_site_toolbox_performance']['oss']['secret_key']
         );
         $this->assertSame(
             array('2026-07-15 12:00:00'),
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Page']['function']['countdown']
+            $GLOBALS['_test_option_store']['npcink_site_toolbox_page']['function']['countdown']
         );
         $this->assertSame(
             array(1, 2.5),
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Page']['jurisdiction']['category_id']
+            $GLOBALS['_test_option_store']['npcink_site_toolbox_page']['jurisdiction']['category_id']
         );
     }
 
     public function test_rest_reports_unconfirmed_rollback_without_claiming_settings_were_restored(): void
     {
         $current = $this->configWithSecrets(self::CANARY);
-        foreach (MaBox_Config_Manager::get_module_map() as $module => $option_name) {
+        foreach (Npcink_Toolbox_Config_Manager::get_module_map() as $module => $option_name) {
             $GLOBALS['_test_option_store'][$option_name] = $current[$module];
         }
-        MaBox_Config_Manager::clear_cache();
+        Npcink_Toolbox_Config_Manager::clear_cache();
 
         $settings = $this->browserSettings();
         $settings['optimize']['site']['hide_top_toolbar'] = !$settings['optimize']['site']['hide_top_toolbar'];
         $settings['page']['feature']['reading_progress'] = !$settings['page']['feature']['reading_progress'];
         $GLOBALS['_test_update_option_failures'] = new SettingsRollbackFailureSequence();
 
-        $response = MaBox_Admin::rest_save_settings(new SettingsContractRequest(array(
+        $response = Npcink_Toolbox_Admin::rest_save_settings(new SettingsContractRequest(array(
             'settings' => $settings,
             'secretChanges' => array(),
         )));
@@ -414,21 +414,21 @@ class SettingsSecretContractTest extends TestCase
         $this->assertStringNotContainsString('已恢复为之前的设置', $response->get_error_message());
         $this->assertSame(
             $settings['optimize']['site']['hide_top_toolbar'],
-            $GLOBALS['_test_option_store']['Magick_ToolBox_Option_Optimize']['site']['hide_top_toolbar']
+            $GLOBALS['_test_option_store']['npcink_site_toolbox_optimize']['site']['hide_top_toolbar']
         );
     }
 
     public function test_admin_localization_does_not_embed_settings_or_defaults(): void
     {
-        $source = file_get_contents(dirname(__DIR__, 2) . '/admin/class-magick-mixture-admin.php');
-        $this->assertStringNotContainsString("'option' => MaBox_Config_Manager::get_merged_config()", $source);
-        $this->assertStringNotContainsString("'defaults' => MaBox_Config_Schema::get_defaults()", $source);
+        $source = file_get_contents(dirname(__DIR__, 2) . '/admin/class-npcink-toolbox-admin.php');
+        $this->assertStringNotContainsString("'option' => Npcink_Toolbox_Config_Manager::get_merged_config()", $source);
+        $this->assertStringNotContainsString("'defaults' => Npcink_Toolbox_Config_Schema::get_defaults()", $source);
         $this->assertStringNotContainsString('wizard_completed', $source);
     }
 
     private function browserSettings(): array
     {
-        $settings = MaBox_Config_Manager::get_browser_config(array())['data'];
+        $settings = Npcink_Toolbox_Config_Manager::get_browser_config(array())['data'];
         $settings['domestic']['wechat']['jssdk_enabled'] = true;
         $settings['domestic']['wechat']['appid'] = 'wx-app-id';
         $settings['performance']['oss']['enabled'] = true;
@@ -520,11 +520,11 @@ class SettingsRollbackFailureSequence implements ArrayAccess
     {
         $this->calls[$offset] = isset($this->calls[$offset]) ? $this->calls[$offset] + 1 : 1;
 
-        if ($offset === 'Magick_ToolBox_Option_Page') {
+        if ($offset === 'npcink_site_toolbox_page') {
             return true;
         }
 
-        return $offset === 'Magick_ToolBox_Option_Optimize' && $this->calls[$offset] >= 2;
+        return $offset === 'npcink_site_toolbox_optimize' && $this->calls[$offset] >= 2;
     }
 
     public function offsetSet($offset, $value): void

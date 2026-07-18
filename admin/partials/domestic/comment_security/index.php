@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
-if (!class_exists('MaBox_Domestic_Comment_Security')) {
-    class MaBox_Domestic_Comment_Security implements MaBox_Module_Interface {
+if (!class_exists('Npcink_Toolbox_Domestic_Comment_Security')) {
+    class Npcink_Toolbox_Domestic_Comment_Security implements Npcink_Toolbox_Module_Interface {
         private static $config;
         public static function run($config = array()) {
             self::$config = $config;
@@ -36,7 +36,7 @@ if (!class_exists('MaBox_Domestic_Comment_Security')) {
                         wp_die('评论包含敏感词，已被拦截。', '评论拦截', array('response' => 403));
                     } else {
                         $commentdata['comment_approved'] = 0;
-                        add_comment_meta($commentdata['comment_ID'] ?? 0, '_mabox_block_reason', '敏感词: ' . $word);
+                        add_comment_meta($commentdata['comment_ID'] ?? 0, '_npcink_site_toolbox_block_reason', '敏感词: ' . $word);
                     }
                     break;
                 }
@@ -49,7 +49,7 @@ if (!class_exists('MaBox_Domestic_Comment_Security')) {
             $count = count($matches[0]);
             if ($count > $limit) {
                 $commentdata['comment_approved'] = 'spam';
-                add_comment_meta($commentdata['comment_ID'] ?? 0, '_mabox_block_reason', '链接数量超限: ' . $count);
+                add_comment_meta($commentdata['comment_ID'] ?? 0, '_npcink_site_toolbox_block_reason', '链接数量超限: ' . $count);
             }
             return $commentdata;
         }
@@ -95,7 +95,7 @@ if (!class_exists('MaBox_Domestic_Comment_Security')) {
             $limit = !empty(self::$config['ip_rate_limit']) ? intval(self::$config['ip_rate_limit']) : 5;
             $window = !empty(self::$config['ip_rate_window']) ? intval(self::$config['ip_rate_window']) : 60;
             $ip = self::get_client_ip();
-            $key = 'mabox_comment_rate_' . md5($ip);
+            $key = 'npcink_site_toolbox_comment_rate_' . md5($ip);
             $count = get_transient($key);
             if ($count === false) $count = 0;
             $count++;
@@ -109,7 +109,7 @@ if (!class_exists('MaBox_Domestic_Comment_Security')) {
             if (!empty(self::$config['log_enabled']) && $status === 'spam') {
                 $comment = get_comment($comment_id);
                 if ($comment) {
-                    $log = get_option('mabox_spam_comment_log', array());
+                    $log = get_option('npcink_site_toolbox_spam_comment_log', array());
                     $log[] = array(
                         'time'    => current_time('mysql'),
                         'id'      => $comment_id,
@@ -117,10 +117,10 @@ if (!class_exists('MaBox_Domestic_Comment_Security')) {
                         'email'   => $comment->comment_author_email,
                         'ip'      => $comment->comment_author_IP,
                         'content' => mb_substr($comment->comment_content, 0, 100),
-                        'reason'  => get_comment_meta($comment_id, '_mabox_block_reason', true),
+                        'reason'  => get_comment_meta($comment_id, '_npcink_site_toolbox_block_reason', true),
                     );
                     if (count($log) > 500) array_shift($log);
-                    update_option('mabox_spam_comment_log', $log);
+                    update_option('npcink_site_toolbox_spam_comment_log', $log);
                 }
             }
         }

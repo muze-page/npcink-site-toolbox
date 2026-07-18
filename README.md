@@ -89,6 +89,7 @@ pnpm dev:admin
 - **图表**：ECharts + 自研统计组件
 - **数据存储**：WordPress `wp_options` 表（按模块拆分）
 - **通信方式**：WordPress REST API 为主，少量独立后台交互使用 WordPress AJAX
+- **内部身份**：PHP 使用 `Npcink_Toolbox_*` / `NPCINK_SITE_TOOLBOX_*`，插件自有持久化键统一使用 `npcink_site_toolbox_*`
 
 ### 安全加固
 
@@ -117,6 +118,7 @@ pnpm dev:admin
 - 站点与媒体、内容与页面、维护工具统一使用可访问的二级标签；功能搜索会自动打开目标所在分组，短页面继续直接展示
 - 概览页增加“编辑器工具”引导，可直接新建文章或页面使用内置样板和站点数据区块
 - 区块与样板插入器统一使用 `Npcink Site Toolbox` 专属分类，集中展示插件提供的编辑器工具
+- 首次发布前统一 PHP 类、常量、文件路径和插件自有存储键，不保留旧别名、双读或迁移器
 
 ### 3.1.1 — 2026-07-18
 
@@ -240,7 +242,7 @@ pnpm dev:admin
 
 1. **PHP 后端**：在 `admin/partials/[category]/` 下创建功能文件，使用静态类 + `run($config)` 方法
 2. **注册模块**：在 `admin/modules/registry.php` 中添加模块注册记录
-3. **设置契约**：在 `MaBox_Config_Schema` 添加类型、默认值、必要的 UI 风险元数据和搜索元数据，然后运行 `composer settings-contract:generate`
+3. **设置契约**：在 `Npcink_Toolbox_Config_Schema` 添加类型、默认值、必要的 UI 风险元数据和搜索元数据，然后运行 `composer settings-contract:generate`
 4. **React 前端**：在对应 Tab 组件中添加 UI 控件；`Option`、设置子类型、敏感字段路径和搜索索引均由 PHP Schema 生成，不再手写镜像
 5. **详细规范**：见 [开发规范与经验手册](docs/开发规范与经验手册.md)
 

@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：修改WordPress搜索结果的链接样式
  * 来源：https://www.huitheme.com/wordpress-search.html
  */
-if (!class_exists('MaBox_Search_Link_Simplify')) {
-    class MaBox_Search_Link_Simplify implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Search_Link_Simplify')) {
+    class Npcink_Toolbox_Search_Link_Simplify implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {

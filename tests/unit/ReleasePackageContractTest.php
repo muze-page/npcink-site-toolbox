@@ -213,7 +213,7 @@ class ReleasePackageContractTest extends TestCase
 
         $activation_archive = $this->createArchive('9.8.7');
         $delete_activation_result = $this->runCommand(array(
-            'zip', '-q', '-d', $activation_archive, self::PACKAGE_SLUG . '/includes/class-magick-mixture.php',
+            'zip', '-q', '-d', $activation_archive, self::PACKAGE_SLUG . '/includes/class-npcink-site-toolbox.php',
         ));
         $this->assertSame(0, $delete_activation_result['status'], $delete_activation_result['output']);
         $activation_result = $this->runCommand(array(
@@ -221,7 +221,7 @@ class ReleasePackageContractTest extends TestCase
         ));
         $this->assertNotSame(0, $activation_result['status']);
         $this->assertStringContainsString(
-            'missing required release file: includes/class-magick-mixture.php',
+            'missing required release file: includes/class-npcink-site-toolbox.php',
             $activation_result['output']
         );
 
@@ -231,7 +231,7 @@ class ReleasePackageContractTest extends TestCase
             '-q',
             '-d',
             $rest_registry_archive,
-            self::PACKAGE_SLUG . '/includes/class-mabox-rest-route-registry.php',
+            self::PACKAGE_SLUG . '/includes/class-npcink-toolbox-rest-route-registry.php',
         ));
         $this->assertSame(0, $delete_rest_registry_result['status'], $delete_rest_registry_result['output']);
         $rest_registry_result = $this->runCommand(array(
@@ -239,7 +239,7 @@ class ReleasePackageContractTest extends TestCase
         ));
         $this->assertNotSame(0, $rest_registry_result['status']);
         $this->assertStringContainsString(
-            'missing required release file: includes/class-mabox-rest-route-registry.php',
+            'missing required release file: includes/class-npcink-toolbox-rest-route-registry.php',
             $rest_registry_result['output']
         );
 
@@ -398,30 +398,30 @@ BASH
     private function requiredFixtureFiles(string $header_version, string $constant_version): array
     {
         return array(
-            'npcink-site-toolbox.php' => "<?php\n/*\n * Plugin Name: Npcink Site Toolbox\n * Version: {$header_version}\n */\ndefine('MAGICK_MIXTURE_VERSION', '{$constant_version}');\n",
+            'npcink-site-toolbox.php' => "<?php\n/*\n * Plugin Name: Npcink Site Toolbox\n * Version: {$header_version}\n */\ndefine('NPCINK_SITE_TOOLBOX_VERSION', '{$constant_version}');\n",
             'readme.txt' => "=== Npcink Site Toolbox ===\nStable tag: {$header_version}\n",
             'LICENSE' => 'GPL-2.0-or-later',
             'index.php' => "<?php\n",
             'uninstall.php' => "<?php\n",
             'admin/index.php' => "<?php\n",
             'includes/autoload.php' => "<?php\n",
-            'includes/class-magick-mixture.php' => "<?php\n",
-            'includes/class-magick-helpers.php' => "<?php\n",
-            'includes/class-magick-rate-limiter.php' => "<?php\n",
-            'includes/class-magick-audit-logger.php' => "<?php\n",
-            'includes/class-magick-site-health.php' => "<?php\n",
-            'includes/class-magick-mixture-tool.php' => "<?php\n",
-            'includes/class-mabox-config-schema.php' => "<?php\n",
-            'includes/class-magick-config-manager.php' => "<?php\n",
-            'includes/class-mabox-rest-route-registry.php' => "<?php\n",
-            'includes/interface-mabox-module.php' => "<?php\n",
+            'includes/class-npcink-site-toolbox.php' => "<?php\n",
+            'includes/class-npcink-toolbox-helpers.php' => "<?php\n",
+            'includes/class-npcink-toolbox-rate-limiter.php' => "<?php\n",
+            'includes/class-npcink-toolbox-audit-logger.php' => "<?php\n",
+            'includes/class-npcink-toolbox-site-health.php' => "<?php\n",
+            'includes/class-npcink-toolbox-tool.php' => "<?php\n",
+            'includes/class-npcink-toolbox-config-schema.php' => "<?php\n",
+            'includes/class-npcink-toolbox-config-manager.php' => "<?php\n",
+            'includes/class-npcink-toolbox-rest-route-registry.php' => "<?php\n",
+            'includes/interface-npcink-toolbox-module.php' => "<?php\n",
             'admin/modules/loader.php' => "<?php\n",
             'admin/modules/metadata.php' => "<?php\n",
             'admin/modules/registry.php' => "<?php\nreturn array();\n",
             'admin/modules/tiers.php' => "<?php\nreturn array();\n",
-            'admin/class-magick-mixture-admin.php' => "<?php\n",
+            'admin/class-npcink-toolbox-admin.php' => "<?php\n",
             'admin/partials/optimize/site/category_link_simplify.php' => "<?php\n",
-            'public/class-magick-mixture-public.php' => "<?php\n",
+            'public/class-npcink-toolbox-public.php' => "<?php\n",
             'blocks/site-stats/block.json' => '{"name":"npcink/site-stats"}',
             'blocks/site-stats/index.js' => 'void 0;',
             'blocks/site-stats/index.asset.php' => "<?php\nreturn array('dependencies' => array(), 'version' => '9.8.7');\n",

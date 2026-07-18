@@ -9,8 +9,8 @@ defined('ABSPATH') || exit;
  *
  * @since 2.3.1
  */
-if (!interface_exists('MaBox_Module_Interface')) {
-    interface MaBox_Module_Interface {
+if (!interface_exists('Npcink_Toolbox_Module_Interface')) {
+    interface Npcink_Toolbox_Module_Interface {
         /**
          * 初始化模块
          *

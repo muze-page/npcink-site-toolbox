@@ -29,31 +29,31 @@ final class BlockPatternsContractTest extends TestCase
 
     public function test_registration_is_attached_to_init(): void
     {
-        $core = $this->source('includes/class-magick-mixture.php');
+        $core = $this->source('includes/class-npcink-site-toolbox.php');
         $autoload = $this->source('includes/autoload.php');
 
         $this->assertStringContainsString(
-            "add_action('init', array('MaBox_Block_Patterns', 'register'))",
+            "add_action('init', array('Npcink_Toolbox_Block_Patterns', 'register'))",
             $core
         );
         $this->assertStringContainsString(
-            "'MaBox_Block_Patterns' => 'includes/class-mabox-block-patterns.php'",
+            "'Npcink_Toolbox_Block_Patterns' => 'includes/class-npcink-toolbox-block-patterns.php'",
             $autoload
         );
     }
 
     public function test_block_and_pattern_categories_share_the_product_identity(): void
     {
-        $core = $this->source('includes/class-magick-mixture.php');
+        $core = $this->source('includes/class-npcink-site-toolbox.php');
         $this->assertStringContainsString(
-            "add_filter('block_categories_all', array('MaBox_Block_Patterns', 'add_block_category'))",
+            "add_filter('block_categories_all', array('Npcink_Toolbox_Block_Patterns', 'add_block_category'))",
             $core
         );
 
         $categories = array(
             array('slug' => 'text', 'title' => '文本'),
         );
-        $with_toolbox = MaBox_Block_Patterns::add_block_category($categories);
+        $with_toolbox = Npcink_Toolbox_Block_Patterns::add_block_category($categories);
 
         $this->assertSame(
             array(
@@ -64,11 +64,11 @@ final class BlockPatternsContractTest extends TestCase
         );
         $this->assertSame(
             $with_toolbox,
-            MaBox_Block_Patterns::add_block_category($with_toolbox),
+            Npcink_Toolbox_Block_Patterns::add_block_category($with_toolbox),
             'The shared category must not be duplicated.'
         );
 
-        foreach (MaBox_Block_Patterns::definitions() as $definition) {
+        foreach (Npcink_Toolbox_Block_Patterns::definitions() as $definition) {
             $this->assertContains('npcink-site-toolbox', $definition['categories']);
         }
     }
@@ -78,7 +78,7 @@ final class BlockPatternsContractTest extends TestCase
      */
     public function test_pattern_uses_only_parseable_core_blocks(string $slug): void
     {
-        $definitions = MaBox_Block_Patterns::definitions();
+        $definitions = Npcink_Toolbox_Block_Patterns::definitions();
         $this->assertArrayHasKey($slug, $definitions);
 
         $path = $this->root() . '/patterns/' . $definitions[$slug]['file'];

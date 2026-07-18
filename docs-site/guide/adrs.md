@@ -7,7 +7,7 @@
 
 ## 决策清单
 
-当前仓库级公开身份决策见 [ADR-0003](https://github.com/muze-page/npcink-site-toolbox/blob/main/docs/decisions/0003-npcink-site-toolbox-public-identity.md)：显示名、slug、主文件、REST namespace 和发布包统一为 Npcink Site Toolbox；内部类名和 Option key 保持不变。
+当前仓库级公开身份决策见 [ADR-0003](https://github.com/muze-page/npcink-site-toolbox/blob/main/docs/decisions/0003-npcink-site-toolbox-public-identity.md)；首次发布前的内部标识与存储键收口见 [ADR-0004](https://github.com/muze-page/npcink-site-toolbox/blob/main/docs/decisions/0004-unify-pre-ga-internal-identity.md)。显示名、slug、主文件、REST namespace、PHP 标识和插件自有存储键现在均使用 Npcink Site Toolbox 身份。
 
 | 编号 | 决策 | 状态 | 日期 |
 |------|------|------|------|
@@ -15,7 +15,7 @@
 | [ADR-002](#adr-002-配置拆分为独立-option) | 配置拆分为独立 Option | 部分取代：保留拆分，删除迁移 | 2024-01 |
 | [ADR-003](#adr-003-前端采用-react-vite-技术栈) | 前端采用 React + Vite 技术栈 | 部分取代：保留技术栈，三个子项目已收口 | 2024-02 |
 | [ADR-004](#adr-004-rest-api-为主-ajax-为兼容) | REST API 为主，AJAX 为兼容层 | 已采纳；namespace 已由 ADR-0003 更新 | 2024-02 |
-| [ADR-005](#adr-005-类名统一为-mabox-前缀) | 类名统一为 MaBox_ 前缀 | 已采纳；不保留旧别名 | 2024-03 |
+| [ADR-005](#adr-005-类名统一为-mabox-前缀) | 类名统一为 MaBox_ 前缀 | 已由仓库 ADR-0004 取代 | 2024-03 |
 | [ADR-006](#adr-006-按需加载机制) | 按需加载机制 | 已采纳 | 2024-01 |
 | [ADR-007](#adr-007-php-74-最低版本要求) | PHP 7.4 最低版本要求 | 已采纳 | 2024-01 |
 | [ADR-008](#adr-008-国内生态优先) | 国内生态优先策略 | 已采纳 | 2024-03 |
@@ -67,9 +67,9 @@
 ### 决策
 
 按模块拆分为独立 Option 键：
-- `Magick_ToolBox_Option_Optimize` — 站点优化配置
-- `Magick_ToolBox_Option_Page` — 页面功能配置
-- `Magick_ToolBox_Option_Function` — 辅助功能配置
+- `npcink_site_toolbox_optimize` — 站点优化配置
+- `npcink_site_toolbox_page` — 页面功能配置
+- `npcink_site_toolbox_function` — 辅助功能配置
 - 以此类推...
 
 当前 Pre-GA 基线直接使用拆分后的 Option，不再保留旧单键配置迁移器。
@@ -147,7 +147,7 @@ WordPress 提供两种前后端通信方式：
 - 不再保留旧 AJAX 兼容层
 - 少量独立后台交互允许直接使用 WordPress AJAX
 - REST 端点统一使用 nonce 验证
-- 公开端点使用 `MaBox_Admin::verify_public_nonce()`
+- 公开端点使用 `Npcink_Toolbox_Admin::verify_public_nonce()`
 
 ### 备选方案
 
@@ -196,6 +196,8 @@ WordPress 提供两种前后端通信方式：
 - 代码一致性提升
 - 降低新开发者学习成本
 - 为后续 `implements MaBox_Module_Interface` 铺路
+
+> **后续状态（2026-07）**：该早期决策已由仓库 ADR-0004 取代。当前类使用 `Npcink_Toolbox_*`，主运行类使用 `Npcink_Site_Toolbox`，且不保留旧类别名。
 
 ---
 

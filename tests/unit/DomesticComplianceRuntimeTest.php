@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-if (!defined('MAGICK_MIXTURE_VERSION')) {
-    define('MAGICK_MIXTURE_VERSION', '3.2.0');
+if (!defined('NPCINK_SITE_TOOLBOX_VERSION')) {
+    define('NPCINK_SITE_TOOLBOX_VERSION', '3.2.0');
 }
 if (!defined('DAY_IN_SECONDS')) {
     define('DAY_IN_SECONDS', 86400);
@@ -91,7 +91,7 @@ if (!function_exists('is_ssl')) {
     }
 }
 
-require_once dirname(__DIR__, 2) . '/includes/interface-mabox-module.php';
+require_once dirname(__DIR__, 2) . '/includes/interface-npcink-toolbox-module.php';
 require_once dirname(__DIR__, 2) . '/admin/partials/domestic/compliance/index.php';
 
 final class DomesticComplianceRuntimeTest extends TestCase
@@ -123,7 +123,7 @@ final class DomesticComplianceRuntimeTest extends TestCase
         ));
 
         ob_start();
-        MaBox_Domestic_Compliance::render_footer();
+        Npcink_Toolbox_Domestic_Compliance::render_footer();
         $output = (string) ob_get_clean();
 
         $this->assertStringContainsString('href="https://beian.miit.gov.cn/"', $output);
@@ -141,7 +141,7 @@ final class DomesticComplianceRuntimeTest extends TestCase
             'cookie_button' => '同意',
         ));
 
-        MaBox_Domestic_Compliance::enqueue_cookie_assets();
+        Npcink_Toolbox_Domestic_Compliance::enqueue_cookie_assets();
 
         $script = $GLOBALS['_test_inline_scripts']['mabox-cookie-script'][0] ?? '';
         $style = $GLOBALS['_test_inline_styles']['mabox-cookie-style'][0] ?? '';
@@ -161,7 +161,7 @@ final class DomesticComplianceRuntimeTest extends TestCase
         $GLOBALS['_test_is_ssl'] = true;
         $this->setConfig(array('cookie_enabled' => true));
 
-        MaBox_Domestic_Compliance::enqueue_cookie_assets();
+        Npcink_Toolbox_Domestic_Compliance::enqueue_cookie_assets();
 
         $script = $GLOBALS['_test_inline_scripts']['mabox-cookie-script'][0] ?? '';
         $payload = $this->extractPayload($script);
@@ -184,7 +184,7 @@ final class DomesticComplianceRuntimeTest extends TestCase
 
     private function setConfig(array $config): void
     {
-        $reflection = new ReflectionProperty('MaBox_Domestic_Compliance', 'config');
+        $reflection = new ReflectionProperty('Npcink_Toolbox_Domestic_Compliance', 'config');
         $reflection->setAccessible(true);
         $reflection->setValue(null, $config);
     }

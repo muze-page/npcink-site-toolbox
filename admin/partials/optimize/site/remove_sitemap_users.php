@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：从原生站点地图中移除用户信息部分
  * 来源：https://www.huitheme.com/wp-sitemap-users.html
  */
-if (!class_exists('MaBox_Remove_Sitemap_Users')) {
-    class MaBox_Remove_Sitemap_Users implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Remove_Sitemap_Users')) {
+    class Npcink_Toolbox_Remove_Sitemap_Users implements Npcink_Toolbox_Module_Interface
     {
 
         public static function run($config = array())

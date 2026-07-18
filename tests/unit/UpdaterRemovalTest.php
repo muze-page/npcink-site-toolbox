@@ -14,11 +14,11 @@ final class UpdaterRemovalTest extends TestCase
         $root = $this->root();
 
         $this->assertFileDoesNotExist($root . '/admin/partials/optimize/site/ban_update.php');
-        $this->assertFalse(class_exists('MaBox_Ban_Update'));
+        $this->assertFalse(class_exists('Npcink_Toolbox_Ban_Update'));
 
         $autoload = file_get_contents($root . '/includes/autoload.php');
         $this->assertIsString($autoload);
-        $this->assertStringNotContainsString('MaBox_Ban_Update', $autoload);
+        $this->assertStringNotContainsString('Npcink_Toolbox_Ban_Update', $autoload);
         $this->assertStringNotContainsString('optimize/site/ban_update.php', $autoload);
     }
 
@@ -36,9 +36,9 @@ final class UpdaterRemovalTest extends TestCase
 
     public function test_schema_defaults_and_search_index_exclude_the_update_blocker(): void
     {
-        $schema = MaBox_Config_Schema::get_schema();
-        $defaults = MaBox_Config_Schema::get_defaults();
-        $contract = MaBox_Config_Schema::get_admin_settings_contract();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $defaults = Npcink_Toolbox_Config_Schema::get_defaults();
+        $contract = Npcink_Toolbox_Config_Schema::get_admin_settings_contract();
 
         $this->assertArrayNotHasKey('renew', $schema['optimize']['site']);
         $this->assertArrayNotHasKey('renew', $defaults['optimize']['site']);

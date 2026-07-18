@@ -27,39 +27,39 @@ if (!defined('WPINC')) {
  *重命名此插件，并在发布新版本时进行更新。
  */
 //定义插件名
-define('MAGICK_MIXTURE_NAME', 'npcink-site-toolbox');
+define('NPCINK_SITE_TOOLBOX_NAME', 'npcink-site-toolbox');
 //定义插件版本
-define('MAGICK_MIXTURE_VERSION', '3.2.0');
-define('MAGICK_TOOLBOX_ACTIVE_MODULES', 'Magick_ToolBox_Active_Modules');
+define('NPCINK_SITE_TOOLBOX_VERSION', '3.2.0');
+define('NPCINK_SITE_TOOLBOX_ACTIVE_MODULES', 'npcink_site_toolbox_active_modules');
 
 /**
  * 配置拆分后的模块级 Option 键名
  * @since 2.1.0
  */
-define('MAGICK_MIXTURE_OPTION_OPTIMIZE', 'Magick_ToolBox_Option_Optimize');
-define('MAGICK_MIXTURE_OPTION_PAGE', 'Magick_ToolBox_Option_Page');
-define('MAGICK_MIXTURE_OPTION_FUNCTION', 'Magick_ToolBox_Option_Function');
+define('NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE', 'npcink_site_toolbox_optimize');
+define('NPCINK_SITE_TOOLBOX_OPTION_PAGE', 'npcink_site_toolbox_page');
+define('NPCINK_SITE_TOOLBOX_OPTION_FUNCTION', 'npcink_site_toolbox_function');
 
 
 /**
  * 第三阶段：国内生态 & 性能优化模块 Option 键名
  * @since 2.2.0
  */
-define('MAGICK_MIXTURE_OPTION_DOMESTIC', 'Magick_ToolBox_Option_Domestic');
-define('MAGICK_MIXTURE_OPTION_PERFORMANCE', 'Magick_ToolBox_Option_Performance');
+define('NPCINK_SITE_TOOLBOX_OPTION_DOMESTIC', 'npcink_site_toolbox_domestic');
+define('NPCINK_SITE_TOOLBOX_OPTION_PERFORMANCE', 'npcink_site_toolbox_performance');
 
 /**
  * 用于定义需要用到的插件类，
  */
 require_once plugin_dir_path(__FILE__) . 'includes/autoload.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-magick-mixture.php';
+require_once plugin_dir_path(__FILE__) . 'includes/class-npcink-site-toolbox.php';
 
 // 生命周期 Hook 必须由主插件文件在顶层注册，模块按需加载时注册会错过事件。
-register_activation_hook(__FILE__, array('MaBox_Category_Link_Simplify', 'activate'));
-register_deactivation_hook(__FILE__, array('MaBox_Category_Link_Simplify', 'deactivate'));
+register_activation_hook(__FILE__, array('Npcink_Toolbox_Category_Link_Simplify', 'activate'));
+register_deactivation_hook(__FILE__, array('Npcink_Toolbox_Category_Link_Simplify', 'deactivate'));
 add_action(
-    'update_option_' . MAGICK_MIXTURE_OPTION_OPTIMIZE,
-    array('MaBox_Category_Link_Simplify', 'handle_optimize_option_update'),
+    'update_option_' . NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE,
+    array('Npcink_Toolbox_Category_Link_Simplify', 'handle_optimize_option_update'),
     10,
     2
 );
@@ -68,11 +68,11 @@ add_action(
 
 
 // 插件仅通过 WordPress 钩子注册行为，不需要暴露额外的全局启动函数。
-(new Magick_Mixture())->run();
+(new Npcink_Site_Toolbox())->run();
 
 // 插件激活时初始化路由表
 register_activation_hook(__FILE__, function() {
-    update_option(MAGICK_TOOLBOX_ACTIVE_MODULES, array());
+    update_option(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES, array());
 });
 
 

@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
-if (!class_exists('MaBox_Performance_Oss')) {
-    class MaBox_Performance_Oss implements MaBox_Module_Interface {
+if (!class_exists('Npcink_Toolbox_Performance_Oss')) {
+    class Npcink_Toolbox_Performance_Oss implements Npcink_Toolbox_Module_Interface {
         private static $config;
         public static function run($config = array()) {
             self::$config = $config;

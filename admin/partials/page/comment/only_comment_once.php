@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源：https://www.npc.ink/13477.html
  */
 
-if (!class_exists('MaBox_Comment_Only_Once')) {
-    class MaBox_Comment_Only_Once implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Comment_Only_Once')) {
+    class Npcink_Toolbox_Comment_Only_Once implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {
@@ -18,7 +18,7 @@ if (!class_exists('MaBox_Comment_Only_Once')) {
         // 获取评论用户的ip，参考wp-includes/comment.php
         public static function ludou_getIP()
         {
-            return MaBox_Helpers::get_real_ip();
+            return Npcink_Toolbox_Helpers::get_real_ip();
         }
         public static function ludou_only_one_comment($approved, $commentdata)
         {

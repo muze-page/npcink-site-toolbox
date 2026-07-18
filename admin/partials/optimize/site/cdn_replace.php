@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 将 WordPress 加载的国外资源替换为国内 CDN 镜像
  * 包括：Google 字体、Gravatar 头像、Google Ajax 等
  */
-if (!class_exists('MaBox_CDN_Replace')) {
-    class MaBox_CDN_Replace implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_CDN_Replace')) {
+    class Npcink_Toolbox_CDN_Replace implements Npcink_Toolbox_Module_Interface
     {
         private static $option;
 
@@ -20,10 +20,10 @@ if (!class_exists('MaBox_CDN_Replace')) {
 
         public static function do_replace()
         {
-            $gravatar = MaBox_Admin::get_config(self::$option, 'cdn_gravatar', false);
-            $google_fonts = MaBox_Admin::get_config(self::$option, 'cdn_google_fonts', false);
-            $google_ajax = MaBox_Admin::get_config(self::$option, 'cdn_google_ajax', false);
-            $custom_cdn = MaBox_Admin::get_config(self::$option, 'cdn_custom', '');
+            $gravatar = Npcink_Toolbox_Admin::get_config(self::$option, 'cdn_gravatar', false);
+            $google_fonts = Npcink_Toolbox_Admin::get_config(self::$option, 'cdn_google_fonts', false);
+            $google_ajax = Npcink_Toolbox_Admin::get_config(self::$option, 'cdn_google_ajax', false);
+            $custom_cdn = Npcink_Toolbox_Admin::get_config(self::$option, 'cdn_custom', '');
 
             // Gravatar 头像替换
             if ($gravatar && $gravatar !== 'false') {
@@ -144,7 +144,7 @@ if (!class_exists('MaBox_CDN_Replace')) {
          */
         private static function get_gravatar_mirror()
         {
-            $mirror = MaBox_Admin::get_config(self::$option, 'cdn_gravatar_mirror', 'gravatar.loli.net/avatar/');
+            $mirror = Npcink_Toolbox_Admin::get_config(self::$option, 'cdn_gravatar_mirror', 'gravatar.loli.net/avatar/');
             return trim($mirror);
         }
 
@@ -153,7 +153,7 @@ if (!class_exists('MaBox_CDN_Replace')) {
          */
         private static function get_google_fonts_mirror()
         {
-            $mirror = MaBox_Admin::get_config(self::$option, 'cdn_google_fonts_mirror', 'fonts.loli.net');
+            $mirror = Npcink_Toolbox_Admin::get_config(self::$option, 'cdn_google_fonts_mirror', 'fonts.loli.net');
             return trim($mirror);
         }
     }

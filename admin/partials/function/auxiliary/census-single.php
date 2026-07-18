@@ -5,8 +5,8 @@ defined('ABSPATH') || exit;
  * 文章统计功能
  */
 
-if (!class_exists('MaBox_Census_Single')) {
-    class MaBox_Census_Single implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Census_Single')) {
+    class Npcink_Toolbox_Census_Single implements Npcink_Toolbox_Module_Interface
     {
 
         public static function run($config = array())
@@ -15,7 +15,7 @@ if (!class_exists('MaBox_Census_Single')) {
             //添加发文统计菜单
             add_action('admin_menu', array(__CLASS__, 'add_menu_single'));
             //添加设置选项
-            add_action('admin_init', array(__CLASS__, 'magick_plugin_options'));
+            add_action('admin_init', array(__CLASS__, 'register_census_settings'));
             //加载图标用js
             add_action('admin_enqueue_scripts', array(__CLASS__, 'load_enqueue_admin_script'));
         }
@@ -33,7 +33,7 @@ if (!class_exists('MaBox_Census_Single')) {
                 __('发文统计', 'npcink-site-toolbox'),
                 __('发文统计', 'npcink-site-toolbox'),
                 'administrator',
-                'magick-census-single',
+                'npcink-site-toolbox-census',
                 array(__CLASS__, 'load_content')
             );
         }
@@ -41,7 +41,7 @@ if (!class_exists('MaBox_Census_Single')) {
         //页面加载图标用css和js
         public static function load_enqueue_admin_script($hook)
         {
-            if ('dashboard_page_magick-census-single' != $hook) {
+            if ('dashboard_page_npcink-site-toolbox-census' != $hook) {
                 return;
             }
 
@@ -51,20 +51,20 @@ if (!class_exists('MaBox_Census_Single')) {
             $build_css = plugin_dir_url(dirname(dirname(dirname(__DIR__)))) . 'vite/count/dist/index.css';
             $build_js = plugin_dir_url(dirname(dirname(dirname(__DIR__)))) . 'vite/count/dist/index.js';
             $build_css_version = is_file($build_css_path)
-                ? MAGICK_MIXTURE_VERSION . '-' . (string) filemtime($build_css_path)
-                : MAGICK_MIXTURE_VERSION;
+                ? NPCINK_SITE_TOOLBOX_VERSION . '-' . (string) filemtime($build_css_path)
+                : NPCINK_SITE_TOOLBOX_VERSION;
             $build_js_version = is_file($build_js_path)
-                ? MAGICK_MIXTURE_VERSION . '-' . (string) filemtime($build_js_path)
-                : MAGICK_MIXTURE_VERSION;
+                ? NPCINK_SITE_TOOLBOX_VERSION . '-' . (string) filemtime($build_js_path)
+                : NPCINK_SITE_TOOLBOX_VERSION;
             wp_enqueue_style(
-                MAGICK_MIXTURE_NAME . '_census_css',
+                NPCINK_SITE_TOOLBOX_NAME . '_census_css',
                 $build_css,
                 array(),
                 $build_css_version,
                 'all'
             );
             wp_enqueue_script(
-                MAGICK_MIXTURE_NAME . '_census_js',
+                NPCINK_SITE_TOOLBOX_NAME . '_census_js',
                 $build_js,
                 array(),
                 $build_js_version,
@@ -72,11 +72,11 @@ if (!class_exists('MaBox_Census_Single')) {
             );
 
             //传输数据给JS
-            $MaBox_array = array(
+            $npcink_site_toolbox_array = array(
                 'countData' => self::deliver_data(), //统计的数据信息
             );
 
-            wp_localize_script(MAGICK_MIXTURE_NAME . '_census_js', 'dataLocal', $MaBox_array); //传给vite项目
+            wp_localize_script(NPCINK_SITE_TOOLBOX_NAME . '_census_js', 'dataLocal', $npcink_site_toolbox_array); //传给vite项目
         }
 
         /**
@@ -105,14 +105,14 @@ if (!class_exists('MaBox_Census_Single')) {
                 <!--标题-->
                 <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
                 <!--展示内容-->
-                <div id="mabox_census_count"></div>
+                <div id="npcink_site_toolbox_census_count"></div>
 
                 <!--在保存设置时调用WordPress函数以呈现错误。 -->
                 <?php settings_errors(); ?>
                 <!-- 创建用于呈现选项的表单 -->
                 <form method="post" action="options.php">
-                    <?php settings_fields('sandbox_theme_display_options'); ?>
-                    <?php do_settings_sections('sandbox_theme_display_options'); ?>
+                    <?php settings_fields('npcink_site_toolbox_census_settings'); ?>
+                    <?php do_settings_sections('npcink_site_toolbox_census_settings'); ?>
                     <?php submit_button(); ?>
                 </form>
 
@@ -136,7 +136,7 @@ if (!class_exists('MaBox_Census_Single')) {
         public static function get_today_data()
         {
             //今天的数据
-            $tool = new MaBox_Tool;
+            $tool = new Npcink_Toolbox_Tool;
             $option = $tool->get_site_census_data();
 
             $array = array(
@@ -191,30 +191,23 @@ if (!class_exists('MaBox_Census_Single')) {
         }
 
         //添加设置选项
-        public static function magick_plugin_options()
+        public static function register_census_settings()
         {
-            // 如果插件选项不存在，请创建它们。
-            if (false == get_option('sandbox_theme_display_options')) {
-                add_option('sandbox_theme_display_options');
-            } // end if
-
             // 首先，我们注册一个部分。这是必要的，因为所有未来的选项都必须属于一个。
             add_settings_section(
-                'sandbox_theme_display_option', // 用于标识此部分以及用于注册选项的ID
+                'npcink_site_toolbox_census_section', // 用于标识此部分以及用于注册选项的ID
                 '已统计人员ID', // 要在管理页面上显示的标题
-                //'magick_plugin_options_callback', // 用于呈现节描述的回调
-                array(__CLASS__, 'magick_plugin_options_callback'),
-                'sandbox_theme_display_options' // 添加此部分选项的页面
+                array(__CLASS__, 'render_census_settings_section'),
+                'npcink_site_toolbox_census_settings' // 添加此部分选项的页面
             );
 
             //添加一个对钩选项
             add_settings_field(
                 'option_id', // 用于标识整个主题中的字段的ID
                 '待统计人员', // 选项接口元素左侧的标签
-                //'magick_show_select_callback', // 负责呈现选项界面的函数的名称
-                array(__CLASS__, 'magick_show_select_callback'),
-                'sandbox_theme_display_options', // 将显示此选项的页面
-                'sandbox_theme_display_option', // 此字段所属的节的名称
+                array(__CLASS__, 'render_census_user_field'),
+                'npcink_site_toolbox_census_settings', // 将显示此选项的页面
+                'npcink_site_toolbox_census_section', // 此字段所属的节的名称
                 array( // 要传递给回调的参数数组。在这种情况下，只是一个描述。
                     '选择需要监控的用户（排除订阅者）',
                 )
@@ -222,15 +215,15 @@ if (!class_exists('MaBox_Census_Single')) {
 
             //注册这个设置
             register_setting(
-                'sandbox_theme_display_options', //选项组
-                'magick_plugin_config', //选项名称
+                'npcink_site_toolbox_census_settings', //选项组
+                'npcink_site_toolbox_census', //选项名称
                 array(
                     'type'              => 'array',
                     'sanitize_callback' => array(__CLASS__, 'sanitize_options'),
                     'default'           => array('option_id' => array()),
                 )
             );
-        } //结束magick_plugin_options
+        }
 
         /**
          * 仅保留唯一的正整数用户 ID。
@@ -266,10 +259,10 @@ if (!class_exists('MaBox_Census_Single')) {
         /**
          * 选择结果
          */
-        public static function magick_plugin_options_callback()
+        public static function render_census_settings_section()
         {
             //拿到选项的值
-            $options = get_option('magick_plugin_config');
+            $options = get_option('npcink_site_toolbox_census');
             if ($options) {
                 echo "您选择的是人员ID是：" . esc_html(implode(',', $options['option_id']));
                 return;
@@ -277,15 +270,15 @@ if (!class_exists('MaBox_Census_Single')) {
                 echo "您没有选择值";
                 return;
             }
-        } //结束magick_plugin_options_callback
+        }
 
         /**
          * 选中框设置的回调
          */
-        public static function magick_show_select_callback($args)
+        public static function render_census_user_field($args)
         {
             // 首先，我们拿到选项
-            $options = get_option('magick_plugin_config');
+            $options = get_option('npcink_site_toolbox_census');
             $uwcc_checkbox_field_1 = isset($options['option_id']) ? (array) $options['option_id'] : [];
             //name值很关键
 
@@ -303,7 +296,7 @@ if (!class_exists('MaBox_Census_Single')) {
                 $name = $value->display_name;
             ?>
 
-                <input type='checkbox' name='magick_plugin_config[option_id][]' <?php checked(in_array($id, $uwcc_checkbox_field_1), 1); ?> value='<?php echo esc_attr($id); ?>'>
+                <input type='checkbox' name='npcink_site_toolbox_census[option_id][]' <?php checked(in_array($id, $uwcc_checkbox_field_1), 1); ?> value='<?php echo esc_attr($id); ?>'>
                 <label class="magick-user-label"><?php echo esc_html($name); ?></label>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
 
@@ -316,7 +309,7 @@ if (!class_exists('MaBox_Census_Single')) {
 
 <?php
 
-        } // end magick_show_select_callback
+        }
 
 
 
@@ -342,7 +335,7 @@ if (!class_exists('MaBox_Census_Single')) {
             $cache_key = 'article_counts_' . md5(
                 $start_date . '|' . $end_date . '|' . (string) $posts_last_changed
             );
-            $results = wp_cache_get($cache_key, 'mabox');
+            $results = wp_cache_get($cache_key, 'npcink_site_toolbox');
 
             if (false === $results) {
                 // 单次 SQL 查询，按日期和作者分组
@@ -359,7 +352,7 @@ if (!class_exists('MaBox_Census_Single')) {
                     $end_date
                 ));
                 $results = is_array($results) ? $results : array();
-                wp_cache_set($cache_key, $results, 'mabox', HOUR_IN_SECONDS);
+                wp_cache_set($cache_key, $results, 'npcink_site_toolbox', HOUR_IN_SECONDS);
             }
 
             // 构建查找表：[date => [author_id => count]]
@@ -430,11 +423,11 @@ if (!class_exists('MaBox_Census_Single')) {
         public static function get_user_release_arr()
         {
             //工具函数
-            $tool = new MaBox_Tool;
+            $tool = new Npcink_Toolbox_Tool;
             //存储数组
             $arr = array();
             //拿到ID数组
-            $options = get_option('magick_plugin_config');
+            $options = get_option('npcink_site_toolbox_census');
 
             //默认查阅ID为1的人的发文数据
             $id = isset($options['option_id']) ? $options['option_id'] : [1];

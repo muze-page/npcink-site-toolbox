@@ -676,7 +676,7 @@
             "path": "domestic.login_security.attempt_limit_enabled",
             "risk": {
                 "level": "low",
-                "suggestion": "确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 MABOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。",
+                "suggestion": "确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。",
                 "title": "登录尝试保护",
                 "warning": "可信代理配置错误可能让多个访客共享同一来源 IP，造成账号误锁。"
             },

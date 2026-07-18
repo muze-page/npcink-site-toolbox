@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
-if (!class_exists('MaBox_Performance_Media_Health')) {
-    class MaBox_Performance_Media_Health implements MaBox_Module_Interface {
+if (!class_exists('Npcink_Toolbox_Performance_Media_Health')) {
+    class Npcink_Toolbox_Performance_Media_Health implements Npcink_Toolbox_Module_Interface {
         const ATTACHMENT_SCAN_BATCH_SIZE = 100;
         const ATTACHMENT_SCAN_LIMIT = 500;
 

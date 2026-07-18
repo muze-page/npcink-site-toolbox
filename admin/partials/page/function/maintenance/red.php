@@ -13,13 +13,13 @@ if ('' !== $mabox_countdown) {
         'mabox-maintenance-countdown',
         $mabox_file_url . 'countdown/style.css',
         array(),
-        MAGICK_MIXTURE_VERSION
+        NPCINK_SITE_TOOLBOX_VERSION
     );
     wp_enqueue_script(
         'mabox-maintenance-countdown-script',
         $mabox_file_url . 'countdown/main.js',
         array(),
-        MAGICK_MIXTURE_VERSION,
+        NPCINK_SITE_TOOLBOX_VERSION,
         false
     );
     wp_add_inline_script(

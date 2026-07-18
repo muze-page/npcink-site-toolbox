@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：后台文章管理中添加作者过滤器
  * 来源：https://rudrastyh.com/wordpress/filter-posts-by-author.html
  */
-if (!class_exists('MaBox_Admin_Single_Add_User_Screen')) {
-    class MaBox_Admin_Single_Add_User_Screen implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Admin_Single_Add_User_Screen')) {
+    class Npcink_Toolbox_Admin_Single_Add_User_Screen implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())

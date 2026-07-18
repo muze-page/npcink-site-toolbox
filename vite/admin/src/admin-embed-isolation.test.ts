@@ -178,7 +178,7 @@ describe('WordPress admin embed isolation', () => {
   });
 
   it('keeps all responsive admin CSS in the scanned bundle', () => {
-    const adminPhpSource = readRelativeFile('../../../admin/class-magick-mixture-admin.php');
+    const adminPhpSource = readRelativeFile('../../../admin/class-npcink-toolbox-admin.php');
     const detailDrawerSource = readRelativeFile('./components/settings-ui/DetailDrawer.tsx');
     const diffModalSource = readRelativeFile('./components/diff-modal.tsx');
     const previewSource = readRelativeFile('./basic/preview.tsx');

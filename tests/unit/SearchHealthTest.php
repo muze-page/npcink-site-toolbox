@@ -3,7 +3,7 @@ defined('ABSPATH') || exit;
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname(__FILE__) . '/../../includes/class-mabox-search-health.php';
+require_once dirname(__FILE__) . '/../../includes/class-npcink-toolbox-search-health.php';
 
 class SearchHealthTest extends TestCase
 {
@@ -13,9 +13,9 @@ class SearchHealthTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$method_get_summary = new ReflectionMethod('MaBox_Search_Health', 'get_summary');
-        self::$method_log = new ReflectionMethod('MaBox_Search_Health', 'log_search_term');
-        self::$method_normalize = new ReflectionMethod('MaBox_Search_Health', 'normalize_entry');
+        self::$method_get_summary = new ReflectionMethod('Npcink_Toolbox_Search_Health', 'get_summary');
+        self::$method_log = new ReflectionMethod('Npcink_Toolbox_Search_Health', 'log_search_term');
+        self::$method_normalize = new ReflectionMethod('Npcink_Toolbox_Search_Health', 'normalize_entry');
     }
 
     protected function setUp(): void
@@ -26,7 +26,7 @@ class SearchHealthTest extends TestCase
 
     public function test_class_exists(): void
     {
-        $this->assertTrue(class_exists('MaBox_Search_Health'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Search_Health'));
     }
 
     public function test_empty_data_summary(): void
@@ -72,7 +72,7 @@ class SearchHealthTest extends TestCase
     {
         global $_test_option_store;
         $today = current_time('Y-m-d');
-        $_test_option_store['mabox_search_log'] = array(
+        $_test_option_store['npcink_site_toolbox_search_log'] = array(
             $today => array(
                 'legacy-term' => 5,
             ),
@@ -109,7 +109,7 @@ class SearchHealthTest extends TestCase
         $today = current_time('Y-m-d');
         $cutoff_date = $this->calendarDateDaysAgo($today, 30);
         $expired_date = $this->calendarDateDaysAgo($today, 31);
-        $_test_option_store['mabox_search_log'] = array(
+        $_test_option_store['npcink_site_toolbox_search_log'] = array(
             $expired_date => array('expired-term' => array('count' => 5, 'no_result_count' => 0, 'last_searched_at' => '')),
             $cutoff_date => array('boundary-term' => array('count' => 2, 'no_result_count' => 0, 'last_searched_at' => '')),
         );
@@ -126,7 +126,7 @@ class SearchHealthTest extends TestCase
         $today = current_time('Y-m-d');
         $cutoff_date = $this->calendarDateDaysAgo($today, 30);
         $expired_date = $this->calendarDateDaysAgo($today, 31);
-        $_test_option_store['mabox_search_log'] = array(
+        $_test_option_store['npcink_site_toolbox_search_log'] = array(
             $expired_date => array('old-term' => array('count' => 10, 'no_result_count' => 0, 'last_searched_at' => '')),
             $cutoff_date => array('boundary-term' => array('count' => 4, 'no_result_count' => 0, 'last_searched_at' => '')),
             $today => array('new-term' => array('count' => 3, 'no_result_count' => 0, 'last_searched_at' => '')),
@@ -134,7 +134,7 @@ class SearchHealthTest extends TestCase
 
         self::$method_log->invoke(null, 'trigger-prune', true);
 
-        $log = $_test_option_store['mabox_search_log'];
+        $log = $_test_option_store['npcink_site_toolbox_search_log'];
         $this->assertArrayNotHasKey($expired_date, $log);
         $this->assertArrayHasKey($cutoff_date, $log);
         $this->assertArrayHasKey($today, $log);
@@ -155,7 +155,7 @@ class SearchHealthTest extends TestCase
         self::$method_log->invoke(null, '', true);
         self::$method_log->invoke(null, '   ', true);
 
-        $this->assertArrayNotHasKey('mabox_search_log', $_test_option_store);
+        $this->assertArrayNotHasKey('npcink_site_toolbox_search_log', $_test_option_store);
     }
 
     public function test_normalize_int_entry(): void
@@ -193,7 +193,7 @@ class SearchHealthTest extends TestCase
 
     public function test_recommendation_placeholders_have_translator_context(): void
     {
-        $source = file_get_contents(dirname(__FILE__) . '/../../includes/class-mabox-search-health.php');
+        $source = file_get_contents(dirname(__FILE__) . '/../../includes/class-npcink-toolbox-search-health.php');
         $this->assertIsString($source);
 
         $this->assertStringContainsString(
@@ -215,14 +215,14 @@ class SearchHealthTest extends TestCase
 
     public function test_rest_summary_structure(): void
     {
-        $this->assertTrue(method_exists('MaBox_Search_Health', 'rest_get_summary'));
+        $this->assertTrue(method_exists('Npcink_Toolbox_Search_Health', 'rest_get_summary'));
 
         $request = new class {
             public function get_param($key) {
                 return $key === 'days' ? 30 : null;
             }
         };
-        $response = MaBox_Search_Health::rest_get_summary($request);
+        $response = Npcink_Toolbox_Search_Health::rest_get_summary($request);
 
         $this->assertTrue($response['success']);
         $this->assertArrayHasKey('data', $response);
@@ -237,7 +237,7 @@ class SearchHealthTest extends TestCase
                 return 'test-keyword';
             }
         };
-        MaBox_Performance_Search_Enhance::rest_log_search($request);
+        Npcink_Toolbox_Performance_Search_Enhance::rest_log_search($request);
 
         $summary = self::$method_get_summary->invoke(null, 30);
         $this->assertEquals(1, $summary['total_searches']);
@@ -255,9 +255,9 @@ class SearchHealthTest extends TestCase
                 return '';
             }
         };
-        MaBox_Performance_Search_Enhance::rest_log_search($request);
+        Npcink_Toolbox_Performance_Search_Enhance::rest_log_search($request);
 
-        $this->assertArrayNotHasKey('mabox_search_log', $_test_option_store);
+        $this->assertArrayNotHasKey('npcink_site_toolbox_search_log', $_test_option_store);
     }
 
     public function test_rest_log_search_oversized_keyword_not_written(): void
@@ -273,9 +273,9 @@ class SearchHealthTest extends TestCase
             }
         };
         $request->keyword = $long_term;
-        MaBox_Performance_Search_Enhance::rest_log_search($request);
+        Npcink_Toolbox_Performance_Search_Enhance::rest_log_search($request);
 
-        $this->assertArrayNotHasKey('mabox_search_log', $_test_option_store);
+        $this->assertArrayNotHasKey('npcink_site_toolbox_search_log', $_test_option_store);
     }
 
     public function test_increment_no_result_count_separate_from_total(): void
@@ -283,7 +283,7 @@ class SearchHealthTest extends TestCase
         self::$method_log->invoke(null, 'wordpress', true);
         self::$method_log->invoke(null, 'wordpress', true);
 
-        $method = new ReflectionMethod('MaBox_Search_Health', 'increment_no_result_count');
+        $method = new ReflectionMethod('Npcink_Toolbox_Search_Health', 'increment_no_result_count');
         $method->invoke(null, 'wordpress');
 
         $summary = self::$method_get_summary->invoke(null, 30);
@@ -301,7 +301,7 @@ class SearchHealthTest extends TestCase
 
     public function test_increment_no_result_count_on_unlogged_term_skipped(): void
     {
-        $method = new ReflectionMethod('MaBox_Search_Health', 'increment_no_result_count');
+        $method = new ReflectionMethod('Npcink_Toolbox_Search_Health', 'increment_no_result_count');
         $method->invoke(null, 'unlogged-term');
 
         $summary = self::$method_get_summary->invoke(null, 30);
@@ -311,7 +311,7 @@ class SearchHealthTest extends TestCase
     public function test_no_result_increment_empty_term_skipped(): void
     {
         self::$method_log->invoke(null, 'valid-term', true);
-        $method = new ReflectionMethod('MaBox_Search_Health', 'increment_no_result_count');
+        $method = new ReflectionMethod('Npcink_Toolbox_Search_Health', 'increment_no_result_count');
         $method->invoke(null, '');
 
         $summary = self::$method_get_summary->invoke(null, 30);
@@ -325,7 +325,7 @@ class SearchHealthTest extends TestCase
 
     private function calendarDateDaysAgo(string $site_date, int $days): string
     {
-        $method = new ReflectionMethod('MaBox_Search_Health', 'calendar_date_days_ago');
+        $method = new ReflectionMethod('Npcink_Toolbox_Search_Health', 'calendar_date_days_ago');
         $method->setAccessible(true);
 
         return $method->invoke(null, $site_date, $days);

@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
  * 来源：https://www.npc.ink/19960.html
  */
 
-if (!class_exists('MaBox_Page_Comment_Interval')) {
-    class MaBox_Page_Comment_Interval implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Page_Comment_Interval')) {
+    class Npcink_Toolbox_Page_Comment_Interval implements Npcink_Toolbox_Module_Interface
     {
         public static $option; //配置
         public static function run($config = array())
@@ -20,12 +20,12 @@ if (!class_exists('MaBox_Page_Comment_Interval')) {
         public static function suren_comment_flood_filter($flood_control, $time_last, $time_new)
         {
             //间隔时间
-            $seconds = MaBox_Admin::get_config(self::$option, 'interval_time');
+            $seconds = Npcink_Toolbox_Admin::get_config(self::$option, 'interval_time');
             if (($time_new - $time_last) < $seconds) {
                 $time = $seconds - ($time_new - $time_last);
                 $message = '评论过快！请' . $time . '秒后再来评论';
 
-                $message = $message . MaBox_Admin::back_button();
+                $message = $message . Npcink_Toolbox_Admin::back_button();
                 $allowed_html = array(
                     'br'     => array(),
                     'a'      => array(

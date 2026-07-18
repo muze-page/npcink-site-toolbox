@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
  * @subpackage Plugin_Name/admin
  * @author     Your Name <email@example.com>
  */
-class MaBox_Admin
+class Npcink_Toolbox_Admin
 {
 
     /**
@@ -89,7 +89,7 @@ class MaBox_Admin
             'Npcink Site Toolbox',        // 要为此菜单项显示的文本
             'manage_options',            // 哪种类型的用户可以看到此菜单项
             'npcink-site-toolbox', // The unique ID - that is, the slug - for this menu item.
-            array(__CLASS__, 'MaBox_display'),   // 呈现此菜单的页面时要调用的函数的名称
+            array(__CLASS__, 'Npcink_Toolbox_display'),   // 呈现此菜单的页面时要调用的函数的名称
             '200.2'
         );
     }
@@ -97,13 +97,13 @@ class MaBox_Admin
     /**
      * 菜单回调
      */
-    public static function MaBox_display()
+    public static function Npcink_Toolbox_display()
     {
         echo '<div class="wrap"> <h2>';
         echo '</h2><div id="root"></div>';
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only diagnostic view; no state is changed.
-        $debug_enabled = isset($_GET['mabox_debug']) && is_string($_GET['mabox_debug']) ? '1' === sanitize_text_field(wp_unslash($_GET['mabox_debug'])) : false;
+        $debug_enabled = isset($_GET['npcink_site_toolbox_debug']) && is_string($_GET['npcink_site_toolbox_debug']) ? '1' === sanitize_text_field(wp_unslash($_GET['npcink_site_toolbox_debug'])) : false;
         if ($debug_enabled && current_user_can('manage_options')) {
             self::render_debug_panel();
         }
@@ -114,15 +114,15 @@ class MaBox_Admin
      */
     private static function render_debug_panel()
     {
-        $active_modules = get_option(MAGICK_TOOLBOX_ACTIVE_MODULES, array());
+        $active_modules = get_option(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES, array());
         $cache = false;
         if (function_exists('wp_cache_get')) {
-            $cache = wp_cache_get('mabox_active_modules', 'mabox');
+            $cache = wp_cache_get('npcink_site_toolbox_active_modules', 'npcink_site_toolbox');
         }
 
         echo '<div class="postbox" style="margin-top:20px;padding:15px;">';
         echo '<h3>🔧 按需加载调试面板</h3>';
-        echo '<p>访问地址添加 <code>?mabox_debug=1</code> 查看此面板</p>';
+        echo '<p>访问地址添加 <code>?npcink_site_toolbox_debug=1</code> 查看此面板</p>';
         echo '<table class="widefat" style="margin-top:10px;">';
         echo '<tr><th style="width:200px;">路由表模块数</th><td>' . count($active_modules) . ' 个</td></tr>';
         echo '<tr><th>缓存命中</th><td>' . ($cache !== false ? '✅ 是' : '❌ 否（从数据库读取）') . '</td></tr>';
@@ -137,8 +137,8 @@ class MaBox_Admin
         }
 
         echo '</table>';
-        echo '<p style="margin-top:10px;"><a href="' . esc_url(remove_query_arg('mabox_debug')) . '" class="button">关闭调试面板</a>';
-        echo ' <a href="' . esc_url(add_query_arg('mabox_debug', '1')) . '" class="button">刷新路由表</a></p>';
+        echo '<p style="margin-top:10px;"><a href="' . esc_url(remove_query_arg('npcink_site_toolbox_debug')) . '" class="button">关闭调试面板</a>';
+        echo ' <a href="' . esc_url(add_query_arg('npcink_site_toolbox_debug', '1')) . '" class="button">刷新路由表</a></p>';
         echo '</div>';
     }
 
@@ -169,7 +169,7 @@ class MaBox_Admin
         wp_enqueue_style($name, $index_css, array(), $index_css_version, false);
         wp_enqueue_script($name, $index_js, array(), $index_js_version, true);
 
-        $MaBox_array = array(
+        $npcink_site_toolbox_array = array(
             'cat_arr' => self::get_cat_data(),
             'single_arr' => self::get_single_data(),
             'url_site' => get_site_url(),
@@ -177,7 +177,7 @@ class MaBox_Admin
             'apiBase' => esc_url_raw(rest_url('npcink-site-toolbox/v1')),
             'restNonce' => wp_create_nonce('wp_rest'),
         );
-        wp_localize_script($name, 'dataLocal', $MaBox_array);
+        wp_localize_script($name, 'dataLocal', $npcink_site_toolbox_array);
 
 
     }
@@ -232,16 +232,16 @@ class MaBox_Admin
      */
     private static function do_save_config($settings, $secret_changes)
     {
-        $merge = MaBox_Config_Manager::merge_secret_changes($settings, $secret_changes);
+        $merge = Npcink_Toolbox_Config_Manager::merge_secret_changes($settings, $secret_changes);
         if (!$merge['success']) {
             return array('success' => false, 'message' => $merge['error'], 'status' => 400);
         }
 
         $config = $merge['data'];
-        $validation = MaBox_Config_Schema::validate_full_config($config);
+        $validation = Npcink_Toolbox_Config_Schema::validate_full_config($config);
         $config = $validation['data'];
 
-        $result = MaBox_Config_Manager::save_full_config($config);
+        $result = Npcink_Toolbox_Config_Manager::save_full_config($config);
 
         if (!$result['success']) {
             $rollback_complete = isset($result['rollback_complete']) && $result['rollback_complete'] === true;
@@ -257,8 +257,8 @@ class MaBox_Admin
                 $message = $fallback_message;
             }
 
-            if (class_exists('MaBox_Audit_Logger')) {
-                MaBox_Audit_Logger::config(
+            if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+                Npcink_Toolbox_Audit_Logger::config(
                     $rollback_complete ? '保存配置失败，已确认回滚' : '保存配置失败，回滚未能完整确认',
                     array(
                         'failed_modules' => isset($result['failed_modules']) ? $result['failed_modules'] : array(),
@@ -271,17 +271,17 @@ class MaBox_Admin
             return array('success' => false, 'message' => $message, 'status' => 500);
         }
 
-        $active_modules = MaBox_Module_Loader::get_active_modules($config);
-        update_option(MAGICK_TOOLBOX_ACTIVE_MODULES, $active_modules);
+        $active_modules = Npcink_Toolbox_Module_Loader::get_active_modules($config);
+        update_option(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES, $active_modules);
 
         if (function_exists('wp_cache_set')) {
-            wp_cache_set('mabox_active_modules', $active_modules, 'mabox', HOUR_IN_SECONDS);
+            wp_cache_set('npcink_site_toolbox_active_modules', $active_modules, 'npcink_site_toolbox', HOUR_IN_SECONDS);
         }
 
         self::clear_config_cache();
 
-        if (class_exists('MaBox_Audit_Logger')) {
-            MaBox_Audit_Logger::config('插件配置已更新', array(
+        if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+            Npcink_Toolbox_Audit_Logger::config('插件配置已更新', array(
                 'user_id' => get_current_user_id(),
             ));
         }
@@ -336,7 +336,7 @@ class MaBox_Admin
             return new \WP_Error('rest_forbidden', '权限不足', array('status' => 403));
         }
 
-        $browser_config = MaBox_Config_Manager::get_browser_config();
+        $browser_config = Npcink_Toolbox_Config_Manager::get_browser_config();
         return rest_ensure_response([
             'success' => true,
             'data' => $browser_config['data'],
@@ -353,9 +353,9 @@ class MaBox_Admin
             return new \WP_Error('rest_forbidden', '权限不足', array('status' => 403));
         }
 
-        $schema = MaBox_Config_Schema::get_schema();
-        $defaults = MaBox_Config_Schema::get_defaults();
-        $uiSchema = MaBox_Config_Schema::get_ui_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
+        $defaults = Npcink_Toolbox_Config_Schema::get_defaults();
+        $uiSchema = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         return rest_ensure_response([
             'success' => true,
@@ -372,7 +372,7 @@ class MaBox_Admin
      */
     public static function rest_get_diagnostics_summary(\WP_REST_Request $request)
     {
-        if (!class_exists('MaBox_Diagnostics')) {
+        if (!class_exists('Npcink_Toolbox_Diagnostics')) {
             return new \WP_Error(
                 'diagnostics_not_available',
                 __('诊断服务暂不可用', 'npcink-site-toolbox'),
@@ -380,7 +380,7 @@ class MaBox_Admin
             );
         }
 
-        $summary = MaBox_Diagnostics::get_summary();
+        $summary = Npcink_Toolbox_Diagnostics::get_summary();
 
         return rest_ensure_response(array(
             'success' => true,
@@ -393,7 +393,7 @@ class MaBox_Admin
      */
     public static function register_rest_routes()
     {
-        MaBox_Rest_Route_Registry::clear();
+        Npcink_Toolbox_Rest_Route_Registry::clear();
 
         self::register_settings_routes();
         self::register_performance_routes();
@@ -402,23 +402,23 @@ class MaBox_Admin
         self::register_domestic_routes();
         self::register_diagnostics_routes();
 
-        MaBox_Rest_Route_Registry::register_all();
+        Npcink_Toolbox_Rest_Route_Registry::register_all();
 
-        do_action('mabox_register_rest_routes');
+        do_action('npcink_site_toolbox_register_rest_routes');
     }
 
     private static function register_settings_routes()
     {
-        MaBox_Rest_Route_Registry::add('/settings', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/settings', array(
             array(
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => array(__CLASS__, 'rest_get_settings'),
-                'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+                'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             ),
             array(
                 'methods'             => \WP_REST_Server::CREATABLE,
                 'callback'            => array(__CLASS__, 'rest_save_settings'),
-                'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+                'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
                 'args'                => array(
                     'settings' => array(
                         'required'          => true,
@@ -447,11 +447,11 @@ class MaBox_Admin
             ),
         ), 'settings');
 
-        MaBox_Rest_Route_Registry::add('/settings/schema', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/settings/schema', array(
             array(
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => array(__CLASS__, 'rest_get_schema'),
-                'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+                'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             ),
         ), 'settings');
 
@@ -459,10 +459,10 @@ class MaBox_Admin
 
     private static function register_performance_routes()
     {
-        MaBox_Rest_Route_Registry::add('/performance/media/check', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/performance/media/check', array(
             'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Media_Health', 'ajax_check'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Performance_Media_Health', 'ajax_check'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             'args'                => array(
                 'post_id' => array(
                     'required'          => false,
@@ -474,10 +474,10 @@ class MaBox_Admin
             ),
         ), 'performance');
 
-        MaBox_Rest_Route_Registry::add('/performance/media/fix-alt', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/performance/media/fix-alt', array(
             'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Media_Health', 'ajax_fix_alt'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Performance_Media_Health', 'ajax_fix_alt'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             'args'                => array(
                 'post_id' => array(
                     'required'          => false,
@@ -488,10 +488,10 @@ class MaBox_Admin
             ),
         ), 'performance');
 
-        MaBox_Rest_Route_Registry::add('/performance/seo/check', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/performance/seo/check', array(
             'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Seo_Checker', 'ajax_check'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Performance_Seo_Checker', 'ajax_check'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             'args'                => array(
                 'post_id' => array(
                     'required'          => false,
@@ -502,10 +502,10 @@ class MaBox_Admin
             ),
         ), 'performance');
 
-        MaBox_Rest_Route_Registry::add('/performance/seo/fix-alt', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/performance/seo/fix-alt', array(
             'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Seo_Checker', 'ajax_fix_alt'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Performance_Seo_Checker', 'ajax_fix_alt'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             'args'                => array(
                 'post_id' => array(
                     'required'          => false,
@@ -517,16 +517,16 @@ class MaBox_Admin
             ),
         ), 'performance');
 
-        MaBox_Rest_Route_Registry::add('/performance/db/stats', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/performance/db/stats', array(
             'methods'             => \WP_REST_Server::READABLE,
-            'callback'            => array('MaBox_Performance_Db_Clean', 'ajax_stats'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Performance_Db_Clean', 'ajax_stats'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
         ), 'performance');
 
-        MaBox_Rest_Route_Registry::add('/performance/db/preview', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/performance/db/preview', array(
             'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Db_Clean', 'ajax_preview'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Performance_Db_Clean', 'ajax_preview'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             'args'                => array(
                 'type' => array(
                     'required'          => true,
@@ -538,10 +538,10 @@ class MaBox_Admin
             ),
         ), 'performance');
 
-        MaBox_Rest_Route_Registry::add('/performance/db/clean', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/performance/db/clean', array(
             'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Db_Clean', 'ajax_clean'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Performance_Db_Clean', 'ajax_clean'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             'args'                => array(
                 'type' => array(
                     'required'          => true,
@@ -560,19 +560,19 @@ class MaBox_Admin
 
     private static function register_tools_routes()
     {
-        MaBox_Rest_Route_Registry::add('/tools/categories', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/tools/categories', array(
             'methods'             => \WP_REST_Server::READABLE,
-            'callback'            => array('MaBox_Interface_Category_Data', 'get_all_category_names'),
-            'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+            'callback'            => array('Npcink_Toolbox_Interface_Category_Data', 'get_all_category_names'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
         ), 'tools');
     }
 
     private static function register_public_routes()
     {
-        MaBox_Rest_Route_Registry::add('/public/search-log', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/public/search-log', array(
             'methods'             => \WP_REST_Server::CREATABLE,
-            'callback'            => array('MaBox_Performance_Search_Enhance', 'rest_log_search'),
-            'permission_callback' => MaBox_Rest_Route_Registry::public_nonce_rate_limited('search-log', 'npcink_site_toolbox_public_api', array('max_requests' => 30, 'time_window' => 60)),
+            'callback'            => array('Npcink_Toolbox_Performance_Search_Enhance', 'rest_log_search'),
+            'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::public_nonce_rate_limited('search-log', 'npcink_site_toolbox_public_api', array('max_requests' => 30, 'time_window' => 60)),
             'args'                => array(
                 'keyword' => array(
                     'required'          => true,
@@ -588,19 +588,19 @@ class MaBox_Admin
 
     private static function register_domestic_routes()
     {
-        MaBox_Rest_Route_Registry::add('/domestic/environment/check', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/domestic/environment/check', array(
             array(
                 'methods'             => \WP_REST_Server::READABLE,
-                'callback'            => array('MaBox_Domestic_Environment', 'rest_check'),
-                'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+                'callback'            => array('Npcink_Toolbox_Domestic_Environment', 'rest_check'),
+                'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             ),
         ), 'domestic');
 
-        MaBox_Rest_Route_Registry::add('/domestic/environment/apply', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/domestic/environment/apply', array(
             array(
                 'methods'             => \WP_REST_Server::CREATABLE,
-                'callback'            => array('MaBox_Domestic_Environment', 'rest_apply'),
-                'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+                'callback'            => array('Npcink_Toolbox_Domestic_Environment', 'rest_apply'),
+                'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
                 'args'                => array(
                     'fixes' => array(
                         'required'          => true,
@@ -618,19 +618,19 @@ class MaBox_Admin
 
     private static function register_diagnostics_routes()
     {
-        MaBox_Rest_Route_Registry::add('/diagnostics/summary', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/diagnostics/summary', array(
             array(
                 'methods'             => \WP_REST_Server::READABLE,
                 'callback'            => array(__CLASS__, 'rest_get_diagnostics_summary'),
-                'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+                'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
             ),
         ), 'diagnostics');
 
-        MaBox_Rest_Route_Registry::add('/search-health/summary', array(
+        Npcink_Toolbox_Rest_Route_Registry::add('/search-health/summary', array(
             array(
                 'methods'             => \WP_REST_Server::READABLE,
-                'callback'            => array('MaBox_Search_Health', 'rest_get_summary'),
-                'permission_callback' => MaBox_Rest_Route_Registry::admin_permission(),
+                'callback'            => array('Npcink_Toolbox_Search_Health', 'rest_get_summary'),
+                'permission_callback' => Npcink_Toolbox_Rest_Route_Registry::admin_permission(),
                 'args'                => array(
                     'days' => array(
                         'required'          => false,
@@ -652,14 +652,14 @@ class MaBox_Admin
      */
     public static function get_seting($option)
     {
-        $config = MaBox_Config_Manager::get_merged_config();
+        $config = Npcink_Toolbox_Config_Manager::get_merged_config();
         $value = self::get_config($config, $option);
         return $value;
     }
 
     public static function clear_config_cache()
     {
-        MaBox_Config_Manager::clear_cache();
+        Npcink_Toolbox_Config_Manager::clear_cache();
     }
 
     /**
@@ -691,27 +691,27 @@ class MaBox_Admin
 
     public function load()
     {
-        $option = MaBox_Config_Manager::get_merged_config();
+        $option = Npcink_Toolbox_Config_Manager::get_merged_config();
         if (empty($option)) {
             return;
         }
 
         $active_modules = false;
         if (function_exists('wp_cache_get')) {
-            $active_modules = wp_cache_get('mabox_active_modules', 'mabox');
+            $active_modules = wp_cache_get('npcink_site_toolbox_active_modules', 'npcink_site_toolbox');
         }
 
         if ($active_modules === false) {
-            $active_modules = MaBox_Module_Loader::get_active_modules($option);
-            update_option(MAGICK_TOOLBOX_ACTIVE_MODULES, $active_modules);
+            $active_modules = Npcink_Toolbox_Module_Loader::get_active_modules($option);
+            update_option(NPCINK_SITE_TOOLBOX_ACTIVE_MODULES, $active_modules);
 
             if (function_exists('wp_cache_set')) {
-                wp_cache_set('mabox_active_modules', $active_modules, 'mabox', HOUR_IN_SECONDS);
+                wp_cache_set('npcink_site_toolbox_active_modules', $active_modules, 'npcink_site_toolbox', HOUR_IN_SECONDS);
             }
         }
 
         foreach ($active_modules as $module_id) {
-            MaBox_Module_Loader::load_module($module_id, $option);
+            Npcink_Toolbox_Module_Loader::load_module($module_id, $option);
         }
     }
 

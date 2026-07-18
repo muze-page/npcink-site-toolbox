@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 限制搜索频次
  * 限制未登录用户的搜索频率，防止恶意搜索
  */
-if (!class_exists('MaBox_Page_Search_Limit')) {
-    class MaBox_Page_Search_Limit implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Page_Search_Limit')) {
+    class Npcink_Toolbox_Page_Search_Limit implements Npcink_Toolbox_Module_Interface
     {
         private static $option;
 
@@ -20,17 +20,17 @@ if (!class_exists('MaBox_Page_Search_Limit')) {
         public static function check_search_limit($query)
         {
             if (!is_admin() && $query->is_search && $query->is_main_query()) {
-                if (MaBox_Helpers::is_logged_in()) {
+                if (Npcink_Toolbox_Helpers::is_logged_in()) {
                     return;
                 }
 
-                $max_count = MaBox_Admin::get_config(self::$option, 'search_limit_count', 10);
+                $max_count = Npcink_Toolbox_Admin::get_config(self::$option, 'search_limit_count', 10);
                 if (empty($max_count)) {
                     return;
                 }
 
-                $ip = MaBox_Helpers::get_real_ip();
-                $transient_key = 'mabox_search_limit_' . md5($ip);
+                $ip = Npcink_Toolbox_Helpers::get_real_ip();
+                $transient_key = 'npcink_site_toolbox_search_limit_' . md5($ip);
                 $search_count = get_transient($transient_key);
 
                 if ($search_count === false) {

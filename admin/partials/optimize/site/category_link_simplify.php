@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：去除分类链接中的category字符串
  * 来源： No Category Base (WPML) v1.3
  */
-if (!class_exists('MaBox_Category_Link_Simplify')) {
-    class MaBox_Category_Link_Simplify implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Category_Link_Simplify')) {
+    class Npcink_Toolbox_Category_Link_Simplify implements Npcink_Toolbox_Module_Interface
     {
         /**
          * 执行代码
@@ -22,7 +22,7 @@ if (!class_exists('MaBox_Category_Link_Simplify')) {
          */
         public static function activate()
         {
-            $config = get_option(MAGICK_MIXTURE_OPTION_OPTIMIZE, array());
+            $config = get_option(NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE, array());
             if (!self::is_enabled($config)) {
                 return;
             }

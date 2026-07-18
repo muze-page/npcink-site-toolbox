@@ -63,25 +63,25 @@ final class DatabaseQueryHardeningTest extends TestCase
         $expected = array(array('17', 2));
         $this->assertSame(
             $expected,
-            MaBox_Census_Single::get_article_counts(array('2026-07-17'), array(7))
+            Npcink_Toolbox_Census_Single::get_article_counts(array('2026-07-17'), array(7))
         );
         $this->assertSame(
             $expected,
-            MaBox_Census_Single::get_article_counts(array('2026-07-17'), array(7))
+            Npcink_Toolbox_Census_Single::get_article_counts(array('2026-07-17'), array(7))
         );
         $this->assertSame(1, $wpdb->query_count, 'Unchanged posts version should reuse the aggregate.');
 
         $GLOBALS['_test_last_changed']['posts'] = 'posts-v2';
         $this->assertSame(
             $expected,
-            MaBox_Census_Single::get_article_counts(array('2026-07-17'), array(7))
+            Npcink_Toolbox_Census_Single::get_article_counts(array('2026-07-17'), array(7))
         );
         $this->assertSame(2, $wpdb->query_count, 'A posts change must invalidate the aggregate key.');
     }
 
     public function test_today_user_count_uses_wp_user_query_date_contract(): void
     {
-        $source = $this->source('includes/class-magick-mixture-tool.php');
+        $source = $this->source('includes/class-npcink-toolbox-tool.php');
 
         $this->assertStringContainsString('$today_users = new WP_User_Query(array(', $source);
         $this->assertStringContainsString("'date_query'  => array(", $source);
@@ -106,16 +106,17 @@ final class DatabaseQueryHardeningTest extends TestCase
         }
     }
 
-    public function test_uninstall_wildcards_and_dynamic_identifier_are_bounded(): void
+    public function test_uninstall_dynamic_prefix_queries_are_bounded(): void
     {
         $source = $this->source('uninstall.php');
 
-        $this->assertSame(4, substr_count($source, '$wpdb->esc_like('));
-        $this->assertStringContainsString("preg_match('/\\A[A-Za-z0-9_]+\\z/', \$mabox_table_name)", $source);
-        $this->assertStringContainsString('DROP TABLE IF EXISTS `{$mabox_table_name}`', $source);
-        $this->assertStringContainsString('PluginCheck.Security.DirectDB.UnescapedDBParameter', $source);
+        $this->assertSame(2, substr_count($source, '$wpdb->esc_like('));
+        $this->assertStringContainsString("array('npcink_site_toolbox_category_title_', 'npcink_site_toolbox_category_keywords_')", $source);
+        $this->assertStringContainsString("array('_transient_npcink_site_toolbox_', '_transient_timeout_npcink_site_toolbox_')", $source);
+        $this->assertStringNotContainsString('DROP TABLE', $source);
+        $this->assertStringNotContainsString('link_counter', $source);
         $this->assertStringNotContainsString('%i', $source, 'WordPress 6.0 does not support identifier placeholders.');
-        $this->assertSame(5, substr_count($source, '// phpcs:ignore WordPress.DB.'));
+        $this->assertSame(2, substr_count($source, '// phpcs:ignore WordPress.DB.'));
         $this->assertStringNotContainsString('phpcs:disable', $source);
     }
 
@@ -124,8 +125,8 @@ final class DatabaseQueryHardeningTest extends TestCase
         $source = $this->source('admin/partials/function/auxiliary/census-single.php');
 
         $this->assertStringContainsString("wp_cache_get_last_changed('posts')", $source);
-        $this->assertStringContainsString("wp_cache_get(\$cache_key, 'mabox')", $source);
-        $this->assertStringContainsString("wp_cache_set(\$cache_key, \$results, 'mabox', HOUR_IN_SECONDS)", $source);
+        $this->assertStringContainsString("wp_cache_get(\$cache_key, 'npcink_site_toolbox')", $source);
+        $this->assertStringContainsString("wp_cache_set(\$cache_key, \$results, 'npcink_site_toolbox', HOUR_IN_SECONDS)", $source);
         $this->assertSame(1, substr_count($source, 'phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery'));
         $this->assertStringNotContainsString('phpcs:disable', $source);
     }

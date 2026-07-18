@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 功能：给图片添加alt标签
  * 来源：
  */
-if (!class_exists('MaBox_Image_Add_Tag')) {
-    class MaBox_Image_Add_Tag implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Image_Add_Tag')) {
+    class Npcink_Toolbox_Image_Add_Tag implements Npcink_Toolbox_Module_Interface
     {
         //加载
         public static function run($config = array())

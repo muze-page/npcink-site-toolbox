@@ -2,8 +2,8 @@
 
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Comment_Sensitive_Words')) {
-    class MaBox_Comment_Sensitive_Words implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Comment_Sensitive_Words')) {
+    class Npcink_Toolbox_Comment_Sensitive_Words implements Npcink_Toolbox_Module_Interface
     {
         private static $option;
 
@@ -51,8 +51,8 @@ if (!class_exists('MaBox_Comment_Sensitive_Words')) {
                 return $commentdata;
             }
 
-            $action = MaBox_Admin::get_config(self::$option, 'sensitive_words_action', 'replace');
-            $replace_char = MaBox_Admin::get_config(self::$option, 'sensitive_words_replace_char', '***');
+            $action = Npcink_Toolbox_Admin::get_config(self::$option, 'sensitive_words_action', 'replace');
+            $replace_char = Npcink_Toolbox_Admin::get_config(self::$option, 'sensitive_words_replace_char', '***');
 
             $all_words = self::expand_with_pinyin_variants($words);
 
@@ -100,7 +100,7 @@ if (!class_exists('MaBox_Comment_Sensitive_Words')) {
 
         private static function get_sensitive_words()
         {
-            $raw = MaBox_Admin::get_config(self::$option, 'sensitive_words', '');
+            $raw = Npcink_Toolbox_Admin::get_config(self::$option, 'sensitive_words', '');
             if (empty($raw)) {
                 return array();
             }

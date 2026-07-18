@@ -5,8 +5,8 @@ defined('ABSPATH') || exit;
  * 效果：简单SEO - 分类和标签TDK 
  * 来源：https://www.npc.ink/4596.html
  */
-if (!class_exists('MaBox_Seo_Category')) {
-    class MaBox_Seo_Category implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Seo_Category')) {
+    class Npcink_Toolbox_Seo_Category implements Npcink_Toolbox_Module_Interface
     {
         public static function run($config = array())
         {
@@ -22,7 +22,7 @@ if (!class_exists('MaBox_Seo_Category')) {
                     //分类ID
                     $term_id = get_query_var('cat');
                     //分类标题
-                    $title = get_option('cat-title-' . $term_id);
+                    $title = get_option('npcink_site_toolbox_category_title_' . $term_id);
                     if ($title !== '' && $title !== false) {
                         remove_action('wp_head', '_wp_render_title_tag', 1); //移除默认标题
                     }
@@ -36,14 +36,14 @@ if (!class_exists('MaBox_Seo_Category')) {
             $term_id = get_query_var('cat');
 
             //分类标题
-            $title = get_option('cat-title-' . $term_id);
+            $title = get_option('npcink_site_toolbox_category_title_' . $term_id);
             if ($title !== '' && $title !== false) {
                 echo '<title>' . esc_html($title) . '</title>';
                 echo "\n";
             }
 
             //分类关键词
-            $keywords = get_option('cat-words-' . $term_id);
+            $keywords = get_option('npcink_site_toolbox_category_keywords_' . $term_id);
             if ($keywords !== '' && $keywords !== false) {
                 echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />';
                 echo "\n";

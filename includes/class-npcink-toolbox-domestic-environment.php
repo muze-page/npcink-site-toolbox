@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Domestic_Environment')) {
-    class MaBox_Domestic_Environment
+if (!class_exists('Npcink_Toolbox_Domestic_Environment')) {
+    class Npcink_Toolbox_Domestic_Environment
     {
         private static $checks = array(
             'google_fonts' => array(
@@ -29,7 +29,7 @@ if (!class_exists('MaBox_Domestic_Environment')) {
 
         public static function rest_check(\WP_REST_Request $request)
         {
-            $cached = get_transient('mabox_environment_check');
+            $cached = get_transient('npcink_site_toolbox_environment_check');
             if ($cached !== false) {
                 return rest_ensure_response(array(
                     'success' => true,
@@ -63,7 +63,7 @@ if (!class_exists('MaBox_Domestic_Environment')) {
                 );
             }
 
-            set_transient('mabox_environment_check', $results, HOUR_IN_SECONDS);
+            set_transient('npcink_site_toolbox_environment_check', $results, HOUR_IN_SECONDS);
 
             return rest_ensure_response(array(
                 'success' => true,
@@ -85,7 +85,7 @@ if (!class_exists('MaBox_Domestic_Environment')) {
                 return new \WP_Error('rest_invalid_data', '没有有效的修复项', array('status' => 400));
             }
 
-            $current = get_option(MAGICK_MIXTURE_OPTION_OPTIMIZE, array());
+            $current = get_option(NPCINK_SITE_TOOLBOX_OPTION_OPTIMIZE, array());
             if (!is_array($current)) {
                 $current = array();
             }
@@ -169,8 +169,8 @@ if (!class_exists('MaBox_Domestic_Environment')) {
                 $proposed[$d['key']] = $d['after'];
             }
 
-            if (class_exists('MaBox_Audit_Logger')) {
-                MaBox_Audit_Logger::log('info', 'config', '国内环境修复预览', array(
+            if (class_exists('Npcink_Toolbox_Audit_Logger')) {
+                Npcink_Toolbox_Audit_Logger::log('info', 'config', '国内环境修复预览', array(
                     'fixes' => $fixes,
                     'diffs' => $proposed,
                 ));
@@ -200,7 +200,7 @@ if (!class_exists('MaBox_Domestic_Environment')) {
 
         public static function get_environment_status()
         {
-            $config = MaBox_Config_Manager::get_merged_config();
+            $config = Npcink_Toolbox_Config_Manager::get_merged_config();
             $optimize_site = isset($config['optimize']['site']) ? $config['optimize']['site'] : array();
 
             $items = array(

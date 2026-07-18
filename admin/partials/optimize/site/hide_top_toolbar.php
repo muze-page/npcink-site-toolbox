@@ -6,8 +6,8 @@ defined('ABSPATH') || exit;
  * 效果：隐藏顶部工具条，仅管理员和编辑可见
  * 来源：https://www.huitheme.com/show_admin_bar.html
  */
-if (!class_exists('MaBox_Hide_Top_Toolbar')) {
-    class MaBox_Hide_Top_Toolbar implements MaBox_Module_Interface
+if (!class_exists('Npcink_Toolbox_Hide_Top_Toolbar')) {
+    class Npcink_Toolbox_Hide_Top_Toolbar implements Npcink_Toolbox_Module_Interface
     {
         /**
          * 执行代码

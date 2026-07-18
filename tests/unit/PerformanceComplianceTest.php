@@ -8,7 +8,7 @@ final class PerformanceComplianceTest extends TestCase
 {
     public function test_today_user_count_uses_wordpress_user_query_date_contract(): void
     {
-        $source = $this->source('includes/class-magick-mixture-tool.php');
+        $source = $this->source('includes/class-npcink-toolbox-tool.php');
 
         $this->assertStringContainsString('$today_users = new WP_User_Query(array(', $source);
         $this->assertStringContainsString("'date_query'  => array(", $source);

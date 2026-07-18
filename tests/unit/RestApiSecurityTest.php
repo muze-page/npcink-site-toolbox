@@ -7,17 +7,17 @@ use PHPUnit\Framework\TestCase;
 class RestApiSecurityTest extends TestCase {
 
     private static function trigger_registration() {
-        MaBox_Rest_Route_Registry::clear();
-        MaBox_Admin::register_rest_routes();
+        Npcink_Toolbox_Rest_Route_Registry::clear();
+        Npcink_Toolbox_Admin::register_rest_routes();
     }
 
     public function test_registry_class_exists(): void {
-        $this->assertTrue(class_exists('MaBox_Rest_Route_Registry'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Rest_Route_Registry'));
     }
 
     public function test_all_registry_routes_have_permission_callback(): void {
         self::trigger_registration();
-        $missing = MaBox_Rest_Route_Registry::validate_all_have_permission();
+        $missing = Npcink_Toolbox_Rest_Route_Registry::validate_all_have_permission();
 
         $this->assertEmpty($missing, 'Routes missing permission_callback: ' . implode(', ', $missing));
     }
@@ -26,7 +26,7 @@ class RestApiSecurityTest extends TestCase {
         self::trigger_registration();
         $invalid = array();
 
-        foreach (MaBox_Rest_Route_Registry::get_registered() as $route) {
+        foreach (Npcink_Toolbox_Rest_Route_Registry::get_registered() as $route) {
             $args = $route['args'];
             $endpoints = isset($args[0]) ? $args : array($args);
 
@@ -52,7 +52,7 @@ class RestApiSecurityTest extends TestCase {
 
     public function test_sensitive_endpoints_require_manage_options(): void {
         self::trigger_registration();
-        $routes = MaBox_Rest_Route_Registry::get_registered();
+        $routes = Npcink_Toolbox_Rest_Route_Registry::get_registered();
 
         $sensitive_paths = array(
             '/settings',
@@ -93,7 +93,7 @@ class RestApiSecurityTest extends TestCase {
     }
 
     public function test_no_endpoints_use_edit_posts_permission(): void {
-        $admin_file = dirname(__DIR__, 2) . '/admin/class-magick-mixture-admin.php';
+        $admin_file = dirname(__DIR__, 2) . '/admin/class-npcink-toolbox-admin.php';
         $content = file_get_contents($admin_file);
 
         $this->assertStringNotContainsString("'edit_posts'", $content, '不应使用 edit_posts 权限');
@@ -101,7 +101,7 @@ class RestApiSecurityTest extends TestCase {
 
     public function test_public_endpoints_have_rate_limiting(): void {
         self::trigger_registration();
-        $routes = MaBox_Rest_Route_Registry::get_registered();
+        $routes = Npcink_Toolbox_Rest_Route_Registry::get_registered();
 
         $public_paths = array('/public/search-log');
 
@@ -128,11 +128,11 @@ class RestApiSecurityTest extends TestCase {
     }
 
     public function test_rate_limiter_class_exists(): void {
-        $this->assertTrue(class_exists('MaBox_Rate_Limiter'));
+        $this->assertTrue(class_exists('Npcink_Toolbox_Rate_Limiter'));
     }
 
     public function test_settings_save_has_sanitize_callback(): void {
-        $admin_file = dirname(__DIR__, 2) . '/admin/class-magick-mixture-admin.php';
+        $admin_file = dirname(__DIR__, 2) . '/admin/class-npcink-toolbox-admin.php';
         $content = file_get_contents($admin_file);
 
         $this->assertStringContainsString("'sanitize_callback'", $content, 'REST API 参数应该有 sanitize_callback');
@@ -140,11 +140,11 @@ class RestApiSecurityTest extends TestCase {
     }
 
     public function test_rest_integer_sanitize_callback_accepts_wp_rest_arguments(): void {
-        $this->assertSame(30, call_user_func(array('MaBox_Admin', 'sanitize_int_arg'), '30', null, 'days'));
+        $this->assertSame(30, call_user_func(array('Npcink_Toolbox_Admin', 'sanitize_int_arg'), '30', null, 'days'));
     }
 
     public function test_rest_routes_do_not_use_internal_intval_sanitize_callback(): void {
-        $admin_file = dirname(__DIR__, 2) . '/admin/class-magick-mixture-admin.php';
+        $admin_file = dirname(__DIR__, 2) . '/admin/class-npcink-toolbox-admin.php';
         $content = file_get_contents($admin_file);
 
         $this->assertStringNotContainsString("'sanitize_callback' => 'intval'", $content, 'REST 参数不应直接使用 intval，WordPress 会传多个参数并在 PHP 8 下触发 ArgumentCountError');
@@ -163,7 +163,7 @@ class RestApiSecurityTest extends TestCase {
 
     public function test_removed_settings_and_external_service_routes_are_absent(): void {
         self::trigger_registration();
-        $routes = MaBox_Rest_Route_Registry::get_registered();
+        $routes = Npcink_Toolbox_Rest_Route_Registry::get_registered();
 
         $paths = array_column($routes, 'path');
         $this->assertNotContains('/settings/import', $paths);
@@ -182,7 +182,7 @@ class RestApiSecurityTest extends TestCase {
 
     public function test_settings_post_contract_uses_only_settings_and_secret_changes(): void {
         self::trigger_registration();
-        $routes = MaBox_Rest_Route_Registry::get_registered();
+        $routes = Npcink_Toolbox_Rest_Route_Registry::get_registered();
 
         foreach ($routes as $route) {
             if ($route['path'] !== '/settings' || !isset($route['args'][1]['args'])) {
@@ -197,7 +197,7 @@ class RestApiSecurityTest extends TestCase {
     }
 
     public function test_no_stray_register_rest_route_calls(): void {
-        $admin_file = dirname(__DIR__, 2) . '/admin/class-magick-mixture-admin.php';
+        $admin_file = dirname(__DIR__, 2) . '/admin/class-npcink-toolbox-admin.php';
         $content = file_get_contents($admin_file);
 
         $direct_count = substr_count($content, 'register_rest_route(');
@@ -207,7 +207,7 @@ class RestApiSecurityTest extends TestCase {
 
     public function test_registry_paths_match_current_product_surface(): void {
         self::trigger_registration();
-        $paths = array_column(MaBox_Rest_Route_Registry::get_registered(), 'path');
+        $paths = array_column(Npcink_Toolbox_Rest_Route_Registry::get_registered(), 'path');
 
         $this->assertSame(array(
             '/settings',

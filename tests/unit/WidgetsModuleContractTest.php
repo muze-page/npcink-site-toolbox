@@ -11,7 +11,7 @@ if (!class_exists('WP_Widget')) {
 }
 
 if (!function_exists('add_action')) {
-    define('MABOX_WIDGETS_TEST_ACTION_STUB', true);
+    define('NPCINK_SITE_TOOLBOX_WIDGETS_TEST_ACTION_STUB', true);
 
     function add_action($hook_name, $callback, $priority = 10, $accepted_args = 1)
     {
@@ -36,7 +36,7 @@ class WidgetsModuleContractTest extends TestCase
     {
         self::$pluginDir = dirname(__DIR__, 2);
 
-        require_once self::$pluginDir . '/includes/interface-mabox-module.php';
+        require_once self::$pluginDir . '/includes/interface-npcink-toolbox-module.php';
         require_once self::$pluginDir . '/admin/partials/optimize/widget/index.php';
     }
 
@@ -50,8 +50,8 @@ class WidgetsModuleContractTest extends TestCase
     public function test_widgets_module_implements_module_interface(): void
     {
         $this->assertTrue(
-            is_subclass_of('MaBox_Widgets', 'MaBox_Module_Interface'),
-            'MaBox_Widgets should implement MaBox_Module_Interface'
+            is_subclass_of('Npcink_Toolbox_Widgets', 'Npcink_Toolbox_Module_Interface'),
+            'Npcink_Toolbox_Widgets should implement Npcink_Toolbox_Module_Interface'
         );
     }
 
@@ -59,11 +59,11 @@ class WidgetsModuleContractTest extends TestCase
     {
         global $_test_widgets_actions;
 
-        MaBox_Widgets::run(array('unused' => true));
+        Npcink_Toolbox_Widgets::run(array('unused' => true));
 
-        if (!defined('MABOX_WIDGETS_TEST_ACTION_STUB')) {
+        if (!defined('NPCINK_SITE_TOOLBOX_WIDGETS_TEST_ACTION_STUB')) {
             $this->assertNotFalse(
-                has_action('widgets_init', array('MaBox_Widgets', 'register_widgets'))
+                has_action('widgets_init', array('Npcink_Toolbox_Widgets', 'register_widgets'))
             );
             return;
         }
@@ -72,7 +72,7 @@ class WidgetsModuleContractTest extends TestCase
             array(
                 array(
                     'hook'          => 'widgets_init',
-                    'callback'      => array('MaBox_Widgets', 'register_widgets'),
+                    'callback'      => array('Npcink_Toolbox_Widgets', 'register_widgets'),
                     'priority'      => 10,
                     'accepted_args' => 1,
                 ),

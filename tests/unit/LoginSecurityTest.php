@@ -48,7 +48,7 @@ if (!class_exists('WP_Error')) {
 }
 
 if (!function_exists('add_action')) {
-    define('MABOX_LOGIN_SECURITY_ACTION_STUB', true);
+    define('NPCINK_SITE_TOOLBOX_LOGIN_SECURITY_ACTION_STUB', true);
 
     function add_action($hook_name, $callback, $priority = 10, $accepted_args = 1)
     {
@@ -63,7 +63,7 @@ if (!function_exists('add_action')) {
 }
 
 if (!function_exists('add_filter')) {
-    define('MABOX_LOGIN_SECURITY_FILTER_STUB', true);
+    define('NPCINK_SITE_TOOLBOX_LOGIN_SECURITY_FILTER_STUB', true);
 
     function add_filter($hook_name, $callback, $priority = 10, $accepted_args = 1)
     {
@@ -178,34 +178,34 @@ class LoginSecurityTest extends TestCase
 
     public function test_attempt_limit_registers_only_pre_hash_and_login_state_hooks(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig());
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig());
 
         $this->assertSame(
             5,
-            has_filter('wp_authenticate_user', array('MaBox_Domestic_Login_Security', 'check_attempt_lock'))
+            has_filter('wp_authenticate_user', array('Npcink_Toolbox_Domestic_Login_Security', 'check_attempt_lock'))
         );
         $this->assertSame(
             10,
-            has_action('wp_login_failed', array('MaBox_Domestic_Login_Security', 'record_failed_login'))
+            has_action('wp_login_failed', array('Npcink_Toolbox_Domestic_Login_Security', 'record_failed_login'))
         );
         $this->assertSame(
             10,
-            has_action('wp_login', array('MaBox_Domestic_Login_Security', 'clear_attempt_state'))
+            has_action('wp_login', array('Npcink_Toolbox_Domestic_Login_Security', 'clear_attempt_state'))
         );
-        $this->assertFalse(has_filter('authenticate', array('MaBox_Domestic_Login_Security', 'check_login_lock')));
+        $this->assertFalse(has_filter('authenticate', array('Npcink_Toolbox_Domestic_Login_Security', 'check_login_lock')));
     }
 
     public function test_anonymous_author_guard_registers_only_its_two_boundaries(): void
     {
-        MaBox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
+        Npcink_Toolbox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
 
         $this->assertSame(
             0,
-            has_action('template_redirect', array('MaBox_Domestic_Login_Security', 'guard_anonymous_author_query'))
+            has_action('template_redirect', array('Npcink_Toolbox_Domestic_Login_Security', 'guard_anonymous_author_query'))
         );
         $this->assertSame(
             10,
-            has_filter('rest_endpoints', array('MaBox_Domestic_Login_Security', 'filter_anonymous_user_endpoints'))
+            has_filter('rest_endpoints', array('Npcink_Toolbox_Domestic_Login_Security', 'filter_anonymous_user_endpoints'))
         );
         $this->assertFalse(has_filter('wp_authenticate_user'));
     }
@@ -216,9 +216,9 @@ class LoginSecurityTest extends TestCase
      */
     public function test_emergency_constant_bypasses_only_attempt_protection(): void
     {
-        define('MABOX_DISABLE_LOGIN_PROTECTION', true);
+        define('NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION', true);
 
-        MaBox_Domestic_Login_Security::run(array(
+        Npcink_Toolbox_Domestic_Login_Security::run(array(
             'attempt_limit_enabled' => true,
             'anonymous_author_guard_enabled' => true,
         ));
@@ -227,18 +227,18 @@ class LoginSecurityTest extends TestCase
         $this->assertFalse(has_action('wp_login_failed'));
         $this->assertSame(
             0,
-            has_action('template_redirect', array('MaBox_Domestic_Login_Security', 'guard_anonymous_author_query'))
+            has_action('template_redirect', array('Npcink_Toolbox_Domestic_Login_Security', 'guard_anonymous_author_query'))
         );
         $this->assertSame(
             10,
-            has_filter('rest_endpoints', array('MaBox_Domestic_Login_Security', 'filter_anonymous_user_endpoints'))
+            has_filter('rest_endpoints', array('Npcink_Toolbox_Domestic_Login_Security', 'filter_anonymous_user_endpoints'))
         );
 
         $endpoints = array(
             '/wp/v2/users' => array('collection'),
             '/wp/v2/posts' => array('posts'),
         );
-        $filtered = MaBox_Domestic_Login_Security::filter_anonymous_user_endpoints($endpoints);
+        $filtered = Npcink_Toolbox_Domestic_Login_Security::filter_anonymous_user_endpoints($endpoints);
         $this->assertArrayNotHasKey('/wp/v2/users', $filtered);
         $this->assertArrayHasKey('/wp/v2/posts', $filtered);
 
@@ -249,7 +249,7 @@ class LoginSecurityTest extends TestCase
     public function test_direct_peer_ip_ignores_untrusted_forwarded_header(): void
     {
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '198.51.100.20';
-        MaBox_Domestic_Login_Security::run($this->attemptConfig());
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig());
 
         $this->assertSame('203.0.113.10', $this->invokePrivate('resolve_client_ip'));
     }
@@ -258,7 +258,7 @@ class LoginSecurityTest extends TestCase
     {
         $_SERVER['REMOTE_ADDR'] = '10.0.0.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '198.51.100.20, 10.0.0.2';
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'trusted_proxies' => "10.0.0.2\n10.0.0.3",
         )));
 
@@ -269,7 +269,7 @@ class LoginSecurityTest extends TestCase
     {
         $_SERVER['REMOTE_ADDR'] = '10.0.0.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.0.2.99, 198.51.100.20, 10.0.0.2';
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'trusted_proxies' => "10.0.0.2\n10.0.0.3",
         )));
 
@@ -283,7 +283,7 @@ class LoginSecurityTest extends TestCase
             '2001:0db8:0000:0000:0000:0000:0000:0020',
             '2001:db8::2',
         ));
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'trusted_proxies' => "2001:db8::2\n2001:db8::3",
         )));
 
@@ -294,7 +294,7 @@ class LoginSecurityTest extends TestCase
     {
         $_SERVER['REMOTE_ADDR'] = '10.0.0.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '198.51.100.20';
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'trusted_proxies' => '10.0.0.0/24',
         )));
 
@@ -305,7 +305,7 @@ class LoginSecurityTest extends TestCase
     {
         $_SERVER['REMOTE_ADDR'] = '10.0.0.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '198.51.100.20';
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'trusted_proxies' => "10.0.0.3\n10.0.0.0/24",
         )));
 
@@ -316,7 +316,7 @@ class LoginSecurityTest extends TestCase
     {
         $_SERVER['REMOTE_ADDR'] = '10.0.0.3';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '198.51.100.20, not-an-ip';
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'trusted_proxies' => '10.0.0.3',
         )));
 
@@ -331,36 +331,36 @@ class LoginSecurityTest extends TestCase
 
     public function test_failures_are_counted_by_existing_user_and_client_ip_in_a_fixed_window(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'attempt_limit_count' => 3,
         )));
         $error = new WP_Error('incorrect_password', 'Incorrect password');
         $first_key = $this->invokePrivate('counter_key', array(42, '203.0.113.10'));
 
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
         $first_state = $GLOBALS['_test_transient_store'][$first_key];
         $this->assertSame(1, $first_state['count']);
         $this->assertGreaterThanOrEqual(time() + (15 * MINUTE_IN_SECONDS) - 2, $first_state['window_expires_at']);
 
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
         $second_state = $GLOBALS['_test_transient_store'][$first_key];
         $this->assertSame(2, $second_state['count']);
         $this->assertSame($first_state['window_expires_at'], $second_state['window_expires_at']);
 
         $_SERVER['REMOTE_ADDR'] = '203.0.113.11';
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
         $other_ip_key = $this->invokePrivate('counter_key', array(42, '203.0.113.11'));
         $this->assertSame(1, $GLOBALS['_test_transient_store'][$other_ip_key]['count']);
 
         $_SERVER['REMOTE_ADDR'] = '203.0.113.10';
-        MaBox_Domestic_Login_Security::record_failed_login('other-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('other-user', $error);
         $other_user_key = $this->invokePrivate('counter_key', array(84, '203.0.113.10'));
         $this->assertSame(1, $GLOBALS['_test_transient_store'][$other_user_key]['count']);
     }
 
     public function test_expired_fixed_window_starts_again_from_one(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'attempt_limit_count' => 3,
         )));
         $counter_key = $this->invokePrivate('counter_key', array(42, '203.0.113.10'));
@@ -369,7 +369,7 @@ class LoginSecurityTest extends TestCase
             'window_expires_at' => time() - 1,
         );
 
-        MaBox_Domestic_Login_Security::record_failed_login(
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login(
             'known-user',
             new WP_Error('incorrect_password', 'Incorrect password')
         );
@@ -381,37 +381,37 @@ class LoginSecurityTest extends TestCase
 
     public function test_unknown_user_or_unresolved_ip_is_never_counted(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig());
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig());
         $error = new WP_Error('invalid_username', 'Unknown user');
 
-        MaBox_Domestic_Login_Security::record_failed_login('missing-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('missing-user', $error);
         $this->assertSame(array(), $GLOBALS['_test_transient_store']);
 
         $_SERVER['REMOTE_ADDR'] = 'not-an-ip';
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
         $this->assertSame(array(), $GLOBALS['_test_transient_store']);
     }
 
     public function test_username_and_email_share_the_same_user_ip_counter_and_lock(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'attempt_limit_count' => 2,
         )));
         $error = new WP_Error('incorrect_password', 'Incorrect password');
         $counter_key = $this->invokePrivate('counter_key', array(42, '203.0.113.10'));
         $lock_key = $this->invokePrivate('lock_key', array(42, '203.0.113.10'));
 
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
         $this->assertSame(1, $GLOBALS['_test_transient_store'][$counter_key]['count']);
 
-        MaBox_Domestic_Login_Security::record_failed_login('known@example.com', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known@example.com', $error);
         $this->assertArrayNotHasKey($counter_key, $GLOBALS['_test_transient_store']);
         $this->assertArrayHasKey($lock_key, $GLOBALS['_test_transient_store']);
     }
 
     public function test_limit_creates_independent_fixed_lock_and_ignores_its_own_error(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array(
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array(
             'attempt_limit_count' => 2,
             'lock_duration_minutes' => 30,
         )));
@@ -419,35 +419,35 @@ class LoginSecurityTest extends TestCase
         $counter_key = $this->invokePrivate('counter_key', array(42, '203.0.113.10'));
         $lock_key = $this->invokePrivate('lock_key', array(42, '203.0.113.10'));
 
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
 
         $this->assertArrayNotHasKey($counter_key, $GLOBALS['_test_transient_store']);
         $this->assertArrayHasKey($lock_key, $GLOBALS['_test_transient_store']);
         $lock_state = $GLOBALS['_test_transient_store'][$lock_key];
         $this->assertGreaterThanOrEqual(time() + (30 * MINUTE_IN_SECONDS) - 2, $lock_state['expires_at']);
 
-        $locked = MaBox_Domestic_Login_Security::check_attempt_lock(
+        $locked = Npcink_Toolbox_Domestic_Login_Security::check_attempt_lock(
             (object) array('ID' => 42),
             'unused-password'
         );
         $this->assertInstanceOf(WP_Error::class, $locked);
-        $this->assertSame(MaBox_Domestic_Login_Security::LOCK_ERROR_CODE, $locked->get_error_code());
+        $this->assertSame(Npcink_Toolbox_Domestic_Login_Security::LOCK_ERROR_CODE, $locked->get_error_code());
 
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $locked);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $locked);
         $this->assertSame($lock_state, $GLOBALS['_test_transient_store'][$lock_key]);
     }
 
     public function test_expired_lock_is_deleted_and_no_longer_blocks_password_verification(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig());
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig());
         $user = (object) array('ID' => 42);
         $lock_key = $this->invokePrivate('lock_key', array(42, '203.0.113.10'));
         $GLOBALS['_test_transient_store'][$lock_key] = array(
             'expires_at' => time() - 1,
         );
 
-        $result = MaBox_Domestic_Login_Security::check_attempt_lock($user, 'unused-password');
+        $result = Npcink_Toolbox_Domestic_Login_Security::check_attempt_lock($user, 'unused-password');
 
         $this->assertSame($user, $result);
         $this->assertArrayNotHasKey($lock_key, $GLOBALS['_test_transient_store']);
@@ -455,19 +455,19 @@ class LoginSecurityTest extends TestCase
 
     public function test_successful_login_clears_counter_and_lock_for_the_same_user_ip_pair(): void
     {
-        MaBox_Domestic_Login_Security::run($this->attemptConfig(array('attempt_limit_count' => 2)));
+        Npcink_Toolbox_Domestic_Login_Security::run($this->attemptConfig(array('attempt_limit_count' => 2)));
         $error = new WP_Error('incorrect_password', 'Incorrect password');
         $counter_key = $this->invokePrivate('counter_key', array(42, '203.0.113.10'));
         $lock_key = $this->invokePrivate('lock_key', array(42, '203.0.113.10'));
 
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
-        MaBox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
+        Npcink_Toolbox_Domestic_Login_Security::record_failed_login('known-user', $error);
         $GLOBALS['_test_transient_store'][$counter_key] = array(
             'count' => 1,
             'window_expires_at' => time() + 100,
         );
 
-        MaBox_Domestic_Login_Security::clear_attempt_state(
+        Npcink_Toolbox_Domestic_Login_Security::clear_attempt_state(
             'known-user',
             (object) array('ID' => 42)
         );
@@ -478,7 +478,7 @@ class LoginSecurityTest extends TestCase
 
     public function test_runtime_defaults_and_bounds_match_schema_contract(): void
     {
-        MaBox_Domestic_Login_Security::run(array(
+        Npcink_Toolbox_Domestic_Login_Security::run(array(
             'attempt_limit_enabled' => true,
             'attempt_limit_count' => 1,
             'attempt_window_minutes' => 0,
@@ -489,7 +489,7 @@ class LoginSecurityTest extends TestCase
         $this->assertSame(1, $bounded['attempt_window_minutes']);
         $this->assertSame(1440, $bounded['lock_duration_minutes']);
 
-        MaBox_Domestic_Login_Security::run(array());
+        Npcink_Toolbox_Domestic_Login_Security::run(array());
         $defaults = $this->readPrivateStaticProperty('config');
         $this->assertFalse($defaults['attempt_limit_enabled']);
         $this->assertSame(5, $defaults['attempt_limit_count']);
@@ -498,7 +498,7 @@ class LoginSecurityTest extends TestCase
         $this->assertSame('', $defaults['trusted_proxies']);
         $this->assertFalse($defaults['anonymous_author_guard_enabled']);
 
-        MaBox_Domestic_Login_Security::run(array(
+        Npcink_Toolbox_Domestic_Login_Security::run(array(
             'attempt_limit_enabled' => true,
             'attempt_limit_count' => 2.9,
             'attempt_window_minutes' => 20.0,
@@ -512,7 +512,7 @@ class LoginSecurityTest extends TestCase
 
     public function test_anonymous_rest_guard_removes_only_core_user_routes(): void
     {
-        MaBox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
+        Npcink_Toolbox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
         $endpoints = array(
             '/wp/v2/users' => array('collection'),
             '/wp/v2/users/(?P<id>[\\d]+)' => array('item'),
@@ -521,7 +521,7 @@ class LoginSecurityTest extends TestCase
             '/custom/v1/users' => array('custom'),
         );
 
-        $filtered = MaBox_Domestic_Login_Security::filter_anonymous_user_endpoints($endpoints);
+        $filtered = Npcink_Toolbox_Domestic_Login_Security::filter_anonymous_user_endpoints($endpoints);
         $this->assertArrayNotHasKey('/wp/v2/users', $filtered);
         $this->assertArrayNotHasKey('/wp/v2/users/(?P<id>[\\d]+)', $filtered);
         $this->assertArrayNotHasKey('/wp/v2/users/me', $filtered);
@@ -529,12 +529,12 @@ class LoginSecurityTest extends TestCase
         $this->assertArrayHasKey('/custom/v1/users', $filtered);
 
         $GLOBALS['_test_mabox_logged_in'] = true;
-        $this->assertSame($endpoints, MaBox_Domestic_Login_Security::filter_anonymous_user_endpoints($endpoints));
+        $this->assertSame($endpoints, Npcink_Toolbox_Domestic_Login_Security::filter_anonymous_user_endpoints($endpoints));
     }
 
     public function test_numeric_author_query_is_guarded_only_for_anonymous_requests(): void
     {
-        MaBox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
+        Npcink_Toolbox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
         $_GET['author'] = '42';
         $this->assertTrue($this->invokePrivate('is_anonymous_numeric_author_request'));
 
@@ -551,7 +551,7 @@ class LoginSecurityTest extends TestCase
      */
     public function test_author_values_that_core_normalizes_to_a_positive_id_are_guarded($author): void
     {
-        MaBox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
+        Npcink_Toolbox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
         $_GET['author'] = $author;
 
         $this->assertTrue($this->invokePrivate('is_anonymous_numeric_author_request'));
@@ -569,7 +569,7 @@ class LoginSecurityTest extends TestCase
 
     public function test_author_guard_ignores_values_core_cannot_turn_into_a_positive_author_id(): void
     {
-        MaBox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
+        Npcink_Toolbox_Domestic_Login_Security::run(array('anonymous_author_guard_enabled' => true));
 
         foreach (array('not-numeric', '-1', '0', '', array('1')) as $author) {
             $_GET['author'] = $author;
@@ -594,7 +594,7 @@ class LoginSecurityTest extends TestCase
             'check_ip_whitelist',
         );
         foreach ($retired_methods as $method) {
-            $this->assertFalse(method_exists('MaBox_Domestic_Login_Security', $method));
+            $this->assertFalse(method_exists('Npcink_Toolbox_Domestic_Login_Security', $method));
         }
 
         $source = file_get_contents(dirname(__FILE__) . '/../../admin/partials/domestic/login_security/index.php');
@@ -632,14 +632,14 @@ class LoginSecurityTest extends TestCase
 
     private function invokePrivate($method, $arguments = array())
     {
-        $reflection = new ReflectionMethod('MaBox_Domestic_Login_Security', $method);
+        $reflection = new ReflectionMethod('Npcink_Toolbox_Domestic_Login_Security', $method);
         $reflection->setAccessible(true);
         return $reflection->invokeArgs(null, $arguments);
     }
 
     private function readPrivateStaticProperty($property)
     {
-        $reflection = new ReflectionProperty('MaBox_Domestic_Login_Security', $property);
+        $reflection = new ReflectionProperty('Npcink_Toolbox_Domestic_Login_Security', $property);
         $reflection->setAccessible(true);
         return $reflection->getValue();
     }

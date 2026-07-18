@@ -50,7 +50,7 @@ final class AdminFilterThumbnailSecurityTest extends TestCase
         );
 
         try {
-            $method = new ReflectionMethod(MaBox_Admin_Add_Time_Screen::class, 'requested_dates');
+            $method = new ReflectionMethod(Npcink_Toolbox_Admin_Add_Time_Screen::class, 'requested_dates');
             $method->setAccessible(true);
 
             $this->assertSame(
@@ -111,13 +111,13 @@ final class AdminFilterThumbnailSecurityTest extends TestCase
         $autoload = file_get_contents(dirname(__DIR__, 2) . '/includes/autoload.php');
         $this->assertIsString($autoload);
 
-        $this->assertStringContainsString('class MaBox_Easy_Thumbnail_Switcher', $switcher);
-        $this->assertStringContainsString('new MaBox_Easy_Thumbnail_Switcher();', $switcher);
+        $this->assertStringContainsString('class Npcink_Toolbox_Easy_Thumbnail_Switcher', $switcher);
+        $this->assertStringContainsString('new Npcink_Toolbox_Easy_Thumbnail_Switcher();', $switcher);
         $this->assertFileDoesNotExist(
             dirname(__DIR__, 2) . '/admin/partials/optimize/admin/thumbnail_switcher/class-ts-admin-notice.php'
         );
-        $this->assertStringNotContainsString('MaBox_Admin_Notice', $autoload);
-        $this->assertStringNotContainsString('MaBox_Easy_Thumbnail_Switcher', $autoload);
+        $this->assertStringNotContainsString('Npcink_Toolbox_Admin_Notice', $autoload);
+        $this->assertStringNotContainsString('Npcink_Toolbox_Easy_Thumbnail_Switcher', $autoload);
 
         $combined = $switcher . $autoload;
         $this->assertStringNotContainsString('TS_Easy_Thumbnail_Switcher', $combined);

@@ -7,18 +7,18 @@ use PHPUnit\Framework\TestCase;
 class UiSchemaTest extends TestCase {
 
     public function test_ui_schema_has_no_option_keys(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         $this->assertIsArray($ui);
         $this->assertNotEmpty($ui);
 
         $serialized = serialize($ui);
         $this->assertStringNotContainsString('_option_key', $serialized, 'uiSchema must not contain _option_key');
-        $this->assertStringNotContainsString('MAGICK_MIXTURE_OPTION', $serialized, 'uiSchema must not expose option constants');
+        $this->assertStringNotContainsString('NPCINK_SITE_TOOLBOX_OPTION', $serialized, 'uiSchema must not expose option constants');
     }
 
     public function test_risky_features_map_to_frontend_ids(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         $risky_feature_ids = array(
             'optimize-medium-no_auto_size',
@@ -40,7 +40,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_login_security_ui_schema_uses_only_reset_feature_ids(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
         $serialized = serialize($ui);
 
         $this->assertStringContainsString('domestic-login_security-attempt_limit_enabled', $serialized);
@@ -53,7 +53,7 @@ class UiSchemaTest extends TestCase {
         $this->assertSame('登录尝试保护', $attempt['label']);
         $this->assertSame('low', $attempt['risk']['level']);
         $this->assertSame(
-            '确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 MABOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。',
+            '确认开启后请在保存前核对可信代理；如发生误锁，可在 wp-config.php 中将 NPCINK_SITE_TOOLBOX_DISABLE_LOGIN_PROTECTION 定义为 true 后恢复。',
             $attempt['risk']['suggestion']
         );
         $this->assertSame('限制匿名作者枚举', $anonymous['label']);
@@ -61,7 +61,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_ui_schema_structure(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         foreach ($ui as $key => $entry) {
             $this->assertArrayHasKey('path', $entry, "UI entry '{$key}' must have path");
@@ -70,7 +70,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_risk_level_values(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
         $valid_levels = array('none', 'low', 'high');
 
         foreach ($ui as $key => $entry) {
@@ -85,7 +85,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_high_risk_features_have_no_dismiss(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         foreach ($ui as $key => $entry) {
             if (isset($entry['risk']) && isset($entry['risk']['level']) && $entry['risk']['level'] === 'high') {
@@ -98,21 +98,21 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_get_schema_still_includes_internal_keys(): void {
-        $schema = MaBox_Config_Schema::get_schema();
+        $schema = Npcink_Toolbox_Config_Schema::get_schema();
 
         $serialized = serialize($schema);
         $this->assertStringContainsString('_option_key', $serialized, 'Full schema should still contain _option_key');
     }
 
     public function test_ui_schema_returns_array(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         $this->assertIsArray($ui);
         $this->assertNotEmpty($ui);
     }
 
     public function test_risky_features_have_risk_tags(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         $risky_count = 0;
         foreach ($ui as $key => $entry) {
@@ -127,11 +127,11 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_risk_tags_derived_from_level(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
 
         $module_overridden = array();
-        if (class_exists('MaBox_Module_Metadata')) {
-            $module_ui = MaBox_Module_Metadata::get_ui_metadata();
+        if (class_exists('Npcink_Toolbox_Module_Metadata')) {
+            $module_ui = Npcink_Toolbox_Module_Metadata::get_ui_metadata();
             foreach ($module_ui as $module_id => $meta) {
                 if (!empty($meta['risk_tags']) && !empty($meta['feature_id'])) {
                     $module_overridden[$meta['feature_id']] = $meta['risk_tags'];
@@ -157,7 +157,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_preset_tags_is_array_when_present(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
         $found = false;
 
         foreach ($ui as $key => $entry) {
@@ -172,7 +172,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_depends_on_is_array_when_present(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
         $found = false;
 
         foreach ($ui as $key => $entry) {
@@ -187,7 +187,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_ui_schema_no_private_fields_leak(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
         $forbidden_keys = array('_option_key', '_flat', 'sanitize', 'default', 'min', 'max', 'enum');
 
         foreach ($ui as $key => $entry) {
@@ -198,7 +198,7 @@ class UiSchemaTest extends TestCase {
     }
 
     public function test_risk_tags_differ_from_preset_tags(): void {
-        $ui = MaBox_Config_Schema::get_ui_schema();
+        $ui = Npcink_Toolbox_Config_Schema::get_ui_schema();
         $found = false;
 
         foreach ($ui as $key => $entry) {

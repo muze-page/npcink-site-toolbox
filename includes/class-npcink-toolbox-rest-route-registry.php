@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') || exit;
 
-if (!class_exists('MaBox_Rest_Route_Registry')) {
-    class MaBox_Rest_Route_Registry {
+if (!class_exists('Npcink_Toolbox_Rest_Route_Registry')) {
+    class Npcink_Toolbox_Rest_Route_Registry {
 
         private static $routes = array();
 
@@ -37,7 +37,7 @@ if (!class_exists('MaBox_Rest_Route_Registry')) {
         }
 
         public static function public_nonce_rate_limited($endpoint, $nonce_action, $limits = array()) {
-            return MaBox_Rate_Limiter::permission_callback_with_nonce($endpoint, $nonce_action, $limits);
+            return Npcink_Toolbox_Rate_Limiter::permission_callback_with_nonce($endpoint, $nonce_action, $limits);
         }
 
         public static function get_route_count() {
