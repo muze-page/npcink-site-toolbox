@@ -36,6 +36,9 @@ require_command rsync
 require_command zip
 require_command unzip
 require_command zipinfo
+require_command find
+require_command sort
+require_command touch
 
 [ -f "$DISTIGNORE" ] || fail "missing $DISTIGNORE"
 [ -f "$VERIFY_SCRIPT" ] || fail "missing $VERIFY_SCRIPT"
@@ -152,6 +155,10 @@ done
 included_symlink="$(find "$staging_root" -type l -print -quit)"
 [ -z "$included_symlink" ] || fail "release staging contains a symlink: $included_symlink"
 
+# ZIP stores entry timestamps and preserves input order. Normalize both so the
+# same release files produce the same archive bytes in fresh staging trees.
+find "$staging_root" -exec touch -t 198001010000.00 {} +
+
 output_temporary_dir="$(mktemp -d "$output_dir/.npcink-site-toolbox-release.XXXXXX")"
 new_release_dir="$output_temporary_dir/new"
 mkdir -p -- "$new_release_dir"
@@ -160,7 +167,7 @@ temporary_sidecar="$temporary_zip.sha256"
 
 (
   cd -- "$temporary_root"
-  zip -q -r -X "$temporary_zip" "$PLUGIN_SLUG"
+  find "$PLUGIN_SLUG" -print | LC_ALL=C sort | zip -q -X "$temporary_zip" -@
 )
 
 release_sha256="$(hash_file "$temporary_zip")"

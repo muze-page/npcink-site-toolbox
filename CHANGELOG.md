@@ -6,11 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-### Changed
-
-- Unified pre-release PHP classes, constants, autoload paths, and plugin-owned storage keys under the Npcink Site Toolbox identity.
-- Removed retired class aliases, dual-name assumptions, and uninstall cleanup for data surfaces that were never publicly released.
-
 ## [3.2.0] - 2026-07-18
 
 ### Added
@@ -20,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Unified pre-release PHP classes, constants, autoload paths, and plugin-owned storage keys under the Npcink Site Toolbox identity.
+- Removed retired class aliases, dual-name assumptions, and uninstall cleanup for data surfaces that were never publicly released.
 - Reused one request-scoped statistics provider across the dynamic block and legacy widget.
 - Raised the minimum WordPress version to 6.3 and kept the editor script as readable, build-free source instead of adding another Vite target.
 - Unified long admin settings pages with accessible, search-aware secondary tabs while keeping compact views direct.

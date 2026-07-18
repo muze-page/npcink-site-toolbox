@@ -85,6 +85,8 @@ class ReleasePackageContractTest extends TestCase
         $this->assertStringContainsString('PLUGIN_SLUG="npcink-site-toolbox"', $verify);
         $this->assertStringNotContainsString('PLUGIN_SLUG="wp-magick-toolbox"', $verify);
         $this->assertStringContainsString('rsync -a --exclude-from="$DISTIGNORE"', $build);
+        $this->assertStringContainsString('touch -t 198001010000.00', $build);
+        $this->assertStringContainsString('LC_ALL=C sort | zip -q -X', $build);
         $this->assertStringContainsString('mktemp -d', $build);
         $this->assertStringContainsString('trap cleanup', $build);
         $this->assertStringContainsString('"$VERIFY_SCRIPT" "$temporary_zip"', $build);
@@ -345,6 +347,28 @@ BASH
         $this->assertSame(array(), glob($output_directory . '/.' . self::PACKAGE_SLUG . '-release.*') ?: array());
     }
 
+    public function test_build_is_reproducible_across_source_mtime_changes(): void
+    {
+        $project = $this->createBuildFixtureProject();
+        $output_directory = $this->temporary_root . '/reproducible output';
+        $this->assertTrue(mkdir($output_directory, 0700));
+        $first_output = $output_directory . '/first.zip';
+        $second_output = $output_directory . '/second.zip';
+
+        $first_result = $this->runCommand(array(
+            'bash', $project . '/bin/build-release-zip.sh', $first_output,
+        ));
+        $this->assertSame(0, $first_result['status'], $first_result['output']);
+
+        $this->retimeTree($project, 1893456000);
+
+        $second_result = $this->runCommand(array(
+            'bash', $project . '/bin/build-release-zip.sh', $second_output,
+        ));
+        $this->assertSame(0, $second_result['status'], $second_result['output']);
+        $this->assertSame(hash_file('sha256', $first_output), hash_file('sha256', $second_output));
+    }
+
     /**
      * @param array<string,string> $extra_files
      */
@@ -481,6 +505,18 @@ BASH
     private function root(): string
     {
         return dirname(__DIR__, 2);
+    }
+
+    private function retimeTree(string $path, int $timestamp): void
+    {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+        foreach ($iterator as $entry) {
+            $this->assertTrue(touch($entry->getPathname(), $timestamp));
+        }
+        $this->assertTrue(touch($path, $timestamp));
     }
 
     private function removeTree(string $path): void
