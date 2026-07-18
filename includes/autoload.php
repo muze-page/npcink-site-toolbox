@@ -24,6 +24,7 @@ spl_autoload_register(function ($class) {
         'MaBox_Baidu_Tonji' => 'admin/partials/function/auxiliary/baidu_tonji.php',
         'MaBox_Ban_Malice_Search' => 'admin/partials/function/auxiliary/ban_malice_search.php',
         'MaBox_Biying_Tonji' => 'admin/partials/function/auxiliary/biying_tonji.php',
+        'MaBox_Block_Patterns' => 'includes/class-mabox-block-patterns.php',
         'MaBox_CDN_Replace' => 'admin/partials/optimize/site/cdn_replace.php',
         'MaBox_Category_Link_Simplify' => 'admin/partials/optimize/site/category_link_simplify.php',
         'MaBox_Census_Single' => 'admin/partials/function/auxiliary/census-single.php',

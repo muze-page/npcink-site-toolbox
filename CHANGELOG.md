@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Added three editor-native, core-block patterns for resource downloads, article conclusions, and source/copyright notes.
+
 ## [3.1.1] - 2026-07-18
 
 ### Fixed
