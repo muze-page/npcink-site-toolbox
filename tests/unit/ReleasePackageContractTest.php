@@ -91,6 +91,10 @@ class ReleasePackageContractTest extends TestCase
         $this->assertStringContainsString('trap cleanup', $build);
         $this->assertStringContainsString('"$VERIFY_SCRIPT" "$temporary_zip"', $build);
         foreach (array(
+            'blocks/github-project/block.json',
+            'blocks/github-project/index.js',
+            'blocks/github-project/index.asset.php',
+            'blocks/github-project/style.css',
             'blocks/site-stats/block.json',
             'blocks/site-stats/index.js',
             'blocks/site-stats/index.asset.php',
@@ -437,6 +441,7 @@ BASH
             'includes/class-npcink-toolbox-tool.php' => "<?php\n",
             'includes/class-npcink-toolbox-config-schema.php' => "<?php\n",
             'includes/class-npcink-toolbox-config-manager.php' => "<?php\n",
+            'includes/class-npcink-toolbox-github-project.php' => "<?php\n",
             'includes/class-npcink-toolbox-rest-route-registry.php' => "<?php\n",
             'includes/interface-npcink-toolbox-module.php' => "<?php\n",
             'admin/modules/loader.php' => "<?php\n",
@@ -446,6 +451,10 @@ BASH
             'admin/class-npcink-toolbox-admin.php' => "<?php\n",
             'admin/partials/optimize/site/category_link_simplify.php' => "<?php\n",
             'public/class-npcink-toolbox-public.php' => "<?php\n",
+            'blocks/github-project/block.json' => '{"name":"npcink/github-project"}',
+            'blocks/github-project/index.js' => 'void 0;',
+            'blocks/github-project/index.asset.php' => "<?php\nreturn array('dependencies' => array(), 'version' => '9.8.7');\n",
+            'blocks/github-project/style.css' => '.npcink-github-project{}',
             'blocks/site-stats/block.json' => '{"name":"npcink/site-stats"}',
             'blocks/site-stats/index.js' => 'void 0;',
             'blocks/site-stats/index.asset.php' => "<?php\nreturn array('dependencies' => array(), 'version' => '9.8.7');\n",

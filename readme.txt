@@ -13,7 +13,7 @@ An opt-in toolbox for WordPress site settings, media, SEO, security, China-focus
 
 == Description ==
 
-Npcink Site Toolbox is a utility plugin for WordPress site owners. Version 3.2.0 provides 55 opt-in modules, three editor patterns, and a dynamic site-statistics block. Features cover site and media settings, content and SEO, login and comment safeguards, China-focused integrations, diagnostics, and maintenance.
+Npcink Site Toolbox is a utility plugin for WordPress site owners. Version 3.2.0 provides 55 opt-in modules, three editor patterns, and two dynamic blocks. Features cover site and media settings, content and SEO, login and comment safeguards, China-focused integrations, diagnostics, and maintenance.
 
 = Current features =
 
@@ -24,7 +24,7 @@ Npcink Site Toolbox is a utility plugin for WordPress site owners. Version 3.2.0
 * China-focused integrations: ICP information, WeChat JSSDK, cookie notice, and optional object storage.
 * Maintenance: diagnostics, SEO checks, media health, and guarded database cleanup.
 * Admin experience: feature search, risk labels, change confirmation, secret-status handling, and responsive layouts.
-* Editor tools: three core-block patterns plus a live site-statistics block with selectable metrics.
+* Editor tools: three core-block patterns, a live site-statistics block, and a GitHub project block with cached public repository metadata.
 
 = Important behavior =
 
@@ -64,6 +64,10 @@ Yes. Its text domain is `npcink-site-toolbox`.
 
 No external service is contacted merely by activating the plugin.
 
+= GitHub project block =
+
+Only after a content author inserts this block and supplies a public repository URL does the server request `https://api.github.com/repos/{owner}/{repository}` on a cache miss. The request sends the public owner/repository identifier, the site server's IP address, the plugin User-Agent, and normal HTTP headers to retrieve the repository description, primary language, Stars, Forks, and archive status. Successful responses are cached locally for up to 12 hours and failures for 30 minutes. No GitHub credentials, article content, plugin settings, visitor IP address, or visitor browser request is sent. [Service](https://docs.github.com/en/rest/repos/repos#get-a-repository), [GitHub Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service), [GitHub General Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+
 = WeChat JSSDK =
 
 When an administrator enables WeChat JSSDK and configures an AppID and AppSecret, the server sends those credentials to the WeChat token API and later sends the access token to the ticket API. On singular content, the visitor's browser loads the remote JSSDK and supplies the current URL, title, excerpt, and thumbnail URL for sharing. [Service](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html), [terms](https://weixin.qq.com/cgi-bin/readtemplate?lang=zh_CN&t=weixin_agreement&s=default), [privacy](https://weixin.qq.com/cgi-bin/readtemplate?lang=zh_CN&t=weixin_agreement&s=privacy).
@@ -102,7 +106,7 @@ The public, maintained source for the minified JavaScript and CSS shipped in thi
 
 The generated files are written to `vite/admin/dist/` and `vite/count/dist/`.
 
-The site-statistics block editor script is shipped as readable source in `blocks/site-stats/index.js`; it has no separate build step.
+The site-statistics and GitHub project block editor scripts are shipped as readable source in `blocks/site-stats/index.js` and `blocks/github-project/index.js`; they have no separate build step.
 
 == Changelog ==
 
@@ -110,11 +114,12 @@ The site-statistics block editor script is shipped as readable source in `blocks
 * Release date: 2026-07-18.
 * Added editor patterns for resource downloads, article conclusions, and source/copyright notes.
 * Added a dynamic site-statistics block with live article, comment, category, and user counts.
-* Reused one statistics provider across the block and legacy widget instead of duplicating count logic.
+* Added a dynamic GitHub project block with cached public repository metadata and a direct-link fallback.
+* Reused one statistics provider across the site-statistics block and legacy widget instead of duplicating count logic.
 * Kept the editor script as readable, build-free source so the block does not create another Vite target or Node dependency.
 * Unified long admin settings pages with accessible, search-aware secondary tabs while keeping compact views direct.
-* Added an overview guide with direct post and page editor links for using the bundled patterns and site-statistics block.
-* Grouped the live block and bundled patterns under matching Npcink Site Toolbox inserter categories.
+* Added an overview guide with direct post and page editor links for using the bundled patterns and dynamic blocks.
+* Grouped the dynamic blocks and bundled patterns under matching Npcink Site Toolbox inserter categories.
 * Unified pre-release PHP identifiers and plugin-owned storage keys under the Npcink Site Toolbox identity without compatibility shims.
 
 = 3.1.1 =
@@ -210,7 +215,7 @@ The site-statistics block editor script is shipped as readable source in `blocks
 == Upgrade Notice ==
 
 = 3.2.0 =
-Requires WordPress 6.3 or later and adds editor-native patterns and a live site-statistics block.
+Requires WordPress 6.3 or later and adds editor-native patterns, a live site-statistics block, and a GitHub project block.
 
 = 3.1.1 =
 Fixes configured compliance notices and makes restricted-content output more reliable.

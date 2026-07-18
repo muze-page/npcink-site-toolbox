@@ -2,7 +2,7 @@
 
 Npcink Site Toolbox 提供站点优化、SEO、安全防护和国内生态等常用能力。功能支持独立开启/关闭，并按需加载。
 
-## 区块编辑器（4 项）
+## 区块编辑器（5 项）
 
 | 功能 | 说明 | 推荐 |
 |------|------|------|
@@ -10,6 +10,7 @@ Npcink Site Toolbox 提供站点优化、SEO、安全防护和国内生态等常
 | [文章结论卡片](/features/editor-tools#文章结论卡片) | 结论、摘要和行动要点 | ✅ |
 | [来源与版权说明](/features/editor-tools#来源与版权说明) | 来源、授权和转载要求 | ✅ |
 | [站点数据区块](/features/editor-tools#站点数据区块) | 实时显示站点内容统计 | ✅ |
+| [GitHub 项目区块](/features/editor-tools#github-项目区块) | 展示公开仓库资料与实时数据 | ✅ |
 
 ## 功能分类速查
 

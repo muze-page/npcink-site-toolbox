@@ -133,6 +133,7 @@ class Npcink_Site_Toolbox
     {
         add_filter('block_categories_all', array('Npcink_Toolbox_Block_Patterns', 'add_block_category'));
         add_action('init', array('Npcink_Toolbox_Block_Patterns', 'register'));
+        add_action('init', array('Npcink_Toolbox_Github_Project', 'register_block'));
         add_action('init', array('Npcink_Toolbox_Site_Stats', 'register_block'));
 
         //对js文件进行module接入

@@ -268,9 +268,9 @@ describe("现代概览页", () => {
     renderDashboard();
 
     const editorTools = screen.getByRole("region", { name: "编辑器工具" });
-    expect(within(editorTools).getByText("3 个可编辑样板和 1 个实时数据区块，只在文章或页面编辑器中使用。")).toBeInTheDocument();
+    expect(within(editorTools).getByText("3 个可编辑样板和 2 个实时数据区块，只在文章或页面编辑器中使用。")).toBeInTheDocument();
     expect(within(editorTools).getByText("资源下载、文章结论、来源与版权说明")).toBeInTheDocument();
-    expect(within(editorTools).getByText("站点数据（文章、评论、分类与用户数量）")).toBeInTheDocument();
+    expect(within(editorTools).getByText("站点数据；GitHub 项目（描述、语言、Stars 与 Forks）")).toBeInTheDocument();
 
     const postLink = within(editorTools).getByRole("link", { name: "新建文章使用" });
     const pageLink = within(editorTools).getByRole("link", { name: "新建页面" });

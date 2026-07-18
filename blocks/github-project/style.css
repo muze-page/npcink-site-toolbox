@@ -1,0 +1,108 @@
+.wp-block-npcink-github-project {
+	background: var(--wp--preset--color--base, #fff);
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 18px;
+	box-sizing: border-box;
+	color: var(--wp--preset--color--contrast, #1f2328);
+	padding: clamp(20px, 4vw, 32px);
+}
+
+.npcink-github-project__header {
+	align-items: flex-start;
+	display: flex;
+	gap: 16px;
+	justify-content: space-between;
+}
+
+.npcink-github-project__eyebrow {
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	opacity: 0.65;
+	text-transform: uppercase;
+}
+
+.npcink-github-project__name {
+	font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.25;
+	margin: 6px 0 0;
+	overflow-wrap: anywhere;
+}
+
+.npcink-github-project__badge {
+	background: color-mix(in srgb, currentColor 9%, transparent);
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	padding: 5px 10px;
+	white-space: nowrap;
+}
+
+.npcink-github-project__description,
+.npcink-github-project__status {
+	line-height: 1.65;
+	margin: 18px 0 0;
+}
+
+.npcink-github-project__status {
+	opacity: 0.7;
+}
+
+.npcink-github-project__metadata {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 20px 0 0;
+}
+
+.npcink-github-project__metadata > div {
+	background: color-mix(in srgb, currentColor 5%, transparent);
+	border-radius: 10px;
+	display: flex;
+	gap: 7px;
+	padding: 8px 11px;
+}
+
+.npcink-github-project__metadata dt,
+.npcink-github-project__metadata dd {
+	margin: 0;
+}
+
+.npcink-github-project__metadata dt {
+	opacity: 0.65;
+}
+
+.npcink-github-project__metadata dd {
+	font-variant-numeric: tabular-nums;
+	font-weight: 650;
+}
+
+.npcink-github-project__link {
+	background: var(--wp--preset--color--contrast, #1f2328);
+	border-radius: 10px;
+	display: inline-flex;
+	font-weight: 650;
+	margin-top: 22px;
+	padding: 10px 15px;
+	text-decoration: none;
+}
+
+.npcink-github-project__link,
+.npcink-github-project__link:hover,
+.npcink-github-project__link:focus {
+	color: var(--wp--preset--color--base, #fff);
+}
+
+.npcink-github-project__link:focus-visible {
+	outline: 2px solid var(--wp--preset--color--contrast, #1f2328);
+	outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+	.npcink-github-project__header {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}

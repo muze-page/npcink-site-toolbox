@@ -41,6 +41,7 @@ spl_autoload_register(function ($class) {
         'Npcink_Toolbox_Domestic_Compliance' => 'admin/partials/domestic/compliance/index.php',
         'Npcink_Toolbox_Domestic_Login_Security' => 'admin/partials/domestic/login_security/index.php',
         'Npcink_Toolbox_Domestic_Wechat' => 'admin/partials/domestic/wechat/index.php',
+        'Npcink_Toolbox_Github_Project' => 'includes/class-npcink-toolbox-github-project.php',
         'Npcink_Toolbox_Google_Tonji' => 'admin/partials/function/auxiliary/google_tonji.php',
         'Npcink_Toolbox_Helpers' => 'includes/class-npcink-toolbox-helpers.php',
         'Npcink_Toolbox_Hide_Email_IP' => 'admin/partials/optimize/site/hide_email_ip.php',

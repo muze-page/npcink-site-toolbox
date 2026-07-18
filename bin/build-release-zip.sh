@@ -69,6 +69,10 @@ esac
 [ ! -L "$sidecar_path" ] || fail "sidecar path must not be a symlink: $sidecar_path"
 
 required_assets=(
+  "blocks/github-project/block.json"
+  "blocks/github-project/index.js"
+  "blocks/github-project/index.asset.php"
+  "blocks/github-project/style.css"
   "blocks/site-stats/block.json"
   "blocks/site-stats/index.js"
   "blocks/site-stats/index.asset.php"
