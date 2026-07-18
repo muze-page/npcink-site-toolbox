@@ -126,7 +126,7 @@ if (!class_exists('MaBox_Config_Schema')) {
                         'tag_id'                  => array('type' => 'array',   'default' => array(), 'items' => self::number_list_items()),
                         'page_id'                => array('type' => 'array',   'default' => array(), 'items' => self::number_list_items()),
                         'single_id'              => array('type' => 'array',   'default' => array(), 'items' => self::number_list_items()),
-                        'tip_content'             => array('type' => 'string',  'default' => '', 'sanitize' => 'sanitize_textarea_field'),
+                        'tip_content'             => array('type' => 'string',  'default' => '', 'sanitize' => 'wp_kses_post'),
                     ),
                 ),
                 'function' => array(

@@ -1,9 +1,9 @@
 # Npcink Site Toolbox
 
 > 面向中国 WordPress 站长的一站式实用工具箱插件
-> 版本：**3.1.0** | 阶段：**WordPress.org 提交准备中** | 授权：**GPL-2.0**
+> 版本：**3.1.1** | 阶段：**WordPress.org 提交准备中** | 授权：**GPL-2.0**
 
-`3.1.0` 将公开身份统一为 Npcink Site Toolbox，尚未提交 WordPress.org 目录审核。现有 `v3.0.0`、`v3.0.1` 标签和附件作为历史记录保留。
+`3.1.1` 是首次 WordPress.org 提交候选，修复了合规输出和受限内容的运行问题。现有历史标签和附件保持不变。
 
 [![CI](https://github.com/muze-page/npcink-site-toolbox/actions/workflows/ci.yml/badge.svg)](https://github.com/muze-page/npcink-site-toolbox/actions/workflows/ci.yml)
 [![WordPress Plugin](https://img.shields.io/badge/WordPress-6.0%2B-blue)](https://wordpress.org)
@@ -14,7 +14,7 @@
 
 ## 简介
 
-Npcink Site Toolbox 是一款面向中国 WordPress 站长的免费工具箱插件。3.1.0 以 55 个注册模块为运行边界，通过七个语义化管理视图提供站点优化、内容与 SEO、登录安全、国内生态和维护诊断等能力。
+Npcink Site Toolbox 是一款面向中国 WordPress 站长的免费工具箱插件。3.1.1 以 55 个注册模块为运行边界，通过七个语义化管理视图提供站点优化、内容与 SEO、登录安全、国内生态和维护诊断等能力。
 
 **核心定位**：在一个插件内集中提供可按需启用的常见站点设置与维护工具。
 
@@ -102,6 +102,13 @@ pnpm dev:admin
 ---
 
 ## 更新记录
+
+### 3.1.1 — 2026-07-18
+
+- 修复 Cookie 弹窗未读取已配置正文的问题，并改用安全 DOM API 构建提示内容
+- 让 ICP 备案号使用管理员配置的查询链接
+- 将分类、标签和页面的未登录提示统一为服务端安全渲染，移除重复且脆弱的前端 DOM 改写
+- 补充合规和受限内容运行分支测试
 
 ### 3.1.0 — 2026-07-17
 

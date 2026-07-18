@@ -13,12 +13,12 @@ if (!class_exists('MaBox_Domestic_Compliance')) {
             $output = '';
             if (!empty($c['icp_enabled']) && !empty($c['icp_number'])) {
                 $link = !empty($c['icp_link']) ? esc_url($c['icp_link']) : 'https://beian.miit.gov.cn/';
-                $output .= '<span class="mabox-icp">' . esc_html($c['icp_number']) . '</span>';
+                $output .= '<a class="mabox-icp" href="' . $link . '" target="_blank" rel="nofollow noopener">' . esc_html($c['icp_number']) . '</a>';
             }
             if (!empty($c['police_enabled']) && !empty($c['police_number'])) {
                 $link = !empty($c['police_link']) ? esc_url($c['police_link']) : 'https://www.beian.gov.cn/portal/registerSystemInfo';
                 if ($output) $output .= ' | ';
-                $output .= '<a href="' . $link . '" target="_blank" rel="nofollow">' . esc_html($c['police_number']) . '</a>';
+                $output .= '<a href="' . $link . '" target="_blank" rel="nofollow noopener">' . esc_html($c['police_number']) . '</a>';
             }
             if (!empty($c['copyright_enabled'])) {
                 if ($output) $output .= ' | ';
@@ -37,15 +37,36 @@ if (!class_exists('MaBox_Domestic_Compliance')) {
             if (empty($c['cookie_enabled'])) return;
             if (isset($_COOKIE['mabox_cookie_consent'])) return;
             $title = !empty($c['cookie_title']) ? $c['cookie_title'] : 'Cookie 同意';
-            $content = !empty($c['cookie_content']) ? $c['content'] : '本网站使用 Cookie 来改善您的体验。';
+            $content = !empty($c['cookie_content']) ? $c['cookie_content'] : '本网站使用 Cookie 来改善您的体验。';
             $button = !empty($c['cookie_button']) ? $c['cookie_button'] : '我知道了';
             $style = !empty($c['cookie_style']) ? $c['cookie_style'] : 'bottom';
-            $css = '.mabox-cookie-banner{position:fixed;' . ($style === 'bottom' ? 'bottom:0;left:0;right:0;' : 'top:0;left:0;right:0;') . 'background:rgba(0,0,0,0.85);color:#fff;z-index:99999;padding:15px;text-align:center;font-size:14px;display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap;}';
+            if ($style === 'center') {
+                $position = 'top:50%;left:50%;transform:translate(-50%,-50%);max-width:min(520px,calc(100vw - 32px));border-radius:8px;';
+            } elseif ($style === 'top') {
+                $position = 'top:0;left:0;right:0;';
+            } else {
+                $position = 'bottom:0;left:0;right:0;';
+            }
+            $css = '.mabox-cookie-banner{position:fixed;' . $position . 'background:rgba(0,0,0,0.85);color:#fff;z-index:99999;padding:15px;text-align:center;font-size:14px;display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap;}';
             $css .= '.mabox-cookie-banner button{background:#1677ff;color:#fff;border:none;padding:8px 20px;border-radius:4px;cursor:pointer;}';
             wp_register_style('mabox-cookie-style', false, array(), MAGICK_MIXTURE_VERSION);
             wp_add_inline_style('mabox-cookie-style', $css);
             wp_enqueue_style('mabox-cookie-style');
-            $js = "document.addEventListener('DOMContentLoaded',function(){var b=document.createElement('div');b.className='mabox-cookie-banner';b.innerHTML='<span>" . esc_js($title) . ': ' . esc_js($content) . "</span><button onclick=\"this.parentElement.remove();document.cookie=\\'mabox_cookie_consent=1;path=/;max-age=" . (365*24*3600) . "\\';\">" . esc_js($button) . "</button>';document.body.appendChild(b);});";
+            $cookie = 'mabox_cookie_consent=1; path=/; max-age=' . (365 * DAY_IN_SECONDS) . '; SameSite=Lax';
+            if (is_ssl()) {
+                $cookie .= '; Secure';
+            }
+            $payload = wp_json_encode(
+                array(
+                    'title'   => (string) $title,
+                    'content' => (string) $content,
+                    'button'  => (string) $button,
+                    'cookie'  => $cookie,
+                ),
+                JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+            );
+            if (!is_string($payload)) return;
+            $js = "document.addEventListener('DOMContentLoaded',function(){const c={$payload};const b=document.createElement('div');b.className='mabox-cookie-banner';const t=document.createElement('span');t.textContent=c.title+': '+c.content;const a=document.createElement('button');a.type='button';a.textContent=c.button;a.addEventListener('click',function(){b.remove();document.cookie=c.cookie;});b.append(t,a);document.body.appendChild(b);});";
             wp_register_script('mabox-cookie-script', false, array(), MAGICK_MIXTURE_VERSION, true);
             wp_add_inline_script('mabox-cookie-script', $js);
             wp_enqueue_script('mabox-cookie-script');

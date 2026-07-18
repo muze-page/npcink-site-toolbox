@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.1.1] - 2026-07-18
+
+### Fixed
+
+- Read the configured Cookie notice body and construct the banner with safe DOM APIs instead of `innerHTML`.
+- Use the configured ICP lookup link in the public compliance footer.
+- Render category, tag, and page restriction notices entirely on the server, with safe HTML sanitization and no redundant DOM rewrite.
+
+### Added
+
+- Runtime regression coverage for compliance output and restricted-content behavior.
+
 ## [3.1.0] - 2026-07-17
 
 ### Changed

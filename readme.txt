@@ -5,7 +5,7 @@ Tags: toolbox, optimization, security, performance
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ An opt-in toolbox for WordPress site settings, media, SEO, security, China-focus
 
 == Description ==
 
-Npcink Site Toolbox is a utility plugin for WordPress site owners. Version 3.1.0 provides 55 opt-in modules in seven task-oriented admin views. Features cover site and media settings, content and SEO, login and comment safeguards, China-focused integrations, diagnostics, and maintenance.
+Npcink Site Toolbox is a utility plugin for WordPress site owners. Version 3.1.1 provides 55 opt-in modules in seven task-oriented admin views. Features cover site and media settings, content and SEO, login and comment safeguards, China-focused integrations, diagnostics, and maintenance.
 
 = Current features =
 
@@ -103,6 +103,13 @@ The generated files are written to `vite/admin/dist/` and `vite/count/dist/`.
 
 == Changelog ==
 
+= 3.1.1 =
+* Release date: 2026-07-18.
+* Fixed configured Cookie notice text and now constructs the notice with safe DOM APIs.
+* Linked the ICP registration number to the configured lookup URL.
+* Rendered category, tag, and page restriction notices on the server and removed redundant front-end DOM replacement.
+* Added runtime coverage for compliance and restricted-content behavior.
+
 = 3.1.0 =
 * Release date: 2026-07-17.
 * Unified the public identity as Npcink Site Toolbox.
@@ -187,6 +194,9 @@ The generated files are written to `vite/admin/dist/` and `vite/count/dist/`.
 * Vite 构建工具迁移
 
 == Upgrade Notice ==
+
+= 3.1.1 =
+Fixes configured compliance notices and makes restricted-content output more reliable.
 
 = 3.1.0 =
 Public identity is now Npcink Site Toolbox. Existing settings keys are unchanged; no reset or data migration is required.

@@ -36,20 +36,11 @@ if (!class_exists('MaBox_Page_Hide_Tag')) {
                 if (array_intersect($post_tag_ids, $restricted_tag_ids)) {
                     if (!MaBox_Helpers::is_logged_in()) {
                         // 如果用户未登录，则将文章内容替换为登录提示
-                        $content = self::$tip_content;
-                        self::enqueue_assets();
-
+                        $content = wp_kses_post(self::$tip_content);
                     }
                 }
             }
             return $content;
-        }
-        public static function enqueue_assets()
-        {
-            wp_enqueue_script(MAGICK_MIXTURE_NAME . '_hide_tag', '', array(), MAGICK_MIXTURE_VERSION, true);
-            $tip_content = wp_kses_post(self::$tip_content);
-            $js = "const entryContent = document.querySelector('.entry-content'); if (entryContent) { entryContent.innerHTML = '" . $tip_content . "'; }";
-            wp_add_inline_script(MAGICK_MIXTURE_NAME . '_hide_tag', $js);
         }
     }
 }

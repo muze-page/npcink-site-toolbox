@@ -1,4 +1,4 @@
-# WordPress.org submission pack for 3.1.0
+# WordPress.org submission pack for 3.1.1
 
 This document is the operator checklist for the first WordPress.org submission
 of Npcink Site Toolbox. It does not grant or reserve a WordPress.org slug. Use
@@ -11,18 +11,15 @@ the slug in the approval email if it differs from the proposed slug below.
 | Plugin name | Npcink Site Toolbox |
 | Proposed slug | `npcink-site-toolbox` |
 | WordPress.org account | `muze233` |
-| Stable version | `3.1.0` |
+| Stable version | `3.1.1` |
 | Main plugin file | `npcink-site-toolbox.php` |
 | Public source | <https://github.com/muze-page/npcink-site-toolbox> |
-| Release | <https://github.com/muze-page/npcink-site-toolbox/releases/tag/v3.1.0> |
+| Release | <https://github.com/muze-page/npcink-site-toolbox/releases/tag/v3.1.1> |
 | Upload file | Locally verified `npcink-site-toolbox.zip` built from the audited submission commit |
 
-The locally rebuilt ZIP is the current submission candidate. The existing
-GitHub 3.1.0 release asset predates the contributor and screenshot metadata in
-this pack; replace that asset after committing these changes before treating
-the GitHub download as the submission source. The files in `.wordpress-org/`
-are listing assets for the WordPress.org SVN repository and must not be added
-to the upload ZIP or to SVN `trunk/`.
+The upload ZIP must be built from the exact tagged commit. The files in
+`.wordpress-org/` are listing assets for the future WordPress.org SVN top-level
+`assets/` directory and must not be added to the upload ZIP or to SVN `trunk/`.
 
 ## Copy for the submission form
 
@@ -38,16 +35,16 @@ All modules that contact third parties are disabled by default and require an
 administrator to enable the feature or run a connectivity check. The plugin
 does not send developer telemetry. The `External Services` section in
 `readme.txt` documents each provider, the data sent, the trigger, and links to
-the provider terms and privacy policy. Reproducible front-end build commands are
-documented in `Source Code and Build`.
+the provider terms and privacy policy. Reproducible front-end build commands
+are documented in `Source Code and Build`.
 
 ## Before uploading the ZIP
 
 1. Sign in as `muze233` and confirm that the public profile is available at
    <https://profiles.wordpress.org/muze233/>.
-2. Build `npcink-site-toolbox.zip` from the audited commit with
-   `composer release:build`, or download the refreshed 3.1.0 release asset after
-   its checksum has been updated. Do not zip the Git checkout.
+2. Build `npcink-site-toolbox.zip` from the audited `v3.1.1` commit with
+   `composer release:build`, or download the matching GitHub release asset. Do
+   not zip the Git checkout.
 3. Verify the release ZIP and its checksum sidecar:
 
    ```bash
@@ -92,7 +89,7 @@ rsync -a "$PACKAGE_DIR/npcink-site-toolbox/" "$SVN_DIR/trunk/"
 rsync -a .wordpress-org/ "$SVN_DIR/assets/"
 
 svn add --force "$SVN_DIR/trunk" "$SVN_DIR/assets"
-svn copy "$SVN_DIR/trunk" "$SVN_DIR/tags/3.1.0"
+svn copy "$SVN_DIR/trunk" "$SVN_DIR/tags/3.1.1"
 svn status "$SVN_DIR"
 svn diff "$SVN_DIR"
 ```
@@ -100,7 +97,7 @@ svn diff "$SVN_DIR"
 Only after the status and diff match the reviewed ZIP and listing assets:
 
 ```bash
-svn commit "$SVN_DIR" -m "Release Npcink Site Toolbox 3.1.0"
+svn commit "$SVN_DIR" -m "Release Npcink Site Toolbox 3.1.1"
 ```
 
 Do not commit to SVN before the plugin is approved and the assigned slug has
