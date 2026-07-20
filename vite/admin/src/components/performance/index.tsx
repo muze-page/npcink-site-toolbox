@@ -1,9 +1,11 @@
-import Oss from "@/components/performance/oss";
-import SeoChecker from "@/components/performance/seo_checker";
-import MediaHealth from "@/components/performance/media_health";
-import SearchEnhance from "@/components/performance/search_enhance";
-import DbClean from "@/components/performance/db_clean";
+import { lazy } from "react";
 import { SettingsTabs, type SettingsTab } from "@/components/settings-ui";
+
+const Oss = lazy(() => import("@/components/performance/oss"));
+const SeoChecker = lazy(() => import("@/components/performance/seo_checker"));
+const MediaHealth = lazy(() => import("@/components/performance/media_health"));
+const SearchEnhance = lazy(() => import("@/components/performance/search_enhance"));
+const DbClean = lazy(() => import("@/components/performance/db_clean"));
 
 interface PerformanceProps {
   targetItemId?: string;

@@ -1,4 +1,4 @@
-import { useEffect, useState, type KeyboardEvent, type ReactNode } from "react";
+import { Suspense, useEffect, useState, type KeyboardEvent, type ReactNode } from "react";
 
 export interface SettingsTab {
   key: string;
@@ -14,11 +14,21 @@ interface SettingsTabsProps {
   targetItemId?: string;
 }
 
+const TabPanelFallback = (
+  <div className="mabox-view-state mabox-view-state--loading" role="status" aria-live="polite">
+    <span className="mabox-view-state-spinner" aria-hidden="true" />
+    <span className="mabox-view-state-copy">
+      <strong>正在加载当前分组</strong>
+      <span>首次打开时正在准备相关设置。</span>
+    </span>
+  </div>
+);
+
 const SettingsTabs = ({ ariaLabel, idPrefix, tabs, targetItemId }: SettingsTabsProps) => {
-  const [activeKey, setActiveKey] = useState(tabs[0]?.key || "");
   const matchedTargetKey = targetItemId
     ? tabs.find((tab) => tab.prefixes?.some((prefix) => targetItemId.startsWith(prefix)))?.key
     : undefined;
+  const [activeKey, setActiveKey] = useState(() => matchedTargetKey || tabs[0]?.key || "");
   const activeTab = tabs.find((tab) => tab.key === activeKey) || tabs[0];
 
   useEffect(() => {
@@ -81,7 +91,7 @@ const SettingsTabs = ({ ariaLabel, idPrefix, tabs, targetItemId }: SettingsTabsP
         role="tabpanel"
         aria-labelledby={`${idPrefix}-tab-${activeTab.key}`}
       >
-        {activeTab.content}
+        <Suspense fallback={TabPanelFallback}>{activeTab.content}</Suspense>
       </div>
     </>
   );
