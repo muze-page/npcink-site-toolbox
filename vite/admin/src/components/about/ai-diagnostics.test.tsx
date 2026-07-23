@@ -168,12 +168,16 @@ describe("AiDiagnostics", () => {
     render(<AiDiagnostics />);
 
     fireEvent.click(screen.getByRole("button", { name: "生成诊断报告" }));
-    const preview = await screen.findByRole("textbox", { name: "诊断报告预览内容" });
-    expect((preview as HTMLTextAreaElement).value).toContain("# WordPress 诊断报告");
+    const preview = await screen.findByRole("region", { name: "诊断报告预览内容" });
+    expect(preview).toHaveTextContent("WordPress 故障排查数据包");
+    expect(preview).toHaveTextContent("2 项白名单事实");
+    expect(screen.getByRole("columnheader", { name: "字段 ID" })).toBeInTheDocument();
+    expect(screen.getByRole("rowheader", { name: "PHP version" })).toBeInTheDocument();
     expect(apiMocks.getSupportReport).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(screen.getByRole("button", { name: "复制报告" }));
+    fireEvent.click(screen.getByRole("button", { name: "复制 Markdown" }));
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
+    expect(writeText.mock.calls[0][0]).toContain("# WordPress 诊断报告");
     expect(writeText.mock.calls[0][0]).toContain("diagnostic_pack.v1");
     expect(screen.getByRole("status")).toHaveTextContent("已复制脱敏诊断报告");
   });
@@ -192,7 +196,7 @@ describe("AiDiagnostics", () => {
     render(<AiDiagnostics />);
 
     fireEvent.click(screen.getByRole("button", { name: "生成诊断报告" }));
-    fireEvent.click(await screen.findByRole("button", { name: "复制报告" }));
+    fireEvent.click(await screen.findByRole("button", { name: "复制 Markdown" }));
 
     await waitFor(() => expect(execCommand).toHaveBeenCalledWith("copy"));
     expect(screen.getByRole("status")).toHaveTextContent("已复制脱敏诊断报告");
@@ -278,7 +282,7 @@ describe("AiDiagnostics", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("没有生成、保存或发送不完整信息");
 
     fireEvent.click(screen.getByRole("button", { name: "重新生成" }));
-    expect(await screen.findByRole("textbox", { name: "诊断报告预览内容" })).toBeInTheDocument();
+    expect(await screen.findByRole("region", { name: "诊断报告预览内容" })).toBeInTheDocument();
   });
 
   it("previews and analyzes the dedicated performance snapshot", async () => {
@@ -287,8 +291,10 @@ describe("AiDiagnostics", () => {
     fireEvent.click(screen.getByRole("button", { name: "性能分析" }));
     fireEvent.click(screen.getByRole("button", { name: "生成性能快照" }));
 
-    const preview = await screen.findByRole("textbox", { name: "诊断报告预览内容" });
-    expect((preview as HTMLTextAreaElement).value).toContain("性能瞬时指标 [runtime-performance]");
+    const preview = await screen.findByRole("region", { name: "诊断报告预览内容" });
+    expect(preview).toHaveTextContent("WordPress 性能分析数据包");
+    expect(preview).toHaveTextContent("性能瞬时指标");
+    expect(preview).toHaveTextContent("runtime-performance");
     expect(apiMocks.getReviewPack).toHaveBeenCalledWith("performance");
 
     fireEvent.click(screen.getByRole("button", { name: "使用 DeepSeek 分析" }));

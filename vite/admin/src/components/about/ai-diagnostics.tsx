@@ -14,6 +14,7 @@ import type {
   DiagnosticPack,
 } from "@/tool/interface";
 import { SECRET_PATHS } from "@/tool/interface";
+import DiagnosticPackPreview from "./diagnostic-pack-preview";
 import { buildDiagnosticPackReport, buildReviewPackReport } from "./runtime-status-report";
 import SafeMarkdown from "./safe-markdown";
 
@@ -435,12 +436,12 @@ const AiDiagnostics = () => {
         {previewState.status === "success" && (
           <div className="mabox-ai-diagnostics__preview">
             <div className="mabox-runtime-status__section-heading">
-              <div><h4>发送前预览</h4><p>当前内容尚未发送给任何 AI 服务。</p></div>
+              <div><h4>发送前预览</h4><p>网页中展示白名单事实；点击分析时，服务端会重新采集同范围最新数据。</p></div>
               <button type="button" className="button" onClick={() => void copyPreview()}>
-                {mode === "troubleshooting" ? "复制报告" : "复制快照"}
+                复制 Markdown
               </button>
             </div>
-            <textarea className="mabox-runtime-status__report-preview" aria-label="诊断报告预览内容" readOnly rows={16} value={previewText(previewState.data)} />
+            <DiagnosticPackPreview pack={previewState.data} />
           </div>
         )}
 
