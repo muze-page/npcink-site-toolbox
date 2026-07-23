@@ -51,6 +51,9 @@ pnpm dev:admin
 
 > Admin 开发代理位于 `vite/admin/vite.config.ts`；Count 当前只消费页面注入数据，不依赖开发代理。
 
+AI 诊断的受控开发评测可使用
+[`tests/ai-diagnostics-docker/`](tests/ai-diagnostics-docker/README.md) 中的独立 Docker 环境；生成结果被 Git 忽略，也不计入真实案例验收。
+
 ### 打包部署
 
 `vite/` 是唯一的前端工程，共享一份 `package.json`、锁文件和质量工具链，并生成两个按页面加载的独立产物：
